@@ -1,9 +1,19 @@
+#
+# $Id: VRMLServ.pm,v 1.2 2000/08/05 11:56:56 rcoscali Exp $
+#
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 
 # Implement communication with EAI and script processes.
+
+#
+# $Log: VRMLServ.pm,v $
+# Revision 1.2  2000/08/05 11:56:56  rcoscali
+# Add CVS keywords
+#
+#
 
 package VRML::EAIServer;
 use FileHandle;
