@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.111 2003/07/07 19:08:20 ayla Exp $
+# $Id: VRMLRend.pm,v 1.112 2003/07/17 15:42:25 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.112  2003/07/17 15:42:25  crc_canada
+# GL_COLOR_MATERIAL enabled before push of attrib in IndexedLineSet; moved enable to after push
+#
 # Revision 1.111  2003/07/07 19:08:20  ayla
 #
 # Billboard calculation uses ModelView matrix again, which hopefully fixes
@@ -830,8 +833,8 @@ IndexedLineSet => '
 		if(verbose) printf("Line: cin %d colin %d cpv %d\n",cin,colin,cpv);
 		$fv(coord, points, get3, &npoints);
 		$fv_null(color, colors, get3, &ncolors);
-		glEnable(GL_COLOR_MATERIAL); 
                 glPushAttrib(GL_ENABLE_BIT);
+		glEnable(GL_COLOR_MATERIAL); 
                 glDisable(GL_CULL_FACE);
 
 		if(ncolors && !cpv) {
