@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.84 2005/02/10 14:50:25 crc_canada Exp $
+# $Id: Scene.pm,v 1.85 2005/03/04 15:09:02 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -267,12 +267,6 @@ sub newextp {
 		#print "Scene.pm - this file is $newurl\n";
 		# marijn: set the url for this proto
 		$this->set_url($newurl,$parentURL);
-
-		# convert from X3D if required.
-		if ($string =~/^<\?xml version/s) {
-			$brow = $this->get_browser();
-			$string = $brow->convertX3D($string);
-		}
 
 		unless ($string =~ /^#VRML V2.0/s) {
 			die("Sorry, this file is according to VRML V1.0, I only know V2.0")

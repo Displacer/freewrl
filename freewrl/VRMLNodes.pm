@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.128 2005/03/01 15:16:56 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.129 2005/03/04 15:09:02 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -783,6 +783,7 @@ my $protono;
 						hitTexCoord_changed => [SFVec2f, [0, 0], eventOut],
 						isActive => [SFBool, 0, eventOut],
 						isOver => [SFBool, 0, eventOut],
+						description => [SFString, "", field],
 						touchTime => [SFTime, -1, eventOut]
 					   },
 					  ),
@@ -1126,6 +1127,7 @@ my $protono;
 						hitGeoCoord_changed => [SFString,"",eventOut],
 						isActive => [SFBool, 0, eventOut],
 						isOver => [SFBool, 0, eventOut],
+						description => [SFString, "", field],
 						touchTime => [SFTime, -1, eventOut]
 					}
 				),
