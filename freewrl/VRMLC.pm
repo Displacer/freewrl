@@ -1,5 +1,5 @@
 #
-# $Id: VRMLC.pm,v 1.10.2.3 2000/09/07 09:12:08 rcoscali Exp $
+# $Id: VRMLC.pm,v 1.10.2.4 2000/09/07 13:41:18 rcoscali Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -28,6 +28,9 @@
 #  do normals for indexedfaceset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.10.2.4  2000/09/07 13:41:18  rcoscali
+# save
+#
 # Revision 1.10.2.3  2000/09/07 09:12:08  rcoscali
 # Added avt lib & test
 #
@@ -1271,6 +1274,8 @@ sub gen {
 
 #include "OpenGL/OpenGL.m"
 
+#include "avt.h"
+
 #define offset_of(p_type,field) ((unsigned int)(&(((p_type)NULL)->field)-NULL))
 
 #define TC(a,b) glTexCoord2f(a,b)
@@ -1312,10 +1317,7 @@ sub gen {
 
 struct VRML_Shape;
 
-typedef struct btnode {
-	GLdouble z;
-	struct btnode *r, *l;		/* Access by BTree */
-	struct btnode *next;		/* Access by List */
+typedef struct AVt_bnode_st {
 	struct VRML_Shape *shape;
 	GLdouble modelMatrix[16];
 	GLdouble projMatrix[16];
@@ -1328,9 +1330,9 @@ typedef struct btnode {
 			GLdouble x1, y1, x2, y2, x3, y3;
 		} tri;
 	} geom;
-} BTnode_t, *p_BTnode_t;
+} *AVt_bnode_t;
 
-p_BTnode_t BlendedPolys = (p_BTnode_t)NULL;
+AVtree_t blendPTree = (AVtree_t)NULL;
 
 /*
  * End of alpha blending structs
