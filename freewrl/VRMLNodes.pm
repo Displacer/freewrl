@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.84 2003/03/25 16:11:01 ayla Exp $
+# $Id: VRMLNodes.pm,v 1.85 2003/03/25 19:37:19 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -2606,6 +2606,7 @@ my $protono;
 								}
 
 								$p->set_url($url);
+								$p->set_world_url($url);
 								VRML::Parser::parse($p, $text);
 								if (!defined $p) {
 									die("Inline not found");

@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.43 2003/03/25 16:10:58 ayla Exp $
+# $Id: Scene.pm,v 1.44 2003/03/25 19:37:16 ayla Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -247,8 +247,6 @@ sub newextp {
 			die("$k is an invalid kind of field or event from in $name");
 		}
     }
-
-	$this->{WorldURL} = $this->get_world_url();
 
     print("EXTERNPROTO with URL: $url\n") if $VRML::verbose::parse;
 	my ($string, $protourl, $protoname, $brow, $po);
