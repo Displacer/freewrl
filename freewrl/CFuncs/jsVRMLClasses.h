@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.h,v 1.8 2004/10/05 15:19:35 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.9 2004/10/06 13:39:45 crc_canada Exp $
  * 
  * Complex VRML nodes as Javascript classes.
  *
@@ -189,7 +189,7 @@ SFColorConstr(JSContext *cx,
 			  jsval *argv,
 			  jsval *rval);
 
-JSBool
+void
 SFColorFinalize(JSContext *cx,
 				JSObject *obj);
 
@@ -235,7 +235,7 @@ SFImageConstr(JSContext *cx,
 			  jsval *argv,
 			  jsval *rval);
 
-JSBool 
+void 
 SFImageFinalize(JSContext *cx,
 				JSObject *obj);
 
@@ -280,7 +280,7 @@ SFNodeConstr(JSContext *cx,
 			 jsval *argv,
 			 jsval *rval);
 
-JSBool
+void
 SFNodeFinalize(JSContext *cx,
 			   JSObject *obj);
 
@@ -369,7 +369,7 @@ SFRotationConstr(JSContext *cx,
 				 jsval *argv,
 				 jsval *rval);
 
-JSBool 
+void 
 SFRotationFinalize(JSContext *cx,
 				   JSObject *obj);
 
@@ -471,7 +471,7 @@ SFVec2fConstr(JSContext *cx,
 			  jsval *argv,
 			  jsval *rval);
 
-JSBool
+void
 SFVec2fFinalize(JSContext *cx,
 				JSObject *obj);
 
@@ -580,7 +580,7 @@ SFVec3fConstr(JSContext *cx,
 			  jsval *argv,
 			  jsval *rval);
 
-JSBool
+void
 SFVec3fFinalize(JSContext *cx,
 				JSObject *obj);
 
