@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.17 2003/04/25 15:50:03 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.18 2003/04/29 17:12:24 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -623,10 +623,10 @@ sub set_backend_fields {
 	#		OrientationInterpolator
 	#		CoordinateInterpolator
 	#		NormalInterpolator
+	#		TimeSensor
 
 	my %NOT = map {($_=>1)} qw/
 		WorldInfo
-		TimeSensor
 		TouchSensor
 		PlaneSensor
 		SphereSensor

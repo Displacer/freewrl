@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.101 2003/04/28 19:40:02 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.102 2003/04/29 17:13:19 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.102  2003/04/29 17:13:19  crc_canada
+# TimeSensor ClockTick code now in C
+#
 # Revision 1.101  2003/04/28 19:40:02  crc_canada
 # AudioClip ClockTick now in C
 #
@@ -1780,6 +1783,7 @@ ScalarInterpolator => '',
 OrientationInterpolator => '',
 NormalInterpolator => '',
 CoordinateInterpolator => '',
+TimeSensor => '',
 
 Transform => '
 
