@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.11 2001/06/18 17:25:11 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.12 2001/07/11 20:43:05 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,21 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.12  2001/07/11 20:43:05  ayla
+#
+#
+# Fixed problem with Plugin/Source/npfreewrl.c, so all debugging info. is turned
+# off.
+#
+# Committing merge between NetscapeIntegration and the trunk.
+#
+# Revision 1.11  2001/06/18 17:25:11  crc_canada
+# IRIX compile warnings removed.
+#
+#
+#
+# Merging recent changes from the freewrl trunk to this branch.
+#
 # Revision 1.11  2001/06/18 17:25:11  crc_canada
 # IRIX compile warnings removed.
 #

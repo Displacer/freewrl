@@ -1,0 +1,5 @@
+## $Id: typemap,v 1.2 2001/07/11 20:43:05 ayla Exp $
+## supplementary C types
+TYPEMAP
+void (*) (int)	T_PTROBJ
+const char *	T_PV
