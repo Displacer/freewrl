@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: JS.pm,v 1.11 2003/01/17 19:10:36 ayla Exp $
+# $Id: JS.pm,v 1.12 2003/01/20 19:36:15 ayla Exp $
 #
 #
 #
@@ -44,6 +44,7 @@ if ($VRML::verbose::js) {
 }
 
 our $ECMAScriptNative = qr{^SF(?:Bool|Float|Time|Int32|String)$};
+
 
 ## See VRML97, section 4.12 (Scripting)
 my $DefaultScriptMethods = "function initialize() {}; function shutdown() {}; function eventsProcessed() {}; TRUE=true; FALSE=false;";
@@ -168,7 +169,7 @@ sub initScriptFields {
 			}
 		}
 	} else {
-		warn("Invalid field $fkind $field for $node->{TypeName}");
+		warn("Invalid field $fkind $field for $node->{TypeName} in initScriptFields");
 	}
 }
 
@@ -186,6 +187,10 @@ sub initSFNodeFields {
 				if $VRML::verbose::js;
 
 	for (@fields) {
+		next if $_ eq "url" or
+			$_ eq "directOutput" or
+			$_ eq "mustEvaluate";
+
 		$fkind = $nt->{FieldKinds}{$_};
 		$type = $nt->{FieldTypes}{$_};
 		$ftype = "VRML::Field::$type";
@@ -231,7 +236,7 @@ sub initSFNodeFields {
 				}
 			}
 		} else {
-			warn("Invalid field $fkind $_ for $ntn");
+			warn("Invalid field $fkind $_ for $ntn in initSFNodeFields");
 		}
 	}
 }
