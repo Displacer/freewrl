@@ -1,5 +1,5 @@
 #
-# $Id: Parser.pm,v 1.11 2001/12/12 16:54:48 crc_canada Exp $
+# $Id: Parser.pm,v 1.12 2002/05/22 21:47:52 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -383,8 +383,9 @@ sub parse {
 				 if $VRML::verbose::parse;
 		} else {
 			$f{$f} = "VRML::Field::$ft"->parse($scene,$_[2]);
-                        print "storing type 2, $f, (",VRML::Node::dump_name($f{$f}), ")\n"  
-				 if $VRML::verbose::parse;
+				print "storing type 2, $f, (",
+					VRML::NodeIntern::dump_name($f{$f}), ")\n"
+						if $VRML::verbose::parse;
 		}
 	}
 	print "END\n"

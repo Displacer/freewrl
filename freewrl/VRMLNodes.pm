@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.50 2002/05/21 14:41:18 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.51 2002/05/22 21:47:52 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -46,7 +46,7 @@ sub register_vp {
 	# print "Node::register_vp $scene $node\n";
 	push @vpn, $node;
 	push @vps, $scene;
-        # print "VRML::Node::register_vp, viewpoint is ",$node->{Fields}{description},"\n";
+        # print "VRML::NodeIntern::register_vp, viewpoint is ",$node->{Fields}{description},"\n";
          #         print "ref t ", ref $node,"\n";
          #         print "ref t backend ", ref $node->{BackEnd},"\n";
          #         print "t backend ", $node->{BackEnd},"\n";
