@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.h,v 1.5 2004/05/27 18:32:47 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.6 2004/05/28 20:07:40 crc_canada Exp $
  * 
  * Complex VRML nodes as Javascript classes.
  *
@@ -90,13 +90,13 @@ static JSBool
 doMFAddProperty(JSContext *cx,
 				JSObject *obj,
 				jsval id,
-				jsval *vp);
+				jsval *vp, char *name);
 
 static JSBool
 doMFSetProperty(JSContext *cx,
 				JSObject *obj,
 				jsval id,
-				jsval *vp);
+				jsval *vp, char *name);
 
 static JSBool
 getBrowser(JSContext *context,

@@ -6,7 +6,7 @@
 *******************************************************************************/
 
 /*
- * $Id: quaternion.h,v 1.5 2003/07/03 19:49:57 ayla Exp $
+ * $Id: quaternion.h,v 1.6 2004/05/28 20:07:40 crc_canada Exp $
  *
  */
 
@@ -25,12 +25,35 @@
 
 #define DELTA 0.0001
 
+/* definitions for mapping matrix in OpenGL format to standard math */
+#define MAT00 mat[0]
+#define MAT01 mat[1]
+#define MAT02 mat[2]
+#define MAT03 mat[3]
+#define MAT10 mat[4]
+#define MAT11 mat[5]
+#define MAT12 mat[6]
+#define MAT13 mat[7]
+#define MAT20 mat[8]
+#define MAT21 mat[9]
+#define MAT22 mat[10]
+#define MAT23 mat[11]
+#define MAT30 mat[12]
+#define MAT31 mat[13]
+#define MAT32 mat[14]
+#define MAT33 mat[15]
+
 typedef struct quaternion {
 	double w;
 	double x;
 	double y;
 	double z;
 } Quaternion;
+void
+matrix_to_quaternion (Quaternion *quat, double *mat) ;
+void
+quaternion_to_matrix (float *mat, Quaternion *quat) ;
+
 
 void
 vrmlrot_to_quaternion(Quaternion *quat,
