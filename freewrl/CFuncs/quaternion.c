@@ -6,7 +6,7 @@
  ******************************************************************************/
 
 /*
- * $Id: quaternion.c,v 1.1 2003/05/17 05:40:03 ayla Exp $
+ * $Id: quaternion.c,v 1.2 2003/06/05 15:11:22 ayla Exp $
  *
  * Quaternion math ported from Perl to C
  * (originally in Quaternion.pm)
@@ -254,6 +254,14 @@ togl(Quaternion *quat)
 		normalize(quat);
 	}
 	glRotated(2 * (acos(quat->w) / PI * 180), quat->x, quat->y, quat->z);
+}
+
+void
+set(Quaternion *ret, const Quaternion *quat)
+{
+	ret->x = quat->x;
+	ret->y = quat->y;
+	ret->z = quat->z;
 }
 
 /* void */

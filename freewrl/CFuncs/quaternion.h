@@ -6,7 +6,7 @@
 *******************************************************************************/
 
 /*
- * $Id: quaternion.h,v 1.1 2003/05/17 05:40:03 ayla Exp $
+ * $Id: quaternion.h,v 1.2 2003/06/05 15:11:22 ayla Exp $
  *
  */
 
@@ -87,13 +87,19 @@ scalar_multiply(
 
 void
 rotation(
-			struct pt *ret,
-			const Quaternion *quat,
-			const struct pt *v
-			);
+		 struct pt *ret,
+		 const Quaternion *quat,
+		 const struct pt *v
+		 );
 
 void
 togl(Quaternion *quat);
+
+void
+set(
+	Quaternion *ret,
+	const Quaternion *quat
+	);
 
 /* void */
 /* slerp(); */
