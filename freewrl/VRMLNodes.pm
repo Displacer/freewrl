@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.64 2002/07/31 20:56:53 ncoder Exp $
+# $Id: VRMLNodes.pm,v 1.65 2002/08/02 15:08:53 ncoder Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1786,11 +1786,11 @@ ProximitySensor => new VRML::NodeType("ProximitySensor",
 		}
 		if($hit) {
 			if(!$f->{isActive})  {
-				# print "PROX - initial defaults\n";
+				#print "PROX - initial defaults\n";
 				$f->{isActive} = 1;
 				$f->{enterTime} = $tick;
-				$f->{position_changed} = ($x1,$y1,$z1);
-				$f->{orientation_changed} = ($x2,$y2,$z2,$q2);
+				$f->{position_changed} = [$x1,$y1,$z1];
+				$f->{orientation_changed} = [$x2,$y2,$z2,$q2];
 			}
 			
 			# now, has anything changed?
@@ -1798,8 +1798,8 @@ ProximitySensor => new VRML::NodeType("ProximitySensor",
 			if (($x1 != $f->{position_changed}[0]) ||
 			     ($y1 != $f->{position_changed}[1]) ||
                              ($z1 != $f->{position_changed}[2])) {
-				# print "PROX - position changed!!! \n";
-				$f->{position_changed} = ($x1,$y1,$z1);
+				#print "PROX - position changed!!! \n";
+				$f->{position_changed} = [$x1,$y1,$z1];
 				$ch = 1;
 			}
 			if (($x2 != $f->{orientation_changed}[0]) ||
@@ -1809,7 +1809,7 @@ ProximitySensor => new VRML::NodeType("ProximitySensor",
 				#print "PROX - orientation changed!!! ";
 				#print $r->[2][0]," ", $r->[2][1], " ",$r->[2][2]," ",$r->[2][3],"\n";
 				
-				$f->{orientation_changed} = ($x2,$y2,$z2,$q2);
+				$f->{orientation_changed} = [$x2,$y2,$z2,$q2];
 				$ch = 1;
 			}
 #			return if !$ch;
