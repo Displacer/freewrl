@@ -4,7 +4,7 @@
 # for conditions of use and redistribution, EXCEPT on the files
 # which belong under the Mozilla public license.
 #
-# $Id: Makefile.PL,v 1.4 2002/11/21 14:27:49 sdumoulin Exp $
+# $Id: Makefile.PL,v 1.5 2002/11/25 17:50:38 ayla Exp $
 #
 #
 # a.out: js.c
@@ -72,7 +72,7 @@ WriteMakefile(
 			  LIBS => $libs,
 			  INC => $inc,
 			  DEFINE => '-DXP_UNIX', # assume Unix and related OSs for now
-			  CCFLAGS => $ccflags,
+			  ##CCFLAGS => $ccflags,
 			  OPTIMIZE => '-O2'
 			 );
 
