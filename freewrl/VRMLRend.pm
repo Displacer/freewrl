@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.14 2000/11/03 21:52:16 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.15 2000/11/15 16:37:01 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.15  2000/11/15 16:37:01  crc_canada
+# Removed some extra opengl calls from box.
+#
 # Revision 1.14  2000/11/03 21:52:16  crc_canada
 # Speed updates - texture objects added
 #
@@ -87,11 +90,6 @@ Box => (join '',
 	 glPushAttrib(GL_LIGHTING);
 	 glShadeModel(GL_FLAT);
 	 glBegin(GL_QUADS);
-
-				  glEnable(GL_BLEND);
-				  glDepthFunc(GL_LEQUAL);
-				  glDepthMask(GL_FALSE);
-				  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 		/* front side */
 		glNormal3f(0,0,1);
