@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.103 2003/07/17 13:42:48 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.104 2003/07/18 17:15:43 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.104  2003/07/18 17:15:43  crc_canada
+# added a getProperty type of call for Javascript
+#
 # Revision 1.103  2003/07/17 13:42:48  crc_canada
 # EAI work
 #
@@ -2519,6 +2522,18 @@ OUTPUT:
 RETVAL
 rstr
 rnum
+
+
+int
+jsGetProperty(num, script, rstr)
+	int num
+	char *script
+	SV *rstr
+CODE:
+	RETVAL = JSGetProperty (num, script, rstr);
+OUTPUT:
+RETVAL
+rstr
 
 
 int
