@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: JS.pm,v 1.32 2004/11/02 18:40:11 crc_canada Exp $
+# $Id: JS.pm,v 1.33 2004/11/22 19:26:39 crc_canada Exp $
 #
 #
 #
@@ -499,12 +499,14 @@ sub jspSFNodeConstr {
 
         my $h = $this->{Browser}->createVrmlFromString($str);
 	my ($handle, $stuff) = split (" ",$h);
-	print "jspSFNodeConstr, first handle is $handle\n";
+	print "jspSFNodeConstr, first handle is $handle\n"
+		if $VRML::verbose::js;
 
         my $constr = $this->constrString(SFNode, VRML::Handles::get($handle));
         my $script = "__ret"."=$constr";
 
-	print "jspSFNodeConstr, script is $script\n";
+	print "jspSFNodeConstr, script is $script\n"
+		if $VRML::verbose::js;
 
 	if (!VRML::VRMLFunc::jsrunScript($this->{ScriptNum}, $script, $rs, $rval)) {
 		cleanupDie("runScript failed in VRML::JS::jspBrowserCreateVrmlFromString");

@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.82 2004/11/08 19:55:45 crc_canada Exp $
+# $Id: Scene.pm,v 1.83 2004/11/22 19:26:34 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -77,7 +77,7 @@ sub dump {
 			print "(key $nk ";
 			my $sk;
 			foreach $sk (keys %{$this->{$_}{$nk}}) {
-				print "sk $sk ";
+				print "sk $sk : ",$this->{$_}{$nk}{$sk},"; ";
 			}
 			print ") ";
 		  }
@@ -170,6 +170,7 @@ sub newp {
     # parent:which invocationo of scene this is in.  SCENE_2
     # name: VRML name, eg, dirigible
 
+    #print "newp, type $type, name $name\n";
     my $this = $type->new();
 
     $this->{Pars} = $pars;
@@ -615,6 +616,8 @@ sub mkbe_and_array {
 ## used for DEF'd nodes
 sub getNode {
 	my ($this, $name) = @_;
+	#print "Scene::getNode, looking for $name in $this\n";
+
 	my $n = $this->{DEF}->{VRML::Handles::return_def_name($name)};
 	if (!defined $n) {
 		#warn("Node $name is not defined");

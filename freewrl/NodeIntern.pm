@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.37 2004/08/06 15:46:23 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.38 2004/11/22 19:26:31 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -130,6 +130,12 @@ sub dump {
 			for (@{$this->{$_}}) {
 				my ($fnam, $ff, $tnam, $tf) = @$_;
 				print "$padded    Route from $fnam field $ff to $tnam field $tf\n";
+			}
+					
+		} elsif ("BackNode" eq $_) {
+			print "BN: ";
+			foreach my $bnub (keys %{ $this->{$_}}) {
+				print "$bnub, ",$this->{BackNode}{$bnub}," ";
 			}
 					
 		} elsif ("ARRAY" eq ref $this->{$_}) {

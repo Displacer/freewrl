@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.c,v 1.20 2004/11/02 20:35:24 crc_canada Exp $
+ * $Id: jsVRMLClasses.c,v 1.21 2004/11/22 19:26:37 crc_canada Exp $
  * 
  */
 
@@ -3672,7 +3672,7 @@ JSBool
 MFNodeToString(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval) {
 	UNUSED(argc);
 	UNUSED(argv);
-	printf ("start of MFNODETOSTRING, obj %d\n",obj);
+	//printf ("start of MFNODETOSTRING, obj %d\n",obj);
 	return doMFToString(cx, obj, "MFNode", rval);
 }
 
@@ -3970,7 +3970,7 @@ JSBool
 MFVec3fToString(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval) {
 	UNUSED(argc);
 	UNUSED(argv);
-	printf ("CALLED MFVec3fToString\n");
+	//printf ("CALLED MFVec3fToString\n");
 	return doMFToString(cx, obj, "MFVec3f", rval);
 }
 
