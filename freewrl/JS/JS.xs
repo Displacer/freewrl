@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: JS.xs,v 1.3.2.4 2002/08/30 04:56:18 ayla Exp $
+ * $Id: JS.xs,v 1.3.2.5 2002/08/30 21:10:52 ayla Exp $
  * 
  * A substantial amount of code has been adapted from the embedding
  * tutorials from the SpiderMonkey web pages
@@ -906,12 +906,11 @@ sv
 
 
 JSBool
-addAssignProperty(cx, glob, name, str, robj)
+addAssignProperty(cx, glob, name, str)
 	void *cx
 	void *glob
 	char *name
 	char *str
-	void *robj
 CODE:
 {
 	JSContext *context;
@@ -934,7 +933,6 @@ CODE:
 		return;
 	}
 	if (JSVAL_IS_OBJECT(_rval)) {
-		robj = JSVAL_TO_OBJECT(_rval);
 		printf("addAssignProperty: _rval = %ld\n", _rval);
 	}
 	if (!JS_DefineProperty(context, globalObj,
@@ -953,7 +951,6 @@ OUTPUT:
 RETVAL
 cx
 glob
-robj
 
 
 JSBool
@@ -965,13 +962,13 @@ CODE:
 {
 	JSContext *context;
 	JSObject *globalObj;
-	char buffer[SMALLSTRING];
+	char buffer[STRING];
 	jsval v, rval = INT_TO_JSVAL(0);
 
 	context = cx;
 	globalObj = glob;
 	if (verbose) {
-		printf("AddWatchProperty: name = \"%s\"\n", name);
+		printf("AddTouchableProperty: name = \"%s\"\n", name);
 	}
 
 	if (!JS_DefineProperty(context,
@@ -982,18 +979,18 @@ CODE:
 						   setTouchable,
 						   0 | JSPROP_PERMANENT)) {
 		fprintf(stderr,
-				"JS_DefineProperty failed for \"%s\" in AddWatchProperty.\n",
+				"JS_DefineProperty failed for \"%s\" in AddTouchableProperty.\n",
 				name);
 		RETVAL = JS_FALSE;
 		return;
 	}
 
-	memset(buffer, 0, SMALLSTRING);
+	memset(buffer, 0, STRING);
 	sprintf(buffer, "_%s_touched", name);
 	v = INT_TO_JSVAL(1);
 	if (!JS_SetProperty(context, globalObj, buffer, &v)) {
 		fprintf(stderr,
-				"JS_SetProperty failed for \"%s\" in AddWatchProperty.\n",
+				"JS_SetProperty failed for \"%s\" in AddTouchableProperty.\n",
 				buffer);
 		RETVAL = JS_FALSE;
 		return;
