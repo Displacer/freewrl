@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.64 2003/10/09 15:30:34 crc_canada Exp $
+# $Id: Scene.pm,v 1.65 2003/11/06 14:39:27 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -1017,10 +1017,8 @@ sub setup_routing {
 					 print "VRML::Scene sibling sensitive $n, $n->{TypeName}, bn, ",
 						 $_[0], "\n" if $VRML::verbose::scene;
 
-					 $be->set_sensitive($_[0]->{BackNode},
-						sub {
-							$eventmodel->handle_touched($n, @_);
-						});
+					VRML::VRMLFunc::set_sensitive ($_[0]->{BackNode}{CNode},
+							$n->{BackNode}{CNode},$n->{TypeName});
 				 }
 			 }
 		 }
@@ -1028,7 +1026,7 @@ sub setup_routing {
 		# Anchors, etc. 
 		 if ($VRML::Nodes::sensitive{$_[0]->{TypeName}}) {
 			my $n = $_->real_node();
-			$be->set_sensitive($_[0]->{BackNode}, sub {$eventmodel->handle_touched($n, @_); });
+			VRML::VRMLFunc::set_sensitive ($_[0]->{BackNode}{CNode},$n->{BackNode}{CNode},$n->{TypeName});
 		 }
 	 });
 
