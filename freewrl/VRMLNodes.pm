@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.100 2003/06/24 15:49:36 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.101 2003/06/25 15:16:33 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1056,16 +1056,6 @@ my $protono;
 						 removeChildren => sub {
 							 return removeChildren_GroupingNodes(@_);
 						 },
-
-						 #JAS EventsProcessed => sub {
-						#JAS 	 #my($node,$fields,$time) = @_;
-						#JAS 	 ##my $ac = $fields->{addChildren};
-						#JAS 	 #print("Transform:EventsProcessed $node $fields\n");
-						#JAS 	 ##$node->{BackEnd}->update_scene($time);
-						#JAS 	 ##add_MFNode($t,"children",$ac->[0], 1);
-						#JAS 	 ##$node->receive_event("addChildren", $ac, $time);
-						#JAS 	 return ();
-						 #JAS }
 						},
 					   ),
 
