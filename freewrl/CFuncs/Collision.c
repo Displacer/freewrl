@@ -1,4 +1,4 @@
-/* $Id: Collision.c,v 1.13 2002/11/13 18:20:29 crc_canada Exp $
+/* $Id: Collision.c,v 1.14 2002/11/19 21:14:15 sdumoulin Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,7 +11,12 @@
 #include <stdio.h>
 #include <math.h>
 #include "LinearAlgebra.h"
+#ifndef __APPLE__
 #include <malloc.h>
+#endif
+#if defined(__APPLE__)
+#include <sys/malloc.h>
+#endif
 
 #define swap(x,y) {double k = x; x = y; y = k; }
 #define FLOAT_TOLERANCE 0.00000001
