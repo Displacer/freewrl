@@ -7,13 +7,12 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.3 2003/06/20 07:12:24 ayla Exp $
+ * $Id: OpenGL_Utils.c,v 1.4 2003/07/31 17:07:51 crc_canada Exp $
  *
  */
 
 #include "OpenGL_Utils.h"
 
-static int render_frame = 5;	/* do we render, or do we sleep? */
 static int now_mapped = 1;		/* are we on screen, or minimized? */
 
 
@@ -30,30 +29,6 @@ set_now_mapped(int val)
 	now_mapped = val;
 }
 
-
-/* should we render? */
-void
-set_render_frame()
-{
-	/* render a couple of frames to let events propagate */
-	render_frame = 5;
-}
-
-
-int
-get_render_frame()
-{
-	return (render_frame && now_mapped);
-}
-
-
-void 
-dec_render_frame()
-{
-	if (render_frame > 0) {
-		render_frame--;
-	}
-}
 
 void
 glpOpenGLInitialize()

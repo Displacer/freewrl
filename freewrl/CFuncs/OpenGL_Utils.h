@@ -2,7 +2,7 @@
 #define __OPENGL_UTILS_H_
 
 /*
- * $Id: OpenGL_Utils.h,v 1.3 2003/06/13 21:45:37 ayla Exp $
+ * $Id: OpenGL_Utils.h,v 1.4 2003/07/31 17:08:01 crc_canada Exp $
  *
  */
 
@@ -31,18 +31,6 @@ get_now_mapped(void);
 
 void
 set_now_mapped(int val);
-
-
-void
-set_render_frame(void);
-
-
-int
-get_render_frame(void);
-
-
-void
-dec_render_frame(void);
 
 
 void
