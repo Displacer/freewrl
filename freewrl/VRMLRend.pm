@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.113 2003/07/22 16:04:48 ayla Exp $
+# $Id: VRMLRend.pm,v 1.114 2003/07/31 17:32:55 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.114  2003/07/31 17:32:55  crc_canada
+# compile error on some versions of gcc - fixed.
+#
 # Revision 1.113  2003/07/22 16:04:48  ayla
 #
 # Fix of ROUTE implementation problems with PROTO and Script nodes, take 1.
@@ -1018,8 +1021,6 @@ Material =>  '
 		float shin;
 		float amb;
 		float trans;
-
-		if (verbose) printf("Material_Rend: %u\n", nod_);
 
 		GLbyte  cleartone[] = {
 		      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
