@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.38 2001/08/16 16:56:10 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.39 2001/08/17 20:11:05 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -74,10 +74,6 @@ return $vps[$vpno];}
 
 
 #########################################################
-
-# Inlined files are stored in the browser...
-my @ilf;	# Files referenced by Inline Node urls.
-
 # The routines below implement the browser object interface.
 
 sub getName { return "FreeWRL VRML Browser" }
@@ -588,11 +584,6 @@ PixelTexture => new VRML::NodeType("PixelTexture",
                return ();
        }
        }
-),
-
-
-Box => new VRML::NodeType("Box",
-	{size => [SFVec3f, [2,2,2]]}
 ),
 
  Box => new VRML::NodeType("Box",
