@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.78 2004/07/21 19:04:00 crc_canada Exp $
+# $Id: Scene.pm,v 1.79 2004/08/25 14:57:12 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -973,7 +973,18 @@ sub setup_routing {
 			 if $VRML::verbose::scene;
 		 if ($VRML::Nodes::initevents{$_[0]->{TypeName}}) {
 			 print "\tITNO:is member of initevents\n" 
-				 if $VRML::verbose::scene;
+				if $VRML::verbose::scene;
+
+				  
+			# is this a proto expansion SFNode field? 
+			# if so, the backnode->{CNode} will need to be created
+			if (!defined $_[0]->{BackNode}) {
+				print "backnode not defined\n";
+				
+				$_[0]->{BackNode} = 
+					VRML::NodeIntern::make_backend($_[0], $be);
+			}
+			
 			VRML::VRMLFunc::add_first($_[0]->{TypeName}, $_[0]->{BackNode}->{CNode});
 		 } else {
 			 if ($_[0]->{ProtoExp}) {
