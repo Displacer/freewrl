@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.50 2003/06/05 15:39:56 crc_canada Exp $
+# $Id: Scene.pm,v 1.51 2003/06/19 20:20:59 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -1092,7 +1092,8 @@ sub init_events {
 
 	print "VRML::Scene::init_events\n" if $VRML::verbose::scene;
 
-	$this->iterate_nodes_all(sub { push @e, $_[0]->initialize($this); });
+	#JAS - see put_events comment below $this->iterate_nodes_all(sub { push @e, $_[0]->initialize($this); });
+	$this->iterate_nodes_all(sub {$_[0]->initialize($this);});
 
 	if ($bind) {
 		for (keys %{$this->{Bindable}}) {
@@ -1100,7 +1101,7 @@ sub init_events {
 			$eventmodel->send_set_bind_to($this->{Bindable}{$_}, 1);
 		}
 	}
-	$eventmodel->put_events(\@e);
+	#JAS no longer required - I hope! $eventmodel->put_events(\@e);
 }
 
 
