@@ -10,7 +10,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.15 2003/12/01 18:53:01 crc_canada Exp $
+ * $Id: Viewer.h,v 1.16 2004/12/03 20:35:57 crc_canada Exp $
  *
  */
 
@@ -248,5 +248,10 @@ void
 bind_geoviewpoint(struct VRML_GeoViewpoint *node);
 
 extern VRML_Viewer Viewer; //in VRMLC.pm
+
+void viewer_default(void);
+
+extern float eyedist;
+extern float screendist;
 
 #endif /* __VIEWER_H_ */
