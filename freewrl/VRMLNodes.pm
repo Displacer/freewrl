@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.98 2003/05/28 14:17:52 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.99 2003/06/12 19:08:40 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -72,8 +72,6 @@ return $vps[$vpno];}
 
 #########################################################
 # The routines below implement the browser object interface.
-
-sub getName { return "FreeWRL VRML Browser" }
 
 # EG Die unless perl scripts are enabled
 sub check_perl_script {
