@@ -1,4 +1,4 @@
-## $Id: Makefile,v 1.4 2002/05/21 21:55:56 ayla Exp $
+## $Id: Makefile,v 1.5 2002/05/28 17:46:47 ayla Exp $
 ##
 ## Makefile for LaTeX documentation.
 
@@ -62,6 +62,7 @@ realclean: clean
 
 spotless: realclean
 	-rm -Rf ${bak_dir}
+	-rm -f *~
 
 display: dvi
 	xdvi vts.dvi
