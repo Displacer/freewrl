@@ -1,5 +1,5 @@
 #
-# $Id: Parser.pm,v 1.19 2003/06/25 21:03:21 ayla Exp $
+# $Id: Parser.pm,v 1.20 2003/07/18 20:54:24 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -328,6 +328,7 @@ sub parse {
 	if($nt eq "NULL") {
 		return "NULL";
 	}
+	my $vrmlname;
 
 	if($nt eq "DEF") {
 		$_[2] =~ /\G\s*($Word)/ogsc or parsefail($_[2],
@@ -335,26 +336,28 @@ sub parse {
 
 		# store this as a sequence number, because multiple DEFS of the same name
 		# must be unique. (see the spec)
-		VRML::Handles::def_reserve($1, "DEF$LASTDEF");
+		$vrmlname = $1;
+		VRML::Handles::def_reserve($vrmlname, "DEF$LASTDEF");
 		$LASTDEF++;
-		my $defname = VRML::Handles::return_def_name($1);
-		print "Parser.pm: DEF $1 as $defname\n"
+		my $defname = VRML::Handles::return_def_name($vrmlname);
+		print "Parser.pm: DEF $vrmlname as $defname\n"
 			if $VRML::verbose::parse;
 
-		my $node = VRML::Field::SFNode->parse($scene,$_[2]);
+		my $node = VRML::Field::SFNode->parse($scene, $_[2]);
 		print "DEF - node $defname is $node \n" if  $VRML::verbose::parse;
 
-		return $scene->new_def($defname, $node, $1);
+		return $scene->new_def($defname, $node, $vrmlname);
 
 	}
 	if($nt eq "USE") {
 		$_[2] =~ /\G\s*($Word)/ogsc or parsefail($_[2],
 			"USE must be followed by a defname");
 
+		$vrmlname = $1;
 		# is is already DEF'd???
-		my $dn = VRML::Handles::return_def_name($1);
+		my $dn = VRML::Handles::return_def_name($vrmlname);
         	if(!defined $dn) {
-			print "USE name $1 not DEFined yet\n";
+			print "USE name $vrmlname not DEFined yet\n";
 			exit(1);
 		}
 
