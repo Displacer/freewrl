@@ -1,5 +1,12 @@
 /*
- * $Id: jsUtils.h,v 1.1.2.2 2002/08/20 21:35:23 ayla Exp $
+ * Copyright (C) 1998 Tuomas J. Lukka, 2002 John Stewart, Ayla Khan CRC Canada
+ * DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
+ * See the GNU Library General Public License
+ * (file COPYING in the distribution) for conditions of use and
+ * redistribution, EXCEPT on the files which belong under the
+ * Mozilla public license.
+ *
+ * $Id: jsUtils.h,v 1.1.2.3 2002/08/30 04:53:50 ayla Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -19,7 +26,7 @@
 #define FALSE 0
 #endif /* FALSE */
 
-/* #define LARGESTRING 2048 */
+#define LARGESTRING 2048
 #define STRING 512
 #define SMALLSTRING 128
 
