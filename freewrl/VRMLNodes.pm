@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.35 2001/08/03 15:49:12 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.36 2001/08/08 14:50:21 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -346,7 +346,7 @@ sub init_image {
 		next URL;
 	    }
 	    # remove temporary file
-	    my $cmd = "rm $tmpfile";
+	    my $cmd = "rm $tempfile";
             my $status = system ($cmd);
             die "$image conversion problem: '$cmd' returns $?"
                 unless $status == 0;
