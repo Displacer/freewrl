@@ -55,7 +55,7 @@ require 'VRML/Events.pm';
 require 'VRML/Config.pm';
 require 'VRML/URL.pm';
 
-if ($VRML::PLUGIN{NETSCAPE}) { require 'VRML/PluginGlue.pm'; }
+if ($VRML::ENV{AS_PLUGIN}) { require 'VRML/PluginGlue.pm'; }
 
 package VRML::Browser;
 use File::Basename;
@@ -67,7 +67,7 @@ use POSIX;
 # Public functions
 
 sub new {
-	my($type,$pars) = @_;
+	my($type, $pars) = @_;
 	my $this = bless {
 			  Verbose => delete $pars->{Verbose},
 			  BE => new VRML::GLBackEnd($pars->{FullScreen}, 
@@ -94,13 +94,14 @@ sub load_file {
 	$url = ($url || $file);
 
 	# save this for getworldurl calls...
-	$this->{URL} = $url ; 
+	$this->{URL} = $url;
 
 	print "File: $file URL: $url\n" if $VRML::verbose::scene;
+
 	my $t = VRML::URL::get_absolute($file);
 
 	# Required due to changes in VRML::URL::get_absolute in URL.pm:
-	if (!$t) { die "File $file was not found"; }
+	if (!$t) { print "Exiting -- File $file was not found.\n"; exit(1);}
 
 	if ($t =~ /^#VRML V2.0/s) {
 		$this->load_string($t,$url,2);
@@ -121,8 +122,9 @@ sub load_string {
 
 	# type is 2 for VRML v2, 3 for xml
 
+	my $wurl = getWorldURL($this);
 	$this->clear_scene();
-	$this->{Scene} = VRML::Scene->new($this->{EV},$file);
+	$this->{Scene} = VRML::Scene->new($this->{EV}, $file, $wurl);
 
 	$this->{Scene}->set_browser($this);
 	if ($type == 3)  {
@@ -130,15 +132,15 @@ sub load_string {
 
   		eval 'require XML::LibXSLT';
   		eval 'require XML::LibXML';
-  
+
   		my $parser = XML::LibXML->new();
   		my $xslt = XML::LibXSLT->new();
-  
+
   		my $source = $parser->parse_string($string);
   		my $style_doc = $parser->parse_file($VRML::Browser::X3DTOVRMLXSL);
-  
+
   		my $stylesheet = $xslt->parse_stylesheet($style_doc);
-  
+
   		my $results = $stylesheet->transform($source);
 
    		$string = $stylesheet->output_string($results);
@@ -163,55 +165,54 @@ sub get_backend { return $_[0]{BE} }
 sub eventloop {
 	my($this) = @_;
 	## my $seqcnt = 0;
-	while(!$this->{BE}->quitpressed) {
+	while (!$this->{BE}->quitpressed) {
 		# print "eventloop\n";
 		$this->tick();
-				# Skip 1st image, which may not be good
-                if( $main::seq && $main::saving && ++$main::seqcnt )
-                {
-				# Too many images. Stop saving, do conversion
-		  if ($main::seqcnt > $main::maximg){
-		    print "Saving off : sequence too long (max is $main::maximg)\n" ;
-		    VRML::Browser::convert_raw_sequence();
-		    # @main::saved = (); # Reset list of images
-		    # $main::seqcnt = 1;
-		    # $main::saving = 0;
+		# Skip 1st image, which may not be good
+		if ( $main::seq && $main::saving && ++$main::seqcnt ) {
+			# Too many images. Stop saving, do conversion
+			if ($main::seqcnt > $main::maximg) {
+				print "Saving off : sequence too long (max is $main::maximg)\n" ;
+				VRML::Browser::convert_raw_sequence();
+				# @main::saved = (); # Reset list of images
+				# $main::seqcnt = 1;
+				# $main::saving = 0;
 
-		  } else {
-		    ## print " this : $this\n";
-		    ## print " BE   : $this->{BE}\n";
-		    my $s2 = $this->{BE}->snapshot();
-		    my $fn = "$main::seqtmp/$main::seqname" . 
-		      sprintf("%04d",$main::seqcnt) . 
-			".$s2->[0].$s2->[1].raw" ;
+			} else {
+				## print " this : $this\n";
+				## print " BE   : $this->{BE}\n";
+				my $s2 = $this->{BE}->snapshot();
+				my $fn = "$main::seqtmp/$main::seqname" . 
+					sprintf("%04d",$main::seqcnt) . 
+						".$s2->[0].$s2->[1].raw" ;
 
 				# Check temp dir
-		    if ( ! (-d $main::seqtmp) && ! mkdir($main::seqtmp,0755) ) {
-		      print (STDERR "Can't create $main::seqtmp,",
-			     " so can't save sequence\n");
-		      $main::seqcnt = 0;
-		      $main::saving = 0;
-		      print "Saving off : Can't save temp files\n";
-		    
-		      # Refuse to crush files. Maybe "convert" has not
-		      # finished its job. 
-		    } elsif (-f $fn) {
-		    
-		      print (STDERR "File '$fn' already exists.\n",
-			     "  Maybe previous sequence has not been converted\n".
-			     "  Maybe you should remove it by hand\n") ;
-		      $main::seqcnt = 0;
-		      $main::saving = 0;
-		      print "Saving off : Won't crush file\n";
-		      
-		    } elsif (open (O, ">$fn")){
-		      print O $s2->[2] ;
-		      close O ;
-		      push @main::saved, [$fn, $s2->[0], $s2->[1], $main::seqcnt]; 
-		    } else {
-		      print STDERR "Can't open '$fn' for writing\n";
-		    }
-		  }
+				if ( ! (-d $main::seqtmp) && ! mkdir($main::seqtmp,0755) ) {
+					print (STDERR "Can't create $main::seqtmp,",
+						   " so can't save sequence\n");
+					$main::seqcnt = 0;
+					$main::saving = 0;
+					print "Saving off : Can't save temp files\n";
+
+					# Refuse to crush files. Maybe "convert" has not
+					# finished its job. 
+				} elsif (-f $fn) {
+
+					print (STDERR "File '$fn' already exists.\n",
+						   "  Maybe previous sequence has not been converted\n".
+						   "  Maybe you should remove it by hand\n") ;
+					$main::seqcnt = 0;
+					$main::saving = 0;
+					print "Saving off : Won't crush file\n";
+
+				} elsif (open (O, ">$fn")) {
+					print O $s2->[2] ;
+					close O ;
+					push @main::saved, [$fn, $s2->[0], $s2->[1], $main::seqcnt]; 
+				} else {
+					print STDERR "Can't open '$fn' for writing\n";
+				}
+			}
 		}
 	}
 	$this->shut();
@@ -246,7 +247,7 @@ sub shut {
 		VRML::PluginGlue::closeFileDesc($VRML::PluginGlue::globals{freeWRLSock});
 	}
 	if ($this->{JSCleanup}) {
-		print STDERR "VRML::Brower do JS cleanup!\n";
+		print STDERR "VRML::Browser do JS cleanup!\n";
 		&{$this->{JSCleanup}}();
 	}
 	$this->{BE}->close_screen();
@@ -258,10 +259,22 @@ sub tick {
 	my($this) = @_;
 	my $time = get_timestamp();
 
-	$this->{BE}->update_scene($time);
+	
+	#handle app/os events.
+	$this->{BE}->handle_events($time);	
 
+	#update viewer position (first draft)
+	$this->{BE}->{Viewer}->handle_tick($time);
+	
+	#setup projection.
+	#activate proximity sensors.
+	$this->{BE}->render_pre();
+	
 	$this->{EV}->propagate_events($time,$this->{BE},
 		$this->{Scene});
+
+	#do actual screen writing
+	$this->{BE}->render();
 
 	for(@{$this->{Periodic}}) {
 		&$_();
@@ -356,39 +369,43 @@ sub createVrmlFromString {
 sub createVrmlFromURL { 
 	my ($this,$file,$url) = @_;
 
-        # stage 1a - get the URL....
-        $url = ($url || $file);
+	# stage 1a - get the URL....
+	$url = ($url || $file);
+	my $wurl = getWorldURL($this);
 
 	# stage 1b - is this relative to the world URL base???
 	if ($url !~ m/\//) {
-		my $wurl = dirname(getWorldURL($this));
-		$url = "$wurl\/$url";
+		my $wdir = dirname($wurl);
+		$url = "$wdir\/$url";
 	}
 
-        print "File: $file URL: $url\n" if $VRML::verbose::scene;
-        my $t = VRML::URL::get_absolute($url);
+	print "File: $file URL: $url\n" if $VRML::verbose::scene;
+	my $t = VRML::URL::get_absolute($url);
 
 	# Required due to changes in VRML::URL::get_absolute in URL.pm:
-	if (!$t) { die "File $file was not found"; }
+	if (!$t) {
+		die "File $file was not found";
+	}
 
-        unless($t =~ /^#VRML V2.0/s) {
-                if($t =~ /^#VRML V1.0/s) {
-                        print "Sorry, this file is according to VRML V1.0, I only know V2.0\n"; exit (1);
-                }
-                warn("WARNING: file '$file' doesn't start with the '#VRML V2.0' header line");        }
+	unless($t =~ /^#VRML V2.0/s) {
+		if ($t =~ /^#VRML V1.0/s) {
+			print "Sorry, this file is according to VRML V1.0, I only know V2.0\n"; exit (1);
+		}
+		warn("WARNING: file '$file' doesn't start with the '#VRML V2.0' header line");
+	}
 
 	# Stage 2 - load the string in....
 
-	my $scene = VRML::Scene->new($this->{EV},$url);
+	my $scene = VRML::Scene->new($this->{EV},$url,$wurl);
 	VRML::Parser::parse($scene, $t);
-        $scene->make_executable();
+	$scene->make_executable();
 
 	my $ret = $scene->mkbe_and_array($this->{BE},$this->{Scene});
 	# debugging scene graph call
 	# $scene->dump(0);
 	
 	return $ret
- }
+}
 
 
 sub addRoute {  print "No addroute yet\n"; exit(1) }
@@ -415,7 +432,7 @@ sub api__getFieldInfo {
 
 	my ($k, $t);
 
-	# print "api__getFieldInfor for node ",VRML::Node::dump_name($node),"\n";
+	# print "api__getFieldInfor for node ",VRML::NodeIntern::dump_name($node),"\n";
 
 	# print "getFieldInfo, type is ",$node->{Type},"\n";
 	# print "getFieldInfo, FieldKinds is ",$node->{Type}{FieldKinds},"\n";
@@ -438,7 +455,7 @@ sub api__getFieldInfo {
 	# 	($k,$t) = ($node->{FieldKinds}{$field},$node->{FieldTypes}{$field});
 	# }
 	
-	 print "getFieldInfo, k is $k, type is $t\n";
+	# print "getFieldInfo, k is $k, type is $t\n";
 	return($k,$t);
 }
 
@@ -559,56 +576,60 @@ END {
 # Private stuff
 
 {
-my $ind = 0; 
-#JAS - RH7.1 Perl does not have this routine defined off of the
-# CD. Every system that I have seen (SGI, Sun Linux) returns 100 for
-# the CLK_TCK, so I am just substituting this value here. IT only 
-# affects the FPS, from what I can see.
-#my $start = (POSIX::times())[0] / &POSIX::CLK_TCK;
+	my $ind = 0; 
+	#JAS - RH7.1 Perl does not have this routine defined off of the
+	# CD. Every system that I have seen (SGI, Sun Linux) returns 100 for
+	# the CLK_TCK, so I am just substituting this value here. IT only 
+	# affects the FPS, from what I can see.
+	#my $start = (POSIX::times())[0] / &POSIX::CLK_TCK;
 
-# BUG FIX: Tobias Hintze <th@hbs-solutions.de> found that the fps
-# calc could divide by zero on fast machines, thus the need for 
-# the check now.
+	# BUG FIX: Tobias Hintze <th@hbs-solutions.de> found that the fps
+	# calc could divide by zero on fast machines, thus the need for 
+	# the check now.
 
-my $start = (POSIX::times())[0] / 100;
-my $add = time() - $start; $start += $add;
-sub get_timestamp {
-	my $ticks = (POSIX::times())[0] / 100; # Get clock ticks
-	$ticks += $add;
-	if(!$_[0]) {
-		$ind++;;
-		if($ind == 25) {
-			$ind = 0;
-			if ($ticks != $start) { 
-				$FPS = 25/($ticks-$start);
+	my $start = (POSIX::times())[0] / 100;
+	my $add = time() - $start; $start += $add;
+	sub get_timestamp {
+		my $ticks = (POSIX::times())[0] / 100; # Get clock ticks
+		$ticks += $add;
+		if (!$_[0]) {
+			$ind++;;
+			if ($ind == 25) {
+				$ind = 0;
+				if ($ticks != $start) { 
+					$FPS = 25/($ticks-$start);
+				}
+				# print "Fps: ",$FPS,"\n";
+				pmeasures();
+				$start = $ticks;
 			}
-			# print "Fps: ",$FPS,"\n";
-			pmeasures();
-			$start = $ticks;
+		}
+		return $ticks;
+	}
+
+	{
+		my %h; my $cur; my $curt;
+		sub tmeasure_single {
+			my($name) = @_;
+			my $t = get_timestamp(1);
+			if (defined $cur) {
+				$h{$cur} += $t - $curt;
+			}
+			$cur = $name;
+			$curt = $t;
+		}
+		sub pmeasures {
+			return;
+			my $s = 0;
+			for (values %h) {
+				$s += $_;
+			}
+			print "TIMES NOW:\n";
+			for (sort keys %h) {
+				printf "$_\t%3.3f\n",$h{$_}/$s;
+			}
 		}
 	}
-	return $ticks;
-}
-
-{
-my %h; my $cur; my $curt;
-sub tmeasure_single {
-	my($name) = @_;
-	my $t = get_timestamp(1);
-	if(defined $cur) {
-		$h{$cur} += $t - $curt;
-	}
-	$cur = $name;
-	$curt = $t;
-}
-sub pmeasures {
-	return;
-	my $s = 0;
-	for(values %h) {$s += $_}
-	print "TIMES NOW:\n";
-	for(sort keys %h) {printf "$_\t%3.3f\n",$h{$_}/$s}
-}
-}
 }
 
 
@@ -676,8 +697,8 @@ sub front_end_child_reserve {
 	my ($child,$real) = @_;
 	$RP{$child} = $real;
 	# print "front_end_child_reserve, reserving for child $child ", ref $child, 
-	# 	VRML::Node::dump_name($child),  " real $real ", ref $real, 
-	# 	VRML::Node::dump_name($real), "\n";
+	# 	VRML::NodeIntern::dump_name($child),  " real $real ", ref $real, 
+	# 	VRML::NodeIntern::dump_name($real), "\n";
 
 }
 
