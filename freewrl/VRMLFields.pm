@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.38 2004/05/27 15:22:04 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.39 2004/07/16 13:17:50 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,9 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.39  2004/07/16 13:17:50  crc_canada
+# SFString as a Java .class script field entry.
+#
 # Revision 1.38  2004/05/27 15:22:04  crc_canada
 # javascripting problems fixed.
 #
@@ -582,6 +585,7 @@ sub cfunc {"sv_setsv($_[1],$_[2]);"}
 sub print {print "\"$_[1]\""}
 sub as_string{"\"$_[1]\""}
 
+sub clength {1} #for C routes. Keep in sync with getClen in VRMLC.pm. 
 
 ###########################################################
 package VRML::Field::MFString;
