@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.82 2002/10/17 23:53:43 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.83 2002/11/12 19:36:30 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.83  2002/11/12 19:36:30  crc_canada
+# ElevationGrid with TextureCoordinate - use calculated ones, not ones passed in.
+#
 # Revision 1.82  2002/10/17 23:53:43  crc_canada
 # make it quiet. for sound nodes
 #
@@ -837,7 +840,8 @@ ElevationGrid =>  '
 			0, NULL,
 			ncolors, colors,
 			nnormals, normals,
-			ntexcoords, texcoords
+			/*JAS - ntexcoords, texcoords */
+			0, NULL
 		);
 		if(!$f(solid)) {
 			glPopAttrib();
