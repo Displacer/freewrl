@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.32 2003/05/28 14:18:35 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.33 2003/06/02 18:21:40 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,9 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.33  2003/06/02 18:21:40  crc_canada
+# more work on CRoutes for Scripting
+#
 # Revision 1.32  2003/05/28 14:18:35  crc_canada
 # Scripts moved to CRoute structure
 #
@@ -885,7 +888,7 @@ sub as_string {
 	$_[1]->as_string();
 }
 sub clength {
-        return -11; # signal that a -11 is a SFNode for CRoutes
+        return -11; # 
 }
 
 
