@@ -2,7 +2,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.4 2003/06/12 18:21:48 ayla Exp $
+ * $Id: Viewer.h,v 1.5 2003/06/13 21:45:37 ayla Exp $
  *
  */
 
@@ -279,6 +279,12 @@ set_stereo_offset(
 				  double fieldofview
 				  );
 
+
+void
+increment_pos(
+			  VRML_Viewer *viewer,
+			  struct pt *vec
+			  );
 
 
 #endif /* __VIEWER_H_ */

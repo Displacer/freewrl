@@ -2,9 +2,24 @@
 #define __OPENGL_UTILS_H_
 
 /*
- * $Id: OpenGL_Utils.h,v 1.2 2003/06/06 20:22:49 ayla Exp $
+ * $Id: OpenGL_Utils.h,v 1.3 2003/06/13 21:45:37 ayla Exp $
  *
  */
+
+#ifdef AQUA 
+
+#include <gl.h>
+#include <glu.h>
+#include <glext.h>
+
+#else
+
+#include <GL/gl.h>
+#include <GL/glx.h>
+#include <GL/glu.h>
+#include <GL/glext.h>
+
+#endif
 
 
 #include "headers.h"
@@ -29,5 +44,21 @@ get_render_frame(void);
 void
 dec_render_frame(void);
 
+
+void
+glpOpenGLInitialize(void);
+
+
+void
+BackEndClearBuffer(void);
+
+void 
+BackEndLightsOff(void);
+
+void 
+BackEndHeadlightOff(void);
+
+void
+BackEndHeadlightOn(void);
 
 #endif /* __OPENGL_UTILS_H_ */

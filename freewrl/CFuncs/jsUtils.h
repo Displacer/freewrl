@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.1 2003/05/28 14:24:23 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.2 2003/06/13 21:45:38 ayla Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -19,6 +19,8 @@
 
 #include "jsapi.h" /* JS compiler */
 #include "jsdbgapi.h" /* JS debugger */
+
+#include "headers.h"
 
 #ifndef FALSE
 #define FALSE 0
@@ -33,8 +35,6 @@
 
 #define BROWSER_SFNODE "__node"
 #define BROWSER_RETVAL "__ret"
-
-#define UNUSED(v) ((void) v)
 
 
 extern JSBool JSVerbose;

@@ -1,4 +1,4 @@
-/* $Id: LinearAlgebra.h,v 1.8 2003/04/09 16:33:10 sdumoulin Exp $
+/* $Id: LinearAlgebra.h,v 1.9 2003/06/13 21:45:37 ayla Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * Portions Copyright (C) 1998 Tuomas J. Lukka 1998 Bernhard Reiter 1999 John Stewart CRC Canada
@@ -142,7 +142,9 @@ float veclength( struct pt p );
 /* returns vector length, too */
 GLdouble vecnormal(struct pt*r, struct pt* v);
 
+#ifndef normalize_vector /* prototype also found in headers.h */
 #define normalize_vector(pt) vecnormal(pt,pt)
+#endif
 
 float calc_angle_between_two_vectors(struct pt a, struct pt b);
 
