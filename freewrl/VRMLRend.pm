@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.17 2000/12/07 19:12:25 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.18 2000/12/08 13:10:39 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,11 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.18  2000/12/08 13:10:39  crc_canada
+# Two fixes to Background nodes:
+# 	- possible core dump if only one sky angle and no ground angles.
+# 	- make background sphere a lot larger.
+#
 # Revision 1.17  2000/12/07 19:12:25  crc_canada
 # code cleanup, and IndexedFaceSet texture mapping
 #
@@ -782,10 +787,11 @@ Background => '
 	glEnable(GL_LIGHT0);
 
 
-	glScalef(200,200,200);	
+	glScalef(1000,1000,1000);	
 
 	if(((this_->skyColor).n) == 1) {
 		c1 = &(((this_->skyColor).p[0]));
+		va2 = PI; /* so we dont fill in to ground angles */
 		{            
 			GLfloat mat_emission[] = {c1->c[0], c1->c[1], c1->c[2],0.0};
                		glMaterialfv(GL_FRONT,GL_EMISSION, mat_emission);
@@ -807,8 +813,6 @@ Background => '
 		glEnd();
 	} else {
 		glBegin(GL_QUADS);
-		/* printf ("Sky has %d colours\n",(this_->skyColor).n); */
-
 		va1 = 0;
 		for(v=0; v<((this_->skyColor).n)-1; v++) {
 			c1 = &(((this_->skyColor).p[v]));
