@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.57 2002/07/09 16:13:35 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.58 2002/07/09 16:58:18 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -849,15 +849,15 @@ Text => new VRML::NodeType ("Text",
 	 length => [MFFloat, []],
 	 maxExtent => [SFFloat, 0.0],
 	 __rendersub => [SFInt32, 0],   # Function ptr hack
-	}, {
-	Initialize => sub {
-		print "Text, initialize\n";
+#JAS	}, {
+#JAS	Initialize => sub {
+#JAS		print "Text, initialize\n";
 #JAS		my($t,$f) = @_;
 #JAS		my $a = eval 'require VRML::Text; VRML::Text::get_rendptr();';
 #JAS		if($@) {die("Warning: text loading error: '$@'\n");}
 #JAS		$f->{__rendersub} = $a;
 #JAS		return ();
-	}
+#JAS	}
 	}
 ),
 
