@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.h,v 1.3 2003/06/02 18:25:11 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.4 2003/07/03 20:51:31 ayla Exp $
  * 
  * Complex VRML nodes as Javascript classes.
  *
@@ -17,6 +17,7 @@
 
 #include <math.h>
 #include "LinearAlgebra.h" /* FreeWRL math */
+#include "quaternion.h" /* more math */
 
 #ifndef __jsUtils_h__
 #include "jsUtils.h"
@@ -329,7 +330,6 @@ SFRotationSetAxis(JSContext *cx,
 				  jsval *argv,
 				  jsval *rval);
 
-/* not implemented */
 JSBool
 SFRotationSlerp(JSContext *cx,
 				JSObject *obj,
