@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: JS.pm,v 1.29 2004/06/10 20:05:52 crc_canada Exp $
+# $Id: JS.pm,v 1.30 2004/09/30 20:11:56 crc_canada Exp $
 #
 #
 #
@@ -632,7 +632,9 @@ sub jspSFNodeSetProperty {
 	        foreach $mych (@{$val}) {
 			#print "sendevto ",$node->{BackNode}{CNode}, 
 			#	" field $actualField child $mych, BN ", $mych,"\n";
-			VRML::VRMLFunc::jsManipulateChild($node->{BackNode}{CNode}+$outoffset,
+			VRML::VRMLFunc::jsManipulateChild(
+				$node->{BackNode}{CNode}+$outoffset,
+				$node->{BackNode}{CNode},
 							$actualField, $mych);
         	}
 
