@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.80 2003/04/29 17:12:43 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.81 2003/04/29 19:56:45 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.81  2003/04/29 19:56:45  crc_canada
+# MovieTexture rendering code now in C
+#
 # Revision 1.80  2003/04/29 17:12:43  crc_canada
 # TimeSensor ClockTick code now in C
 #
@@ -2045,6 +2048,20 @@ AudioClockTick(node,tick,evtodo,activestate)
 CODE:
 	struct VRML_AudioClip *px = node;
 	do_AudioTick(px,tick,&evtodo);
+	activestate = px->isActive;
+OUTPUT:
+	evtodo
+	activestate
+
+void
+MovieTextureClockTick(node,tick,evtodo,activestate)
+	void *node
+	double tick
+	int evtodo
+	int activestate
+CODE:
+	struct VRML_MovieTexture *px = node;
+	do_MovieTextureTick(px,tick,&evtodo);
 	activestate = px->isActive;
 OUTPUT:
 	evtodo
