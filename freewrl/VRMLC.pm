@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.86 2003/05/14 17:30:58 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.87 2003/05/14 18:03:32 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.87  2003/05/14 18:03:32  crc_canada
+# Collision now done in C
+#
 # Revision 1.86  2003/05/14 17:30:58  crc_canada
 # ProximitySensor now in C
 #
@@ -2183,15 +2186,17 @@ TimeSensorClockTick(node,tick)
 CODE:
 	do_TimeSensorTick(node,tick);
 
-void 
-get_collision_info(node,hit)
+void
+CollisionClockTick(node,tick)
 	void *node
-	int hit
+	double tick
 CODE:
 	struct VRML_Collision *cx = node;
-	hit = cx->__hit;
-OUTPUT:
-	hit
+	if (cx->__hit == 3) {
+		/* printf ("COLLISION at %f\n",tick); */
+		cx->collideTime = tick;
+		mark_event ((unsigned int) node, offsetof(struct VRML_Collision, collideTime));
+	}
 
 
 ENDHERE
