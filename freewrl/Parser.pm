@@ -1,5 +1,5 @@
 #
-# $Id: Parser.pm,v 1.8 2001/07/18 18:24:20 crc_canada Exp $
+# $Id: Parser.pm,v 1.9 2001/08/16 16:55:00 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -162,7 +162,7 @@ sub parse_proto {
 	$pro->topnodes(\@a);
 
 	# Register viewpoints from this proto invocation
-	# JAS - can kill us... ! $pro->register_vps($scene->get_browser());
+	# $pro->register_vps($scene->get_browser());
 
 	my $np = $pro->{Bindables}{Viewpoint};
 	#JAS print "Parser, number of viewpoints found for $pro is ", $#$np, "my scene $scene\n";
