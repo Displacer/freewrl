@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.71 2003/03/19 15:23:17 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.72 2003/04/01 20:08:46 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.72  2003/04/01 20:08:46  crc_canada
+# zpl code removed - see freewrl.PL.
+#
 # Revision 1.71  2003/03/19 15:23:17  crc_canada
 # ccw field for complex geometry working according to spec now.
 #
@@ -1172,10 +1175,6 @@ int found_vp; /*true when viewpoint found*/
 
 GLuint last_bound_texture;
 
-int horiz_div = 20; int vert_div = 20;
-int vp_dist = 200000;
-
-
 int smooth_normals = -1; /* -1 means, uninitialized */
 
 int cur_hits=0;
@@ -1954,12 +1953,6 @@ CODE:
 OUTPUT:
 	hit
 
-
-void
-set_vpdist(dist)
-int dist
-CODE:
-	vp_dist = dist;
 
 ENDHERE
 ;
