@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.70 2003/12/18 18:18:44 crc_canada Exp $
+# $Id: Scene.pm,v 1.71 2003/12/22 18:49:01 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -254,7 +254,7 @@ sub newextp {
 
 	for (@{$url}) {
 		($protourl, $protoname) = split(/#/, $_, 2);
-		$string = VRML::NodeType::getTextFromURLs($this, $protourl);
+		$string = VRML::Browser::getTextFromFile($protourl);
 
 		next if (!$string);
 
