@@ -99,6 +99,25 @@ AVt_rightLeftDblRot( AVnode_t n )
  **/
 
     /*
+     * AVt_allocDat
+     * ------------
+     * Alloc a dat struct and set an opaqe for it
+     */
+	AVdat_t
+AVt_allocDat( void *opaque )
+{
+  AVdat_t a_new_dat =(AVdat_t)malloc( sizeof( struct AVdat_st ) );
+
+  if ( !a_new_dat )
+    {
+      return NULL; 
+    }
+  bzero( a_new_dat, sizeof( struct AVdat_st ) );
+  a_new_dat->opaque = opaque;
+  return a_new_dat; 
+}
+
+    /*
      * AVt_reset
      * ---------
      * Reset the AVtree

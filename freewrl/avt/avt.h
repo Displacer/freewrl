@@ -27,8 +27,9 @@ typedef enum AVway_en {
 
 typedef void(*AVcb_t)(int, double, void *);
 
-extern AVtree_t AVt_reset ( AVtree_t tree );
-extern AVtree_t AVt_insert( AVtree_t tree, double z, AVdat_t dat);
-extern void	AVt_apply ( AVtree_t tree, AVway_t way, AVcb_t cbFunc );
+extern AVtree_t AVt_reset    ( AVtree_t tree );
+extern AVtree_t AVt_insert   ( AVtree_t tree, double z, AVdat_t dat);
+extern void	AVt_apply    ( AVtree_t tree, AVway_t way, AVcb_t cbFunc );
+extern AVdat_t  AVt_allocDat ( void *opaque )
 
 #endif /* _AVT_H__ */

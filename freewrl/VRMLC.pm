@@ -1,5 +1,5 @@
 #
-# $Id: VRMLC.pm,v 1.10.2.4 2000/09/07 13:41:18 rcoscali Exp $
+# $Id: VRMLC.pm,v 1.10.2.5 2000/09/07 23:29:15 rcoscali Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -28,6 +28,9 @@
 #  do normals for indexedfaceset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.10.2.5  2000/09/07 23:29:15  rcoscali
+# Saved
+#
 # Revision 1.10.2.4  2000/09/07 13:41:18  rcoscali
 # save
 #
@@ -816,7 +819,7 @@ sub fgetfnvirt_n {
 	my($n, $ret, $v, @a) = @_;
 	if($ret) {$ret = "$ret = ";}
 	return "if($n) {
-	         if(!(*(struct VRML_Virt **)n)->$v) {
+	         if(!(*(struct VRML_Virt **)$n)->$v) {
 		  	die(\"NULL METHOD $n $ret $v\");
 		 }
 		 $ret ((*(struct VRML_Virt **)($n))->$v($n,
@@ -1330,6 +1333,7 @@ typedef struct AVt_bnode_st {
 			GLdouble x1, y1, x2, y2, x3, y3;
 		} tri;
 	} geom;
+	GLdouble nx, ny, nz;
 } *AVt_bnode_t;
 
 AVtree_t blendPTree = (AVtree_t)NULL;
@@ -2187,7 +2191,7 @@ void render_node(void *node) {
 	    printf( "\t%-03.4f %-03.4f %-03.4f %-03.4f\n", projMatrix[4], projMatrix[5], projMatrix[6], projMatrix[7] );
 	    printf( "\t%-03.4f %-03.4f %-03.4f %-03.4f\n", projMatrix[8], projMatrix[9], projMatrix[10], projMatrix[11] );
 	    printf( "\t%-03.4f %-03.4f %-03.4f %-03.4f\n", projMatrix[12], projMatrix[13], projMatrix[14], projMatrix[15] );
-	    printf( "\n" );
+	    printf( "(blended || under_blended_shape) = %d    v->rend = 0x%lx       v->prep_blended_rend = 0x%lx\n", (blended || under_blended_shape), v->rend, v->prep_blended_rend );
 
 	    if (!(blended || under_blended_shape) && v->rend)
 	      {

@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.12.2.1 2000/09/05 21:18:50 rcoscali Exp $
+# $Id: VRMLRend.pm,v 1.12.2.2 2000/09/07 23:29:15 rcoscali Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.12.2.2  2000/09/07 23:29:15  rcoscali
+# Saved
+#
 # Revision 1.12.2.1  2000/09/05 21:18:50  rcoscali
 # Start implementation of alpha blending rendering
 #
@@ -1329,35 +1332,205 @@ DirectionalLight => '
 
 %PrepBlendRendC = (
 Box => '
+',
+Box => (join '',
+	'
 	/* Blended polygons rendering preparation for Box */
-',
-Cylinder => '
+	GLdouble modelMatrix[16];
+	GLdouble zbase = 0.0L;
+	AVdat_t dat;
+
+	float x = $f(size,0)/2;
+	float y = $f(size,1)/2;
+	float z = $f(size,2)/2;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+	zbase = modelMatrix[14];
+
+	printf( "\nPrepBlendRendC Box: zbase = %04.4f\n", zbase );
+
+	/* front side */
+	aDat = allocDat( new sizeof( struct AVt_bnode_st ) );
+	if (NULL == aDat || NULL == aDat->opaque)
+		die( "Not enough memory !" );
+	
+	glNormal3f(0,0,1);
+	TC(1,1);
+	glVertex3f(x,y,z);
+	TC(0,1);
+	glVertex3f(-x,y,z);
+	TC(0,0);
+	glVertex3f(-x,-y,z);
+	TC(1,0);
+	glVertex3f(x,-y,z);
+
+	/* back side */
+	glNormal3f(0,0,-1);
+	TC(0,0);
+	glVertex3f(x,-y,-z);
+	TC(1,0);
+	glVertex3f(-x,-y,-z);
+	TC(1,1);
+	glVertex3f(-x,y,-z);
+	TC(0,1);
+	glVertex3f(x,y,-z);
+
+	/* top side */
+	glNormal3f(0,1,0);
+	TC(0,0);
+	glVertex3f(-x,y,z);
+	TC(1,0);
+	glVertex3f(x,y,z);
+	TC(1,1);
+	glVertex3f(x,y,-z);
+	TC(0,1);
+	glVertex3f(-x,y,-z);
+
+	/* down side */
+	glNormal3f(0,-1,0);
+	TC(0,0);
+	glVertex3f(-x,-y,-z);
+	TC(1,0);
+	glVertex3f(x,-y,-z);
+	TC(1,1);
+	glVertex3f(x,-y,z);
+	TC(0,1);
+	glVertex3f(-x,-y,z);
+
+	/* right side */
+	glNormal3f(1,0,0);
+	TC(0,0);
+	glVertex3f(x,-y,z);
+	TC(1,0);
+	glVertex3f(x,-y,-z);
+	TC(1,1);
+	glVertex3f(x,y,-z);
+	TC(0,1);
+	glVertex3f(x,y,z);
+
+	/* left side */
+	glNormal3f(-1,0,0);
+	TC(1,0);
+	glVertex3f(-x,-y,z);
+	TC(1,1);
+	glVertex3f(-x,y,z);
+	TC(0,1);
+	glVertex3f(-x,y,-z);
+	TC(0,0);
+	glVertex3f(-x,-y,-z);
+	glEnd();
+
+	glPopAttrib();
+
+'),
+Cylinder => (join '',
+	'
 	/* Blended polygons rendering preparation for Cylinder */
-',
-Cone => '
+	GLdouble modelMatrix[16];
+	GLdouble zbase = 0.0L;
+	AVdat_t dat;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+	zbase = modelMatrix[14];
+
+	printf( "\nPrepBlendRendC Cylinder: zbase = %04.4f\n", zbase );
+'),
+Cone => (join '',
+	'
 	/* Blended polygons rendering preparation for Cone */
-',
-Sphere => '
+	GLdouble modelMatrix[16];
+	GLdouble zbase = 0.0L;
+	AVdat_t dat;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+	zbase = modelMatrix[14];
+
+	printf( "\nPrepBlendRendC Cone: zbase = %04.4f\n", zbase );
+'),
+Sphere => (join '',
+	'
 	/* Blended polygons rendering preparation for Sphere */
-',
-IndexedFaceSet => '
+	GLdouble modelMatrix[16];
+	GLdouble zbase = 0.0L;
+	AVdat_t dat;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+	zbase = modelMatrix[14];
+
+	printf( "\nPrepBlendRendC Sphere: zbase = %04.4f\n", zbase );
+'),
+IndexedFaceSet => (join '',
+	'
 	/* Blended polygons rendering preparation for IndexedFaceSet */
-',
-IndexedLineSet => '
+	GLdouble modelMatrix[16];
+	GLdouble zbase = 0.0L;
+	AVdat_t dat;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+	zbase = modelMatrix[14];
+
+	printf( "\nPrepBlendRendC IndexedFaceSet: zbase = %04.4f\n", zbase );
+'),
+IndexedLineSet => (join '',
+	'
 	/* Blended polygons rendering preparation for IndexedLineSet */
-',
-Extrusion => '
+	GLdouble modelMatrix[16];
+	GLdouble zbase = 0.0L;
+	AVdat_t dat;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+	zbase = modelMatrix[14];
+
+	printf( "\nPrepBlendRendC IndexedLineSet: zbase = %04.4f\n", zbase );
+'),
+Extrusion => (join '',
+	'
 	/* Blended polygons rendering preparation for Extrusion */
-',
-ElevationGrid => '
+	GLdouble modelMatrix[16];
+	GLdouble zbase = 0.0L;
+	AVdat_t dat;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+	zbase = modelMatrix[14];
+
+	printf( "\nPrepBlendRendC Extrusion: zbase = %04.4f\n", zbase );
+'),
+ElevationGrid => (join '',
+	'
 	/* Blended polygons rendering preparation for ElevationGrid */
-',
-Text => '
+	GLdouble modelMatrix[16];
+	GLdouble zbase = 0.0L;
+	AVdat_t dat;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+	zbase = modelMatrix[14];
+
+	printf( "\nPrepBlendRendC ElevationGrid: zbase = %04.4f\n", zbase );
+'),
+Text => (join '',
+	'
 	/* Blended polygons rendering preparation for Text */
-',
-PointSet => '
+	GLdouble modelMatrix[16];
+	GLdouble zbase = 0.0L;
+	AVdat_t dat;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+	zbase = modelMatrix[14];
+
+	printf( "\nPrepBlendRendC Text: zbase = %04.4f\n", zbase );
+'),
+PointSet => (join '',
+	'
 	/* Blended polygons rendering preparation for PointSet */
-'
+	GLdouble modelMatrix[16];
+	GLdouble zbase = 0.0L;
+	AVdat_t dat;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+	zbase = modelMatrix[14];
+
+	printf( "\nPrepBlendRendC PointSet: zbase = %04.4f\n", zbase );
+')
 );
 
 #######################################################################
