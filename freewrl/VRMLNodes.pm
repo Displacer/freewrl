@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.122 2004/07/12 13:30:36 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.123 2004/07/13 19:46:20 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -330,6 +330,7 @@ my $protono;
 	Box =>
 	new VRML::NodeType("Box",
 					   { 	size => [SFVec3f, [2, 2, 2], field],
+						solid => [SFBool, 1, field],
 						__points  =>[SFInt32,0,field],
 					   }
 					  ),
@@ -341,6 +342,7 @@ my $protono;
 						 radius => [SFFloat, 1.0, field],
 						 side => [SFBool, 1, field],
 						 top => [SFBool, 1, field],
+						solid => [SFBool, 1, field],
 						 __points =>[SFInt32,0,field],
 						 __normals =>[SFInt32,0,field],
 						},
@@ -352,6 +354,7 @@ my $protono;
 						 height => [SFFloat, 2.0, field],
 						 side => [SFBool, 1, field],
 						 bottom => [SFBool, 1, field],
+						solid => [SFBool, 1, field],
 						 __sidepoints =>[SFInt32,0,field],
 						 __botpoints =>[SFInt32,0,field],
 						 __normals =>[SFInt32,0,field],
@@ -416,6 +419,7 @@ my $protono;
 	Sphere =>
 	new VRML::NodeType("Sphere",
 					   { 	radius => [SFFloat, 1.0, field],
+						solid => [SFBool, 1, field],
 						 __points =>[SFInt32,0,field],
  					   }
 					  ),
