@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.106 2003/09/25 17:40:42 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.107 2003/09/25 18:58:49 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -551,6 +551,7 @@ my $protono;
  Billboard	children
  Anchor		children
  Collision	children
+ GeoLocation	children
 );
 
 %VRML::Nodes::siblingsensitive = map {($_, 1)} qw/
@@ -1553,6 +1554,22 @@ my $protono;
 						__geoSystem => [SFInt32,0,field],
 					}
 					),
+
+	GeoLocation =>
+	new VRML::NodeType("GeoLocation",
+					{
+						geoCoords => [SFString,"",exposedField],
+						children => [MFNode, [], field],
+						geoOrigin => [SFNode, NULL, field],
+						geoSystem => [MFString,["GD","WE"],field],
+
+						# "compiled" versions of strings above
+						__geoCoords => [SFVec3f,[0, 0, 0], field],
+						__geoSystem => [SFInt32,0,field],
+						
+					}
+					),
+
 
 
 
