@@ -9,7 +9,7 @@
 
 system "perl VRMLC.pm";
 
-$VERSION = "0.31";
+$VERSION = "0.34";
 
 BEGIN {
  eval "use 5.004";
@@ -76,7 +76,6 @@ chomp ($a = `which convert`);
 chomp ($pwd = getcwd());
 chomp ($java = `which java`);
 print OUT qq(\$VRML::Browser::CONVERT = "$a";\n);
-print OUT qq(\$VRML::ENV{FREETYPE_FONT_PATH} = "$VRML_CONFIG{FREETYPE_FONT_PATH}";\n);
 print OUT qq(\$VRML::ENV{FREEWRL_FONTS} = "$pwd/fonts";\n);
 print OUT qq(\$VRML::Browser::X3DTOVRMLXSL = "$pwd/x3d/X3dToVrml97.xsl";\n);
 print OUT "1;\n";
@@ -84,18 +83,6 @@ close OUT;
 
 print "Note that 'convert' cannot be found\n" unless $a ;
 
-## Check for required Javascript libraries,
-## if they don't exist, make them.
-
-print "Checking for the Mozilla JavaScript Reference library and application.\n";
-if (-e "JS/js/Linux_All_DBG.OBJ/libjs.a" && -e "JS/js/Linux_All_DBG.OBJ/js") {
-    print "The Javascript library and application were found.\n";
-} else {
-    print "The Javascript library and application were not found - make them.\n";
-    chdir("JS/js");
-    system("make");
-    chdir($pwd);
-}
 
 use ExtUtils::MakeMaker;
 WriteMakefile(
@@ -106,19 +93,68 @@ WriteMakefile(
 		COMPRESS => 'gzip -9', SUFFIX => 'gz',
 	},
     VERSION => $VERSION,
-    DEFINE => $VRML_CONFIG{OPENGL_DEFINE},
-    INC => $VRML_CONFIG{OPENGL_INC},
+    DEFINE => $VRML_CONFIG{FREEWRL_DEFINE},
+    INC => $VRML_CONFIG{FREEWRL_INC},
     EXE_FILES => ['freewrl'],
     MAN1PODS => { 'freewrl' => '$(INST_MAN1DIR)/freewrl.$(MAN1EXT)' },
     PL_FILES => {'freewrl.PL' => 'freewrl'},
-    PREREQ_PM => { 'Digest::MD5' =>  "2.09",
-		   'HTML::Parser' => "2.25",
-		   'MIME::Base64' => "2.11",
-		   'URI'          => "1.04",
-		   'Image::Base'  => "1.07",
-		   'LWP'          => "5.47",
-		 }
+	PREREQ_PM => { 'Digest::MD5' =>  "2.09",
+					'HTML::Parser' => "2.25",
+					'MIME::Base64' => "2.11",
+					'URI'          => "1.04",
+					'LWP'          => "5.47",
+				   },
+			  LIBS => $VRML_CONFIG{FREEWRL_LIBS},
+   ##OBJECT => 'VRMLFunc.o CFuncs/Polyrep.o CFuncs/NormalCalcs.o CFuncs/Tess.o CFuncs/Textures.o CFuncs/LinearAlgebra.o CFuncs/Collision.o CFuncs/MPEG_Utils.o CFuncs/Text.o CFuncs/readpng.o',
+   OBJECT => 'VRMLFunc.o',
 );
+
+
+sub MY::post_constants {
+	my $post_const = "";
+
+	$post_const =
+q{
+
+vpath %.c .:./CFuncs
+vpath %.o .:./CFuncs
+
+CFUNCS_SRC:=$(wildcard ./CFuncs/*.c)
+OBJECT+=$(CFUNCS_SRC:%c=%o)
+
+};
+
+	return ($post_const);
+}
+
+
+#sub MY::c_o {
+#	my $c_o = "";
+#
+#	$c_o =
+#q{
+#
+#%.o : %.c
+#	$(CCCMD) -c $< $(CCCDLFLAGS) -I$(PERL_INC) $(DEFINE) -o $@
+#
+#%.o : %.C
+#	$(CCCMD) -c $< $(CCCDLFLAGS) -I$(PERL_INC) $(DEFINE) -o $@
+#
+#%.o : %.cpp
+#	$(CCCMD) -c $< $(CCCDLFLAGS) -I$(PERL_INC) $(DEFINE) -o $@
+#
+#%.o : %.cxx
+#	$(CCCMD) -c $< $(CCCDLFLAGS) -I$(PERL_INC) $(DEFINE) -o $@
+#
+#%.o : %.cc
+#	$(CCCMD) -c $< $(CCCDLFLAGS) -I$(PERL_INC) $(DEFINE) -o $@
+#
+#};
+#
+#	return ($c_o);
+#}
+
+
 
 sub MY::postamble {
     ## Add extra make instructions that don't quite fit into the
@@ -129,20 +165,17 @@ sub MY::postamble {
 q{
 # --- VRML::VRMLFunc:
 
-VRMLFunc.pm VRMLFunc.xs: VRMLC.pm VRMLFields.pm VRMLNodes.pm VRMLRend.pm VRMLExtrusion.pm
+VRMLFunc.pm VRMLFunc.xs: VRMLC.pm VRMLFields.pm VRMLNodes.pm VRMLRend.pm VRMLExtrusion.pm 
 	$(PERL) VRMLC.pm
 });
 
     if ($VRML_CONFIG{NETSCAPE_INST}) {
 	push(@postamble,
 q{
-# --- Netscape Plugin:
+# --- Mozilla/Netscape Plugin:
 
-install :: install_plugin
-	@$(NOOP) 
-
-install_plugin ::
-	@cd Plugin && $(MAKE) install_plugin
+install ::
+	@cd Plugin && $(MAKE) install
 });
     }
 
