@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.76 2002/08/14 17:43:34 ncoder Exp $
+# $Id: VRMLRend.pm,v 1.77 2002/08/16 20:02:03 ncoder Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.77  2002/08/16 20:02:03  ncoder
+# new and improved Indexfaceset and Extrusion collision detection!
+#
 # Revision 1.76  2002/08/14 17:43:34  ncoder
 # Stepping code
 #
@@ -2728,6 +2731,7 @@ Extrusion => q~
 	       accumulate_disp(&CollisionInfo,delta);
 
 	       if(verbose_collision && (fabs(delta.x) != 0. || fabs(delta.y) != 0. || fabs(delta.z) != 0.))  {
+/*		   printmatrix(modelMatrix);*/
 		   fprintf(stderr,"COLLISION_EXT: ref%d (%f %f %f) (%f %f %f)\n",refnum++,
 			  t_orig.x, t_orig.y, t_orig.z,
 			  delta.x, delta.y, delta.z
