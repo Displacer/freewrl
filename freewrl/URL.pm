@@ -1,5 +1,5 @@
 #
-# $Id: URL.pm,v 1.2 2001/07/11 20:43:04 ayla Exp $
+# $Id: URL.pm,v 1.3 2002/01/25 15:43:21 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka, 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -79,7 +79,7 @@ sub save_text {
 
 sub is_gzip {
 	if($_[0] =~ /^\037\213/) {
-		warn "GZIPPED content -- trying to ungzip\n";
+		# warn "GZIPPED content -- trying to ungzip\n";
 		return 1;
 	}
 	return 0;
