@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.70 2003/03/17 16:16:13 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.71 2003/03/19 15:23:17 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.71  2003/03/19 15:23:17  crc_canada
+# ccw field for complex geometry working according to spec now.
+#
 # Revision 1.70  2003/03/17 16:16:13  crc_canada
 # Code for locating DirectionalLights was broken - code removed, as all is
 # now handled from VRMLRend.pm
@@ -1055,6 +1058,7 @@ struct VRML_Virt {
  */
 struct VRML_PolyRep { /* Currently a bit wasteful, because copying */
 	int _change;
+	int ccw;	/* ccw field for single faced structures */
 	int ntri; /* number of triangles */
 	int alloc_tri; /* number of allocated triangles */
 	int *cindex;   /* triples (per triangle) */
