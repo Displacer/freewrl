@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.36 2001/06/25 18:34:42 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.37 2001/07/05 16:04:33 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.37  2001/07/05 16:04:33  crc_canada
+# Initial IFS texture default code re-write
+#
 # Revision 1.36  2001/06/25 18:34:42  crc_canada
 # ElevationGrid default textures now correct.
 #
@@ -1691,9 +1694,6 @@ Billboard => (join '','
 				glError = glGetError();
 			}
 		}
-
-		if (last_bound_texture != 0) glDisable (GL_TEXTURE_2D);
-
 		last_visited_shape = 0;
 		glPopAttrib();
 	',
