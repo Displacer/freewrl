@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.24 2003/09/11 16:00:55 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.25 2003/09/25 17:40:42 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -675,7 +675,8 @@ sub set_backend_fields {
 			$this->set_backend_fields();
 
 			# was this a viewpoint? Was it not in a proto definition?
-			if ($this->{TypeName} eq "Viewpoint") {
+			if (($this->{TypeName} eq "Viewpoint")  ||
+			    ($this->{TypeName} eq "GeoViewpoint")) {
 				if ($this->{BackEnd}) {
 					my $scene = $this->{Scene};
 					VRML::NodeType::register_vp($scene, $this);

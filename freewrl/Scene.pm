@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.60 2003/09/18 14:46:53 crc_canada Exp $
+# $Id: Scene.pm,v 1.61 2003/09/25 17:40:42 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -361,6 +361,9 @@ sub new_node {
 		if (!defined $this->{Bindable}{$type}) {
 			$this->{Bindable}{$type} = $node;
 		}
+
+		# GeoViewpoint and Viewpoint are handled the same, and on the same stack
+		if ($type eq "GeoViewpoint") {$type = "Viewpoint"};
 		push @{$this->{Bindables}{$type}}, $node;
 	}
 	VRML::Handles::reserve($node);
@@ -1098,11 +1101,13 @@ sub init_events {
 
 	if ($bind) {
 		for (keys %{$this->{Bindable}}) {
-			print "\tINIT Bindable '$_'\n" if $VRML::verbose::scene;
-			$eventmodel->send_set_bind_to($this->{Bindable}{$_}, 1);
+			# remember, Viewpoints and GeoViewpoints are treated the same.
+			if ($_ ne "GeoViewpoint") {
+				print "\tINIT Bindable '$_'\n" if $VRML::verbose::scene;
+				$eventmodel->send_set_bind_to($this->{Bindable}{$_}, 1);
+			}
 		}
 	}
-	#JAS no longer required - I hope! $eventmodel->put_events(\@e);
 }
 
 

@@ -1,5 +1,5 @@
 #
-# $Id: Parser.pm,v 1.23 2003/07/31 06:45:21 ayla Exp $
+# $Id: Parser.pm,v 1.24 2003/09/25 17:40:42 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -166,13 +166,6 @@ sub parse_proto {
 	}
 	# print "parse_proto, setting topnodes for ",VRML::NodeIntern::dump_name($pro),"\n";
 	$pro->topnodes(\@a);
-
-	# Register viewpoints from this proto invocation
-	# $pro->register_vps($scene->get_browser());
-
-	#JAS my $np = $pro->{Bindables}{Viewpoint};
-	#JAS print "Parser, number of viewpoints found for $pro is ", $#$np, "my scene $scene\n";
-	#JAS print "and, the first viewpoint is ",$np->[0]{Fields}{description},"\n";
 }
 
 sub parse_externproto {
