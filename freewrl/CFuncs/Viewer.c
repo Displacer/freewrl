@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.8 2003/06/20 07:12:24 ayla Exp $
+ * $Id: Viewer.c,v 1.9 2003/06/24 17:15:04 crc_canada Exp $
  *
  */
 
@@ -85,7 +85,7 @@ print_viewer(VRML_Viewer *viewer)
 	struct orient or;
 	quaternion_to_vrmlrot(&(viewer->Quat), &(or.x), &(or.y), &(or.z), &(or.a));
 
-	printf("Viewer {\n\tPosition [ %.4g, %.4g, %.4g ]\n\tQuaternion [ %.4g, %.4g, %.4g, %.4g ]\n\tOrientation [ %.4g, %.4g, %.4g, %.4g ]\n}\n", (viewer->Pos).x, (viewer->Pos).x, (viewer->Pos).z, (viewer->Quat).w, (viewer->Quat).x, (viewer->Quat).y, (viewer->Quat).z, or.x, or.y, or.z, or.a);
+	printf("Viewer {\n\tPosition [ %.4g, %.4g, %.4g ]\n\tQuaternion [ %.4g, %.4g, %.4g, %.4g ]\n\tOrientation [ %.4g, %.4g, %.4g, %.4g ]\n}\n", (viewer->Pos).x, (viewer->Pos).y, (viewer->Pos).z, (viewer->Quat).w, (viewer->Quat).x, (viewer->Quat).y, (viewer->Quat).z, or.x, or.y, or.z, or.a);
 }
 
 unsigned int
