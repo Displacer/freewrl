@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsNative.h,v 1.2 2002/12/19 18:45:22 ayla Exp $
+ * $Id: jsNative.h,v 1.3 2003/01/17 19:10:39 ayla Exp $
  * 
  *
  */
@@ -74,16 +74,22 @@ doPerlCallMethodVA(SV *sv, const char *methodName, const char *format, ...);
  * type.
  */
 extern JSBool
-addECMANativeProperty(void *cx,
-					  void *glob,
-					  char *name);
+addGlobalECMANativeProperty(void *cx,
+							void *glob,
+							char *name);
 
 extern JSBool
-addAssignProperty(void *cx,
+addGlobalAssignProperty(void *cx,
+						void *glob,
+						char *name,
+						char *str);
+
+extern JSBool
+addSFNodeProperty(void *cx,
 				  void *glob,
+				  char *nodeName,
 				  char *name,
 				  char *str);
-
 
 extern void *
 SFNodeNativeNew(size_t vrmlstring_len, size_t handle_len);
