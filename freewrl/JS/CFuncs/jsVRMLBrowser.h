@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.h,v 1.6 2003/01/24 22:05:25 ayla Exp $
+ * $Id: jsVRMLBrowser.h,v 1.7 2003/01/28 18:54:21 ayla Exp $
  * 
  */
 
@@ -151,8 +151,8 @@ static JSFunctionSpec (BrowserFunctions)[] = {
 	{"getCurrentSpeed", VrmlBrowserGetCurrentSpeed, 0},
 	{"getCurrentFrameRate", VrmlBrowserGetCurrentFrameRate, 0},
 	{"getWorldURL", VrmlBrowserGetWorldURL, 0},
-/* 	{"replaceWorld", VrmlBrowserReplaceWorld, 0}, */
-/* 	{"loadURL", VrmlBrowserLoadURL, 0}, */
+	{"replaceWorld", VrmlBrowserReplaceWorld, 0},
+	{"loadURL", VrmlBrowserLoadURL, 0},
 	{"setDescription", VrmlBrowserSetDescription, 0},
 	{"createVrmlFromString", VrmlBrowserCreateVrmlFromString, 0},
 	{"createVrmlFromURL", VrmlBrowserCreateVrmlFromURL, 0},
