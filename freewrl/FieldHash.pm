@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: FieldHash.pm,v 1.3 2003/03/20 22:44:26 ayla Exp $
+# $Id: FieldHash.pm,v 1.4 2003/06/19 20:19:55 crc_canada Exp $
 #
 # The FieldHash
 #
@@ -83,7 +83,7 @@ sub STORE {
 
 	if (defined $node->{EventModel}) {
 		print "\tdefined eventmodel\n" if $VRML::verbose::events;
-		$node->{EventModel}->put_event($node, $k, $value);
+		#JAS - not needed anymore $node->{EventModel}->put_event($node, $k, $value);
 		if (defined $node->{BackNode}) {
 			print "\tBackNode defined $node->{BackNode}\n"  if $VRML::verbose::events;
 			$node->set_backend_fields($k);
