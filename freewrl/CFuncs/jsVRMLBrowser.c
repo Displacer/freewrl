@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.c,v 1.7 2004/05/27 15:22:04 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.8 2004/05/31 20:24:28 crc_canada Exp $
  * 
  */
 
@@ -423,7 +423,7 @@ VrmlBrowserPrint(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsv
 	char *_id_c;
 
 	jsval _rval = INT_TO_JSVAL(0);
-	printf ("FreeWRL:javascript: ");
+	//printf ("FreeWRL:javascript: ");
 	for (count=0; count < argc; count++) {
 		if (JSVAL_IS_STRING(argv[count])) {
 			_str = JSVAL_TO_STRING(argv[count]);

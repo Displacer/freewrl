@@ -6,7 +6,7 @@
  ******************************************************************************/
 
 /*
- * $Id: quaternion.c,v 1.9 2004/05/28 20:07:40 crc_canada Exp $
+ * $Id: quaternion.c,v 1.10 2004/05/31 20:24:28 crc_canada Exp $
  *
  * Quaternion math ported from Perl to C
  * (originally in Quaternion.pm)
@@ -100,6 +100,7 @@ matrix_to_quaternion (Quaternion *quat, double *mat) {
 		}
 	}
 
+	//printf ("Quat x %f y %f z %f w %f\n",X,Y,Z,W);
 	quat->x = X;
 	quat->y = Y;
 	quat->z = Z;
