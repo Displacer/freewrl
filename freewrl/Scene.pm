@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.52 2003/06/24 15:49:59 crc_canada Exp $
+# $Id: Scene.pm,v 1.53 2003/06/25 21:03:21 ayla Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -1047,28 +1047,14 @@ sub setup_routing {
 				next;
 			}
 		}
-		$eventOut = $_->[1];
-		if ($eventOut =~ /($VRML::Error::Word+)_changed$/) {
-			$tmp = $1;
-			if ($fromNode->{Type}{EventOuts}{$tmp} and
-				$fromNode->{Type}{FieldKinds}{$tmp} =~ /^exposed/) {
-				$eventOut = $tmp;
-			}
-		}
+		$eventOut = VRML::Parser::parse_exposedField($_->[1], $fromNode->{Type});
 
 		if (!$fromNode->{Type}{EventOuts}{$eventOut}) {
 			warn("Invalid eventOut $eventOut in route for $fromNode->{TypeName}");
 			next;
 		}
 
-		$eventIn = $_->[3];
-		if ($eventIn =~ /^set_($VRML::Error::Word+)/) {
-			$tmp = $1;
-			if ($toNode->{Type}{EventIns}{$tmp} and
-				$toNode->{Type}{FieldKinds}{$tmp} =~ /^exposed/) {
-				$eventIn = $tmp;
-			}
-		}
+		$eventIn = VRML::Parser::parse_exposedField($_->[3], $toNode->{Type});
 
 		if (!$toNode->{Type}{EventIns}{$eventIn}) {
 			warn("Invalid eventIn $eventIn in route for $toNode->{TypeName}");
