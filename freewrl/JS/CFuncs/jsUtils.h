@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.6 2002/12/19 18:45:22 ayla Exp $
+ * $Id: jsUtils.h,v 1.7 2003/03/20 21:19:40 ayla Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -30,6 +30,9 @@
 
 #define FNAME_STUB "file"
 #define LINENO_STUB 0
+
+#define BROWSER_SFNODE "__node"
+#define BROWSER_RETVAL "__ret"
 
 #define UNUSED(v) ((void) v)
 
