@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.h,v 1.10 2005/03/21 13:39:07 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.11 2005/03/22 13:25:26 crc_canada Exp $
  *
  * Complex VRML nodes as Javascript classes.
  *
@@ -422,12 +422,13 @@ SFVec2fMultiply(JSContext *cx,
 				jsval *argv,
 				jsval *rval);
 
-//JSBool
-//SFVec2fNegate(JSContext *cx,
-//			  JSObject *obj,
-//			  uintN argc,
-//			  jsval *argv,
-//			  jsval *rval);
+/* JSBool
+SFVec2fNegate(JSContext *cx,
+			  JSObject *obj,
+			  uintN argc,
+			  jsval *argv,
+			  jsval *rval);
+*/
 
 JSBool
 SFVec2fNormalize(JSContext *cx,
@@ -1178,7 +1179,7 @@ static JSFunctionSpec (SFVec2fFunctions)[] = {
 	{"dot", SFVec2fDot, 0},
 	{"length", SFVec2fLength, 0},
 	{"multiply", SFVec2fMultiply, 0},
-	//{"negate", SFVec2fNegate, 0},
+	/* {"negate", SFVec2fNegate, 0}, */
 	{"normalize", SFVec2fNormalize, 0},
 	{"subtract", SFVec2fSubtract, 0},
 	{"toString", SFVec2fToString, 0},

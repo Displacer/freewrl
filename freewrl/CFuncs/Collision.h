@@ -1,4 +1,4 @@
-/* $Id: Collision.h,v 1.9 2005/03/21 13:39:06 crc_canada Exp $
+/* $Id: Collision.h,v 1.10 2005/03/22 13:25:26 crc_canada Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -31,9 +31,9 @@ struct sCollisionInfo {
 
 typedef int prflags;
 #define PR_DOUBLESIDED 0x01
-#define PR_FRONTFACING 0x02 //overrides effect of doublesided.
-#define PR_BACKFACING 0x04 //overrides effect of doublesided, all normals are reversed.
-#define PR_NOSTEPING 0x08 //ignores stepping. used internally
+#define PR_FRONTFACING 0x02 /* overrides effect of doublesided. */
+#define PR_BACKFACING 0x04 /* overrides effect of doublesided, all normals are reversed. */
+#define PR_NOSTEPING 0x08 /* gnores stepping. used internally */
 
 
 /*uncomment this to enable the scene exporting functions */

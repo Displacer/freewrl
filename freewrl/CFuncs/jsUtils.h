@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.5 2005/01/16 20:55:10 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.6 2005/03/22 13:25:26 crc_canada Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -79,7 +79,7 @@ errorReporter(JSContext *cx,
 
 int JSGetProperty(int num, char *script, SV *rstr);
 void JSInit(int num, SV *script);
-//added Dec 13/04 M. Ward
+/* added Dec 13/04 M. Ward */
 void JScleanup(int num );
 
 #endif /* __jsUtils_h__ */
