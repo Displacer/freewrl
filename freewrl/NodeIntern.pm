@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.28 2003/10/09 15:30:34 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.29 2003/11/28 16:17:05 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -790,12 +790,10 @@ sub set_backend_fields {
 			$this->{BackEnd} = $be;
 			$this->set_backend_fields();
 
-			# was this a viewpoint? Was it not in a proto definition?
-			if (($this->{TypeName} eq "Viewpoint")  ||
-			    ($this->{TypeName} eq "GeoViewpoint")) {
+			# is this a bindable node?
+			if ($VRML::Nodes::bindable{$this->{TypeName}}) {
 				if ($this->{BackEnd}) {
-					my $scene = $this->{Scene};
-					VRML::NodeType::register_vp($scene, $this);
+					VRML::Browser::register_bind($this);
 				}
 			}
 		}
