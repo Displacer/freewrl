@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.6 2004/03/04 17:36:27 sdumoulin Exp $
+ * $Id: OpenGL_Utils.c,v 1.7 2004/05/25 15:47:13 crc_canada Exp $
  *
  */
 
@@ -60,10 +60,11 @@ glpOpenGLInitialize()
      * JAS   nodes.
 	 */
 
-	/* glEnable(GL_BLEND); */
-	/* glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA); */
-	glAlphaFunc (GL_GREATER, (float)ref);
-	glEnable (GL_ALPHA_TEST);
+	glEnable(GL_BLEND); 
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glClear(GL_COLOR_BUFFER_BIT);
+	/* glAlphaFunc (GL_GREATER, (float)ref);
+	glEnable (GL_ALPHA_TEST); */
 
 	/* end of ALPHA test */
 	glEnable(GL_NORMALIZE);
