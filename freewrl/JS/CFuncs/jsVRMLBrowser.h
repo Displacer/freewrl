@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.h,v 1.5 2002/12/19 18:45:22 ayla Exp $
+ * $Id: jsVRMLBrowser.h,v 1.6 2003/01/24 22:05:25 ayla Exp $
  * 
  */
 
@@ -35,11 +35,67 @@ VrmlBrowserInit(JSContext *context,
 
 
 JSBool
+VrmlBrowserGetName(JSContext *cx,
+				   JSObject *obj,
+				   uintN argc,
+				   jsval *argv,
+				   jsval *rval);
+
+
+JSBool
 VrmlBrowserGetVersion(JSContext *cx,
 					  JSObject *obj,
 					  uintN argc,
 					  jsval *argv,
 					  jsval *rval);
+
+
+JSBool
+VrmlBrowserGetCurrentSpeed(JSContext *cx,
+					   JSObject *obj,
+					   uintN argc,
+					   jsval *argv,
+					   jsval *rval);
+
+
+JSBool
+VrmlBrowserGetCurrentFrameRate(JSContext *cx,
+						   JSObject *obj,
+						   uintN argc,
+						   jsval *argv,
+						   jsval *rval);
+
+
+JSBool
+VrmlBrowserGetWorldURL(JSContext *cx,
+					   JSObject *obj,
+					   uintN argc,
+					   jsval *argv,
+					   jsval *rval);
+
+
+JSBool
+VrmlBrowserReplaceWorld(JSContext *cx,
+					JSObject *obj,
+					uintN argc,
+					jsval *argv,
+					jsval *rval);
+
+
+JSBool
+VrmlBrowserLoadURL(JSContext *cx,
+				   JSObject *obj,
+				   uintN argc,
+				   jsval *argv,
+				   jsval *rval);
+
+
+JSBool
+VrmlBrowserSetDescription(JSContext *cx,
+						  JSObject *obj,
+						  uintN argc,
+						  jsval *argv,
+						  jsval *rval);
 
 
 JSBool
@@ -51,21 +107,13 @@ VrmlBrowserCreateVrmlFromString(JSContext *cx,
 
 
 JSBool
-VrmlBrowserSetDescription(JSContext *cx,
-						  JSObject *obj,
-						  uintN argc,
-						  jsval *argv,
-						  jsval *rval);
+VrmlBrowserCreateVrmlFromURL(JSContext *cx,
+							 JSObject *obj,
+							 uintN argc,
+							 jsval *argv,
+							 jsval *rval);
 
-		
-JSBool
-VrmlBrowserGetName(JSContext *cx,
-				   JSObject *obj,
-				   uintN argc,
-				   jsval *argv,
-				   jsval *rval);
 
-	
 JSBool
 VrmlBrowserAddRoute(JSContext *cx,
 					JSObject *obj,
@@ -80,59 +128,6 @@ VrmlBrowserDeleteRoute(JSContext *cx,
 					   uintN argc,
 					   jsval *argv,
 					   jsval *rval);
-
-	
-JSBool
-VrmlBrowserCreateVrmlFromURL(JSContext *cx,
-							 JSObject *obj,
-							 uintN argc,
-							 jsval *argv,
-							 jsval *rval);
-
-
-JSBool
-VrmlBrowserLoadURL(JSContext *cx,
-				   JSObject *obj,
-				   uintN argc,
-				   jsval *argv,
-				   jsval *rval);
-
-
-JSBool
-VrmlBrowserGetWorldURL(JSContext *cx,
-					   JSObject *obj,
-					   uintN argc,
-					   jsval *argv,
-					   jsval *rval);
-
-
-#if FALSE		
-/* JSBool */
-/* VrmlBrowserReplaceWorld(JSContext *cx, */
-/* 					JSObject *obj, */
-/* 					uintN argc, */
-/* 					jsval *argv, */
-/* 					jsval *rval); */
-#endif /* FALSE */
-
-
-#if FALSE		
-/* JSBool */
-/* VrmlBrowserGetCurrentSpeed(JSContext *cx, */
-/* 					   JSObject *obj, */
-/* 					   uintN argc, */
-/* 					   jsval *argv, */
-/* 					   jsval *rval); */
-#endif /* FALSE */
-
-
-JSBool
-VrmlBrowserGetCurrentFrameRate(JSContext *cx,
-						   JSObject *obj,
-						   uintN argc,
-						   jsval *argv,
-						   jsval *rval);
-
 
 
 
@@ -151,18 +146,18 @@ static JSClass Browser = {
 
 
 static JSFunctionSpec (BrowserFunctions)[] = {
-	{"createVrmlFromString", VrmlBrowserCreateVrmlFromString, 0},
-	{"createVrmlFromURL", VrmlBrowserCreateVrmlFromURL, 0},
 	{"getName", VrmlBrowserGetName, 0},
 	{"getVersion", VrmlBrowserGetVersion, 0},
+	{"getCurrentSpeed", VrmlBrowserGetCurrentSpeed, 0},
 	{"getCurrentFrameRate", VrmlBrowserGetCurrentFrameRate, 0},
 	{"getWorldURL", VrmlBrowserGetWorldURL, 0},
+/* 	{"replaceWorld", VrmlBrowserReplaceWorld, 0}, */
+/* 	{"loadURL", VrmlBrowserLoadURL, 0}, */
+	{"setDescription", VrmlBrowserSetDescription, 0},
+	{"createVrmlFromString", VrmlBrowserCreateVrmlFromString, 0},
+	{"createVrmlFromURL", VrmlBrowserCreateVrmlFromURL, 0},
 	{"addRoute", VrmlBrowserAddRoute, 0},
 	{"deleteRoute", VrmlBrowserDeleteRoute, 0},
-	{"setDescription", VrmlBrowserSetDescription, 0},
-/* 	{"loadURL", VrmlBrowserLoadURL, 0}, */
-/* 	{"replaceWorld", VrmlBrowserReplaceWorld, 0}, */
-/* 	{"getCurrentSpeed", VrmlBrowserGetCurrentSpeed, 0}, */
 	{0}
 };
 
