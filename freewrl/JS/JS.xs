@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: JS.xs,v 1.3.2.5 2002/08/30 21:10:52 ayla Exp $
+ * $Id: JS.xs,v 1.3.2.6 2002/11/06 16:45:13 ayla Exp $
  * 
  * A substantial amount of code has been adapted from the embedding
  * tutorials from the SpiderMonkey web pages
@@ -16,8 +16,6 @@
  *
  */
 
-#include <EXTERN.h>
-#include <perl.h>
 #include "XSUB.h"
 
 #ifndef __jsUtils_h__
@@ -25,10 +23,10 @@
 #endif
 
 #ifndef __jsVRMLBrowser_h__
-#include "jsVRMLBrowser.h" /* */
+#include "jsVRMLBrowser.h" /* VRML browser script interface implementation */
 #endif
 
-#include "jsVRMLClasses.h" /* */
+#include "jsVRMLClasses.h" /* VRML field type implementation */
 
 
 /* #define MAX_RUNTIME_BYTES 0x100000UL */
@@ -72,9 +70,6 @@ JSBool verbose = 0;
  */
 
 static JSRuntime *runtime;
-/* static BrowserInternal *brow; */
-/* static JSContext *context; */
-/* static JSObject *global; */
 static JSClass globalClass = {
 	"global",
 	0,
@@ -89,7 +84,7 @@ static JSClass globalClass = {
 };
 
 void
-doPerlCallMethod(SV *jssv, const char *methodName)
+doPerlCallMethod(SV *sv, const char *methodName)
 {
 	int count = 0;
 
@@ -97,7 +92,7 @@ doPerlCallMethod(SV *jssv, const char *methodName)
 	ENTER;
 	SAVETMPS;
 	PUSHMARK(sp);
-	XPUSHs(jssv);
+	XPUSHs(sv);
 	PUTBACK;
 	count = perl_call_method(methodName, G_SCALAR);
 	if (count && verbose) {
@@ -108,12 +103,91 @@ doPerlCallMethod(SV *jssv, const char *methodName)
 	LEAVE;
 }
 
-/* TJL_.*Set(..) mostly from VRMLFields.pm -- should be derived from there ... */
+void
+doPerlCallMethodVA(SV *sv, const char *methodName, const char *format, ...)
+{
+	va_list ap; /*will point to each unnamed argument in turn*/
+	char *c;
+	void *v;
+	int count = 0;
+	size_t len = 0;
+	const char *p = format;
+
+	dSP;
+	ENTER;
+	SAVETMPS;
+	PUSHMARK(sp);
+	XPUSHs(sv);
+
+	va_start(ap, format); /* point to first element after format*/
+	while(*p) {
+		switch (*p++) {
+		case 's':
+			c = va_arg(ap, char *);
+			len = strlen(c);
+			c[len] = 0;
+			XPUSHs(sv_2mortal(newSVpv(c, len)));
+			break;
+		case 'p':
+			v = va_arg(ap, void *);
+			XPUSHs(sv_2mortal(newSViv((IV) v)));
+			break;
+		default:
+			fprintf(stderr, "doPerlCallMethodVA: argument type not supported!\n");
+			break;
+		}
+	}
+	va_end(ap);
+
+	PUTBACK;
+	count = perl_call_method(methodName, G_SCALAR);
+	if (count && verbose) {
+		printf("perl_call_method returned %f in doPerlCallMethod.\n", POPn);
+	}
+	PUTBACK;
+	FREETMPS;
+	LEAVE;
+}
+
+
 
 void *
-TJL_SFColorNew()
+SFNodeNativeNew(size_t vrml_handle_length)
 {
-	TJL_SFColor *ptr;
+	SFNodeNative *ptr;
+	size_t string_size = (vrml_handle_length + 1) * sizeof(char *);
+	
+	ptr = malloc(sizeof(*ptr));
+	if (ptr == NULL) {
+		return NULL;
+	}
+	ptr->touched = 0;
+	ptr->vrml_handle = malloc(string_size);
+	if (ptr->vrml_handle == NULL) {
+		return NULL;
+	}
+	memset(ptr->vrml_handle, 0, string_size);
+	return ptr;
+}
+
+void
+SFNodeNativeDelete(void *p)
+{
+	SFNodeNative *ptr;
+	if (p != NULL) {
+		ptr = p;
+		if (ptr->vrml_handle != NULL) {
+			free(ptr->vrml_handle);
+		}
+		free(ptr);
+	}
+}
+
+
+void *
+SFColorNativeNew()
+{
+	SFColorNative *ptr;
 	ptr = malloc(sizeof(*ptr));
 	if (ptr == NULL) {
 		return NULL;
@@ -123,9 +197,9 @@ TJL_SFColorNew()
 }
 
 void
-TJL_SFColorDelete(void *p)
+SFColorNativeDelete(void *p)
 {
-	TJL_SFColor *ptr;
+	SFColorNative *ptr;
 	if (p != NULL) {
 		ptr = p;
 		free(ptr);
@@ -133,25 +207,24 @@ TJL_SFColorDelete(void *p)
 }
 
 void
-TJL_SFColorAssign(void *top, void *fromp)
+SFColorNativeAssign(void *top, void *fromp)
 {
-	TJL_SFColor *to = top;
-	TJL_SFColor *from = fromp;
+	SFColorNative *to = top;
+	SFColorNative *from = fromp;
 	to->touched++;
 	(to->v) = (from->v);
 }
 
 void
-TJL_SFColorSet(void *p, SV *sv)
+SFColorNativeSet(void *p, SV *sv)
 {
+	SFColorNative *ptr = p;
 	AV *a;
 	SV **b;
 	int i;
-	TJL_SFColor *ptr = p;
-	ptr->touched = 0;
 
 	if (verbose) {
-		printf("TJL_SFColorSet:\n");
+		printf("SFColorNativeSet:\n");
 	}
 
 	if (!SvROK(sv)) {
@@ -164,26 +237,27 @@ TJL_SFColorSet(void *p, SV *sv)
 
 	} else {
 		if (SvTYPE(SvRV(sv)) != SVt_PVAV) {
-			fprintf(stderr, "SFColor without being arrayref in TJL_SFColorSet.\n");
+			fprintf(stderr, "SFColor without being arrayref in SFColorNativeSet.\n");
 			return;
 		}
 		a = (AV *) SvRV(sv);
 		for (i = 0; i < 3; i++) {
 			b = av_fetch(a, i, 1); /* LVal for easiness */
 			if (!b) {
-				fprintf(stderr, "SFColor b is NULL in TJL_SFColorSet.\n");
+				fprintf(stderr, "SFColor b is NULL in SFColorNativeSet.\n");
 				return;
 			}
 			(ptr->v).c[i] = SvNV(*b);
 		}
 	}
+	ptr->touched = 0;
 }
 
 
 void *
-TJL_SFImageNew()
+SFImageNativeNew()
 {
-	TJL_SFImage *ptr;
+	SFImageNative *ptr;
 	ptr = malloc(sizeof(*ptr));
 	if (ptr == NULL) {
 		return NULL;
@@ -194,9 +268,9 @@ TJL_SFImageNew()
 }
 
 void
-TJL_SFImageDelete(void *p)
+SFImageNativeDelete(void *p)
 {
-	TJL_SFImage *ptr;
+	SFImageNative *ptr;
 	if (p != NULL) {
 		ptr = p;
 		if ((ptr->v).__data != NULL) {
@@ -207,22 +281,21 @@ TJL_SFImageDelete(void *p)
 }
 
 void
-TJL_SFImageAssign(void *top, void *fromp)
+SFImageNativeAssign(void *top, void *fromp)
 {
-	TJL_SFImage *to = top;
-	TJL_SFImage *from = fromp;
+	SFImageNative *to = top;
+	SFImageNative *from = fromp;
 	to->touched++;
 	(to->v) = (from->v);
 }
 
 void
-TJL_SFImageSet(void *p, SV *sv)
+SFImageNativeSet(void *p, SV *sv)
 {
+	SFImageNative *ptr = p;
 	AV *a;
 	SV **__data, **__x, **__y, **__depth, **__texture;
 	STRLEN pl_na;
-	TJL_SFImage *ptr = p;
-	ptr->touched = 0;
 
 	if (!SvROK(sv)) {
 		(ptr->v).__x = 0;
@@ -231,7 +304,7 @@ TJL_SFImageSet(void *p, SV *sv)
 		(ptr->v).__data = "";
 		(ptr->v).__texture = 0;
 	} else if (SvTYPE(SvRV(sv)) != SVt_PVAV) {
-			fprintf(stderr, "SFImage without being arrayref in TJL_SFImageSet.\n");
+			fprintf(stderr, "SFImage without being arrayref in SFImageNativeSet.\n");
 			return;
 	} else {
 		a = (AV *) SvRV(sv);
@@ -239,7 +312,7 @@ TJL_SFImageSet(void *p, SV *sv)
 		/* __x */
 		__x = av_fetch(a, 0, 1); /* LVal for easiness */
 		if (!__x) {
-			fprintf(stderr, "SFImage __x is NULL in TJL_SFColorSet.\n");
+			fprintf(stderr, "SFImage __x is NULL in SFImageNativeSet.\n");
 			return;
 		}
 		(ptr->v).__x = SvNV(*__x);
@@ -247,7 +320,7 @@ TJL_SFImageSet(void *p, SV *sv)
 		/* __y */
 		__y = av_fetch(a, 1, 1); /* LVal for easiness */
 		if (!__y) {
-			fprintf(stderr, "SFImage __y is NULL in TJL_SFColorSet.\n");
+			fprintf(stderr, "SFImage __y is NULL in SFImageNativeSet.\n");
 			return;
 		}
 		(ptr->v).__y = SvNV(*__y);
@@ -255,7 +328,7 @@ TJL_SFImageSet(void *p, SV *sv)
 		/* __depth */
 		__depth = av_fetch(a, 2, 1); /* LVal for easiness */
 		if (!__depth) {
-			fprintf(stderr, "SFImage __depth is NULL in TJL_SFColorSet.\n");
+			fprintf(stderr, "SFImage __depth is NULL in SFImageNativeSet.\n");
 			return;
 		}
 		(ptr->v).__depth = SvNV(*__depth);
@@ -264,7 +337,7 @@ TJL_SFImageSet(void *p, SV *sv)
 		/* __data = av_fetch(a, 4, 1); */ /* LVal for easiness */
 		__data = av_fetch(a, 3, 1); /* ??? */ /* LVal for easiness */
 		if (!__data) {
-			fprintf(stderr, "SFImage __data is NULL in TJL_SFColorSet.\n");
+			fprintf(stderr, "SFImage __data is NULL in SFImageNativeSet.\n");
 			return;
 		}
 		/* XXX change to allow memory reallocation */
@@ -273,18 +346,19 @@ TJL_SFImageSet(void *p, SV *sv)
 		/* __texture */
 		__texture = av_fetch(a, 4, 1); /* ??? */ /* LVal for easiness */
 		if (!__texture) {
-			fprintf(stderr, "SFImage __texture is NULL in TJL_SFColorSet.\n");
+			fprintf(stderr, "SFImage __texture is NULL in SFImageNativeSet.\n");
 			return;
 		}
 		(ptr->v).__texture = SvNV(*__texture);
 	}
+	ptr->touched = 0;
 }
 
 
 void *
-TJL_SFRotationNew()
+SFRotationNativeNew()
 {
-	TJL_SFRotation *ptr;
+	SFRotationNative *ptr;
 	ptr = malloc(sizeof(*ptr));
 	if (ptr == NULL) {
 		return NULL;
@@ -294,9 +368,9 @@ TJL_SFRotationNew()
 }
 
 void
-TJL_SFRotationDelete(void *p)
+SFRotationNativeDelete(void *p)
 {
-	TJL_SFRotation *ptr;
+	SFRotationNative *ptr;
 	if (p != NULL) {
 		ptr = p;
 		free(ptr);
@@ -304,25 +378,24 @@ TJL_SFRotationDelete(void *p)
 }
 
 void
-TJL_SFRotationAssign(void *top, void *fromp)
+SFRotationNativeAssign(void *top, void *fromp)
 {
-	TJL_SFRotation *to = top;
-	TJL_SFRotation *from = fromp;
+	SFRotationNative *to = top;
+	SFRotationNative *from = fromp;
 	to->touched++;
 	(to->v) = (from->v);
 }
 
 void
-TJL_SFRotationSet(void *p, SV *sv)
+SFRotationNativeSet(void *p, SV *sv)
 {
+	SFRotationNative *ptr = p;
 	AV *a;
 	SV **b;
 	int i;
-	TJL_SFRotation *ptr = p;
-	ptr->touched = 0;
 
 	if (verbose) {
-		printf("TJL_SFRotationSet:\n");
+		printf("SFRotationNativeSet:\n");
 	}
 
 	if (!SvROK(sv)) {
@@ -336,26 +409,27 @@ TJL_SFRotationSet(void *p, SV *sv)
 		(ptr->v).r[3] = 0;
 	} else {
 		if (SvTYPE(SvRV(sv)) != SVt_PVAV) {
-			fprintf(stderr, "SFRotation without being arrayref in TJL_SFRotationSet.\n");
+			fprintf(stderr, "SFRotation without being arrayref in SFRotationNativeSet.\n");
 			return;
 		}
 		a = (AV *) SvRV(sv);
 		for (i = 0; i < 4; i++) {
 			b = av_fetch(a, i, 1); /* LVal for easiness */
 			if (!b) {
-				fprintf(stderr, "SFRotation b is NULL in TJL_SFRotationSet.\n");
+				fprintf(stderr, "SFRotation b is NULL in SFRotationNativeSet.\n");
 				return;
 			}
 			(ptr->v).r[i] = SvNV(*b);
 		}
 	}
+	ptr->touched = 0;
 }
 
 
 void *
-TJL_SFVec2fNew()
+SFVec2fNativeNew()
 {
-	TJL_SFVec2f *ptr;
+	SFVec2fNative *ptr;
 	ptr = malloc(sizeof(*ptr));
 	if (ptr == NULL) {
 		return NULL;
@@ -365,9 +439,9 @@ TJL_SFVec2fNew()
 }
 
 void
-TJL_SFVec2fDelete(void *p)
+SFVec2fNativeDelete(void *p)
 {
-	TJL_SFVec2f *ptr;
+	SFVec2fNative *ptr;
 	if (p != NULL) {
 		ptr = p;
 		free(ptr);
@@ -375,25 +449,25 @@ TJL_SFVec2fDelete(void *p)
 }
 
 void
-TJL_SFVec2fAssign(void *top, void *fromp)
+SFVec2fNativeAssign(void *top, void *fromp)
 {
-	TJL_SFVec2f *to = top;
-	TJL_SFVec2f *from = fromp;
+	SFVec2fNative *to = top;
+	SFVec2fNative *from = fromp;
 	to->touched++;
 	(to->v) = (from->v);
 }
 
 void
-TJL_SFVec2fSet(void *p, SV *sv)
+SFVec2fNativeSet(void *p, SV *sv)
 {
 	AV *a;
 	SV **b;
 	int i;
-	TJL_SFVec2f *ptr = p;
+	SFVec2fNative *ptr = p;
 	ptr->touched = 0;
 
 	if (verbose) {
-		printf("TJL_SFVec2fSet:\n");
+		printf("SFVec2fNativeSet:\n");
 	}
 
 	if (!SvROK(sv)) {
@@ -403,14 +477,14 @@ TJL_SFVec2fSet(void *p, SV *sv)
 			printf("\thardcoded vec2f values\n");
 		}
 	} else if (SvTYPE(SvRV(sv)) != SVt_PVAV) {
-			fprintf(stderr, "SFVec2f without being arrayref in TJL_SFVec2fSet.\n");
+			fprintf(stderr, "SFVec2f without being arrayref in SFVec2fNativeSet.\n");
 			return;
 	} else {
 		a = (AV *) SvRV(sv);
 		for (i = 0; i < 2; i++) {
 			b = av_fetch(a, i, 1); /* LVal for easiness */
 			if (!b) {
-				fprintf(stderr, "SFVec2f b is NULL in TJL_SFVec2f.\n");
+				fprintf(stderr, "SFVec2f b is NULL in SFVec2fNativeSet.\n");
 				return;
 			}
 			(ptr->v).c[i] = SvNV(*b);
@@ -425,9 +499,9 @@ TJL_SFVec2fSet(void *p, SV *sv)
 
 
 void *
-TJL_SFVec3fNew()
+SFVec3fNativeNew()
 {
-	TJL_SFVec3f *ptr;
+	SFVec3fNative *ptr;
 	ptr = malloc(sizeof(*ptr));
 	if (ptr == NULL) {
 		return NULL;
@@ -437,9 +511,9 @@ TJL_SFVec3fNew()
 }
 
 void
-TJL_SFVec3fDelete(void *p)
+SFVec3fNativeDelete(void *p)
 {
-	TJL_SFVec3f *ptr;
+	SFVec3fNative *ptr;
 	if (p != NULL) {
 		ptr = p;
 		free(ptr);
@@ -447,25 +521,25 @@ TJL_SFVec3fDelete(void *p)
 }
 
 void
-TJL_SFVec3fAssign(void *top, void *fromp)
+SFVec3fNativeAssign(void *top, void *fromp)
 {
-	TJL_SFVec3f *to = top;
-	TJL_SFVec3f *from = fromp;
+	SFVec3fNative *to = top;
+	SFVec3fNative *from = fromp;
 	to->touched++;
 	(to->v) = (from->v);
 }
 
 void
-TJL_SFVec3fSet(void *p, SV *sv)
+SFVec3fNativeSet(void *p, SV *sv)
 {
 	AV *a;
 	SV **b;
 	int i;
-	TJL_SFVec3f *ptr = p;
+	SFVec3fNative *ptr = p;
 	ptr->touched = 0;
 
 	if (verbose) {
-		printf("TJL_SFVec3fSet:\n");
+		printf("SFVec3fNativeSet:\n");
 	}
 
 	if (!SvROK(sv)) {
@@ -476,14 +550,14 @@ TJL_SFVec3fSet(void *p, SV *sv)
 			printf("\thardcoded vec3f values\n");
 		}
 	} else if (SvTYPE(SvRV(sv)) != SVt_PVAV) {
-			fprintf(stderr, "SFVec3f without being arrayref in TJL_SFVec3fSet.\n");
+			fprintf(stderr, "SFVec3f without being arrayref in SFVec3fNativeSet.\n");
 			return;
 	} else {
 		a = (AV *) SvRV(sv);
 		for (i = 0; i < 3; i++) {
 			b = av_fetch(a, i, 1); /* LVal for easiness */
 			if (!b) {
-				fprintf(stderr, "SFVec3f b is NULL in TJL_SFVec3f.\n");
+				fprintf(stderr, "SFVec3f b is NULL in SFVec3fNativeSet.\n");
 				return;
 			}
 			(ptr->v).c[i] = SvNV(*b);
@@ -514,15 +588,15 @@ CODE:
 
 
 void
-init(context, global, brow, jssv)
+init(context, global, brow, sv_js)
 	void *context
 	void *global
 	void *brow
-	SV *jssv
+	SV *sv_js
 CODE:
 {
     JSContext *cx;
-	BrowserInternal *br;
+	BrowserNative *br;
 	JSObject *glob;
 
 	if (verbose) {
@@ -574,22 +648,23 @@ CODE:
 		printf("\tJS errror reporter set,\n");
 	}
 
-	br = (BrowserInternal *) JS_malloc(context, sizeof(BrowserInternal));
-	br->jssv = newSVsv(jssv); /* new duplicate of jssv */
+	br = (BrowserNative *) JS_malloc(context, sizeof(BrowserNative));
+	/* needed ??? */
+	br->sv_js = newSVsv(sv_js); /* new duplicate of sv_js */
 	br->magic = BROWMAGIC;
 	brow = br;
 	
-	if (!loadVRMLClasses(cx, glob)) {
-	/* if (!LoadVRMLClasses(context, global)) { */
-		die("loadVRMLClasses failed");
+	if (!loadVrmlClasses(cx, glob)) {
+	/* if (!LoadVrmlClasses(context, global)) { */
+		die("loadVrmlClasses failed");
 	}
 	if (verbose) {
 		printf("\tVRML classes loaded,\n");
 	}
 
-	if (!VRMLBrowserInit(cx, glob, br)) {
-	/* if (!VRMLBrowserInit(context, global, brow)) { */
-		die("VRMLBrowserInit failed");
+	if (!VrmlBrowserInit(cx, glob, br)) {
+	/* if (!VrmlBrowserInit(context, global, brow)) { */
+		die("VrmlBrowserInit failed");
 	}
 	if (verbose) {
 		printf("\tVRML browser initialized\n");
@@ -599,7 +674,7 @@ OUTPUT:
 context
 global
 brow
-jssv
+sv_js
 
 void
 cleanupJS(cx, br)
@@ -607,7 +682,7 @@ cleanupJS(cx, br)
 	void *br
 CODE:
 {
-	BrowserInternal *brow = br;
+	BrowserNative *brow = br;
 	JSContext *context = cx;
 
 	printf("cleanupJS:\n");
@@ -621,10 +696,7 @@ CODE:
 	/* printf("\tJS context destroyed!!!\n"); */
 
 	JS_DestroyRuntime(runtime);
-	printf("\tJS runtime destroyed!!!\n");
-
     JS_ShutDown();
-	printf("\tJS shutdown!!!\n");
 }
 
 
@@ -646,7 +718,7 @@ CODE:
 	JSContext *context = cx;
 
 	if (verbose) {
-		printf("runScript: \"%s\"\n", script);
+		printf("runScript: \"%s\", ", script);
 	}
 	len = strlen(script);
 	if (!JS_EvaluateScript(context, _obj, script, len,
@@ -658,26 +730,34 @@ CODE:
 	strval = JS_ValueToString(context, rval);
 	strp = JS_GetStringBytes(strval);
 	sv_setpv(rstr, strp);
-	printf("runscript: strp = %s\n", strp);
+	if (verbose) {
+		printf("strp = %s, ", strp);
+	}
 
 	if (!JS_ValueToNumber(context, rval, &dval)) {
 		fprintf(stderr, "JS_ValueToNumber failed.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
-	printf("runscript: dval = %f\n", dval);
+	if (verbose) {
+		printf("dval = %f\n", dval);
+	}
 	sv_setnv(rnum, dval);
+	//cx = context;
+	//obj = _obj;
 
 	RETVAL = JS_TRUE;
 }
 OUTPUT:
 RETVAL
+cx
+obj
 rstr
 rnum
 
 
 JSBool
-SFColorSetInternal(cx, obj, name, sv)
+jsSFColorSet(cx, obj, name, sv)
 	void *cx
 	void *obj
 	char *name
@@ -692,27 +772,26 @@ CODE:
 	_cx = cx;
 	_obj = obj;
 	if (verbose) {
-		printf("SFColorSetInternal: obj = %u, name = %s\n", (unsigned int) _obj, name);
+		printf("jsSFColorSet: obj = %u, name = %s\n", (unsigned int) _obj, name);
 	}
 	if (!JS_GetProperty(_cx, _obj, name, &v)) {
-		fprintf(stderr, "JS_GetProperty failed in SFColorSetInternal.\n");
+		fprintf(stderr, "JS_GetProperty failed in jsSFColorSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
 	if (!JSVAL_IS_OBJECT(v)) {
-		fprintf(stderr, "JSVAL_IS_OBJECT failed in SFColorSetInternal.\n");
+		fprintf(stderr, "JSVAL_IS_OBJECT failed in jsSFColorSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
 	_o = JSVAL_TO_OBJECT(v);
 
-	/* set_SFColor(JS_GetPrivate(cx,obj), sv); */
 	if ((privateData = JS_GetPrivate(_cx, _o)) == NULL) {
-		fprintf(stderr, "JS_GetPrivate failed in SFColorSetInternal.\n");
+		fprintf(stderr, "JS_GetPrivate failed in jsSFColorSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
-	TJL_SFColorSet(privateData, sv);
+	SFColorNativeSet(privateData, sv);
 	RETVAL = JS_TRUE;
 }
 OUTPUT:
@@ -723,7 +802,7 @@ sv
 
 
 JSBool
-SFImageSetInternal(cx, obj, name, sv)
+jsSFImageSet(cx, obj, name, sv)
 	void *cx
 	void *obj
 	char *name
@@ -738,27 +817,26 @@ CODE:
 	_cx = cx;
 	_obj = obj;
 	if (verbose) {
-		printf("SFImageSetInternal: obj = %u, name = %s\n", (unsigned int) _obj, name);
+		printf("jsSFImageSet: obj = %u, name = %s\n", (unsigned int) _obj, name);
 	}
 	if (!JS_GetProperty(_cx, _obj, name, &v)) {
-		fprintf(stderr, "JS_GetProperty failed in SFImageSetInternal.\n");
+		fprintf(stderr, "JS_GetProperty failed in jsSFImageSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
 	if (!JSVAL_IS_OBJECT(v)) {
-		fprintf(stderr, "JSVAL_IS_OBJECT failed in SFImageSetInternal.\n");
+		fprintf(stderr, "JSVAL_IS_OBJECT failed in jsSFImageSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
 	_o = JSVAL_TO_OBJECT(v);
 
-	/* set_SFColor(JS_GetPrivate(cx,obj), sv); */
 	if ((privateData = JS_GetPrivate(_cx, _o)) == NULL) {
-		fprintf(stderr, "JS_GetPrivate failed in SFColorSetInternal.\n");
+		fprintf(stderr, "JS_GetPrivate failed in jsSFColorSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
-	TJL_SFImageSet(privateData, sv);
+	SFImageNativeSet(privateData, sv);
 	RETVAL = JS_TRUE;
 }
 OUTPUT:
@@ -769,7 +847,7 @@ sv
 
 
 JSBool
-SFVec2fSetInternal(cx, obj, name, sv)
+jsSFVec2fSet(cx, obj, name, sv)
 	void *cx
 	void *obj
 	char *name
@@ -784,26 +862,26 @@ CODE:
 	_cx = cx;
 	_obj = obj;
 	if (verbose) {
-		printf("SFVec2fSetInternal: obj = %u, name = %s\n", (unsigned int) _obj, name);
+		printf("jsSFVec2fSet: obj = %u, name = %s\n", (unsigned int) _obj, name);
 	}
 	if(!JS_GetProperty(_cx, _obj, name, &v)) {
-		fprintf(stderr, "JS_GetProperty failed in SFVec2fSetInternal.\n");
+		fprintf(stderr, "JS_GetProperty failed in jsSFVec2fSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
 	if(!JSVAL_IS_OBJECT(v)) {
-		fprintf(stderr, "JSVAL_IS_OBJECT failed in SFVec2fSetInternal.\n");
+		fprintf(stderr, "JSVAL_IS_OBJECT failed in jsSFVec2fSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
 	_o = JSVAL_TO_OBJECT(v);
 
 	if ((privateData = JS_GetPrivate(_cx, _o)) == NULL) {
-		fprintf(stderr, "JS_GetPrivate failed in SFVec2fSetInternal.\n");
+		fprintf(stderr, "JS_GetPrivate failed in jsSFVec2fSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
-	TJL_SFVec2fSet(privateData, sv);
+	SFVec2fNativeSet(privateData, sv);
 	RETVAL = JS_TRUE;
 }
 OUTPUT:
@@ -814,7 +892,7 @@ sv
 
 
 JSBool
-SFVec3fSetInternal(cx, obj, name, sv)
+jsSFVec3fSet(cx, obj, name, sv)
 	void *cx
 	void *obj
 	char *name
@@ -829,27 +907,26 @@ CODE:
 	_cx = cx;
 	_obj = obj;
 	if (verbose) {
-		printf("SFVec3fSetInternal: obj = %u, name = %s\n", (unsigned int) _obj, name);
+		printf("jsSFVec3fSet: obj = %u, name = %s\n", (unsigned int) _obj, name);
 	}
 	if(!JS_GetProperty(_cx, _obj, name, &v)) {
-		fprintf(stderr, "JS_GetProperty failed in SFVec3fSetInternal.\n");
+		fprintf(stderr, "JS_GetProperty failed in jsSFVec3fSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
 	if(!JSVAL_IS_OBJECT(v)) {
-		fprintf(stderr, "JSVAL_IS_OBJECT failed in SFVec3fSetInternal.\n");
+		fprintf(stderr, "JSVAL_IS_OBJECT failed in jsSFVec3fSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
 	_o = JSVAL_TO_OBJECT(v);
 
-	/* set_SFVec3f(JS_GetPrivate(cx, obj), sv); */
 	if ((privateData = JS_GetPrivate(_cx, _o)) == NULL) {
-		fprintf(stderr, "JS_GetPrivate failed in SFVec3fSetInternal.\n");
+		fprintf(stderr, "JS_GetPrivate failed in jsSFVec3fSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
-	TJL_SFVec3fSet(privateData, sv);
+	SFVec3fNativeSet(privateData, sv);
 	RETVAL = JS_TRUE;
 }
 OUTPUT:
@@ -860,7 +937,7 @@ sv
 
 
 JSBool
-SFRotationSetInternal(cx, obj, name, sv)
+jsSFRotationSet(cx, obj, name, sv)
 	void *cx
 	void *obj
 	char *name
@@ -875,27 +952,26 @@ CODE:
 	_cx = cx;
 	_obj = obj;
 	if (verbose) {
-		printf("SFRotationSetInternal: obj = %u, name = %s\n", (unsigned int) _obj, name);
+		printf("jsSFRotationSet: obj = %u, name = %s\n", (unsigned int) _obj, name);
 	}
 	if (!JS_GetProperty(_cx, _obj, name, &v)) {
-		fprintf(stderr, "JS_GetProperty failed in SFRotationSetInternal.\n");
+		fprintf(stderr, "JS_GetProperty failed in jsSFRotationSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
 	if (!JSVAL_IS_OBJECT(v)) {
-		fprintf(stderr, "JSVAL_IS_OBJECT failed in SFRotationSetInternal.\n");
+		fprintf(stderr, "JSVAL_IS_OBJECT failed in jsSFRotationSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
 	_o = JSVAL_TO_OBJECT(v);
 
-	/* set_SFRotation(JS_GetPrivate(cx,obj), sv); */
 	if ((privateData = JS_GetPrivate(_cx, _o)) == NULL) {
-		fprintf(stderr, "JS_GetPrivate failed in SFRotationSetInternal.\n");
+		fprintf(stderr, "JS_GetPrivate failed in jsSFRotationSet.\n");
 		RETVAL = JS_FALSE;
 		return;
 	}
-	TJL_SFRotationSet(privateData, sv);
+	SFRotationNativeSet(privateData, sv);
 	RETVAL = JS_TRUE;
 }
 OUTPUT:
@@ -933,7 +1009,7 @@ CODE:
 		return;
 	}
 	if (JSVAL_IS_OBJECT(_rval)) {
-		printf("addAssignProperty: _rval = %ld\n", _rval);
+		// printf("addAssignProperty: _rval = %ld\n", _rval);
 	}
 	if (!JS_DefineProperty(context, globalObj,
 						   name, _rval, getAssignProperty, setAssignProperty,
@@ -945,6 +1021,8 @@ CODE:
 		RETVAL = JS_FALSE;
 		return;
 	}
+	//cx = context;
+	//glob = globalObj;
 	RETVAL = JS_TRUE;
 }
 OUTPUT:
@@ -995,6 +1073,8 @@ CODE:
 		RETVAL = JS_FALSE;
 		return;
 	}
+	//cx = context;
+	//glob = globalObj;
 	RETVAL = JS_TRUE;
 }
 OUTPUT:

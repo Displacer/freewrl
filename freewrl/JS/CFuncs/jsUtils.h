@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.1.2.3 2002/08/30 04:53:50 ayla Exp $
+ * $Id: jsUtils.h,v 1.1.2.4 2002/11/06 16:45:14 ayla Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -14,10 +14,12 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <EXTERN.h>
 #include <perl.h>
 
+#include "Structs.h" /* FreeWRL C structs */
 
 #include "jsapi.h" /* JS compiler */
 #include "jsdbgapi.h" /* JS debugger */
@@ -42,7 +44,42 @@ extern JSBool verbose;
 static JSBool reportWarnings = JS_TRUE;
 
 extern void
-doPerlCallMethod(SV *jssv, const char *methodName);
+doPerlCallMethod(SV *sv, const char *methodName);
+
+extern void
+doPerlCallMethodVA(SV *sv, const char *methodName, const char *format, ...);
+
+
+typedef struct _SFNodeNative {
+	int touched;
+	char *vrml_handle;
+} SFNodeNative;
+
+typedef struct _SFRotationNative {
+	int touched;
+	struct SFRotation v;
+} SFRotationNative;
+
+typedef struct _SFVec2fNative {
+	int touched; 
+	struct SFVec2f v;
+} SFVec2fNative;
+
+typedef struct _SFVec3fNative {
+	int touched; 
+	struct SFColor v;
+} SFVec3fNative;
+
+typedef struct _SFImageNative {
+	int touched; 
+	struct SFImage v;
+} SFImageNative;
+
+typedef struct _SFColorNative {
+	int touched; 
+	struct SFColor v;
+} SFColorNative;
+
 
 void
 reportWarningsOn(void);

@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.h,v 1.1.2.3 2002/08/30 04:56:18 ayla Exp $
+ * $Id: jsVRMLClasses.h,v 1.1.2.4 2002/11/06 16:45:15 ayla Exp $
  * 
  * Complex VRML nodes as Javascript classes.
  *
@@ -21,9 +21,11 @@
 #include "jsUtils.h"
 #endif /* __jsUtils_h__ */
 
-#include "jsVRMLBrowser.h"
+/* FreeWRL C headers */
 #include "Structs.h"
-#include "LinearAlgebra.h" /* do the math */
+#include "LinearAlgebra.h" /* FreeWRL math */
+
+#include "jsVRMLBrowser.h"
 
 #define INIT_ARGC_IMG 3
 #define INIT_ARGC 3
@@ -78,7 +80,7 @@ JSBool
 globalResolve(JSContext *cx, JSObject *obj, jsval id);
 
 JSBool
-loadVRMLClasses(JSContext *context,
+loadVrmlClasses(JSContext *context,
 				JSObject *globalObj);
 
 JSBool
@@ -91,8 +93,7 @@ JSBool
 addAssignProperty(void *cx,
 				  void *glob,
 				  char *name,
-				  char *str,
-				  void *robj);
+				  char *str);
 
 /*
  * Adds additional (touchable) property to instance of an existing
@@ -115,6 +116,12 @@ setAssignProperty(JSContext *context,
 				  jsval id,
 				  jsval *vp);
 
+extern void *
+SFNodeNativeNew(size_t vrml_handle_length);
+
+extern void
+SFNodeNativeDelete(void *p);
+
 JSBool
 SFNodeConstr(JSContext *cx,
 			 JSObject *obj,
@@ -123,10 +130,8 @@ SFNodeConstr(JSContext *cx,
 			 jsval *rval);
 
 JSBool
-SFNodeGetProperty(JSContext *cx,
-				  JSObject *obj,
-				  jsval id,
-				  jsval *vp);
+SFNodeFinalize(JSContext *cx,
+			   JSObject *obj);
 
 JSBool
 SFNodeSetProperty(JSContext *cx,
@@ -134,17 +139,26 @@ SFNodeSetProperty(JSContext *cx,
 				  jsval id,
 				  jsval *vp);
 
+#if FALSE
+/* JSBool */
+/* SFNodeGetProperty(JSContext *cx, */
+/* 				  JSObject *obj, */
+/* 				  jsval id, */
+/* 				  jsval *vp); */
+#endif
+
+
 extern void *
-TJL_SFColorNew(void);
+SFColorNativeNew(void);
 
 extern void
-TJL_SFColorDelete(void *p);
+SFColorNativeDelete(void *p);
 
 extern void
-TJL_SFColorAssign(void *top, void *fromp);
+SFColorNativeAssign(void *top, void *fromp);
 
 extern void
-TJL_SFColorSet(void *p, SV *sv);
+SFColorNativeSet(void *p, SV *sv);
 
 
 JSBool
@@ -191,24 +205,18 @@ JSBool
 SFColorFinalize(JSContext *cx,
 				JSObject *obj);
 
-JSBool
-SFColorSetInternal(void *cx,
-				   void *globalObj,
-				   char *name,
-				   SV *sv);
-
 
 extern void *
-TJL_SFImageNew(void);
+SFImageNativeNew(void);
 
 extern void
-TJL_SFImageDelete(void *p);
+SFImageNativeDelete(void *p);
 
 extern void
-TJL_SFImageAssign(void *top, void *fromp);
+SFImageNativeAssign(void *top, void *fromp);
 
 extern void
-TJL_SFImageSet(void *p, SV *sv);
+SFImageNativeSet(void *p, SV *sv);
 
 
 JSBool
@@ -255,24 +263,17 @@ SFImageSetProperty(JSContext *cx,
 				   jsval id,
 				   jsval *vp);
 
-JSBool
-SFImageSetInternal(void *cx,
-				   void *globalObj,
-				   char *name,
-				   SV *sv);
-
-
 extern void *
-TJL_SFVec2fNew(void);
+SFVec2fNativeNew(void);
 
 extern void
-TJL_SFVec2fDelete(void *p);
+SFVec2fNativeDelete(void *p);
 
 extern void
-TJL_SFVec2fAssign(void *top, void *fromp);
+SFVec2fNativeAssign(void *top, void *fromp);
 
 extern void
-TJL_SFVec2fSet(void *p, SV *sv);
+SFVec2fNativeSet(void *p, SV *sv);
 
 
 JSBool
@@ -354,24 +355,17 @@ SFVec2fSetProperty(JSContext *cx,
 				   jsval id,
 				   jsval *vp);
 
-JSBool
-SFVec2fSetInternal(void *cx,
-				   void *globalObj,
-				   char *name,
-				   SV *sv);
-
-
 extern void *
-TJL_SFVec3fNew(void);
+SFVec3fNativeNew(void);
 
 extern void
-TJL_SFVec3fDelete(void *p);
+SFVec3fNativeDelete(void *p);
 
 extern void
-TJL_SFVec3fAssign(void *top, void *fromp);
+SFVec3fNativeAssign(void *top, void *fromp);
 
 extern void
-TJL_SFVec3fSet(void *p, SV *sv);
+SFVec3fNativeSet(void *p, SV *sv);
 
 
 JSBool
@@ -460,23 +454,17 @@ SFVec3fSetProperty(JSContext *cx,
 				   jsval id,
 				   jsval *vp);
 
-JSBool
-SFVec3fSetInternal(void *cx,
-				   void *globalObj,
-				   char *name,
-				   SV *sv);
-
 extern void *
-TJL_SFRotationNew(void);
+SFRotationNativeNew(void);
 
 extern void
-TJL_SFRotationDelete(void *p);
+SFRotationNativeDelete(void *p);
 
 extern void
-TJL_SFRotationAssign(void *top, void *fromp);
+SFRotationNativeAssign(void *top, void *fromp);
 
 extern void
-TJL_SFRotationSet(void *p, SV *sv);
+SFRotationNativeSet(void *p, SV *sv);
 
 
 JSBool
@@ -538,13 +526,6 @@ SFRotationSetProperty(JSContext *cx,
 					  jsval *vp);
 
 JSBool
-SFRotationSetInternal(void *cx,
-					  void *globalObj,
-					  char *name,
-					  SV *sv);
-
-
-JSBool
 MFColorConstr(JSContext *cx,
 			  JSObject *obj,
 			  uintN argc,
@@ -566,6 +547,33 @@ MFColorSetProperty(JSContext *cx,
 
 JSBool
 MFColorAddProperty(JSContext *cx,
+				   JSObject *obj,
+				   jsval id,
+				   jsval *vp);
+
+
+JSBool
+MFVec2fConstr(JSContext *cx,
+			  JSObject *obj,
+			  uintN argc,
+			  jsval *argv,
+			  jsval *rval);
+
+JSBool
+MFVec2fAssign(JSContext *cx,
+			  JSObject *obj,
+			  uintN argc,
+			  jsval *argv,
+			  jsval *rval);
+
+JSBool 
+MFVec2fSetProperty(JSContext *cx,
+				   JSObject *obj,
+				   jsval id,
+				   jsval *vp);
+
+JSBool
+MFVec2fAddProperty(JSContext *cx,
 				   JSObject *obj,
 				   jsval id,
 				   jsval *vp);
@@ -693,23 +701,18 @@ static JSClass SFNodeClass = {
 	JSCLASS_HAS_PRIVATE,
 	JS_PropertyStub,
 	JS_PropertyStub,
-	SFNodeGetProperty,
+	JS_PropertyStub,
+/* 	SFNodeGetProperty, */
 	SFNodeSetProperty,
 	JS_EnumerateStub,
 	JS_ResolveStub,
 	JS_ConvertStub,
-	JS_FinalizeStub
+	SFNodeFinalize
 };
 
 static JSFunctionSpec (SFNodeFunctions)[] = {{0}};
 
 JSObject *proto_SFRotation;
-
-
-typedef struct _TJL_SFRotation {
-	int touched; 
-	struct SFRotation v;
-} TJL_SFRotation;
 
 
 static JSClass SFRotationClass = {
@@ -745,11 +748,6 @@ static JSFunctionSpec (SFRotationFunctions)[] = {
 
 static JSObject *proto_SFColor;
 
-typedef struct _TJL_SFColor {
-	int touched; 
-	struct SFColor v;
-} TJL_SFColor;
-
 static JSClass SFColorClass = {
 	"SFColor",
 	JSCLASS_HAS_PRIVATE,
@@ -778,11 +776,6 @@ static JSFunctionSpec (SFColorFunctions)[] = {
 };
 
 static JSObject *proto_SFImage;
-
-typedef struct _TJL_SFImage {
-	int touched; 
-	struct SFImage v;
-} TJL_SFImage;
 
 
 static JSClass SFImageClass = {
@@ -816,11 +809,6 @@ static JSFunctionSpec (SFImageFunctions)[] = {
 
 
 JSObject *proto_SFVec3f;
-
-typedef struct _TJL_SFVec3f {
-	int touched; 
-	struct SFColor v;
-} TJL_SFVec3f;
 
 static JSClass SFVec3fClass = {
 	"SFVec3f",
@@ -856,11 +844,6 @@ static JSFunctionSpec (SFVec3fFunctions)[] = {
 };
 
 JSObject *proto_SFVec2f;
-
-typedef struct _TJL_SFVec2f {
-	int touched; 
-	struct SFVec2f v;
-} TJL_SFVec2f;
 
 static JSClass SFVec2fClass = {
 	"SFVec2f",
@@ -953,6 +936,27 @@ static JSClass MFRotationClass = {
 
 static JSFunctionSpec (MFRotationFunctions)[] = {
 	{"assign", MFRotationAssign, 0},
+	{0}
+};
+
+
+static JSObject *proto_MFVec2f;
+
+static JSClass MFVec2fClass = {
+	"MFVec2f",
+	JSCLASS_HAS_PRIVATE,
+	MFVec2fAddProperty,
+	JS_PropertyStub,
+	JS_PropertyStub,
+	MFVec2fSetProperty,
+	JS_EnumerateStub,
+	JS_ResolveStub,
+	JS_ConvertStub,
+	JS_FinalizeStub
+};
+
+static JSFunctionSpec (MFVec2fFunctions)[] = {
+	{"assign", MFVec2fAssign, 0},
 	{0}
 };
 

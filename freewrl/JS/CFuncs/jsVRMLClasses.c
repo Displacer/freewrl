@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.c,v 1.1.2.4 2002/10/28 19:35:41 ayla Exp $
+ * $Id: jsVRMLClasses.c,v 1.1.2.5 2002/11/06 16:45:15 ayla Exp $
  * 
  */
 
@@ -113,7 +113,7 @@ doMFSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 
 
 JSBool
-loadVRMLClasses(JSContext *context, JSObject *globalObj)
+loadVrmlClasses(JSContext *context, JSObject *globalObj)
 {
 	jsval v = 0;
 
@@ -121,13 +121,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 									  SFColorConstr, INIT_ARGC, NULL,
 									  SFColorFunctions, NULL, NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for SFColorClass failed in LoadVRMLClasses.\n");
+				"JS_InitClass for SFColorClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_SFColor);
 	if (!JS_SetProperty(context, globalObj, "__SFColor_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for SFColorClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for SFColorClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -136,13 +136,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 									  SFVec2fConstr, INIT_ARGC_ROT, NULL,
 									  SFVec2fFunctions, NULL, NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for SFVec2fClass failed in LoadVRMLClasses.\n");
+				"JS_InitClass for SFVec2fClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_SFVec2f);
 	if (!JS_SetProperty(context, globalObj, "__SFVec2f_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for SFVec2fClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for SFVec2fClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -151,13 +151,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 									  SFVec3fConstr, INIT_ARGC, NULL,
 									  SFVec3fFunctions, NULL, NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for SFVec3fClass failed in LoadVRMLClasses.\n");
+				"JS_InitClass for SFVec3fClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_SFVec3f);
 	if (!JS_SetProperty(context, globalObj, "__SFVec3f_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for SFVec3fClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for SFVec3fClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -167,13 +167,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 										 NULL, SFRotationFunctions, NULL,
 										 NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for SFRotationClass failed in LoadVRMLClasses.\n");
+				"JS_InitClass for SFRotationClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_SFRotation);
 	if (!JS_SetProperty(context, globalObj, "__SFRotation_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for SFRotationClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for SFRotationClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -183,13 +183,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 									  SFImageConstr, INIT_ARGC_IMG, NULL,
 									  SFImageFunctions, NULL, NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for SFImageClass failed in LoadVRMLClasses.\n");
+				"JS_InitClass for SFImageClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_SFImage);
 	if (!JS_SetProperty(context, globalObj, "__SFImage_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for SFImageClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for SFImageClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -198,13 +198,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 									  &MFColorClass, MFColorConstr, INIT_ARGC,
 									  NULL, MFColorFunctions, NULL, NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for SFColorClass failed in LoadVRMLClasses.\n");
+				"JS_InitClass for SFColorClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_MFColor);
 	if (!JS_SetProperty(context, globalObj, "__MFColor_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for MFColorClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for MFColorClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -213,13 +213,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 									  &MFVec2fClass, MFVec2fConstr, INIT_ARGC,
 									  NULL, MFVec2fFunctions, NULL, NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for MFVec2fClass failed in LoadVRMLClasses.\n");
+				"JS_InitClass for MFVec2fClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_MFVec2f);
 	if (!JS_SetProperty(context, globalObj, "__MFVec2f_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for MFVec2fClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for MFVec2fClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -228,13 +228,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 									  &MFVec3fClass, MFVec3fConstr, INIT_ARGC,
 									  NULL, MFVec3fFunctions, NULL, NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for MFVec3fClass failed in LoadVRMLClasses.\n");
+				"JS_InitClass for MFVec3fClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_MFVec3f);
 	if (!JS_SetProperty(context, globalObj, "__MFVec3f_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for MFVec3fClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for MFVec3fClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -243,13 +243,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 										 &MFRotationClass, MFRotationConstr, INIT_ARGC,
 										 NULL, MFRotationFunctions, NULL, NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for MFRotationClass failed in LoadVRMLClasses.\n");
+				"JS_InitClass for MFRotationClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_MFRotation);
 	if (!JS_SetProperty(context, globalObj, "__MFRotation_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for MFRotationClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for MFRotationClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -258,13 +258,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 									 &MFNodeClass, MFNodeConstr, INIT_ARGC,
 									 NULL, MFNodeFunctions, NULL, NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for MFNodeClass failed in LoadVRMLClasses.\n");
+				"JS_InitClass for MFNodeClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_MFNode);
 	if (!JS_SetProperty(context, globalObj, "__MFNode_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for MFNodeClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for MFNodeClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -273,13 +273,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 									   &MFStringClass, MFStringConstr, INIT_ARGC,
 									   NULL, MFStringFunctions, NULL, NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for SFString failed in LoadVRMLClasses.\n");
+				"JS_InitClass for SFString failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_MFString);
 	if (!JS_SetProperty(context, globalObj, "__MFString_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for MFStringClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for MFStringClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -288,13 +288,13 @@ loadVRMLClasses(JSContext *context, JSObject *globalObj)
 									 &SFNodeClass, SFNodeConstr, INIT_ARGC,
 									 NULL, SFNodeFunctions, NULL, NULL)) == NULL) {
 		fprintf(stderr,
-				"JS_InitClass for SFNodeClass failed in LoadVRMLClasses.\n");
+				"JS_InitClass for SFNodeClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = OBJECT_TO_JSVAL(proto_SFNode);
 	if (!JS_SetProperty(context, globalObj, "__SFNode_proto", &v)) {
 		fprintf(stderr,
-				"JS_SetProperty for SFNodeClass failed in LoadVRMLClasses.\n");
+				"JS_SetProperty for SFNodeClass failed in loadVrmlClasses.\n");
 		return JS_FALSE;
 	}
 	v = 0;
@@ -387,17 +387,13 @@ JSBool
 SFColorGetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
 	jsdouble d, *dp;
-	TJL_SFColor *ptr;
-	JSString *_str;
-	char *c;
+	SFColorNative *ptr;
 
-	if ((ptr = JS_GetPrivate(cx,obj)) == NULL) {
+	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFColorGetProperty.\n");
 		return JS_FALSE;
 	}
 	if (JSVAL_IS_INT(id)) {
-printf("SFColorGetProperty: obj = %u, id = %d\n",
-			   (unsigned int) obj, JSVAL_TO_INT(id));
 		switch (JSVAL_TO_INT(id)) {
 		case 0:
 			d = (ptr->v).c[0];
@@ -430,14 +426,6 @@ printf("SFColorGetProperty: obj = %u, id = %d\n",
 			*vp = DOUBLE_TO_JSVAL(dp);
 			break;
 		}
-	} else if (JSVAL_IS_STRING(id)) {
-		_str = JSVAL_TO_STRING(id);
-		c = JS_GetStringBytes(_str);
-printf("SFColorGetProperty: obj = %u, id = %s\n",
-			   (unsigned int) obj, c);
-	} else {
-printf("SFColorGetProperty: obj = %u, id is not int, object, string\n",
-			   (unsigned int) obj);
 	}
 	return JS_TRUE;
 }
@@ -446,7 +434,7 @@ JSBool
 SFColorSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
 	jsval _val;
-	TJL_SFColor *ptr;
+	SFColorNative *ptr;
 
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFColorSetProperty.\n");
@@ -486,7 +474,7 @@ SFColorToString(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rv
 {
     JSString *_str;
 	char _buff[STRING];
-    TJL_SFColor *ptr;
+    SFColorNative *ptr;
 
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFColorToString.\n");
@@ -513,7 +501,7 @@ JSBool
 SFColorAssign(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
     JSObject *o;
-    TJL_SFColor *ptr, *fptr;
+    SFColorNative *ptr, *fptr;
 
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed for obj in SFColorAssign.\n");
@@ -541,7 +529,7 @@ SFColorAssign(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 			   (unsigned int) obj, (unsigned int) o, argc);
 	}
 
-    TJL_SFColorAssign(ptr, fptr);
+    SFColorNativeAssign(ptr, fptr);
     *rval = OBJECT_TO_JSVAL(obj); 
 
     return JS_TRUE;
@@ -551,7 +539,8 @@ JSBool
 SFColorTouched(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
     int t;
-    TJL_SFColor *ptr;
+    SFColorNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFSFColorTouched.\n");
 		return JS_FALSE;
@@ -576,10 +565,10 @@ JSBool
 SFColorConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	jsdouble pars[3];
-	TJL_SFColor *ptr;
+	SFColorNative *ptr;
 
-	if ((ptr = (TJL_SFColor *) TJL_SFColorNew()) == NULL) {
-		fprintf(stderr, "TJL_SFColorNew failed in SFColorConstr.\n");
+	if ((ptr = (SFColorNative *) SFColorNativeNew()) == NULL) {
+		fprintf(stderr, "SFColorNativeNew failed in SFColorConstr.\n");
 		return JS_FALSE;
 	}
 	UNUSED(rval);
@@ -621,7 +610,8 @@ SFColorConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 JSBool
 SFColorFinalize(JSContext *cx, JSObject *obj)
 {
-	TJL_SFColor *ptr;
+	SFColorNative *ptr;
+
 	if (verbose) {
 		printf("SFColorFinalize: obj = %u\n", (unsigned int) obj);
 	}
@@ -629,7 +619,7 @@ SFColorFinalize(JSContext *cx, JSObject *obj)
 		fprintf(stderr, "JS_GetPrivate failed in SFColorFinalize.\n");
 		return JS_FALSE;
 	}
-	TJL_SFColorDelete(ptr);
+	SFColorNativeDelete(ptr);
 	return JS_TRUE;
 }
 
@@ -638,17 +628,16 @@ JSBool
 SFImageGetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
 	jsint i;
-	char *c, *cc;
-	JSString *_str, *_sstr;
-	TJL_SFImage *ptr;
+	SFImageNative *ptr;
+	char *c;
+	JSString *_str;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFImageGetProperty.\n");
 		return JS_FALSE;
 	}
 
 	if (JSVAL_IS_INT(id)) {
-printf("SFImageGetProperty: obj = %u, id = %d\n",
-			   (unsigned int) obj, JSVAL_TO_INT(id));
 		switch (JSVAL_TO_INT(id)) {
 		case 0:
 			i = (ptr->v).__x;
@@ -671,14 +660,6 @@ printf("SFImageGetProperty: obj = %u, id = %d\n",
 			*vp = INT_TO_JSVAL(i);
 			break;
 		}
-	} else if (JSVAL_IS_STRING(id)) {
-		_sstr = JSVAL_TO_STRING(id);
-		cc = JS_GetStringBytes(_sstr);
-printf("SFImageGetProperty: obj = %u, id = %s\n",
-			   (unsigned int) obj, cc);
-	} else {
-printf("SFImageGetProperty: obj = %u, id is not int, object, string\n",
-			   (unsigned int) obj);
 	}
 	return JS_TRUE;
 }
@@ -687,7 +668,7 @@ JSBool
 SFImageSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
 	jsval myv;
-	TJL_SFImage *ptr;
+	SFImageNative *ptr;
 	JSString *_str;
 	char *c;
 
@@ -747,8 +728,9 @@ SFImageToString(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rv
 {
     JSString *_str;
 	char buff[LARGESTRING];
-    TJL_SFImage *ptr;
+    SFImageNative *ptr;
 	UNUSED(argc);
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFImageToString.\n");
 		return JS_FALSE;
@@ -773,8 +755,8 @@ JSBool
 SFImageAssign(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
     JSObject *o;
-    TJL_SFImage *ptr, *fptr;
-printf("SFImageAssign: obj = %u\n", (unsigned int) obj);
+    SFImageNative *ptr, *fptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed for obj in SFImageAssign.\n");
         return JS_FALSE;
@@ -801,7 +783,7 @@ printf("SFImageAssign: obj = %u\n", (unsigned int) obj);
 			   (unsigned int) obj, (unsigned int) o, argc);
 	}
 
-    TJL_SFImageAssign(ptr, fptr);
+    SFImageNativeAssign(ptr, fptr);
     *rval = OBJECT_TO_JSVAL(obj); 
 
     return JS_TRUE;
@@ -811,7 +793,8 @@ JSBool
 SFImageTouched(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
     int t;
-    TJL_SFImage *ptr;
+    SFImageNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFSFImageTouched.\n");
 		return JS_FALSE;
@@ -837,10 +820,10 @@ SFImageConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 {
 	jsint pars[4];
 	char *cpars = 0;
-	TJL_SFImage *ptr;
+	SFImageNative *ptr;
 
-	if ((ptr = (TJL_SFImage *) TJL_SFImageNew()) == NULL) {
-		fprintf(stderr, "TJL_SFImageNew failed in SFImageConstr.\n");
+	if ((ptr = (SFImageNative *) SFImageNativeNew()) == NULL) {
+		fprintf(stderr, "SFImageNativeNew failed in SFImageConstr.\n");
 		return JS_FALSE;
 	}
 	UNUSED(rval);
@@ -888,7 +871,8 @@ SFImageConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 JSBool
 SFImageFinalize(JSContext *cx, JSObject *obj)
 {
-	TJL_SFImage *ptr;
+	SFImageNative *ptr;
+
 	if (verbose) {
 		printf("SFImageFinalize: obj = %u\n", (unsigned int) obj);
 	}
@@ -896,7 +880,7 @@ SFImageFinalize(JSContext *cx, JSObject *obj)
 		fprintf(stderr, "JS_GetPrivate failed in SFImageFinalize.\n");
 		return JS_FALSE;
 	}
-	TJL_SFImageDelete(ptr);
+	SFImageNativeDelete(ptr);
 	return JS_TRUE;
 }
 
@@ -905,17 +889,14 @@ JSBool
 SFVec2fGetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
 	jsdouble d, *dp;
-	TJL_SFVec2f *ptr;
-	JSString *_str;
-	char *c;
+	SFVec2fNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx,obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFVec2fGetProperty.\n");
 		return JS_FALSE;
 	}
 	
 	if (JSVAL_IS_INT(id)) {
-printf("SFVec2fGetProperty: obj = %u, id = %d\n",
-			   (unsigned int) obj, JSVAL_TO_INT(id));
 		switch (JSVAL_TO_INT(id)) {
 		case 0:
 			d = (ptr->v).c[0];
@@ -938,14 +919,6 @@ printf("SFVec2fGetProperty: obj = %u, id = %d\n",
 			*vp = DOUBLE_TO_JSVAL(dp);
 			break; 
 		}
-	} else if (JSVAL_IS_STRING(id)) {
-		_str = JSVAL_TO_STRING(id);
-		c = JS_GetStringBytes(_str);
-printf("SFVec2fGetProperty: obj = %u, id = %s\n",
-			   (unsigned int) obj, c);
-	} else {
-printf("SFVec2fGetProperty: obj = %u, id is not int, object, string\n",
-			   (unsigned int) obj);
 	}
 	return JS_TRUE;
 }
@@ -954,15 +927,16 @@ JSBool
 SFVec2fSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
 	jsval myv;
-	TJL_SFVec2f *ptr;
-printf("SFVec2fSetProperty: obj = %u, id = %d\n", (unsigned int) obj, JSVAL_TO_INT(id));
+	SFVec2fNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFVec2fSetProperty.\n");
 		return JS_FALSE;
 	}
 	ptr->touched++;
 	if (verbose) {
-		printf("SFVec2fSetProperty: touched = %d\n", ptr->touched);
+		printf("SFVec2fSetProperty: obj = %u, id = %d, touched = %d\n",
+			   (unsigned int) obj, JSVAL_TO_INT(id), ptr->touched);
 	}
 
 	if (!JS_ConvertValue(cx, *vp, JSTYPE_NUMBER, &myv)) {
@@ -992,7 +966,8 @@ SFVec2fToString(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rv
 {
 	char buff[STRING];
     JSString *_str;
-    TJL_SFVec2f *ptr;
+    SFVec2fNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFVec2fToString.\n");
 		return JS_FALSE;
@@ -1016,8 +991,8 @@ JSBool
 SFVec2fAssign(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
     JSObject *o;
-    TJL_SFVec2f *fptr, *ptr;
-printf("SFVec2fAssign: obj = %u\n", (unsigned int) obj);
+    SFVec2fNative *fptr, *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed for obj in SFVec2fAssign.\n");
         return JS_FALSE;
@@ -1026,7 +1001,6 @@ printf("SFVec2fAssign: obj = %u\n", (unsigned int) obj);
 		fprintf(stderr, "JS_InstanceOf failed for obj in SFVec2fAssign.\n");
         return JS_FALSE;
 	}
-	/* if (!JS_ConvertArguments(cx, argc, argv, "o", &o, &o)) { */
 	if (!JS_ConvertArguments(cx, argc, argv, "o", &o)) {
 		fprintf(stderr, "JS_ConvertArguments failed in SFVec2fAssign.\n");
 		return JS_FALSE;
@@ -1044,7 +1018,7 @@ printf("SFVec2fAssign: obj = %u\n", (unsigned int) obj);
 			   (unsigned int) obj, (unsigned int) o, argc);
 	}
 
-    TJL_SFVec2fAssign(ptr, fptr);
+    SFVec2fNativeAssign(ptr, fptr);
     *rval = OBJECT_TO_JSVAL(obj); 
 
     return JS_TRUE;
@@ -1054,7 +1028,8 @@ JSBool
 SFVec2fTouched(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
     int t;
-    TJL_SFVec2f *ptr;
+    SFVec2fNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFVec2fTouched.\n");
 		return JS_FALSE;
@@ -1079,7 +1054,7 @@ JSBool
 SFVec2fSubtract(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSObject *o, *proto, *ro;
-	TJL_SFVec2f *vec1, *vec2, *res;
+	SFVec2fNative *vec1, *vec2, *res;
 		
 	if (!JS_InstanceOf(cx, obj, &SFVec2fClass, argv)) {
 		fprintf(stderr, "JS_InstanceOf failed for obj in SFVec2fSubtract.\n");
@@ -1131,7 +1106,7 @@ JSBool
 SFVec2fNormalize(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSObject *ro, *proto;
-	TJL_SFVec2f *vec, *res;
+	SFVec2fNative *vec, *res;
 /* 	double xx; */
 	struct pt v, ret;
 
@@ -1184,7 +1159,7 @@ JSBool
 SFVec2fAdd(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSObject *v2, *proto, *ro;
-	TJL_SFVec2f *vec1, *vec2, *res;
+	SFVec2fNative *vec1, *vec2, *res;
 
 	if (!JS_InstanceOf(cx, obj, &SFVec2fClass, argv)) {
 		fprintf(stderr, "JS_InstanceOf failed in SFVec2fAdd.\n");
@@ -1235,7 +1210,7 @@ SFVec2fLength(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 {
 	jsdouble result, *dp;
 	JSObject *proto;
-	TJL_SFVec2f *vec;
+	SFVec2fNative *vec;
 	struct pt v;
 
 	if (!JS_InstanceOf(cx, obj, &SFVec2fClass, argv)) {
@@ -1279,7 +1254,7 @@ JSBool
 SFVec2fNegate(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSObject *ro, *proto;
-	TJL_SFVec2f *vec, *res;
+	SFVec2fNative *vec, *res;
 
 	if (!JS_InstanceOf(cx, obj, &SFVec2fClass, argv)) {
 		fprintf(stderr, "JS_InstanceOf failed in SFVec2fNegate.\n");
@@ -1321,11 +1296,12 @@ JSBool
 SFVec2fConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	jsdouble pars[2];
-	TJL_SFVec2f *ptr;
+	SFVec2fNative *ptr;
 	/* void *p; */
 	/* ptr = p; */
-	if ((ptr = (TJL_SFVec2f *) TJL_SFVec2fNew()) == NULL) {
-		fprintf(stderr, "TJL_SFVec2fNew failed in SFVec2fConstr.\n");
+
+	if ((ptr = (SFVec2fNative *) SFVec2fNativeNew()) == NULL) {
+		fprintf(stderr, "SFVec2fNativeNew failed in SFVec2fConstr.\n");
 		return JS_FALSE;
 	}
 	UNUSED(rval);
@@ -1363,7 +1339,8 @@ SFVec2fConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 JSBool
 SFVec2fFinalize(JSContext *cx, JSObject *obj)
 {
-	TJL_SFVec2f *ptr;
+	SFVec2fNative *ptr;
+
 	if (verbose) {
 		printf("SFColorFinalize: obj = %u\n", (unsigned int) obj);
 	}
@@ -1371,7 +1348,7 @@ SFVec2fFinalize(JSContext *cx, JSObject *obj)
 		fprintf(stderr, "JS_GetPrivate failed in SFVec2fFinalize.\n");
 		return JS_FALSE;
 	}
-	TJL_SFVec2fDelete(ptr);
+	SFVec2fNativeDelete(ptr);
 	return JS_TRUE;
 }
 
@@ -1380,17 +1357,14 @@ JSBool
 SFVec3fGetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
 	jsdouble d, *dp;
-	TJL_SFVec3f *ptr;
-	JSString *_str;
-	char *c;
+	SFVec3fNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx,obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFVec3fGetProperty.\n");
 		return JS_FALSE;
 	}
 	
 	if (JSVAL_IS_INT(id)) {
-/* printf("SFVec3fGetProperty: obj = %u, id = %d\n", (unsigned int)
-   obj, JSVAL_TO_INT(id)); */
 		switch (JSVAL_TO_INT(id)) {
 		case 0:
 			d = (ptr->v).c[0];
@@ -1423,14 +1397,6 @@ SFVec3fGetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 			*vp = DOUBLE_TO_JSVAL(dp);
 			break; 
 		}
-	} else if (JSVAL_IS_STRING(id)) {
-		_str = JSVAL_TO_STRING(id);
-		c = JS_GetStringBytes(_str);
-/* printf("SFVec3fGetProperty: obj = %u, id = %s\n",
-   (unsigned int) obj, c); */
-	} else {
-		printf("SFVec3fGetProperty: obj = %u, id is not int, object, string\n",
-			   (unsigned int) obj);
 	}
 	return JS_TRUE;
 }
@@ -1439,16 +1405,16 @@ JSBool
 SFVec3fSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
 	jsval myv;
-	TJL_SFVec3f *ptr;
-/* printf("SFVec3fSetProperty: obj = %u, id = %d\n", (unsigned int)
-   obj, JSVAL_TO_INT(id)); */
+	SFVec3fNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFVec3fSetProperty.\n");
 		return JS_FALSE;
 	}
 	ptr->touched++;
 	if (verbose) {
-		printf("SFVec3fSetProperty: touched = %d\n", ptr->touched);
+		printf("SFVec3fSetProperty: obj = %u, id = %d, touched = %d\n",
+			   (unsigned int) obj, JSVAL_TO_INT(id), ptr->touched);
 	}
 
 	if (!JS_ConvertValue(cx, *vp, JSTYPE_NUMBER, &myv)) {
@@ -1478,7 +1444,8 @@ SFVec3fToString(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rv
 {
 	char buff[STRING];
     JSString *_str;
-    TJL_SFVec3f *ptr;
+    SFVec3fNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFVec3fToString.\n");
 		return JS_FALSE;
@@ -1501,8 +1468,8 @@ JSBool
 SFVec3fAssign(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
     JSObject *o;
-    TJL_SFVec3f *fptr, *ptr;
-/* printf("SFVec3fAssign: obj = %u\n", (unsigned int) obj); */
+    SFVec3fNative *fptr, *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed for obj in SFVec3fAssign.\n");
         return JS_FALSE;
@@ -1511,7 +1478,6 @@ SFVec3fAssign(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 		fprintf(stderr, "JS_InstanceOf failed for obj in SFVec3fAssign.\n");
         return JS_FALSE;
 	}
-	/* if (!JS_ConvertArguments(cx, argc, argv, "o", &o, &o)) { */
 	if (!JS_ConvertArguments(cx, argc, argv, "o", &o)) {
 		fprintf(stderr, "JS_ConvertArguments failed in SFVec3fAssign.\n");
 		return JS_FALSE;
@@ -1529,7 +1495,7 @@ SFVec3fAssign(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 			   (unsigned int) obj, (unsigned int) o, argc);
 	}
 
-    TJL_SFVec3fAssign(ptr, fptr);
+    SFVec3fNativeAssign(ptr, fptr);
     *rval = OBJECT_TO_JSVAL(obj); 
 
     return JS_TRUE;
@@ -1539,7 +1505,8 @@ JSBool
 SFVec3fTouched(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
     int t;
-    TJL_SFVec3f *ptr;
+    SFVec3fNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFVec3fTouched.\n");
 		return JS_FALSE;
@@ -1564,7 +1531,7 @@ JSBool
 SFVec3fSubtract(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSObject *o, *proto, *ro;
-	TJL_SFVec3f *vec1, *vec2, *res;
+	SFVec3fNative *vec1, *vec2, *res;
 		
 	if (!JS_InstanceOf(cx, obj, &SFVec3fClass, argv)) {
 		fprintf(stderr, "JS_InstanceOf failed for obj in SFVec3fSubtract.\n");
@@ -1618,7 +1585,7 @@ JSBool
 SFVec3fNormalize(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSObject *ro, *proto;
-	TJL_SFVec3f *vec, *res;
+	SFVec3fNative *vec, *res;
 	struct pt v, ret;
 
 	if (!JS_InstanceOf(cx, obj, &SFVec3fClass, argv)) {
@@ -1667,7 +1634,7 @@ JSBool
 SFVec3fAdd(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSObject *v2, *proto, *ro;
-	TJL_SFVec3f *vec1, *vec2, *res;
+	SFVec3fNative *vec1, *vec2, *res;
 
 	if (!JS_InstanceOf(cx, obj, &SFVec3fClass, argv)) {
 		fprintf(stderr, "JS_InstanceOf failed in SFVec3fAdd.\n");
@@ -1719,7 +1686,7 @@ SFVec3fLength(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 {
 	jsdouble result, *dp;
 	JSObject *proto;
-	TJL_SFVec3f *vec;
+	SFVec3fNative *vec;
 	struct pt v;
 
 	if (!JS_InstanceOf(cx, obj, &SFVec3fClass, argv)) {
@@ -1763,7 +1730,7 @@ JSBool
 SFVec3fCross(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSObject *v2, *proto, *ro;
-	TJL_SFVec3f *vec, *res;
+	SFVec3fNative *vec, *res;
 	struct pt c1, c2, ret;
 
 	if (!JS_InstanceOf(cx, obj, &SFVec3fClass, argv)) {
@@ -1825,14 +1792,14 @@ JSBool
 SFVec3fNegate(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSObject *ro, *proto;
-	TJL_SFVec3f *vec, *res;
+	SFVec3fNative *vec, *res;
 
 	if (!JS_InstanceOf(cx, obj, &SFVec3fClass, argv)) {
 		fprintf(stderr, "JS_InstanceOf failed in SFVec3fNegate.\n");
 		return JS_FALSE;
 	}
 	if (verbose) {
-		printf("SFVec3fCross\n");
+		printf("SFVec3fNegate\n");
 	}
 
 	if (!JS_ConvertArguments(cx, argc, argv, "")) {
@@ -1867,11 +1834,12 @@ JSBool
 SFVec3fConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	jsdouble pars[3];
-	TJL_SFVec3f *ptr;
+	SFVec3fNative *ptr;
 	/* void *p; */
 	/* ptr = p; */
-	if ((ptr = (TJL_SFVec3f *) TJL_SFVec3fNew()) == NULL) {
-		fprintf(stderr, "TJL_SFVec3fNew failed in SFVec3fConstr.\n");
+
+	if ((ptr = (SFVec3fNative *) SFVec3fNativeNew()) == NULL) {
+		fprintf(stderr, "SFVec3fNativeNew failed in SFVec3fConstr.\n");
 		return JS_FALSE;
 	}
 	UNUSED(rval);
@@ -1910,7 +1878,8 @@ SFVec3fConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 JSBool
 SFVec3fFinalize(JSContext *cx, JSObject *obj)
 {
-	TJL_SFVec3f *ptr;
+	SFVec3fNative *ptr;
+
 	if (verbose) {
 		printf("SFVec3fFinalize: obj = %u\n", (unsigned int) obj);
 	}
@@ -1918,7 +1887,7 @@ SFVec3fFinalize(JSContext *cx, JSObject *obj)
 		fprintf(stderr, "JS_GetPrivate failed in SFVec3fFinalize.\n");
 		return JS_FALSE;
 	}
-	TJL_SFVec3fDelete(ptr);
+	SFVec3fNativeDelete(ptr);
 	return JS_TRUE;
 }
 
@@ -1928,17 +1897,14 @@ SFRotationGetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
 	jsdouble d;
 	jsdouble *dp;
-	TJL_SFRotation *ptr;
-	JSString *_str;
-	char *c;
+	SFRotationNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFRotationGetProperty.\n");
 		return JS_FALSE;
 	}
 	
 	if (JSVAL_IS_INT(id)) {
-printf("SFRotationGetProperty: obj = %u, id = %d\n",
-			   (unsigned int) obj, JSVAL_TO_INT(id));
 		switch (JSVAL_TO_INT(id)) {
 		case 0:
 			d = (ptr->v).r[0];
@@ -1981,14 +1947,6 @@ printf("SFRotationGetProperty: obj = %u, id = %d\n",
 			*vp = DOUBLE_TO_JSVAL(dp);
 			break;
 		}
-	} else if (JSVAL_IS_STRING(id)) {
-		_str = JSVAL_TO_STRING(id);
-		c = JS_GetStringBytes(_str);
-printf("SFRotationGetProperty: obj = %u, id = %s\n",
-			   (unsigned int) obj, c);
-	} else {
-printf("SFRotationGetProperty: obj = %u, id is not int, object, string\n",
-			   (unsigned int) obj);
 	}
 	return JS_TRUE;
 }
@@ -1997,22 +1955,22 @@ JSBool
 SFRotationSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
 	jsval myv;
-	TJL_SFRotation *ptr;
-printf("SFRotationSetProperty: obj = %u, id = %d\n", (unsigned int) obj, JSVAL_TO_INT(id));
+	SFRotationNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFRotationSetProperty.\n");
 		return JS_FALSE;
 	}
 	ptr->touched++;
 	if (verbose) {
-		printf("SFRotationSetProperty: touched = %d\n", ptr->touched);
+		printf("SFRotationSetProperty: obj = %u, id = %d, touched = %d\n",
+			   (unsigned int) obj, JSVAL_TO_INT(id), ptr->touched);
 	}
-
 	if (!JS_ConvertValue(cx, *vp, JSTYPE_NUMBER, &myv)) {
 		fprintf(stderr, "JS_ConvertValue failed in SFRotationSetProperty.\n");
 		return JS_FALSE;
 	}
-printf("SFRotationSetProperty: myv = %f\n", *JSVAL_TO_DOUBLE(myv));
+
 	if (JSVAL_IS_INT(id)) {
 		switch (JSVAL_TO_INT(id)) {
 		case 0:
@@ -2038,7 +1996,8 @@ SFRotationToString(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval 
 {
 	char buff[STRING];
     JSString *_str;
-    TJL_SFRotation *ptr;
+    SFRotationNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFRotationToString.\n");
 		return JS_FALSE;
@@ -2062,8 +2021,8 @@ JSBool
 SFRotationAssign(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
     JSObject *o;
-    TJL_SFRotation *fptr, *ptr;
-printf("SFRotationAssign: obj = %u\n", (unsigned int) obj);
+    SFRotationNative *fptr, *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed for obj in SFRotationAssign.\n");
         return JS_FALSE;
@@ -2072,7 +2031,6 @@ printf("SFRotationAssign: obj = %u\n", (unsigned int) obj);
 		fprintf(stderr, "JS_InstanceOf failed for obj in SFRotationAssign.\n");
         return JS_FALSE;
 	}
-/* 	if (!JS_ConvertArguments(cx, argc, argv, "o", &o, &o)) { */
 	if (!JS_ConvertArguments(cx, argc, argv, "o", &o)) {
 		fprintf(stderr, "JS_ConvertArguments failed in SFRotationAssign.\n");
 		return JS_FALSE;
@@ -2090,7 +2048,7 @@ printf("SFRotationAssign: obj = %u\n", (unsigned int) obj);
 			   (unsigned int) obj, (unsigned int) o, argc);
 	}
 
-    TJL_SFRotationAssign(ptr, fptr);
+    SFRotationNativeAssign(ptr, fptr);
     *rval = OBJECT_TO_JSVAL(obj); 
     return JS_TRUE;
 }
@@ -2099,7 +2057,8 @@ JSBool
 SFRotationTouched(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
     int t;
-    TJL_SFRotation *ptr;
+    SFRotationNative *ptr;
+
 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in SFRotationTouched.\n");
 		return JS_FALSE;
@@ -2124,8 +2083,8 @@ JSBool
 SFRotationMultVec(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSObject *o, *ro, *proto;
-	TJL_SFRotation *rfrom;
-	TJL_SFVec3f *vfrom, *vto;
+	SFRotationNative *rfrom;
+	SFVec3fNative *vfrom, *vto;
 /* 	double rl, vl, s, c; */
 	float rl, vl, rlpt, s, c, angle;
 /* 	float c1[3], c2[3]; */
@@ -2199,7 +2158,7 @@ JSBool
 SFRotationInverse(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSObject *o, *proto;
-	TJL_SFRotation *rfrom, *rto;
+	SFRotationNative *rfrom, *rto;
 	UNUSED(argc);
 
 	if (!JS_InstanceOf(cx, obj, &SFRotationClass, argv)) {
@@ -2243,14 +2202,14 @@ SFRotationConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *r
 	jsdouble pars[4];
 	JSObject *_ob1, *_ob2;
 /* 	JSFunction *_f; */
-	TJL_SFVec3f *vec;
+	SFVec3fNative *vec;
 	float v1len, v2len;
 	double v12dp;
 	struct pt v1, v2;
-	TJL_SFRotation *ptr;
+	SFRotationNative *ptr;
 
-	if ((ptr = TJL_SFRotationNew()) == NULL) {
-		fprintf(stderr, "TJL_SFRotationNew failed in SFRotationConstr.\n");
+	if ((ptr = SFRotationNativeNew()) == NULL) {
+		fprintf(stderr, "SFRotationNativeNew failed in SFRotationConstr.\n");
 		return JS_FALSE;
 	}
 	UNUSED(rval);
@@ -2350,7 +2309,8 @@ printf("SFRotationConstr: format is \"o d\"\n");
 JSBool
 SFRotationFinalize(JSContext *cx, JSObject *obj)
 {
-	TJL_SFRotation *ptr;
+	SFRotationNative *ptr;
+
 	if (verbose) {
 		printf("SFRotationFinalize: obj = %u\n", (unsigned int) obj);
 	}
@@ -2358,7 +2318,7 @@ SFRotationFinalize(JSContext *cx, JSObject *obj)
 		fprintf(stderr, "JS_GetPrivate failed in SFRotationFinalize.\n");
 		return JS_FALSE;
 	}
-	TJL_SFRotationDelete(ptr);
+	SFRotationNativeDelete(ptr);
 	return JS_TRUE;
 }
 
@@ -3162,42 +3122,93 @@ MFStringAssign(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rva
 JSBool
 SFNodeConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
-	JSString *str;
-	char *p;
+	char *_id;
 	UNUSED(rval);
 
-	if (argc == 0) {
-		fprintf(stderr, "SFNodeConstr failed: argc must be >= 1\n");
-		return JS_FALSE;
-	} else if (argc == 1) {
-		fprintf(stderr,
-				"SFNodeConstr failed: can't construct SFNodeClass from VRML(XXX FIXME).\n");
-		return JS_FALSE;
-	} else if (argc == 2) {
-		str = JS_ValueToString(cx, argv[1]);
-		p = JS_GetStringBytes(str);
-
-		/* Hidden two-arg constructor: we construct it using an id... */
-		if (verbose) {
-			printf("SFNodeConstr: '%s'\n", p);
-		}
-		if (!JS_DefineProperty(cx, obj, "__id", argv[1], NULL, NULL, JSPROP_PERMANENT)) {
-			fprintf(stderr, "JS_DefineProperty failed for \"__id\" in SFNodeConstr.\n");
+	if (argc == 1 &&
+		JS_ConvertArguments(cx, argc, argv, "s", &_id)) {
+		if (!JS_DefineProperty(cx, obj, "__id", argv[0],
+							   NULL, NULL, JSPROP_PERMANENT)) {
+			fprintf(stderr,
+					"JS_DefineProperty failed for \"__id\" in SFNodeConstr.\n");
 			return JS_FALSE;
 		}
-		return JS_TRUE;
 	} else {
-		fprintf(stderr, "SFNodeConstr failed: argc must be < 3\n");
+		fprintf(stderr,
+				"JS_ConvertArguments failed in SFNodeConstr: format is \"s\".\n");
+		return JS_TRUE;
 	}
-	return JS_FALSE;
+
+	if (verbose) {
+		printf("SFNodeConstr: obj = %u, argc = %d, %s\n",
+			   (unsigned int) obj, argc, _id);
+	}
+	return JS_TRUE;
 }
+
+
+#if FALSE
+/* JSBool */
+/* SFNodeConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval) */
+/* { */
+/* 	SFNodeNative *_ptr = 0; */
+/* 	char *_c = 0; */
+/* 	size_t l = 0; */
+
+/* 	UNUSED(rval); */
+
+/* 	if (JS_ConvertArguments(cx, argc, argv, "s", &_c)) { */
+/* 		if (verbose) { */
+/* 			printf("SFNodeConstr: obj = %u, %d arg, \"%s\"\n", (unsigned int) obj, argc, _c); */
+/* 		} */
+
+/* 		l = strlen(_c); */
+/* 		if ((_ptr = SFNodeNativeNew(l)) == NULL) { */
+/* 			fprintf(stderr, "SFNodeNativeNew failed in SFNodeConstr.\n"); */
+/* 			return JS_FALSE; */
+/* 		} */
+/* 		memmove(_ptr->vrml_handle, _c, l + 1); */
+
+/* 		if (!JS_SetPrivate(cx, obj, _ptr)) { */
+/* 			fprintf(stderr, "JS_SetPrivate failed in SFNodeConstr.\n"); */
+/* 			return JS_FALSE; */
+/* 		} */
+
+/* 		return JS_TRUE; */
+/* 	} else { */
+/* 		fprintf(stderr, */
+/* 				"Argument format for VrmlBrowserAddRoute is \"s\".\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+/* 	return JS_FALSE; */
+/* } */
+#endif
+
+JSBool
+SFNodeFinalize(JSContext *cx, JSObject *obj)
+{
+	UNUSED(cx);
+	UNUSED(obj);
+/* 	SFNodeNative *_ptr = 0; */
+
+/* 	if (verbose) { */
+/* 		printf("SFNodeFinalize: obj = %u\n", (unsigned int) obj); */
+/* 	} */
+/* 	if ((_ptr = JS_GetPrivate(cx, obj)) == NULL) { */
+/* 		fprintf(stderr, "JS_GetPrivate failed in SFNodeFinalize.\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+/* 	SFNodeNativeDelete(_ptr); */
+	return JS_TRUE;
+}
+
 
 
 JSBool
 SFNodeSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
 	JSObject *globalObj;
-	BrowserInternal *brow;
+	BrowserNative *brow;
 	jsval pv, v = OBJECT_TO_JSVAL(obj);
 
 	globalObj = JS_GetGlobalObject(cx);
@@ -3238,32 +3249,107 @@ SFNodeSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 	if (verbose) {
 		printf("SFNodeSetProperty: obj = %u\n", (unsigned int) obj);
 	}
-	doPerlCallMethod(brow->jssv, "nodeSetProperty");
-/* 	dSP; */
-/* 	ENTER; */
-/* 	SAVETMPS; */
-/* 	PUSHMARK(sp); */
-/* 	XPUSHs(brow->js_sv); */
-/* 	PUTBACK; */
-/* 	count = perl_call_method("node_setprop", G_SCALAR); */
-/* 	if (count) { */
-/* 		if (verbose) printf("Got return %f\n",POPn); */
-/* 	} */
-/* 	PUTBACK; */
-/* 	FREETMPS; */
-/* 	LEAVE; */
+	doPerlCallMethod(brow->sv_js, "nodeSetProperty");
+
 	return JS_TRUE;
 }
 
-JSBool
-SFNodeGetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
-{
-	UNUSED(cx);
-	UNUSED(obj);
-	UNUSED(id);
-	UNUSED(vp);
-	if (verbose) {
-		printf("SFNodeGetProperty: obj = %u\n", (unsigned int) obj);
-	}
-	return JS_TRUE;
-}
+
+#if FALSE
+/* JSBool */
+/* SFNodeSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp) */
+/* { */
+/* 	JSObject *globalObj; */
+/* 	BrowserNative *brow; */
+/* 	SFNodeNative *ptr; */
+/* 	JSString *_str; */
+/* 	char *_c; */
+/* 	jsval browser_v, sfnode_v = OBJECT_TO_JSVAL(obj); */
+
+/* 	UNUSED(vp); */
+
+/* 	if (verbose) { */
+/* 		printf("SFNodeSetProperty: obj = %u\n", (unsigned int) obj); */
+/* 	} */
+
+/* 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) { */
+/* 		fprintf(stderr, "JS_GetPrivate failed in SFColorSetProperty.\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+/* 	/* ptr->touched++; */ */
+
+/* 	globalObj = JS_GetGlobalObject(cx); */
+/* 	if (globalObj == NULL) { */
+/* 		fprintf(stderr, "JS_GetGlobalObject failed in SFNodeSetProperty.\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+/* 	if (!JS_GetProperty(cx, globalObj, "Browser", &browser_v)) { */
+/* 		fprintf(stderr, "JS_GetProperty failed for \"Browser\" in SFNodeSetProperty.\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+/* 	if (!JSVAL_IS_OBJECT(browser_v)) { */
+/* 		fprintf(stderr, "JSVAL_IS_OBJECT failed for browser_v in SFNodeSetProperty.\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+	
+/* 	if ((brow = JS_GetPrivate(cx, JSVAL_TO_OBJECT(browser_v))) == NULL) { */
+/* 		fprintf(stderr, "JS_GetPrivate failed in SFNodeSetProperty.\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+
+/* 	if (!JS_SetProperty(cx, globalObj, "__node", &sfnode_v)) { */
+/* 		fprintf(stderr, */
+/* 				"JS_SetProperty failed for \"__node\" in SFNodeSetProperty.\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+/* 	if (!JS_SetProperty(cx, globalObj, "__prop", &id)) { */
+/* 		fprintf(stderr, */
+/* 				"JS_SetProperty failed for \"__prop\" in SFNodeSetProperty.\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+
+/* 	if (!JS_SetProperty(cx, globalObj, "__val", &browser_v)) { */
+/* 		fprintf(stderr, */
+/* 				"JS_SetProperty failed for \"__val\" in SFNodeSetProperty.\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+
+/* 	if (JSVAL_IS_STRING(id)) { */
+/* 		_str = JS_ValueToString(cx, id); */
+/* 		_c = JS_GetStringBytes(_str); */
+/* printf("SFNodeSetProperty: obj = %u, id is string = %s\n", (unsigned int) obj, _c); */
+/* 		doPerlCallMethodVA(brow->sv_js, "nodeSetProperty", "ss", ptr->vrml_handle, _c); */
+/* 	} */
+/* 	doPerlCallMethod(brow->sv_js, "nodeSetProperty"); */
+
+/* 	return JS_TRUE; */
+/* } */
+#endif
+
+#if FALSE
+/* JSBool */
+/* SFNodeGetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp) */
+/* { */
+/* 	SFNodeNative *ptr; */
+/* 	JSString *_str; */
+/* 	char *_c; */
+
+/* 	UNUSED(vp); */
+
+/* 	if ((ptr = JS_GetPrivate(cx, obj)) == NULL) { */
+/* 		fprintf(stderr, "JS_GetPrivate failed in SFNodeGetProperty.\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+/* 	if (JSVAL_IS_STRING(id)) { */
+/* 		_str = JS_ValueToString(cx, id); */
+/* 		_c = JS_GetStringBytes(_str); printf("SFNodeGetProperty: obj = %u, id is string = %s\n", */
+/* 			   (unsigned int) obj, _c); */
+
+/* 	} */
+
+/* 	if (verbose) { */
+/* 		printf("SFNodeGetProperty: obj = %u, not implemented\n", (unsigned int) obj); */
+/* 	} */
+/* 	return JS_TRUE; */
+/* } */
+#endif
