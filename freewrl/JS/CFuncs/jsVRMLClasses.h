@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.h,v 1.9 2003/01/24 22:05:27 ayla Exp $
+ * $Id: jsVRMLClasses.h,v 1.10 2003/02/05 21:23:12 ayla Exp $
  * 
  * Complex VRML nodes as Javascript classes.
  *
@@ -101,8 +101,12 @@ doMFSetProperty(JSContext *cx,
 
 static JSBool
 getBrowser(JSContext *context,
-				JSObject *obj,
-				BrowserNative **brow);
+		   JSObject *obj,
+		   BrowserNative **brow);
+
+static JSBool
+doMFStringUnquote(JSContext *cx,
+				  jsval *vp);
 
 
 /* class functions */
