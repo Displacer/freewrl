@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.53 2003/06/25 21:03:21 ayla Exp $
+# $Id: Scene.pm,v 1.54 2003/07/10 18:15:25 ayla Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -347,7 +347,7 @@ sub new_node {
 			];
 		}
 		my $type = VRML::NodeType->new($t, \%f, $VRML::Nodes{Script}{Actions});
-		my $node = VRML::NodeIntern->new_script($this, $type, {}, $this->{EventModel});
+		my $node = VRML::NodeIntern->new($this, $type, {}, $this->{EventModel});
 		VRML::Handles::reserve($node);
 		# print "handle is $node, ",VRML::NodeIntern::dump_name($node),"\n";
 		return $node;
