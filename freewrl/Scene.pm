@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.81 2004/10/22 19:02:25 crc_canada Exp $
+# $Id: Scene.pm,v 1.82 2004/11/08 19:55:45 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -617,7 +617,7 @@ sub getNode {
 	my ($this, $name) = @_;
 	my $n = $this->{DEF}->{VRML::Handles::return_def_name($name)};
 	if (!defined $n) {
-		warn("Node $name is not defined");
+		#warn("Node $name is not defined");
 		return undef;
 	}
 	return $n->node();
