@@ -1,0 +1,2 @@
+This implementation of an insert/reset/apply for an Average Loaded Binary Tree
+will be used in FreeWRL for alpha blending (for z-ordering polygons to render).
