@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.40 2001/08/03 16:44:03 kitfox Exp $
+# $Id: VRMLC.pm,v 1.41 2001/08/16 16:55:19 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.41  2001/08/16 16:55:19  crc_canada
+# Viewpoint work.
+#
 # Revision 1.40  2001/08/03 16:44:03  kitfox
 # Fixed colors with nancy face and elevation grids.
 #
@@ -3447,7 +3450,6 @@ do_texture(depth,x,y,ptr,Sgl_rep_or_clamp, Tgl_rep_or_clamp,Image)
 			     ((depth)==3 ? GL_RGB : 
 			     GL_RGBA))),
 			     GL_UNSIGNED_BYTE, dest);
-		printf ("do_texture idest %x ptr %x sz %d\n",dest, ptr, depth *rx *ry);
 		if(ptr != dest) free(dest);
 	}
 }
