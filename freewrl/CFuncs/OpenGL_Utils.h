@@ -9,7 +9,7 @@
 #define __OPENGL_UTILS_H_
 
 /*
- * $Id: OpenGL_Utils.h,v 1.7 2004/01/14 15:36:23 crc_canada Exp $
+ * $Id: OpenGL_Utils.h,v 1.8 2004/03/03 21:48:46 sdumoulin Exp $
  *
  */
 
@@ -58,9 +58,11 @@ BackEndHeadlightOff(void);
 void
 BackEndHeadlightOn(void);
 
+#ifndef AQUA
 extern Display *dpy;
 extern Window win;
 extern void openMainWindow(Display *dpy, Window *win, GLXContext *glocx);
+#endif
 extern void glpOpenGLInitialize(void);
 
 #endif /* __OPENGL_UTILS_H_ */
