@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.59 2003/09/17 17:23:31 crc_canada Exp $
+# $Id: Scene.pm,v 1.60 2003/09/18 14:46:53 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -958,7 +958,7 @@ sub make_backend {
  			}
  		);	
 	}
-	#JAS $this->{BackNode} = $bn;
+	$this->{BackNode} = $bn;
 	return $bn;
 }
 
