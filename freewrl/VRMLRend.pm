@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.47 2002/01/09 16:14:45 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.48 2002/01/20 15:05:25 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.48  2002/01/20 15:05:25  crc_canada
+# if display lists change when in creation, don't do the glEnd for them
+#
 # Revision 1.47  2002/01/09 16:14:45  crc_canada
 # removal of some debugging statements, and it no longer dies on some proximity
 # sensor errors.
@@ -1907,7 +1910,12 @@ Billboard => (join '','
 		render_node((this_->geometry));
 
 		if ((render_geom) && (!render_sensitive)) {
-			glEndList();
+			if (this_->_dlchange == this_->_change) {
+				/* premature ending of dlists */
+				glEndList();
+			# } else {
+			# 	printf ("hmmm - display list changed on me\n");
+			}
 
 			glError = glGetError();
 			while (glError != GL_NO_ERROR) {
