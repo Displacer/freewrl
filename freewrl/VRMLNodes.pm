@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.51 2002/05/22 21:47:52 ayla Exp $
+# $Id: VRMLNodes.pm,v 1.52 2002/06/17 14:41:45 ncoder Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1925,6 +1925,8 @@ NavigationInfo => new VRML::NodeType("NavigationInfo",
 	 	WhenBound => sub {
 			my($t) = @_;
 			$t->{BackEnd}->bind_navi_info($t);
+
+			VRML::VRMLFunc::set_naviinfo($t->{Fields}{avatarSize}[0],$t->{Fields}{avatarSize}[1],$t->{Fields}{avatarSize}[2]);
 		},
 	},
 ),
