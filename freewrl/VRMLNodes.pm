@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.96 2003/05/14 17:25:26 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.97 2003/05/14 18:04:07 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -558,7 +558,7 @@ my $protono;
  ProximitySensor
  VisibilitySensor
  PixelTexture
-
+ Collision
  MovieTexture
  AudioClip
  Sound
@@ -755,7 +755,7 @@ my $protono;
 							  },
 
 							ClockTick => sub {
-								my($t,$f,$tick) = @_;
+								my($t,$tick) = @_;
 								VRML::VRMLFunc::MovieTextureClockTick(
 									$t->{BackNode}->{CNode},$tick);
 							},
@@ -977,7 +977,7 @@ my $protono;
 							},
 
 							ClockTick => sub {
-								my($t,$f,$tick) = @_;
+								my($t,$tick) = @_;
 
 								VRML::VRMLFunc::AudioClockTick(
 									$t->{BackNode}->{CNode},$tick);
@@ -1251,7 +1251,7 @@ my $protono;
 					   },
 					   {
 						ClockTick => sub {
-							my($t,$f,$tick) = @_;
+							my($t,$tick) = @_;
 
 							VRML::VRMLFunc::TimeSensorClockTick(
 								$t->{BackNode}->{CNode},$tick);
@@ -1351,7 +1351,7 @@ my $protono;
 					   },
 					   {
 						ClockTick => sub {
-							my($t,$f,$tick) = @_;
+							my($t,$tick) = @_;
 
 							VRML::VRMLFunc::ProximitySensorClockTick(
 								$t->{BackNode}->{CNode},$tick);
@@ -1675,19 +1675,10 @@ my $protono;
 						},
 
 						ClockTick => sub {
-							my($t,$f,$tick) = @_;
-							return if !$t->{BackEnd};
-							my $hit;
+							my($t,$tick) = @_;
 
-							VRML::VRMLFunc::get_collision_info($t->{BackNode}->{CNode},
-															   $hit);
-
-							if ($hit == 3) { #collision occured and state changed
-								if ($VRML::verbose::collision) {
-									print "COLLISION: $t, time=$tick\n";
-								}
-								$f->{collideTime} = $tick;
-							}
+							VRML::VRMLFunc::CollisionClockTick(
+								$t->{BackNode}->{CNode},$tick);
 						}
 					   }
 					  ),
