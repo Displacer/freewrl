@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.112 2003/09/11 16:00:55 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.113 2003/09/16 14:57:24 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.113  2003/09/16 14:57:24  crc_canada
+# EAI in C updates for Sept 15 2003
+#
 # Revision 1.112  2003/09/11 16:00:55  crc_canada
 # EAI in C; CreateVrmlFromString, CreateVrmlFromURL work, along with other things
 #
@@ -1619,9 +1622,6 @@ unsigned int EAI_CreateVrml (char *tp, char *inputstring, unsigned int *retarr) 
 
 	
 
-
-
-
 /****************************** END OF EAI **********************************/
 
 /* Sub, rather than big macro... */
@@ -2779,6 +2779,18 @@ do_handle_EAI ()
 	CODE:
 	handle_EAI();
 
+
+int
+EAIExtraMemory (type,size,data)
+	char *type
+	int size
+	SV *data
+	CODE:
+	RETVAL = EAI_do_ExtraMemory (size,data,type);
+OUTPUT:
+RETVAL
+
+	
 
 #****************JAVASCRIPT FUNCTIONS*********************************
 
