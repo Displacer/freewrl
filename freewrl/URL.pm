@@ -1,5 +1,5 @@
 #
-# $Id: URL.pm,v 1.4 2002/08/06 04:41:36 ayla Exp $
+# $Id: URL.pm,v 1.5 2002/08/12 14:34:43 etienne Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka, 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -146,7 +146,8 @@ sub get_absolute {
 
     if (!$key) { $key = ":$url"; }
 
-    if ($VRML::URL::savedUrls{$key}{$urlKeyList[1]}) {
+    ## TODO : Save modification date of file and check for changes
+    if ($VRML::URL::savedUrls{$key}{$urlKeyList[1]} && !$main::sig_reload) {
 	return $VRML::URL::savedUrls{$key}{$urlKeyList[1]};
     }
 
