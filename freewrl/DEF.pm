@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: DEF.pm,v 1.5 2003/03/27 22:46:22 ayla Exp $
+# $Id: DEF.pm,v 1.6 2003/07/22 16:04:48 ayla Exp $
 #
 # Package to handle nodes given a name using the DEF keyword.
 
@@ -20,13 +20,17 @@ sub new {
 		VRMLName => $vrmlname
 	}, $type;
 
+	print "VRML::DEF::new: ", VRML::Debug::toString($this), "\n"
+		if $VRML::verbose::scene;
+
 	return $this;
 }
 
 sub copy {
 	my ($this, $node) = @_;
 
-	return (ref $this)->new($this->{Name}, $this->{Node}->copy($node), $this->{VRMLName});
+	return (ref $this)->new($this->{Name},
+							$this->{Node}->copy($node), $this->{VRMLName});
 }
 
 sub make_executable {
