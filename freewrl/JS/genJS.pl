@@ -27,10 +27,19 @@ open XS, ">JS.xs" or die"couldn't open JS.xs";
 
 require '../VRMLFields.pm';
 
+##SFBool
+##SFFloat
+##SFImage
+##SFInt32
+##SFString
+##SFTime
+##SFNode
+
 @Fields = qw/
 	SFColor
-	SFVec3f
 	SFRotation
+	SFVec2f
+	SFVec3f
 /;
 
 {
@@ -54,7 +63,6 @@ $extra{SFRotation} = {
 	    *rval = OBJECT_TO_JSVAL(o);
 	~,
 	multVec => qq~
-
 		JSObject *ret ;
 		JSObject *o;
 		JSObject *ro;
@@ -146,18 +154,18 @@ $extra{SFVec3f} = {
 	normalize => $vecr.VRML::Field::SFVec3f->vec_normalize(qw/(*vec1).v (*res).v/),
 	negate => $vecr.VRML::Field::SFVec3f->vec_negate(qw/(*vec1).v (*res).v/),
 	length => $veco.VRML::Field::SFVec3f->vec_length(qw/(*vec1).v result/).
-			" 
-		        dp = JS_NewDouble(cx,result);
-			*rval = DOUBLE_TO_JSVAL(dp); ",
+	qq~ 
+	    dp = JS_NewDouble(cx,result);
+	    *rval = DOUBLE_TO_JSVAL(dp); ~,
 };
 
 }
 
 $header .= join '', map {"extern JSClass cls_$_; "} @Fields;
 
-$header .= "
+$header .= qq~
 $VRML::Field::avecmacros
-";
+~;
 
 $field_funcs = join '',map {get_offsf($_)} @Fields;
 
@@ -180,10 +188,10 @@ getCurrentSpeed 0 getCurrentFrameRate 0 getWorldURL 0
 	addRoute 4 deleteRoute 4
 );
 for(keys %bapi) {
-		$browser_fspecs .= qq'
+		$browser_fspecs .= qq~
 			{"$_", browser_$_, 0},
-		';
-		$browser_functions .= qq'
+		~;
+		$browser_functions .= qq~
 static JSBool
 browser_$_(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
@@ -225,14 +233,14 @@ browser_$_(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 	return JS_TRUE;
 }
 
-		';
+		~;
 }
 
 #########################################################
 #
 # Define the SFNode class... this is the trickiest one..
 
-$load_classes .= "
+$load_classes .= qq~
     proto_SFNode = JS_InitClass(cx, globalObj, NULL, &cls_SFNode,
 		cons_SFNode, 3,
 		NULL, meth_SFNode /* methods */,
@@ -240,7 +248,7 @@ $load_classes .= "
 	    { jsval v = OBJECT_TO_JSVAL(proto_SFNode);
     JS_SetProperty(cx, globalObj, \"__SFNode_proto\", &v);
     }
-";
+~;
 
 $field_funcs .= qq~
 
@@ -315,9 +323,17 @@ getprop_SFNode(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 }
 
 static JSClass cls_SFNode = {
-	\"SFNode\", JSCLASS_HAS_PRIVATE,
-    JS_PropertyStub,  JS_PropertyStub,  JS_PropertyStub, /* getprop_SFNode,*/ setprop_SFNode,
-    JS_EnumerateStub, JS_ResolveStub,   JS_ConvertStub,   JS_FinalizeStub
+    \"SFNode\",
+    JSCLASS_HAS_PRIVATE,
+    JS_PropertyStub,
+    JS_PropertyStub,
+    JS_PropertyStub,
+    /* getprop_SFNode,*/
+    setprop_SFNode,
+    JS_EnumerateStub,
+    JS_ResolveStub,
+    JS_ConvertStub,
+    JS_FinalizeStub
 };
 ~;
 
@@ -329,7 +345,7 @@ sub def_mffield {
 	my($f) = @_;
 	my $sf = $f; $sf =~ s/^MF/SF/ or die("Invalid MF '$f'");
 
-	$load_classes .= "
+	$load_classes .= qq~
 	    proto_$f = JS_InitClass(cx, globalObj, NULL, &cls_$f,
 			cons_$f, 3,
 			NULL, meth_$f /* methods */,
@@ -337,7 +353,7 @@ sub def_mffield {
 	    { jsval v = OBJECT_TO_JSVAL(proto_$f);
 	    JS_SetProperty(cx, globalObj, \"__${f}_proto\", &v);
 	    }
-	";
+	~;
 
 
 	$add_classes .= <<__STOP__;
@@ -413,9 +429,16 @@ setprop_$f(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 
 
 static JSClass cls_$f = {
-	"$f", JSCLASS_HAS_PRIVATE,
-    addprop_$f,  JS_PropertyStub,  JS_PropertyStub, setprop_$f,
-    JS_EnumerateStub, JS_ResolveStub,   JS_ConvertStub,   JS_FinalizeStub
+    "$f",
+    JSCLASS_HAS_PRIVATE,
+    addprop_$f,
+    JS_PropertyStub,
+    JS_PropertyStub,
+    setprop_$f,
+    JS_EnumerateStub,
+    JS_ResolveStub,
+    JS_ConvertStub,
+    JS_FinalizeStub
 };
 
 static JSBool
@@ -514,15 +537,16 @@ sub get_offsf {
 	my ($cass) = $ft->cassign("(to->v)","(from->v)");
 	my $jsprop = $ft->jsprop();
 	my $numprop = $ft->jsnumprop("(ptr->v)");
+	## make getprop_FieldName(..)
 	my $getprop = join "", map {
-		"case $_: d = $numprop->{$_}; dp = JS_NewDouble(cx,d);
-			*vp = DOUBLE_TO_JSVAL(dp); break; \n"
+		qq~case $_: d = $numprop->{$_}; dp = JS_NewDouble(cx,d);
+			*vp = DOUBLE_TO_JSVAL(dp); break; \n~
 	} keys %$numprop;
 	my $setprop = join "", map {
-		"case $_: $numprop->{$_} = *JSVAL_TO_DOUBLE(myv); break; \n"
+		qq~case $_: $numprop->{$_} = *JSVAL_TO_DOUBLE(myv); break; \n~
 	} keys %$numprop;
 	my $xtr = join "\n",map {
-		"
+		qq~
 		static JSBool
 		${_}_$f(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 		{
@@ -534,10 +558,10 @@ sub get_offsf {
 	            }
 		    return JS_TRUE;
 		}
-		"
+		~
 			} keys %{$extra{$f}};
 	my $extmethods = join "\n", map {
-		"{\"$_\", ${_}_$f, 0},"
+		qq~{\"$_\", ${_}_$f, 0},~
 	} keys %{$extra{$f}};
 
 	my $jstostr = $ft->jstostr("(ptr->v)");
@@ -563,7 +587,7 @@ sub get_offsf {
 		$#$jscons = 1;
 	}
 
-	$load_classes .= "
+	$load_classes .= qq~
 	    proto_$f = JS_InitClass(cx, globalObj, NULL, &cls_$f,
 			cons_$f, 3,
 			NULL, meth_$f /* methods */,
@@ -571,7 +595,7 @@ sub get_offsf {
 	    { jsval v = OBJECT_TO_JSVAL(proto_$f);
 	    JS_SetProperty(cx, globalObj, \"__${f}_proto\", &v);
 	    }
-	";
+	~;
 
 	$add_classes .= <<__STOP__;
 
@@ -585,19 +609,24 @@ CODE:
     JSContext *cx = cp;
     JSObject *globalObj = p; 
     JSObject *obj;
-	jsval v;
-	if(!JS_GetProperty(cx,globalObj, name, &v)) {
-		die("Getting object of $f: %s",name);
-	}
-     if(!JSVAL_IS_OBJECT(v)) {
-     	die("Getting prop: not object (%d) '%s'",v,name);
-     }
-     obj = JSVAL_TO_OBJECT(v);
-/*    if (!JS_InstanceOf(cx, obj, &cls_$f, argv)) {
+    jsval v;
+    /* if(!JS_GetProperty(cx,globalObj, name, &v)) { */
+
+    if(!JS_SetProperty(cx, globalObj, name, &v)) {
+	die("Getting object of $f: %s",name);
+    }
+
+    if(!JSVAL_IS_OBJECT(v)) {
+	die("Getting prop: not object (%d) '%s'",v,name);
+    }
+    obj = JSVAL_TO_OBJECT(v);
+/*
+    if (!JS_InstanceOf(cx, obj, &cls_$f, argv)) {
     	die("Property %s was not of type $f",name);
     }
- */ /* Trust it... ARGH */
-	set_$f(JS_GetPrivate(cx,obj), sv);
+*/
+    /* Trust it... ARGH */
+    set_$f(JS_GetPrivate(cx,obj), sv);
 
 __STOP__
 
@@ -642,15 +671,15 @@ void set_$f(void *p, SV *sv_) {
 JSBool 
 getprop_$f(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
-	jsdouble d;
-	jsdouble *dp;
-	struct TJL_$f *ptr = JS_GetPrivate(cx,obj);
-	if(JSVAL_IS_INT(id)) {
-		switch(JSVAL_TO_INT(id)) {
-			$getprop
-		}
+    jsdouble d;
+    jsdouble *dp;
+    struct TJL_$f *ptr = JS_GetPrivate(cx,obj);
+    if(JSVAL_IS_INT(id)) {
+	switch(JSVAL_TO_INT(id)) {
+	    $getprop
 	}
-	return JS_TRUE;
+    }
+    return JS_TRUE;
 }
 
 static JSBool 
@@ -671,14 +700,21 @@ setprop_$f(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 }
 
 JSClass cls_$f = {
-	"$f", JSCLASS_HAS_PRIVATE,
-    JS_PropertyStub,  JS_PropertyStub,  getprop_$f,  setprop_$f,
-    JS_EnumerateStub, JS_ResolveStub,   JS_ConvertStub,   JS_FinalizeStub
+    "$f",
+    JSCLASS_HAS_PRIVATE,
+    JS_PropertyStub,
+    JS_PropertyStub,
+    getprop_$f,
+    setprop_$f,
+    JS_EnumerateStub,
+    JS_ResolveStub,
+    JS_ConvertStub,
+    JS_FinalizeStub
 };
 
-static  JSPropertySpec (prop_$f)[] = {
-	$jsprop,
-	{0}
+static JSPropertySpec (prop_$f)[] = {
+    $jsprop,
+    {0}
 };
 
 static JSBool
@@ -715,12 +751,12 @@ assign_$f(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 /*
     printf("ptr: %d %f %f %f fptr: %d %f %f %f\\n", ptr, ptr->v.c[0],ptr->v.c[1],ptr->v.c[2],
     	fptr, fptr->v.c[0],fptr->v.c[1],fptr->v.c[2]);
- */
+*/
     asgn_$f(ptr,fptr);
 /*
     printf("ptr: %d %f %f %f fptr: %d %f %f %f\\n", ptr, ptr->v.c[0],ptr->v.c[1],ptr->v.c[2],
     	fptr, fptr->v.c[0],fptr->v.c[1],fptr->v.c[2]);
- */
+*/
     *rval = OBJECT_TO_JSVAL(obj); 
     if(verbose) printf("Assgn: true\\n");
     return JS_TRUE;
@@ -815,15 +851,38 @@ $header
 $browser_functions
 
 static JSClass my_global_class = {
-    "global", 0,
-    JS_PropertyStub,  JS_PropertyStub,  JS_PropertyStub,  JS_PropertyStub,
-    JS_EnumerateStub, global_resolve,   JS_ConvertStub,   JS_FinalizeStub
+    "global", /* char *name */
+    0, /* uint32 flags */
+    JS_PropertyStub, /* JSPropertyOp addProperty, uses dummy property arg */
+    JS_PropertyStub, /* JSPropertyOp delProperty, uses dummy property arg */
+    JS_PropertyStub, /* JSPropertyOp getProperty, uses dummy property arg */
+    JS_PropertyStub, /* JSPropertyOp setProperty, uses dummy property arg */
+    JS_EnumerateStub, /* JSEnumerateOp enumerate, uses dummy enumeration arg */
+    global_resolve, /* JSResolveOp resolve */
+    JS_ConvertStub, /* JSConvertOp convert, uses dummy conversion arg */
+    JS_FinalizeStub /* JSFinalize finalize, uses dummy finalization arg */
+    /* Optional:
+     * JSGetObjectOps getObjectOps
+     * JSCheckAccessOp checkAccess
+     * JSNative call
+     * JSNative construct
+     * JSXDRObjectOp xdrObject
+     * JSHasInstanceOp hasInstance
+     * prword spare[2]
+     */
 };
 
 static JSClass my_browser_class = {
-    "_Browserclass", JSCLASS_HAS_PRIVATE,
-    JS_PropertyStub,  JS_PropertyStub,  JS_PropertyStub,  JS_PropertyStub,
-    JS_EnumerateStub, JS_ResolveStub,   JS_ConvertStub,   JS_FinalizeStub
+    "_Browserclass",
+    JSCLASS_HAS_PRIVATE,
+    JS_PropertyStub,
+    JS_PropertyStub,
+    JS_PropertyStub,
+    JS_PropertyStub,
+    JS_EnumerateStub,
+    JS_ResolveStub,
+    JS_ConvertStub,
+    JS_FinalizeStub
 };
 
 static JSFunctionSpec (my_browser_meth)[] = {
@@ -832,37 +891,38 @@ static JSFunctionSpec (my_browser_meth)[] = {
 };
 
 double runscript(void *cxp, void *glo, char *script, SV*r) {
-	JSContext *cx = cxp;
-	JSObject *globalObj = glo;
-	char *filename = "FOO" ;
-	uintN lineno = 23;
-	jsval rval;
-	JSBool ok;
-	jsdouble d;
-	JSString *strval;
-	char *strp;
-	if(verbose) printf("Running script '%s'\\n",script);
+    JSContext *cx = cxp;
+    JSObject *globalObj = glo;
+    char *filename = "FOO" ;
+    uintN lineno = 23;
+    jsval rval;
+    JSBool ok;
+    jsdouble d;
+    JSString *strval;
+    char *strp;
+    if(verbose) printf("Running script '%s'\\n",script);
 
-	ok = JS_EvaluateScript(cx, globalObj, script, strlen(script),
+    ok = JS_EvaluateScript(cx, globalObj, script, strlen(script),
 		filename, lineno, &rval);
+    if(ok) {
+	strval = JS_ValueToString(cx, rval);
+	strp = JS_GetStringBytes(strval);
+	sv_setpv(r,strp);
+
+	ok = JS_ValueToNumber(cx, rval, &d);
 	if(ok) {
-		strval = JS_ValueToString(cx, rval);
-		strp = JS_GetStringBytes(strval);
-		sv_setpv(r,strp);
-
-		ok = JS_ValueToNumber(cx, rval, &d);
-		if(ok) {
-			/* printf("GOT: %f\\n",d); */
-			return d;
-		} else {
-			die("VTN failure\\n");
-		}
-
-
- 	} else {
-		die("Loadscript failure");
+	    /* printf("GOT: %f\\n",d); */
+	    return d;
+	} else {
+	    die("VTN failure\\n");
 	}
-return 0.0; /* Compiler satisfaction */
+
+    } else {
+	printf("Error from JS_EvaluateScript for %s at line %u.\\n",
+	    filename, lineno);
+	die("Loadscript failure");
+    }
+    return 0.0; /* Compiler satisfaction */
 }
 
 $field_funcs
@@ -975,7 +1035,12 @@ CODE:
 	if(!ok) { printf("SCRFAIL\\n"); die("Addasgn script fail"); }
     if(verbose) printf("Addasgn eval ok \\n");
         JS_DefineProperty(cx, globalObj, name, rval,
-                  NULL, NULL, 0 | JSPROP_ASSIGNHACK | JSPROP_PERMANENT ); /* */
+        /*
+	 * NULL, NULL, 0 | JSPROP_ASSIGNHACK | JSPROP_PERMANENT );
+	 * Correct???
+	 */
+	NULL, NULL, 0 | JSPROP_EXPORTED | JSPROP_SHARED | JSPROP_PERMANENT ); /* */
+
 
 void
 addwatchprop(cp,p,name)
