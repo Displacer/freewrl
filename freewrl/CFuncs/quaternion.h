@@ -6,7 +6,7 @@
 *******************************************************************************/
 
 /*
- * $Id: quaternion.h,v 1.4 2003/07/02 19:20:28 sdumoulin Exp $
+ * $Id: quaternion.h,v 1.5 2003/07/03 19:49:57 ayla Exp $
  *
  */
 
@@ -22,6 +22,8 @@
 #include <gl.h>
 #endif
 #include <math.h>
+
+#define DELTA 0.0001
 
 typedef struct quaternion {
 	double w;
@@ -83,7 +85,10 @@ void
 set(Quaternion *ret,
 	const Quaternion *quat);
 
-/* void */
-/* slerp(); */
+void
+slerp(Quaternion *ret,
+	  const Quaternion *q1,
+	  const Quaternion *q2,
+	  const double t);
 
 #endif /* __QUATERNION_H__ */
