@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.h,v 1.2 2002/11/08 01:01:47 ayla Exp $
+ * $Id: jsVRMLBrowser.h,v 1.3 2002/11/21 16:33:44 ayla Exp $
  * 
  */
 
@@ -17,7 +17,6 @@
 #ifndef __jsUtils_h__
 #include "jsUtils.h"
 #endif /* __jsUtils_h__ */
-
 
 
 /*

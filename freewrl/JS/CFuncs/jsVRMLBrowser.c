@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.c,v 1.2 2002/11/08 01:01:47 ayla Exp $
+ * $Id: jsVRMLBrowser.c,v 1.3 2002/11/21 16:33:44 ayla Exp $
  * 
  */
 
@@ -487,7 +487,6 @@ doVRMLRoute(JSContext *context, JSObject *obj, uintN argc, jsval *argv,
 					browserFunc, _c_args, callingFunc);
 			return JS_FALSE;
 		}
-
 
 		if (!JS_GetProperty(context, _obj[0], "__id", &(_v[0]))) {
 			fprintf(stderr,

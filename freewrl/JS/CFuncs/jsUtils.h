@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.2 2002/11/08 01:01:47 ayla Exp $
+ * $Id: jsUtils.h,v 1.3 2002/11/21 16:33:44 ayla Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -50,10 +50,6 @@ extern void
 doPerlCallMethodVA(SV *sv, const char *methodName, const char *format, ...);
 
 
-typedef struct _SFNodeNative {
-	int touched;
-	char *vrml_handle;
-} SFNodeNative;
 
 typedef struct _SFRotationNative {
 	int touched;
