@@ -19,13 +19,19 @@ if($VRML::verbose::js) {
 
 init(); # C-level init
 
+## unsure if correct...
 %Types = (
-	SFBool => sub {$_[0] ? "true" : "false"},
-	SFFloat => sub {$_[0]+0},
-	SFTime => sub {$_[0]+0},
-	SFInt32 => sub {$_[0]+0},
-	SFString => sub {'"'.$_[0].'"'}, # XXX
-	SFNode => sub {'new SFNode("","'.(VRML::Handles::reserve($_[0])).'")'},
+        SFBool => sub {$_[0] ? "true" : "false"},
+        SFColor => sub {map { 0 + $_ } @{$_[0]}},
+        SFFloat => sub {$_[0]+0},
+        ## SFImage => sub {...},
+        SFInt32 => sub {$_[0]+0},
+        SFNode => sub {'new SFNode("","'.(VRML::Handles::reserve($_[0])).'")'},
+        SFRotation => sub {map { 0 + $_ } @{$_[0]}},
+        SFString => sub {'"'.$_[0].'"'}, # XXX
+        SFTime => sub {$_[0]+0},
+        SFVec2f => sub {map { 0 + $_ } @{$_[0]}},
+        SFVec3f => sub {map { 0 + $_ } @{$_[0]}},
 );
 
 sub new {
@@ -255,7 +261,7 @@ sub get_prop {
 		     $rs
 		} (0..$l-1);
 		return \@res;
-	}elsif($type =~ /^MF/) {
+	} elsif($type =~ /^MF/) {
 		my $l = runscript($this->{CX},$this->{GLO},
 			"$prop.length",$rs);
 		print "LENGTH: $l, '$rs'\n"
