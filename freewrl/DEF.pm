@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: DEF.pm,v 1.1 2002/05/22 21:47:52 ayla Exp $
+# $Id: DEF.pm,v 1.2 2002/06/24 20:56:52 ayla Exp $
 #
 # Package to handle nodes given a name using the DEF keyword.
 
@@ -39,9 +39,10 @@ sub make_executable {
 sub make_backend {
 	my ($this, $be, $parentbe) = @_;
 	
-	print "VRML::DEF::make_backend $this $this->{Name} ", 
-		VRML::NodeIntern::dump_name($this->{Node}), " ", ref $this->{Node},"\n" 
-		if $VRML::verbose::be;
+	print "VRML::DEF::make_backend $this->{Name}, ",
+		VRML::NodeIntern::dump_name($this->{Node}),
+				", $this->{Node}{TypeName}\n"
+					if $VRML::verbose::be;
 
 	# use the node's make_backend
 	return $this->{Node}->make_backend($be, $parentbe);
@@ -75,7 +76,7 @@ sub real_node {
         # print "(Name)\t\t\t", $_[0][0], "\n";
         # print "(Node)\t\t\t", $_[0][1], "\n";
         # print "ref of Node is\t\t", ref($_[0][1]), "\n";
-	return $this->{Node}->real_node($obj); 
+	return $this->{Node}->real_node($obj);
 }
 
 sub initialize {()}

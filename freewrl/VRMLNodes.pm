@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.53 2002/06/24 05:28:38 ayla Exp $
+# $Id: VRMLNodes.pm,v 1.54 2002/06/24 20:56:52 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -2193,53 +2193,69 @@ NavigationInfo => new VRML::NodeType("NavigationInfo",
  }
  ),
 
- Inline => new VRML::NodeType("Inline",
- {
-    bboxSize => [SFVec3f, [-1,-1,-1]],
-    bboxCenter => [SFVec3f, [0,0,0]],
-    url => [MFString, []]
- },
- {
-    Initialize => sub {
-	my($t, $f, $time, $scene) = @_;
-	# XXXXXX!!
-	#print "VRMLNode::Inline\n\tt $t\n\tf $f\n\ttime $time\n\tscene $scene\n";
+	Inline =>
+	new VRML::NodeType("Inline",
+					   {
+						bboxSize => [SFVec3f, [-1,-1,-1]],
+						bboxCenter => [SFVec3f, [0,0,0]],
+						url => [MFString, []]
+					   },
+					   {
+						Initialize =>
+						sub {
+							my($t, $f, $time, $scene) = @_;
+							# XXXXXX!!
+							#print "VRMLNode::Inline\n\tt $t\n\tf $f\n\ttime $time\n\tscene $scene\n";
 
-	my ($text, $url);
-	my $purl = $scene->get_url();
-	my $urls = $f->{url};
-	$p = $scene->new_proto("__proto".$protono++);
+							my ($text, $url);
+							my $purl = $scene->get_url();
+							my $wurl = $scene->get_world_url;
+							my $urls = $f->{url};
+							$p = $scene->new_proto("__proto".$protono++);
 
-	my $valid = 0;
+							my $valid = 0;
 
-	URL: for $u (@$urls) {
-	    ($text,$url) = VRML::URL::get_relative($purl, $u);
-	    if (!$text) {
-		warn "Warning: could not retrieve $u";
-		next URL;
-	    }
+						URL:
+							for $u (@$urls) {
+								##($text, $url) = VRML::URL::get_relative($purl, $u);
+		
+								if (defined $wurl) {
+									($text, $url) = VRML::URL::get_relative($wurl, $u);
+								} else {
+									($text, $url) = VRML::URL::get_relative($purl, $u);
+								}
 
-	    $p->set_url($url);
-	    VRML::Parser::parse($p, $text);
-	    if(!defined $p) { die("Inline not found"); }
+								if (!$text) {
+									warn "Warning: could not retrieve $u";
+									next URL;
+								}
 
-	    $t->{ProtoExp} = $p;
-	    $t->{ProtoExp}->set_parentnode($t);
-	    $t->{ProtoExp}->make_executable();
-	    $t->{ProtoExp}{IsInline} = 1;
-	    $t->{IsProto} = 1;
+								$p->set_url($url);
+								VRML::Parser::parse($p, $text);
+								if (!defined $p) {
+									die("Inline not found");
+								}
 
-	    $valid =1;
+								$t->{ProtoExp} = $p;
+								$t->{ProtoExp}->set_parentnode($t);
+								$t->{ProtoExp}->make_executable();
+								$t->{ProtoExp}{IsInline} = 1;
+								$t->{IsProto} = 1;
 
-	} # for $u (@$urls)
+								$valid = 1;
 
-	if (!$valid) { die "Unable to loacte a valid url"; }
-	return ();
-    }
- }
- ),
+							}	# for $u (@$urls)
+
+							if (!$valid) {
+								die "Unable to loacte a valid url";
+							}
+							return ();
+						}
+					   }
+					  ),
 
 );
 
 
 
+1;
