@@ -4,7 +4,7 @@
 # for conditions of use and redistribution, EXCEPT on the files
 # which belong under the Mozilla public license.
 #
-# $Id: Makefile.PL,v 1.2 2002/11/08 01:01:47 ayla Exp $
+# $Id: Makefile.PL,v 1.3 2002/11/20 16:53:14 sdumoulin Exp $
 #
 #
 # a.out: js.c
@@ -61,7 +61,7 @@ my $ccflags = q{-Wall\
 -Wmissing-declarations
 };
 
-my $inc = join(' ', $VRML_CONFIG{JS_INC}, q{-ICFuncs}, q{-I../CFuncs});
+my $inc = join(' ', $VRML_CONFIG{JS_INC}, $VRML_CONFIG{FREEWRL_INC}, q{-ICFuncs}, q{-I../CFuncs});
 my $libs = join(' ', $VRML_CONFIG{JS_LIBS}, q{-lm});
 
 ## OSNAME = linux, irix, ...
