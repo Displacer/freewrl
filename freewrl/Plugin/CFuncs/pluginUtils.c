@@ -1,9 +1,10 @@
 /*
- * $Id: pluginUtils.c,v 1.2 2002/08/06 04:41:36 ayla Exp $
+ * $Id: pluginUtils.c,v 1.3 2003/10/23 15:03:29 sdumoulin Exp $
  *
  * FreeWRL plugin utility functions.
  */
 
+#ifndef __APPLE__
 #include "pluginUtils.h"
 
 const char*
@@ -133,3 +134,4 @@ XErrorToString(int error)
             return "Unknown";
     }
 }
+#endif
