@@ -1,5 +1,5 @@
 /*
- * $Id: JPEG.xs,v 1.5 2001/07/11 20:43:05 ayla Exp $
+ * $Id: JPEG.xs,v 1.6 2002/02/07 18:37:49 crc_canada Exp $
  *
  * Modified from the libjpeg example 
  * Modifications Copyright(C) 1998 Tuomas J. Lukka
@@ -8,6 +8,9 @@
  * distribution) for details.
  *
  * $Log: JPEG.xs,v $
+ * Revision 1.6  2002/02/07 18:37:49  crc_canada
+ * flip_image no longer used; was giving Irix comp. probs  - removed
+ *
  * Revision 1.5  2001/07/11 20:43:05  ayla
  *
  *
@@ -251,61 +254,3 @@ OUTPUT:
 	wi
 
 
-
-#
-# This one is not use anymore
-# It flip (change Y axis way) an image which pixels are passed 
-# as parameters in datio.
-# It is still here because perhaps will be usefull ... ?
-#
-int
-flip_image(dep,hei,wi, datio)
-	int dep
-	int hei
-	int wi
-        SV* datio
-CODE:
-	/*
-	 * This one is not use anymore
-	 * It flip (change Y axis way) an image which pixels are passed 
-	 * as parameters in datio.
-	 * It is still here because perhaps will be usefull ... ?
-	 */
-        while ( 1 ) {
-          unsigned char* ptrin = SvPV( datio, PL_na );
-          unsigned char* ptrout =(unsigned char*)NULL;
-          unsigned char* ptr; 
-          int xi, yi, xv, yv, d;
-          unsigned long size = hei*wi*dep * sizeof(unsigned char); 
-
-          /*
-          printf( "JPEG::flip_image -- LEN = %d\n", SvCUR(datio)); 
-          printf( "JPEG::flip_image -- SIZE = %d\n", size);
-          */
-          ptr = ptrout =(unsigned char*)malloc( size );
-          if ( (unsigned char*)NULL == ptrout )
-            {
-              croak( "Not enough memory\n" );
-              RETVAL = 0;
-              break; 
-            }
-          /*
-          printf( "JPEG::flip_image -- ptrin = 0x%lx    ptrout = 0x%lx\n", ptrin, ptrout );
-          */
-          for ( yi = hei -1; yi >= 0; yi-- ) 
-            for ( xi = 0; xi < wi; xi++ )
-              for ( d = 0; d < dep; d++ )
-                *ptr++= *((unsigned char *)((unsigned long)ptrin+((yi*wi+xi)*dep+d)));
-          /*
-          printf( "JPEG::flip_image -- 3\n" );
-          */
-          sv_setpvn( datio, ptrout, size );
-          RETVAL = size;
-          /*
-          printf( "JPEG::flip_image -- RETVAL = %d\n", RETVAL);
-          */
-          break;
-        }
-OUTPUT:
-        RETVAL
-        datio
