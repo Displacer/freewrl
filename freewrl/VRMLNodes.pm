@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.34 2001/07/12 04:53:02 ayla Exp $
+# $Id: VRMLNodes.pm,v 1.35 2001/08/03 15:49:12 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -345,6 +345,14 @@ sub init_image {
 		warn("Couldn't read texture file $tempfile");
 		next URL;
 	    }
+	    # remove temporary file
+	    my $cmd = "rm $tmpfile";
+            my $status = system ($cmd);
+            die "$image conversion problem: '$cmd' returns $?"
+                unless $status == 0;
+
+
+
 	} elsif ($suffix =~ /png/i) {
 	    eval 'require VRML::PNG';
 	    eval 'require VRML::JPEG';
