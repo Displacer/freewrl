@@ -2,7 +2,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.9 2003/07/18 18:37:22 crc_canada Exp $
+ * $Id: Viewer.h,v 1.10 2003/07/21 13:46:16 crc_canada Exp $
  *
  */
 
@@ -163,8 +163,6 @@ set_buffer(VRML_Viewer *viewer,
 
 int
 get_headlight(VRML_Viewer *viewer);
-
-void set_headlight(VRML_Viewer *viewer, int val);
 
 void
 toggle_headlight(VRML_Viewer *viewer);
