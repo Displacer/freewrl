@@ -7,18 +7,13 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.24 2003/11/26 16:31:07 crc_canada Exp $
+ * $Id: Viewer.c,v 1.25 2003/12/01 18:53:01 crc_canada Exp $
  *
  */
 
 #include "headers.h"
 #include "Structs.h"
 #include "Viewer.h"
-
-/* The global viewer - should be passed in by pointer JAS  */
-extern VRML_Viewer Viewer;
-
-extern int navi_tos;
 
 static int viewer_type = NONE;
 static int viewer_initialized = FALSE;

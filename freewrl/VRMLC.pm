@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.128 2003/11/28 16:17:05 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.129 2003/12/01 18:53:01 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.129  2003/12/01 18:53:01  crc_canada
+# more threading, and making externs in .h files
+#
 # Revision 1.128  2003/11/28 16:17:05  crc_canada
 # Bindables now registered and handled in C
 #
@@ -1979,8 +1982,8 @@ render_hier(void *p, int rwhat)
 	hpdist = -1;
 
 	if (!p) {
-		//fprintf(stderr, "Render_hier: arg 1 is NULL\n");
-		sleep(1);
+		/* we have no geometry yet, sleep for a tiny bit */
+		usleep(1000);
 		return;
 	}
 

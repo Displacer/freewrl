@@ -9,7 +9,7 @@
 #define __OPENGL_UTILS_H_
 
 /*
- * $Id: OpenGL_Utils.h,v 1.5 2003/11/26 16:31:07 crc_canada Exp $
+ * $Id: OpenGL_Utils.h,v 1.6 2003/12/01 18:53:01 crc_canada Exp $
  *
  */
 
@@ -55,5 +55,10 @@ BackEndHeadlightOff(void);
 
 void
 BackEndHeadlightOn(void);
+
+extern Display *dpy;
+extern Window win;
+extern void openMainWindow(Display *dpy, Window *win, GLXContext *glocx);
+extern void glpOpenGLInitialize(void);
 
 #endif /* __OPENGL_UTILS_H_ */
