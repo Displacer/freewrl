@@ -1,5 +1,5 @@
 
-# $Id: VRMLServ.pm,v 1.4 2000/10/12 12:18:20 crc_canada Exp $
+# $Id: VRMLServ.pm,v 1.5 2000/10/13 14:13:48 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -10,6 +10,9 @@
 
 #
 # $Log: VRMLServ.pm,v $
+# Revision 1.5  2000/10/13 14:13:48  crc_canada
+# removed some unneeded print statements
+#
 # Revision 1.4  2000/10/12 12:18:20  crc_canada
 # fixed a send event type mfnode bug, whereby two events in succession would
 # destroy the preceeding.
@@ -240,7 +243,7 @@ sub handle_input {
        		        }
 		        $hand->print("RE\n$reqid\n2\n$strval\n");
 
-		} elsif($str =~ /^SC ([^ ]+) ([^ ]+)$/) { # send MFNode eventIn to node
+		} elsif($str =~ /^SC ([^ ]+) ([^ ]+)$/) { # send SFNode eventIn to node
 			my($id, $field) = ($1,$2);
 			my $v = (shift @lines)."\n";
 
