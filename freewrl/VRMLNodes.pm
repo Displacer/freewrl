@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.42 2002/01/04 20:18:36 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.43 2002/01/14 10:52:22 hoenicke Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1717,7 +1717,6 @@ Script => new VRML::NodeType("Script",
 					}
 					$VRML::J->newscript($t->{PURL},$_,$t);
 					$t->{J} = $VRML::J;
-					$t->{J}->sendinit($t);
 					last;
 				} elsif(/\.js/) {
 #RCS					die("Sorry, no javascript files yet -- XXX FIXME (trivial fix!)");
@@ -1770,7 +1769,7 @@ Script => new VRML::NodeType("Script",
 			} elsif($t->{J}) {
 
 #EG			if($t->{J}) {
-				return $t->{J}->initialize($scene);
+				return $t->{J}->initialize($scene, $t);
 			}
 			return ();
 		},
