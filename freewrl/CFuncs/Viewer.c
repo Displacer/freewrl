@@ -7,13 +7,20 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.26 2004/01/21 19:36:21 crc_canada Exp $
+ * $Id: Viewer.c,v 1.27 2004/03/03 21:39:56 sdumoulin Exp $
  *
  */
 
 #include "headers.h"
 #include "Structs.h"
 #include "Viewer.h"
+#ifdef AQUA
+#define KeyPress        2
+#define KeyRelease      3
+#define ButtonPress     4
+#define ButtonRelease   5
+#define MotionNotify    6
+#endif
 
 static int viewer_type = NONE;
 static int viewer_initialized = FALSE;
