@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: IS.pm,v 1.5 2003/03/27 22:15:00 ayla Exp $
+# $Id: IS.pm,v 1.6 2004/04/20 19:20:23 crc_canada Exp $
 #
 # Package to handle IS statements in prototype definitions.
 #
@@ -84,6 +84,9 @@ sub dump {
 	my $lp = $level*2+2;
 	my $padded = pack("A$lp","$level ");
 	print "$padded node ", VRML::NodeIntern::dump_name($this)," IS ", $this->{Name},"\n";
+	if (defined $this->{Ref}) {
+		print "$padded node ref:", $this->{Ref},"\n";
+	}
 }
 
 

@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.74 2004/03/17 19:04:55 crc_canada Exp $
+# $Id: Scene.pm,v 1.75 2004/04/20 19:20:23 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -411,7 +411,9 @@ sub new_use {
 
 sub new_is {
 	my ($this, $name, $is) = @_;
-	return VRML::IS->new($name, $is);
+	my $newObj = VRML::IS->new($name, $is);
+	#print $newObj->dump;
+	return $newObj;
 }
 
 sub new_proto {

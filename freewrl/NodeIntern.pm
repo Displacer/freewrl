@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.33 2004/03/16 16:54:16 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.34 2004/04/20 19:20:23 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -314,6 +314,14 @@ sub startScript {
 		if $VRML::verbose::script;
 	$node->{ScriptScript} = $h;
 	$node->{scriptInvocationNumber} = $scriptInvocationNumber;
+
+	#print "NODE $node ",
+	#	($node->{IsProto} ?
+	#	 "PROTO ".VRML::NodeIntern::dump_name($node->{ProtoExp})." " : " is not Proto "),
+	#		 "$node->{TypeName} ", VRML::NodeIntern::dump_name($node),
+	#		 " scriptInvocationNumber:",$node->{scriptInvocationNumber},
+	#		 "\n";
+
 	my $s;
 	if (($s = $node->{ScriptScript}{"initialize"})) {
 		print "CALL $s\n if $VRML::verbose::script"
