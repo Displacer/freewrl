@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.129 2003/12/01 18:53:01 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.130 2003/12/10 17:11:31 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.130  2003/12/10 17:11:31  crc_canada
+# mpeg movies working in threaded system
+#
 # Revision 1.129  2003/12/01 18:53:01  crc_canada
 # more threading, and making externs in .h files
 #
@@ -2021,52 +2024,6 @@ MODULE = VRML::VRMLFunc PACKAGE = VRML::VRMLFunc
 PROTOTYPES: ENABLE
 
 
-
-#####################################################################
-# 
-# Set the texture rendering size
-# 
-# OpenGL implementations specify a maximum texture size; resize
-# textures to this size, or allow specifying a smaller size
-#
-#####################################################################
-
-void
-set_maxtexture_size (maxsize)
-	int maxsize;
-CODE:
-        int texSize;
-        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texSize);
-	
-	/* see which one we should use */
-	if (maxsize < texSize) {
-		global_texSize = maxsize;
-	} else {
-		global_texSize = texSize;
-	}
-
-
-
-#####################################################################
-#
-# get an MPEG file
-#
-####################################################################
-
-int 
-read_mpg_file(init_tex, fname,repeatS,repeatT)
-	unsigned int init_tex
-	char *fname
-	int repeatS
-	int repeatT
-CODE:
-	/* go directly to the CFuncs/MPEG_Utils, and run from there */
-	RETVAL = mpg_main(init_tex, fname, repeatS, repeatT);
-OUTPUT:
-	RETVAL
-
-####################################################################
-#
 
 ####################################################################
 #

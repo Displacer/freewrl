@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.116 2003/12/04 18:33:57 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.117 2003/12/10 17:11:31 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -471,19 +471,6 @@ my $protono;
 
 									  # get the file
 									  init_sound("","url",$t,$f,$scene,1);
-#JAS								  } else {
-#JAS									  init_movie_image("","url",$t,$f,$scene);
-#JAS
-#JAS									  # which frame to start with?
-#JAS									  if ($f->{speed} >= 0) {
-#JAS										  $f->{__ctex} = $f->{__texture0_};
-#JAS									  } else {
-#JAS										  $f->{__ctex} = $f->{__texture1_};
-#JAS									  }
-#JAS									  $f->{isActive} = 0; # inactive
-#JAS									  $f->{__inittime} = $time;
-#JAS
-#JAS									  #print "mt init time is $time\n";
 								  }
 								  # this will only be reset the next time a Sound node gets hit
 								  $SoundMaterial = "unknown";
