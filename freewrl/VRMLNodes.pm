@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.81 2003/02/05 22:36:27 ayla Exp $
+# $Id: VRMLNodes.pm,v 1.82 2003/02/17 18:04:34 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -424,16 +424,18 @@ sub addChildren_GroupingNodes {
 	my ($node, $fields, $value, $time) = @_;
 
 	# debug:
-	#print ("VRML::NodeType::addChildren_GroupingNodes: ", $node, ", $fields, [ ", (join ", ", map(VRML::NodeIntern::dump_name($_).": $_", @{$value}))," ], $time\n");
+	#print ("VRML::NodeType::addChildren_GroupingNodes: ", VRML::NodeIntern::dump_name($node), ", $fields, [ ", (join ", ", map(VRML::NodeIntern::dump_name($_).": $_->{TypeName}", @{$value}))," ], $time\n");
 
 	my %children = map { $_ => 1 } @{$node->{Fields}{children}};
 	for (@{$value}) {
 		if (!$children{$_}) {
+			##push @{$node->{RFields}{children}}, $_;
 			push @{$node->{Fields}{children}}, $_;
 		}
 	}
 	$node->{RFields}{children} = $node->{Fields}{children};
-	# AK - why is this here? # return ();
+
+	@{$node->{RFields}{addChildren}} = ();
 }
 
 sub removeChildren_GroupingNodes {
@@ -445,10 +447,11 @@ sub removeChildren_GroupingNodes {
 	my %toremove = map { $_ => 1 } @{$value};
 	my @children = grep { !$toremove{$_} } @{$node->{Fields}{children}};
 
-	$node->{Fields}{children} = [];
+	@{$node->{Fields}{children}} = ();
 	push @{$node->{Fields}{children}}, @children;
 	$node->{RFields}{children} = $node->{Fields}{children};
-	# AK - why is this here? # return ();
+
+	@{$node->{RFields}{removeChildren}} = ();
 }
 
 
@@ -646,6 +649,7 @@ NO_TEXTURE:
 	return;
 }
 
+
 ########################################################################
 
 
@@ -669,7 +673,11 @@ my $protono;
 
 		my $t;
 		for (keys %$fields) {
-			$this->{Defaults}{$_} = $fields->{$_}[1];
+			if (ref $fields->{$_}[1] eq "ARRAY") {
+				push @{$this->{Defaults}{$_}}, @{$fields->{$_}[1]};
+			} else {
+				$this->{Defaults}{$_} = $fields->{$_}[1];
+			}
 			$this->{FieldTypes}{$_} = $fields->{$_}[0];
 			$t = $fields->{$_}[2];
 			if (!defined $t) {
@@ -681,10 +689,10 @@ my $protono;
 			} elsif ($t =~ /out$/i) {
 				$this->{EventOuts}{$_} = $_;
 			} elsif ($t =~ /^exposed/) {
-				$this->{EventOuts}{$_} = $_; ## ???
-				$this->{EventOuts}{$_."_changed"} = $_;
-				$this->{EventIns}{$_} = $_; ## ???
-				$this->{EventIns}{"set_".$_} = $_;
+				## in case the 'set_' prefix or '_changed' suffix isn't
+				## used for exposedFields in routes
+				$this->{EventIns}{$_} = $_;
+				$this->{EventOuts}{$_} = $_;
 			}
 			$this->{FieldKinds}{$_} = $t;
 		}

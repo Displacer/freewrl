@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.13 2003/02/05 21:03:57 ayla Exp $
+# $Id: NodeIntern.pm,v 1.14 2003/02/17 18:04:33 ayla Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -310,7 +310,11 @@ sub do_defaults {
 
 	for (keys %{$this->{Type}{Defaults}}) {
 		if (!exists $this->{Fields}{$_}) {
-			$this->{Fields}{$_} = $this->{Type}{Defaults}{$_};
+			if (ref $this->{Type}{Defaults}{$_} eq "ARRAY") {
+				push @{$this->{Fields}{$_}}, @{$this->{Type}{Defaults}{$_}};
+			} else {
+				$this->{Fields}{$_} = $this->{Type}{Defaults}{$_};
+			}
 		}
 	}
 }
