@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.c,v 1.9 2003/03/20 21:21:32 ayla Exp $
+ * $Id: jsVRMLBrowser.c,v 1.10 2003/03/20 22:40:32 ayla Exp $
  * 
  */
 
@@ -388,9 +388,6 @@ VrmlBrowserCreateVrmlFromString(JSContext *context, JSObject *obj,
 	BrowserNative *brow;
 	char *_c, *_c_args = "SFString vrmlSyntax", *_c_format = "s";
 
-JSString *_valStr;
-char *_val_c;
-
 	if ((brow = JS_GetPrivate(context, obj)) == NULL) {
 		fprintf(stderr,
 				"JS_GetPrivate failed in VrmlBrowserCreateVrmlFromString.\n");
@@ -423,10 +420,6 @@ char *_val_c;
 		return JS_FALSE;
 	}
 	*rval = _rval;
-
-_valStr = JS_ValueToString(context, *rval);
-_val_c = JS_GetStringBytes(_valStr);
-printf("VrmlBrowserCreateVrmlFromString: obj = %u, %s = %s\n", (unsigned int) obj, BROWSER_RETVAL, _val_c);
 
 	return JS_TRUE;
 }
