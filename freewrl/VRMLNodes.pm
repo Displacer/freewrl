@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.49 2002/05/06 16:43:58 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.50 2002/05/21 14:41:18 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1776,7 +1776,8 @@ ProximitySensor => new VRML::NodeType("ProximitySensor",
 				$f->{orientation_changed} = $r->[2];
 				$ch = 1;
 			}
-			return if !$ch;
+#			return if !$ch;
+			return 1 if !$ch; #ncoder: added 1. seemed Scene.pm needed a return value. mustcheck.
 		} else {
 			if($f->{isActive}) {
 				$f->{isActive} = 0;
