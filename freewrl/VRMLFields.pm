@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.42 2005/01/16 20:55:08 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.43 2005/01/18 20:52:35 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,9 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.43  2005/01/18 20:52:35  crc_canada
+# Make a ConsoleMessage that displays xmessage for running in a plugin.
+#
 # Revision 1.42  2005/01/16 20:55:08  crc_canada
 # Various compile warnings removed; some code from Matt Ward for Alldev;
 # some perl changes for generated code to get rid of warnings.
@@ -793,7 +796,7 @@ sub cfunc {
 	# get the base type, ie, get something like SFFloat from VRML::Field::SFFloat
 	my $baseType = $r;
 	$baseType =~ s/VRML::Field:://;
-	print "cfunc, basetype $baseType\n";
+	#print "cfunc, basetype $baseType\n";
 	# we do not need to make a float into a (struct SFFloat *)...
 	# and we have other compiler warnings. So, change some castings around to satisfy
 	# the compilers.
