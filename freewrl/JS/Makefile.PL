@@ -4,7 +4,7 @@
 # for conditions of use and redistribution, EXCEPT on the files
 # which belong under the Mozilla public license.
 #
-# $Id: Makefile.PL,v 1.6 2003/01/15 16:52:34 sdumoulin Exp $
+# $Id: Makefile.PL,v 1.7 2003/01/15 17:09:22 sdumoulin Exp $
 #
 #
 # a.out: js.c
@@ -98,7 +98,7 @@ OBJECT+=$(CFUNC_SRC:%c=%o)
 
 sub MY::dynamic_lib {
 "ARMAYBE = :
-OTHERLDFLAGS =  -dynamic -bundle -L/usr/local/lib -L/Library/Perl/darwin/CORE/ -lperl
+OTHERLDFLAGS = $VRML_CONFIG{LDFLAGS} 
 INST_DYNAMIC_DEP =
 
 \$\(INST_DYNAMIC\): \$\(OBJECT\) \$\(MYEXTLIB\) \$\(BOOTSTRAP\) \$\(INST_ARCHAUTODIR\)/.exists \$\(EXPORT_LIST\) \$\(PERL_ARCHIVE\) \$\(PERL_ARCHIVE_AFTER\) \$\(INST_DYNAMIC_DEP\)
