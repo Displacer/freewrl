@@ -4,7 +4,7 @@
 # for conditions of use and redistribution, EXCEPT on the files
 # which belong under the Mozilla public license.
 #
-# $Id: Makefile.PL,v 1.11 2003/07/03 17:02:13 ayla Exp $
+# $Id: Makefile.PL,v 1.12 2005/04/06 16:56:10 crc_canada Exp $
 
 BEGIN {
 	if ($^V lt v5.6.0) {
@@ -37,7 +37,7 @@ WriteMakefile(
 	sub dynamic_lib {
 		if ($VRML::Config::vrml_config{PLATFORM} =~ /macosx/i) {
 			return "ARMAYBE = :
-OTHERLDFLAGS = $VRML::Config::vrml_config{LDFLAGS}
+OTHERLDFLAGS = $VRML::Config::vrml_config{LDFLAGS2}
 INST_DYNAMIC_DEP =
 
 \$\(INST_DYNAMIC\): \$\(OBJECT\) \$\(MYEXTLIB\) \$\(BOOTSTRAP\) \$\(INST_ARCHAUTODIR\)/.exists \$\(EXPORT_LIST\) \$\(PERL_ARCHIVE\) \$\(PERL_ARCHIVE_AFTER\) \$\(INST_DYNAMIC_DEP\)
