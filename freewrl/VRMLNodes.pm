@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.103 2003/07/21 15:24:39 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.104 2003/08/11 18:48:57 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -312,6 +312,11 @@ sub init_image {
 	my $tempfile = $file;
 
 	$f->{__istemporary.$name} = 0;
+
+	if ($file eq "") {
+		# print "empty file\n";
+		return;
+	}
 
         if(exists $image_same_url{$file}) {
 		# we have already seen this image
