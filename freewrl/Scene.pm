@@ -3,19 +3,20 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.34 2002/05/22 21:47:52 ayla Exp $
+# $Id: Scene.pm,v 1.35 2002/05/28 17:41:09 ayla Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
 # for circular data structures.
 
 use strict vars;
-use VRML::DEF;
-use VRML::FieldHash;
-use VRML::IS;
-use VRML::NodeIntern;
-use VRML::Parser;
-use VRML::USE;
+
+require 'VRML/DEF.pm';
+require 'VRML/FieldHash.pm';
+require 'VRML/IS.pm';
+require 'VRML/NodeIntern.pm';
+require 'VRML/Parser.pm';
+require 'VRML/USE.pm';
 
 
 #######################################################################
