@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.48 2002/01/20 15:05:25 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.49 2002/01/22 17:42:27 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.49  2002/01/22 17:42:27  crc_canada
+# I made a mistake in comment types; comment changed to C style from Perl style
+#
 # Revision 1.48  2002/01/20 15:05:25  crc_canada
 # if display lists change when in creation, don't do the glEnd for them
 #
@@ -1913,8 +1916,6 @@ Billboard => (join '','
 			if (this_->_dlchange == this_->_change) {
 				/* premature ending of dlists */
 				glEndList();
-			# } else {
-			# 	printf ("hmmm - display list changed on me\n");
 			}
 
 			glError = glGetError();
