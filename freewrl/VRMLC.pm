@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.158 2004/10/22 19:02:25 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.159 2004/12/01 21:19:07 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.159  2004/12/01 21:19:07  crc_canada
+# Anchor work.
+#
 # Revision 1.158  2004/10/22 19:02:25  crc_canada
 # javascript work.
 #
@@ -1015,7 +1018,7 @@ struct SFColor hyp_save_posn, hyp_save_norm, ray_save_posn;
 
 /* Any action for the Browser (perl code) to do? */
 int BrowserAction = FALSE;
-struct Multi_String Anchor_url;
+struct VRML_Anchor *AnchorsAnchor;
 
 
 struct currayhit  rh,rph,rhhyper;
