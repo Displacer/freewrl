@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.106 2003/05/09 15:16:03 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.107 2003/05/12 18:56:40 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.107  2003/05/12 18:56:40  crc_canada
+# Bindables in C, part II
+#
 # Revision 1.106  2003/05/09 15:16:03  crc_canada
 # background_bindable node name change
 #
@@ -399,10 +402,17 @@
 %RendC = (
 
 #Bindable nodes in seperate file now
-Viewpoint => 'render_Viewpoint ((struct VRML_Viewpoint*) this_);',
+Viewpoint => '
+	if (!render_vp) return;
+	render_Viewpoint ((struct VRML_Viewpoint*) this_);',
+
 NavigationInfo => 'render_NavigationInfo ((struct VRML_NavigationInfo *) this_);',
-Fog => 'render_Fog((struct VRML_Fog *) this_);',
-Background => 'render_Background ((struct VRML_Background *) this_); ',
+Fog => '
+	if (!render_geom) printf ("rendering fog while not geom\n");
+render_Fog((struct VRML_Fog *) this_);',
+Background => '
+	if (!render_geom) printf ("rendering background while not geom\n");
+		render_Background ((struct VRML_Background *) this_); ',
 
 
 
