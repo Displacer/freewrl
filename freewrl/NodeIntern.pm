@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.8 2002/11/28 20:14:42 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.9 2002/11/29 18:32:16 ayla Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -317,8 +317,7 @@ sub do_defaults {
 sub as_string {
     my ($this) = @_;
 
-    # print "as_string, typename ",$this->{TypeName},"\n";
-    my $s = " ($this) $this->{TypeName} { \n";
+    my $s = "$this->{TypeName} { \n";
 
     # is this a script being sent back via EAI?
     if ("__script" eq substr($this->{TypeName},0,8)) {
@@ -328,7 +327,6 @@ sub as_string {
 
     for (keys %{$this->{Fields}}) {
 	$s .= "\n $_ ";
-	# print "as_string, field $_ \n";
 	if ("VRML::IS" eq ref $this->{Fields}{$_}) {
 	    $s .= $this->{Fields}{$_}->as_string();
 	} else {
