@@ -5,9 +5,9 @@
  * (file COPYING in the distribution) for conditions of use and
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
- * 
- * $Id: jsNative.h,v 1.1 2003/05/28 14:25:33 crc_canada Exp $
- * 
+ *
+ * $Id: jsNative.h,v 1.2 2005/03/21 13:39:07 crc_canada Exp $
+ *
  *
  */
 
@@ -40,24 +40,24 @@ typedef struct _SFRotationNative {
 } SFRotationNative;
 
 typedef struct _SFVec2fNative {
-	int touched; 
+	int touched;
 	struct SFVec2f v;
 } SFVec2fNative;
 
 typedef struct _SFVec3fNative {
-	int touched; 
+	int touched;
 	struct SFColor v;
 } SFVec3fNative;
 
 typedef struct _SFImageNative {
-	int touched; 
+	int touched;
 #if FALSE
 	/* struct SFImage v; */
 #endif
 } SFImageNative;
 
 typedef struct _SFColorNative {
-	int touched; 
+	int touched;
 	struct SFColor v;
 } SFColorNative;
 

@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: DEF.pm,v 1.6 2003/07/22 16:04:48 ayla Exp $
+# $Id: DEF.pm,v 1.7 2005/03/21 13:38:54 crc_canada Exp $
 #
 # Package to handle nodes given a name using the DEF keyword.
 
@@ -87,7 +87,7 @@ sub gather_defs {
 
 	$this->{Node}->gather_defs($parentnode);
 }
-	
+
 sub dump {
 	my ($this, $level) = @_;
 	my $lp = $level*2+2;

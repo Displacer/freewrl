@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: USE.pm,v 1.8 2005/01/19 17:40:57 crc_canada Exp $
+# $Id: USE.pm,v 1.9 2005/03/21 13:39:04 crc_canada Exp $
 #
 # Package to handle nodes referenced using the USE keyword.
 
@@ -75,7 +75,7 @@ sub node {
 	my ($this) = @_;
 	if (!defined  ($this->{DEFNode})) {
 		my $msg = "USE name: ", $this->{DEFName}, " not DEF'd\n".  "Unrecoverable error; FreeWRL has to exit. \n";
-	    VRML::VRMLFunc::ConsoleMessage($msg); 
+	    VRML::VRMLFunc::ConsoleMessage($msg);
 	    exit(1);
 	}
 

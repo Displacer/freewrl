@@ -5,9 +5,9 @@
  * (file COPYING in the distribution) for conditions of use and
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
- * 
- * $Id: jsVRMLBrowser.h,v 1.5 2004/10/05 15:19:35 crc_canada Exp $
- * 
+ *
+ * $Id: jsVRMLBrowser.h,v 1.6 2005/03/21 13:39:07 crc_canada Exp $
+ *
  */
 
 

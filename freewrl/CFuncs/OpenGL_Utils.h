@@ -9,11 +9,11 @@
 #define __OPENGL_UTILS_H_
 
 /*
- * $Id: OpenGL_Utils.h,v 1.9 2004/03/19 20:20:47 sdumoulin Exp $
+ * $Id: OpenGL_Utils.h,v 1.10 2005/03/21 13:39:07 crc_canada Exp $
  *
  */
 
-#ifdef AQUA 
+#ifdef AQUA
 
 #include <gl.h>
 #include <glu.h>
@@ -49,10 +49,10 @@ glpOpenGLInitialize(void);
 void
 BackEndClearBuffer(void);
 
-void 
+void
 BackEndLightsOff(void);
 
-void 
+void
 BackEndHeadlightOff(void);
 
 void

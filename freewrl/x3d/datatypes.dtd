@@ -1,5 +1,5 @@
 <!-- DTD for XML Schemas: Part 2: Datatypes -->
-<!-- $Id: datatypes.dtd,v 1.1 2001/08/03 15:59:57 crc_canada Exp $ -->
+<!-- $Id: datatypes.dtd,v 1.2 2005/03/21 13:39:25 crc_canada Exp $ -->
 <!-- Note this DTD is NOT normative, or even definitive. - - the
      prose copy in the datatypes REC is the definitive version (which
      shouldn't differ from this one except for this comment and entity
@@ -204,7 +204,7 @@
 <!ATTLIST %appinfo;
           source     %URIref;      #IMPLIED
           %appinfoAttrs;>
-          
+
 <!-- <!ELEMENT %documentation; ANY>   too restrictive -->
 <!ELEMENT %documentation; (#PCDATA) >   <!-- MODIFICATION!! -->
 

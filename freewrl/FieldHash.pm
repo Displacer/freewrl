@@ -3,13 +3,13 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: FieldHash.pm,v 1.5 2003/11/06 14:39:27 crc_canada Exp $
+# $Id: FieldHash.pm,v 1.6 2005/03/21 13:38:55 crc_canada Exp $
 #
 # The FieldHash
 #
 # This is the object behind the "RFields" hash member of
 # the object VRML::NodeIntern. It allows you to send an event by
-# simply saying "$node->{RFields}{xyz} = [3,4,5]" for which 
+# simply saying "$node->{RFields}{xyz} = [3,4,5]" for which
 # calls the STORE method here which then queues the event.
 #
 # XXX This needs to be separated into eventins and eventouts --

@@ -5,9 +5,9 @@
  * (file COPYING in the distribution) for conditions of use and
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
- * 
- * $Id: JS.xs,v 1.14 2003/05/28 14:02:10 crc_canada Exp $
- * 
+ *
+ * $Id: JS.xs,v 1.15 2005/03/21 13:39:09 crc_canada Exp $
+ *
  * A substantial amount of code has been adapted from the embedding
  * tutorials from the SpiderMonkey web pages
  * (http://www.mozilla.org/js/spidermonkey/)

@@ -5,12 +5,12 @@
  * (file COPYING in the distribution) for conditions of use and
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
- * 
- * $Id: jsUtils.c,v 1.1 2003/05/28 14:24:32 crc_canada Exp $
- * 
+ *
+ * $Id: jsUtils.c,v 1.2 2005/03/21 13:39:07 crc_canada Exp $
+ *
  * A substantial amount of code has been adapted from js/src/js.c,
  * which is the sample application included with the javascript engine.
- * 
+ *
  */
 
 #include "jsUtils.h"
@@ -28,7 +28,7 @@ errorReporter(JSContext *context, const char *message, JSErrorReport *report)
 {
 	char *errorReport = 0;
 	size_t len = 0, charPtrSize = sizeof(char *);
-	
+
     if (!report) {
         fprintf(stderr, "%s\n", message);
         return;
@@ -40,7 +40,7 @@ errorReporter(JSContext *context, const char *message, JSErrorReport *report)
 	}
 
 	len = (strlen(report->filename) + 1) + (strlen(message) + 1);
-	
+
 	errorReport = (char *) JS_malloc(context, (len + STRING) * charPtrSize);
 	if (!errorReport) {
 		return;

@@ -10,7 +10,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.17 2005/01/16 20:55:10 crc_canada Exp $
+ * $Id: Viewer.h,v 1.18 2005/03/21 13:39:07 crc_canada Exp $
  *
  */
 
@@ -25,7 +25,7 @@
 #include <ctype.h>
 #include <math.h>
 
-#ifdef AQUA 
+#ifdef AQUA
 #include <gl.h>
 #include <glu.h>
 #include <glext.h>

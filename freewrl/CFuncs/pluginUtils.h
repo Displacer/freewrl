@@ -1,11 +1,11 @@
 /*
- * $Id: pluginUtils.h,v 1.4 2005/01/16 20:55:10 crc_canada Exp $
+ * $Id: pluginUtils.h,v 1.5 2005/03/21 13:39:07 crc_canada Exp $
  *
  * FreeWRL plugin utilities header file.
  */
 
 #ifndef __pluginUtils_h__
-#define __pluginUtils_h__ 
+#define __pluginUtils_h__
 
 #include <errno.h>
 #include <signal.h>

@@ -1,6 +1,6 @@
 #!make
 #
-# $Id: Makefile,v 1.2 2002/08/06 04:41:36 ayla Exp $
+# $Id: Makefile,v 1.3 2005/03/21 13:39:14 crc_canada Exp $
 #
 # Mozilla plugin makefile, based on
 #
@@ -204,7 +204,7 @@ LIBS:=\
       -lpthread\
       -ldl\
       -lm\
-      -lc   
+      -lc
 
 ifeq ($(strip ${OSNAME}),linux)
 
