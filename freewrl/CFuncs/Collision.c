@@ -1,4 +1,4 @@
-/* $Id: Collision.c,v 1.12 2002/10/29 18:17:04 crc_canada Exp $
+/* $Id: Collision.c,v 1.13 2002/11/13 18:20:29 crc_canada Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1380,6 +1380,7 @@ struct pt polyrep_disp(double y1, double y2, double ystep, double r, struct VRML
     int maxc;
     
 
+    res.x=0.0; res.y=0.0; res.z=0.0;
     maxc = 0; // highest cindex, used to point into newc structure.
 
     for(i = 0; i < pr.ntri*3; i++) {
@@ -1476,6 +1477,7 @@ struct pt planar_polyrep_disp(double y1, double y2, double ystep, double r, stru
     int maxc;
     
 
+    res.x=0.0; res.y=0.0; res.z=0.0;
     maxc = 0; // highest cindex, used to point into newc structure.
 
     for(i = 0; i < pr.ntri*3; i++) {
