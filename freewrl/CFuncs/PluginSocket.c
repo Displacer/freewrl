@@ -1,5 +1,5 @@
 /*
- * $Id: PluginSocket.c,v 1.7 2004/03/29 17:24:02 crc_canada Exp $
+ * $Id: PluginSocket.c,v 1.8 2004/03/29 19:37:16 crc_canada Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
@@ -126,9 +126,9 @@ requestUrlfromPlugin(int sockDesc,
 
 	linecount = 0;
 	linelen = fread (buf,1,2000,infile);
-	pluginprint ("verify read, read in %d characters\n",linelen);
+	//pluginprint ("verify read, read in %d characters\n",linelen);
 	while ((linelen > 0) && (linecount < 5)){	
-		pluginprint ("verify read, read in %d characters\n",linelen);
+	//	pluginprint ("verify read, read in %d characters\n",linelen);
 		
 		/* did we find a "404 file not found" message? */
 		/* some, all??? will eventually return a 404 html text in
