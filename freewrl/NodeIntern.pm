@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.5 2002/09/19 19:38:07 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.6 2002/10/10 18:30:38 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -633,9 +633,6 @@ sub set_backend_fields {
 		CylinderSensor
 		VisibilitySensor
 	/;
-	#JAS: Collision
-	#JAS: NavigationInfo
-
 
 	#############################################################
 	#
