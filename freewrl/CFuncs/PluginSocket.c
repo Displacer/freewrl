@@ -1,5 +1,5 @@
 /*
- * $Id: PluginSocket.c,v 1.9 2004/12/07 15:05:42 crc_canada Exp $
+ * $Id: PluginSocket.c,v 1.10 2005/01/16 20:55:10 crc_canada Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
@@ -20,6 +20,9 @@ fd_set rfds;
 struct timeval tv;
 
 char return_url[FILENAME_MAX]; /* used to be local, but was returned as a pointer */
+
+//added M. Ward Dec8/04
+extern void abort();
 
 /* prints to a log file if we are running as a plugin */
 void pluginprint (const char *m, const char *p) {
@@ -180,6 +183,6 @@ void requestNewWindowfromPlugin(int sockDesc,
 
 	if (write(sockDesc, (urlRequest *) &request, bytes) < 0) {
 		pluginprint ("write failed in requestUrlfromPlugin","");
-		return NULL;
+		return;
 	}
 }

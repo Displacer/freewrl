@@ -10,7 +10,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.16 2004/12/03 20:35:57 crc_canada Exp $
+ * $Id: Viewer.h,v 1.17 2005/01/16 20:55:10 crc_canada Exp $
  *
  */
 
@@ -229,6 +229,9 @@ handle_tick_exfly();
 void
 handle_tick_fly();
 
+//Added M. Ward Dec 15/04
+void handle_tick_exin( float *data );
+
 void
 set_action(char *key);
 
@@ -254,4 +257,6 @@ void viewer_default(void);
 extern float eyedist;
 extern float screendist;
 
+
+void XEventStereo(void);
 #endif /* __VIEWER_H_ */
