@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.32 2004/02/25 19:09:13 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.33 2004/03/16 16:54:16 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -286,7 +286,8 @@ sub startScript {
 			last;
 		} elsif (/\.js/) {
 			# New js url handling
-			my $code = VRML::Browser::getTextFromFile($_);
+			# might have to put parent url in 2nd parameter
+			my $code = VRML::Browser::getTextFromFile($_,"parent");
 
 			print "JS url: code = $code\n"
 				if $VRML::verbose::script;
