@@ -1,5 +1,5 @@
 #
-# $Id: VRMLC.pm,v 1.10.2.2 2000/09/05 23:41:07 rcoscali Exp $
+# $Id: VRMLC.pm,v 1.10.2.3 2000/09/07 09:12:08 rcoscali Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -28,6 +28,9 @@
 #  do normals for indexedfaceset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.10.2.3  2000/09/07 09:12:08  rcoscali
+# Added avt lib & test
+#
 # Revision 1.10.2.2  2000/09/05 23:41:07  rcoscali
 # Continue investigation on core rendering engine and implementation of alpha blending rendering. It is on the way.
 # A very interresting feature for blending algo is ray hit. The same kind of transforms calc is to be applied for z calculation.
@@ -1303,6 +1306,36 @@ sub gen {
 #define SIN2 t2_sa
 #define COS2 t2_ca
 
+/* 
+ * RCS: Add structs to render blended shapes 
+ */
+
+struct VRML_Shape;
+
+typedef struct btnode {
+	GLdouble z;
+	struct btnode *r, *l;		/* Access by BTree */
+	struct btnode *next;		/* Access by List */
+	struct VRML_Shape *shape;
+	GLdouble modelMatrix[16];
+	GLdouble projMatrix[16];
+	int type;		/* GL_QUADS, GL_TRIANGLES */
+	union {
+		struct {
+			GLdouble x1, y1, x2, y2, x3, y3, x4, y4;
+		} quad;
+		struct {
+			GLdouble x1, y1, x2, y2, x3, y3;
+		} tri;
+	} geom;
+} BTnode_t, *p_BTnode_t;
+
+p_BTnode_t BlendedPolys = (p_BTnode_t)NULL;
+
+/*
+ * End of alpha blending structs
+ */
+
 D_OPENGL;
 
 
@@ -2137,6 +2170,23 @@ void render_node(void *node) {
 	  }
 	if(render_anything && render_geom && !render_sensitive) 
 	  {
+	    GLdouble modelMatrix[16];
+	    GLdouble projMatrix[16];
+	    glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+	    glGetDoublev(GL_PROJECTION_MATRIX, projMatrix);
+
+	    printf( "\nModelView matrix:\n" );
+	    printf( "\t%-03.4f %-03.4f %-03.4f %-03.4f\n", modelMatrix[0], modelMatrix[1], modelMatrix[2], modelMatrix[3] );
+	    printf( "\t%-03.4f %-03.4f %-03.4f %-03.4f\n", modelMatrix[4], modelMatrix[5], modelMatrix[6], modelMatrix[7] );
+	    printf( "\t%-03.4f %-03.4f %-03.4f %-03.4f\n", modelMatrix[8], modelMatrix[9], modelMatrix[10], modelMatrix[11] );
+	    printf( "\t%-03.4f %-03.4f %-03.4f %-03.4f\n", modelMatrix[12], modelMatrix[13], modelMatrix[14], modelMatrix[15] );
+	    printf( "\nProjection matrix:\n" );
+	    printf( "\t%-03.4f %-03.4f %-03.4f %-03.4f\n", projMatrix[0], projMatrix[1], projMatrix[2], projMatrix[3] );
+	    printf( "\t%-03.4f %-03.4f %-03.4f %-03.4f\n", projMatrix[4], projMatrix[5], projMatrix[6], projMatrix[7] );
+	    printf( "\t%-03.4f %-03.4f %-03.4f %-03.4f\n", projMatrix[8], projMatrix[9], projMatrix[10], projMatrix[11] );
+	    printf( "\t%-03.4f %-03.4f %-03.4f %-03.4f\n", projMatrix[12], projMatrix[13], projMatrix[14], projMatrix[15] );
+	    printf( "\n" );
+
 	    if (!(blended || under_blended_shape) && v->rend)
 	      {
 		v->rend(node);

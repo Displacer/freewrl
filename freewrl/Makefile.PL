@@ -8,6 +8,7 @@
 #
 
 system "perl VRMLC.pm";
+system "(cd avt; ./autogen.sh)";
 
 $VERSION = "0.26";
 
@@ -85,11 +86,12 @@ WriteMakefile(
 		COMPRESS => 'gzip -9', SUFFIX => 'gz',
 	},
 	VERSION => $VERSION,
-    DEFINE => $VRML_CONFIG{OPENGL_DEFINE},
-    INC => $VRML_CONFIG{OPENGL_INC},
-    EXE_FILES => ['freewrl'],
-    MAN1PODS => { 'freewrl' => '$(INST_MAN1DIR)/freewrl.$(MAN1EXT)' },
-    PL_FILES => {'freewrl.PL' => 'freewrl'},
+	DEFINE => $VRML_CONFIG{OPENGL_DEFINE},
+	INC => $VRML_CONFIG{OPENGL_INC}." ".$VRML_CONFIG{AVT_INC},
+	LIBS => $VRML_CONFIG{AVT_LIBS},
+	EXE_FILES => ['freewrl'],
+	MAN1PODS => { 'freewrl' => '$(INST_MAN1DIR)/freewrl.$(MAN1EXT)' },
+	PL_FILES => {'freewrl.PL' => 'freewrl'},
 );
 
 sub MY::postamble {
