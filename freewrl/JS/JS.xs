@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: JS.xs,v 1.7 2002/11/22 16:28:57 ayla Exp $
+ * $Id: JS.xs,v 1.8 2002/11/25 16:55:29 ayla Exp $
  * 
  * A substantial amount of code has been adapted from the embedding
  * tutorials from the SpiderMonkey web pages
@@ -708,7 +708,7 @@ CODE:
 		return;
 	}
 	if (verbose) {
-		printf("dval=%.1g\n", dval);
+		printf("dval=%.4g\n", dval);
 	}
 	sv_setnv(rnum, dval);
 	//cx = context;
