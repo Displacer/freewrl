@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.c,v 1.1.2.4 2002/11/06 16:45:14 ayla Exp $
+ * $Id: jsVRMLBrowser.c,v 1.1.2.5 2002/11/06 19:53:54 ayla Exp $
  * 
  */
 
@@ -432,31 +432,34 @@ VrmlBrowserGetVersion(JSContext *context, JSObject *obj, uintN argc, jsval *argv
 	return JS_TRUE;
 }
 
-	
 JSBool
-VrmlBrowserAddRoute(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
+doVRMLRoute(JSContext *context, JSObject *obj, uintN argc, jsval *argv,
+			const char *callingFunc, const char *perlBrowserFunc, const char *browserFunc)
 {
-	jsval _v[3];
+	jsval _v[2];
 	BrowserNative *brow;
 	JSObject *_obj[4];
 	JSClass *_cls[2];
 	JSString *_str[2];
-/* 	SFNodeNative *_ptr_sfnode[2]; */
 	char *_route,
 		*_cstr[2],
 		*_costr[2],
-		*_c_method =
-		"addRoute(SFNode fromNode, SFString fromEventOut, SFNode toNode, SFString toEventIn)",
+		*_c_args =
+		"SFNode fromNode, SFString fromEventOut, SFNode toNode, SFString toEventIn",
 		*_c_format = "o s o s";
 	size_t len;
 
 
 	if ((brow = JS_GetPrivate(context, obj)) == NULL) {
-		fprintf(stderr, "JS_GetPrivate failed in VrmlBrowserAddRoute.\n");
+		fprintf(stderr,
+				"JS_GetPrivate failed in doVRMLRoute called from %s.\n",
+				callingFunc);
 		return JS_FALSE;
 	}
 	if (brow->magic != BROWMAGIC) {
-		fprintf(stderr, "Wrong browser magic!\n");
+		fprintf(stderr,
+				"Wrong browser magic doVRMLRoute called from %s!\n",
+				callingFunc);
 		return JS_FALSE;
 	}
 
@@ -466,165 +469,94 @@ VrmlBrowserAddRoute(JSContext *context, JSObject *obj, uintN argc, jsval *argv, 
 							_c_format,
 							&(_obj[0]), &(_cstr[0]), &(_obj[1]), &(_cstr[1]))) {
 		if ((_cls[0] = JS_GetClass(_obj[0])) == NULL) {
-			fprintf(stderr, "JS_GetClass failed for arg 0 in VrmlBrowserAddRoute.\n");
+			fprintf(stderr,
+					"JS_GetClass failed for arg 0 in doVRMLRoute called from %s.\n",
+					callingFunc);
 			return JS_FALSE;
 		}
 		if ((_cls[1] = JS_GetClass(_obj[1])) == NULL) {
-			fprintf(stderr, "JS_GetClass failed for arg 2 in VrmlBrowserAddRoute.\n");
+			fprintf(stderr,
+					"JS_GetClass failed for arg 2 in doVRMLRoute called from %s.\n",
+					callingFunc);
 			return JS_FALSE;
 		}
 		if (memcmp("SFNode", (_cls[0])->name, strlen((_cls[0])->name)) != 0 &&
 			memcmp("SFNode", (_cls[1])->name, strlen((_cls[1])->name)) != 0) {
 			fprintf(stderr,
-					"\nArguments 0 and 2 must be SFNode in VrmlBrowserAddRoute: %s\n",
-					_c_method);
+					"\nArguments 0 and 2 must be SFNode in doVRMLRoute called from %s(%s): %s\n",
+					browserFunc, _c_args, callingFunc);
 			return JS_FALSE;
 		}
 
-/* 		if ((_ptr_sfnode[0] = JS_GetPrivate(context, _obj[0])) == NULL) { */
-/* 			fprintf(stderr, */
-/* 					"JS_GetPrivate for object %u failed in VrmlBrowserAddRoute.\n", */
-/* 					(unsigned int) _obj[0]); */
-/* 			return JS_FALSE; */
-/* 		} */
-/* 		if ((_ptr_sfnode[1] = JS_GetPrivate(context, _obj[1])) == NULL) { */
-/* 			fprintf(stderr, */
-/* 					"JS_GetPrivate for object %u failed in VrmlBrowserAddRoute.\n", */
-/* 					(unsigned int) _obj[1]); */
-/* 			return JS_FALSE; */
-/* 		} */
 
 		if (!JS_GetProperty(context, _obj[0], "__id", &(_v[0]))) {
-			fprintf(stderr, "JS_GetProperty failed for arg 0 and \"__id\" in VRMLBrowserAddRoute.\n");
+			fprintf(stderr,
+					"JS_GetProperty failed for arg 0 and \"__id\" in doVRMLRoute called from %s.\n",
+					callingFunc);
 			return JS_FALSE;
 		}
 		_str[0] = JS_ValueToString(context, _v[0]);
 		_costr[0] = JS_GetStringBytes(_str[0]);
 
 		if (!JS_GetProperty(context, _obj[1], "__id", &(_v[1]))) {
-			fprintf(stderr, "JS_GetProperty failed for arg 2 and \"__id\" in VRMLBrowserAddRoute.\n");
+			fprintf(stderr,
+					"JS_GetProperty failed for arg 2 and \"__id\" in doVRMLRoute called from %s.\n",
+					callingFunc);
 			return JS_FALSE;
 		}
 		_str[1] = JS_ValueToString(context, _v[1]);
 		_costr[1] = JS_GetStringBytes(_str[1]);
 
-/* 		len = strlen((_ptr_sfnode[0])->vrml_handle) + strlen(_cstr[0]) + */
-/* 			strlen((_ptr_sfnode[1])->vrml_handle) + strlen(_cstr[1]) + 4; */
 		len = strlen(_costr[0]) + strlen(_cstr[0]) +
 			strlen(_costr[1]) + strlen(_cstr[1]) + 7;
 		_route = JS_malloc(context, len * sizeof(char *));
-/* 		sprintf(_c, "%s %s %s %s", */
-/* 				(_ptr_sfnode[0])->vrml_handle, _cstr[0], */
-/* 				(_ptr_sfnode[1])->vrml_handle, _cstr[1]); */
 		sprintf(_route, "%s %s %s %s",
 				_costr[0], _cstr[0],
 				_costr[1], _cstr[1]);
 
-		doPerlCallMethodVA(brow->sv_js, "browserAddRoute", "s", _route);
+		doPerlCallMethodVA(brow->sv_js, perlBrowserFunc, "s", _route);
 		JS_free(context, _route);
 	} else {
 		fprintf(stderr,
-				"\nArgument format for VrmlBrowserAddRoute is \"%s\".\n",
-				_c_format);
+				"\nArgument format for %s(%s) is \"%s\".\n",
+					browserFunc, _c_args, callingFunc);
 		return JS_FALSE;
 	}
 
-	if (!JS_GetProperty(context, obj, "__bret",  &_v[2])) {
-		fprintf(stderr, "JS_GetProperty failed in VrmlBrowserAddRoute.\n");
-	}
-	*rval = _v[2];
 	return JS_TRUE;
 }
 
 	
 JSBool
+VrmlBrowserAddRoute(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
+{
+	jsval _v;
+	if (!doVRMLRoute(context, obj, argc, argv,
+					 "VrmlBrowserAddRoute", "browserAddRoute", "addRoute")) {
+		fprintf(stderr, "doVRMLRoute failed in VrmlBrowserAddRoute.\n");
+		return JS_FALSE;
+	}
+	if (!JS_GetProperty(context, obj, "__bret",  &_v)) {
+		fprintf(stderr, "JS_GetProperty failed in VrmlBrowserAddRoute.\n");
+	}
+	*rval = _v;
+	return JS_TRUE;
+}
+
+JSBool
 VrmlBrowserDeleteRoute(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
-	jsval v;
-	BrowserNative *brow;
-	JSObject *_obj[4];
-	JSClass *_cls[2];
-	SFNodeNative *_ptr_sfnode[2];
-	char *_c,
-		*_cstr[2],
-		*_c_method =
-		"deleteRoute(SFNode fromNode, SFString fromEventOut, SFNode toNode, SFString fromEventOut)",
-		*_c_format = "o s o s";
-	size_t len;
-
-/* 	unsigned int i; */
-/* 	char buffer[SMALLSTRING]; */
-
-	if ((brow = JS_GetPrivate(context, obj)) == NULL) {
-		fprintf(stderr, "JS_GetPrivate failed in VrmlBrowserDeleteRoute.\n");
+	jsval _v;
+	if (!doVRMLRoute(context, obj, argc, argv,
+					 "VrmlBrowserDeleteRoute", "browserDeleteRoute", "deleteRoute")) {
+		fprintf(stderr, "doVRMLRoute failed in VrmlBrowserDeleteRoute.\n");
 		return JS_FALSE;
 	}
-	if (brow->magic != BROWMAGIC) {
-		fprintf(stderr, "Wrong browser magic!\n");
-		return JS_FALSE;
-	}
-
-	/* needed ??? */
-/* 	for (i = 0; i < argc; i++) { */
-/* 		memset(buffer, 0, SMALLSTRING); */
-/* 		sprintf(buffer,"__arg%d", i); */
-
-/* 		JS_SetProperty(context, obj, buffer, argv+i); */
-/* 	} */
-
-	if (JS_ConvertArguments(context,
-							argc,
-							argv,
-							_c_format,
-							&(_obj[0]), &(_cstr[0]), &(_obj[1]), &(_cstr[1]))) {
-		if ((_cls[0] = JS_GetClass(_obj[0])) == NULL) {
-			fprintf(stderr, "JS_GetClass failed for arg 0 in VrmlBrowserDeleteRoute.\n");
-			return JS_FALSE;
-		}
-		if ((_cls[1] = JS_GetClass(_obj[1])) == NULL) {
-			fprintf(stderr, "JS_GetClass failed for arg 2 in VrmlBrowserDeleteRoute.\n");
-			return JS_FALSE;
-		}
-		if (memcmp("SFNode", (_cls[0])->name, strlen((_cls[0])->name)) != 0 &&
-			memcmp("SFNode", (_cls[1])->name, strlen((_cls[1])->name)) != 0) {
-			fprintf(stderr,
-					"\nArguments 0 and 2 must be SFNode in VrmlBrowserDeleteRoute: %s\n",
-					_c_method);
-			return JS_FALSE;
-		}
-
-		if ((_ptr_sfnode[0] = JS_GetPrivate(context, _obj[0])) == NULL) {
-			fprintf(stderr,
-					"JS_GetPrivate for object %u failed in VrmlBrowserDeleteRoute.\n",
-					(unsigned int) _obj[0]);
-			return JS_FALSE;
-		}
-		if ((_ptr_sfnode[1] = JS_GetPrivate(context, _obj[1])) == NULL) {
-			fprintf(stderr,
-					"JS_GetPrivate for object %u failed in VrmlBrowserDeleteRoute.\n",
-					(unsigned int) _obj[1]);
-			return JS_FALSE;
-		}
-		len = strlen((_ptr_sfnode[0])->vrml_handle) + strlen(_cstr[0]) +
-			strlen((_ptr_sfnode[1])->vrml_handle) + strlen(_cstr[1]) + 4;
-		_c = JS_malloc(context, len * sizeof(char *));
-		sprintf(_c, "%s %s %s %s",
-				(_ptr_sfnode[0])->vrml_handle, _cstr[0],
-				(_ptr_sfnode[1])->vrml_handle, _cstr[1]);
-
-		doPerlCallMethodVA(brow->sv_js, "browserDeleteRoute", "s", _c);
-		JS_free(context, _c);
-	} else {
-		fprintf(stderr,
-				"\nArgument format for VrmlBrowserDeleteRoute is \"%s\".\n",
-				_c_format);
-		return JS_FALSE;
-	}
-
-	if (!JS_GetProperty(context, obj, "__bret",  &v)) {
+	if (!JS_GetProperty(context, obj, "__bret",  &_v)) {
 		fprintf(stderr, "JS_GetProperty failed in VrmlBrowserDeleteRoute.\n");
+		return JS_FALSE;
 	}
-	*rval = v;
+	*rval = _v;
 	return JS_TRUE;
 }
 

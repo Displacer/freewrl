@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: JS.xs,v 1.3.2.6 2002/11/06 16:45:13 ayla Exp $
+ * $Id: JS.xs,v 1.3.2.7 2002/11/06 19:53:54 ayla Exp $
  * 
  * A substantial amount of code has been adapted from the embedding
  * tutorials from the SpiderMonkey web pages
@@ -583,7 +583,6 @@ setVerbose(v)
 CODE:
 {
 	verbose = v;
-	printf("verbose set!\n");
 }
 
 
@@ -685,7 +684,6 @@ CODE:
 	BrowserNative *brow = br;
 	JSContext *context = cx;
 
-	printf("cleanupJS:\n");
 	if (brow) {
 		printf("\tfree browser internals!!!\n");
 		JS_free(context, brow);

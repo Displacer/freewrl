@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.h,v 1.1.2.5 2002/11/06 16:45:14 ayla Exp $
+ * $Id: jsVRMLBrowser.h,v 1.1.2.6 2002/11/06 19:53:54 ayla Exp $
  * 
  */
 
@@ -29,6 +29,15 @@ typedef struct _BrowserNative {
 	SV *sv_js;
 } BrowserNative;
 
+
+static JSBool
+doVRMLRoute(JSContext *context,
+			JSObject *obj,
+			uintN argc,
+			jsval *argv,
+			const char *callingFunc,
+			const char *perlBrowserFunc,
+			const char *browserFunc);
 
 JSBool
 VrmlBrowserInit(JSContext *context,
@@ -68,7 +77,6 @@ VrmlBrowserGetName(JSContext *cx,
 			   uintN argc,
 			   jsval *argv,
 			   jsval *rval);
-
 
 	
 JSBool

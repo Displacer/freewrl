@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: JS.pm,v 1.1.1.1.8.6 2002/11/06 16:45:13 ayla Exp $
+# $Id: JS.pm,v 1.1.1.1.8.7 2002/11/06 19:53:54 ayla Exp $
 #
 #
 #
@@ -33,7 +33,7 @@ our @EXPORT = qw{
 bootstrap VRML::JS $VERSION;
 
 ## Debug:
-$VRML::verbose::js = 1;
+##$VRML::verbose::js = 1;
 
 if ($VRML::verbose::js) {
 	setVerbose(1);
@@ -456,7 +456,7 @@ sub nodeSetProperty {
 	if (!defined $vt) {
 		cleanupDie("Javascript tried to assign to invalid property!\n");
 	}
-print "\t$node"."\-\>{Type}{FieldTypes}{$prop} is $vt\n";
+##print "\t$node"."\-\>{Type}{FieldTypes}{$prop} is $vt\n";
 	my $val = $this->getProperty($vt, "__val");
 
 	if (0) {
@@ -589,8 +589,8 @@ sub browserCreateVrmlFromString {
 		if $VRML::verbose::js;
 	my $mfn = $this->{Browser}->createVrmlFromString($str);
 	my @hs = map {VRML::Handles::reserve($_)} @$mfn;
-print "\nbrowserCreateVrmlFromString: $mfn, ", %{$mfn}, ", @hs\n";
-	my $sc = "Browser.__bret=new MFNode(".(join ',',map {qq{new SFNode("","$_")}} @hs).")";
+##print "\nbrowserCreateVrmlFromString: $mfn, ", %{$mfn}, ", @hs\n";
+	my $sc = "Browser.__bret=new MFNode(".(join ',',map {qq{new SFNode("$_")}} @hs).")";
 
 	# runScript($this->{JSContext}, $this->{JSGlobal}, $sc, $rs);
 	if (!runScript($this->{JSContext}, $this->{JSGlobal}, $sc, $rs, $rval)) {
@@ -612,7 +612,7 @@ sub browserCreateVrmlFromURL {
 
 	my $mfn = $this->{Browser}->createVrmlFromURL($rs);
 	my @hs = map {VRML::Handles::reserve($_)} @$mfn;
-	my $sc = "Browser.__bret=new MFNode(".(join ',',map {qq'new SFNode("","$_")'} @hs).")";
+	my $sc = "Browser.__bret=new MFNode(".(join ',',map {qq{new SFNode("$_")}} @hs).")";
 
 	# runScript($this->{JSContext}, $this->{JSGlobal}, $sc, $rs);
 	if (!runScript($this->{JSContext}, $this->{JSGlobal}, $sc, $rs, $rval)) {
