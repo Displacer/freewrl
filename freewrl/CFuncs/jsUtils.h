@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.2 2003/06/13 21:45:38 ayla Exp $
+ * $Id: jsUtils.h,v 1.3 2003/06/20 07:12:24 ayla Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -40,6 +40,31 @@
 extern JSBool JSVerbose;
 static JSBool reportWarnings = JS_TRUE;
 
+int
+ActualrunScript(int num,
+				char *script,
+				jsval *rval);
+
+int
+JSrunScript(int num,
+			char *script,
+			SV *rstr,
+			SV *rnum);
+
+int
+JSaddGlobalAssignProperty(int num,
+						  char *name,
+						  char *str);
+
+int
+JSaddSFNodeProperty(int num,
+					char *nodeName,
+					char *name,
+					char *str);
+
+int
+JSaddGlobalECMANativeProperty(int num,
+							  char *name);
 
 void
 reportWarningsOn(void);

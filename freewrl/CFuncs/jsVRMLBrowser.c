@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.c,v 1.4 2003/06/19 20:21:43 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.5 2003/06/20 07:12:24 ayla Exp $
  * 
  */
 
@@ -53,6 +53,10 @@ VrmlBrowserGetName(JSContext *context, JSObject *obj, uintN argc, jsval *argv, j
 {
 	JSString *_str;
 
+	UNUSED(obj);
+	UNUSED(argc);
+	UNUSED(argv);
+
 	_str = JS_NewString(context,BrowserName,strlen(BrowserName)+1);
 	*rval = STRING_TO_JSVAL(_str);
 	return JS_TRUE;
@@ -65,6 +69,10 @@ VrmlBrowserGetVersion(JSContext *context, JSObject *obj, uintN argc, jsval *argv
 {
 	JSString *_str;
 
+	UNUSED(obj);
+	UNUSED(argc);
+	UNUSED(argv);
+
 	_str = JS_NewString(context,BrowserVersion,strlen(BrowserVersion)+1);
 	*rval = STRING_TO_JSVAL(_str);
 	return JS_TRUE;
@@ -75,6 +83,10 @@ JSBool
 VrmlBrowserGetCurrentSpeed(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSString *_str;
+
+	UNUSED(obj);
+	UNUSED(argc);
+	UNUSED(argv);
 
 	/* 0.0 is a valid return for this one. */
 	_str = JS_NewString(context,"0.0",strlen("0.0")+1);
@@ -87,6 +99,10 @@ JSBool
 VrmlBrowserGetCurrentFrameRate(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSString *_str;
+
+	UNUSED(obj);
+	UNUSED(argc);
+	UNUSED(argv);
 
 	sprintf (FPSstring,"%6.2f",BrowserFPS);
 	_str = JS_NewString(context,FPSstring,strlen(FPSstring)+1);
@@ -101,6 +117,10 @@ VrmlBrowserGetWorldURL(JSContext *context, JSObject *obj,
 					   uintN argc, jsval *argv, jsval *rval)
 {
 	JSString *_str;
+
+	UNUSED(obj);
+	UNUSED(argc);
+	UNUSED(argv);
 
 	_str = JS_NewString(context,BrowserURL,strlen(BrowserURL)+1);
 	*rval = STRING_TO_JSVAL(_str);
