@@ -1,10 +1,10 @@
-# Copyright (C) 1998 Tuomas J. Lukka, 2002 John Stewart CRC Canada
+# Copyright (C) 1998 Tuomas J. Lukka, 2002 John Stewart, Ayla Khan CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution, EXCEPT on the files
 # which belong under the Mozilla public license.
 #
-# $Id: Makefile.PL,v 1.1.1.1.8.2 2002/08/20 21:35:23 ayla Exp $
+# $Id: Makefile.PL,v 1.1.1.1.8.3 2002/08/30 04:41:08 ayla Exp $
 #
 #
 # a.out: js.c
@@ -83,10 +83,12 @@ sub MY::post_constants {
 	$post_const =
 q{
 
-vpath %.c .:CFuncs
-vpath %.o .:CFuncs
+vpath %.c .:CFuncs:../CFuncs
+vpath %.o .:CFuncs:../CFuncs
 
-CFUNC_SRC:=$(wildcard CFuncs/*.c)
+CFUNC_SRC:=\
+$(wildcard CFuncs/*.c)\
+../CFuncs/LinearAlgebra.c
 OBJECT+=$(CFUNC_SRC:%c=%o)
 
 };
@@ -120,3 +122,13 @@ q{
 	return ($c_o);
 }
 
+sub MY::postamble {
+	my $postamble = "";
+
+	$postamble =
+q{
+clean ::
+	rm -rf $(OBJECT)
+};
+
+}
