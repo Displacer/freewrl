@@ -2,7 +2,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.11 2003/07/30 18:46:50 crc_canada Exp $
+ * $Id: Viewer.h,v 1.12 2003/10/09 15:30:35 crc_canada Exp $
  *
  */
 
@@ -253,5 +253,8 @@ increment_pos(VRML_Viewer *viewer,
 
 void
 bind_viewpoint(struct VRML_Viewpoint *node);
+
+void
+bind_geoviewpoint(struct VRML_GeoViewpoint *node);
 
 #endif /* __VIEWER_H_ */

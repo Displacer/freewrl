@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.27 2003/10/01 16:56:54 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.28 2003/10/09 15:30:34 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -443,7 +443,6 @@ sub as_string {
 
 
 sub real_node {
-    #AK - #my ($this, $proto) = @_;
     my ($this) = @_;
 
 	if ($VRML::verbose) {
@@ -453,13 +452,6 @@ sub real_node {
 			 " PROTO first node is ".VRML::Debug::toString($this->{ProtoExp}{Nodes}[0]) :
 			 ""), " from $package, $line\n";
 	}
-
-	#AK - #if (!$proto and defined $this->{IsProto}) {
-	#AK - #	VRML::Handles::front_end_child_reserve($this->{ProtoExp}{Nodes}[0]->real_node(), $this);
-	#AK - #	return $this->{ProtoExp}{Nodes}[0]->real_node();
-    #AK - #} else {
-	#AK - #	return $this;
-    #AK - #}
 
 	return $this->{ProtoExp}{Nodes}[0]->real_node() if ($this->{IsProto});
 
@@ -541,21 +533,6 @@ sub receive_event {
 sub get_global_scene {
     my ($this) = @_;
     return $this->{Scene}->get_scene();
-}
-
-sub events_processed {
-    my ($this, $timestamp, $be) = @_;
-    print "VRML::NodeIntern::events_processed $this $this->{TypeName} $timestamp $be\n"
-         if $VRML::verbose;
-
-    if ($this->{Type}{Actions}{EventsProcessed}) {
-		print "\tprocessed event action!\n" if $VRML::verbose;
-		return &{$this->{Type}{Actions}{EventsProcessed}}(
-			$this,
-			$this->{RFields},
-			$timestamp
-			);
-    }
 }
 
 # Copy a deeper struct

@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.63 2003/10/06 16:41:13 crc_canada Exp $
+# $Id: Scene.pm,v 1.64 2003/10/09 15:30:34 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -994,7 +994,7 @@ sub setup_routing {
 		 if ($VRML::Nodes::initevents{$_[0]->{TypeName}}) {
 			 print "\tITNO:is member of initevents\n" 
 				 if $VRML::verbose::scene;
-			 $eventmodel->add_first($_[0]);
+			VRML::VRMLFunc::add_first($_[0]->{TypeName}, $_[0]->{BackNode}->{CNode});
 		 } else {
 			 if ($_[0]->{ProtoExp}) {
 				 #print "VRML::Scene::setup_routing, this $this is a proto, calling protoexp setup_routing\n";
