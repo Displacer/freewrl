@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.41 2001/12/12 17:01:41 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.42 2002/01/04 20:18:36 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -693,7 +693,7 @@ FontStyle => new VRML::NodeType("FontStyle",
 	 leftToRight => [SFBool, 1],
 	 size => [SFFloat, 1.0],
 	 spacing => [SFFloat, 1.0],
-	 style => [SFString, ["PLAIN"]],
+	 style => [SFString, "PLAIN"],
 	 topToBottom => [SFBool, 1],
 	}
 ),
