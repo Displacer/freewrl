@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.10 2002/11/29 21:06:08 ayla Exp $
+# $Id: NodeIntern.pm,v 1.11 2002/12/19 18:34:05 ayla Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -29,7 +29,7 @@ sub make_executable {}
 sub gather_defs {}
 sub iterate_nodes {}
 
-sub as_string { " ($_) NULL" }
+sub as_string { "NULL" }
 
 
 ###############################################################
@@ -321,7 +321,7 @@ sub as_string {
 
     # is this a script being sent back via EAI?
     if ("__script" eq substr($this->{TypeName},0,8)) {
-    	$s .= "SCRIPT NOT PRINTED }\n";
+    	$s .= " SCRIPT NOT PRINTED } ";
     	return $s;
     }
 
