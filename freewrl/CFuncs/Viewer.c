@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.19 2003/07/31 17:08:13 crc_canada Exp $
+ * $Id: Viewer.c,v 1.20 2003/08/14 15:07:49 crc_canada Exp $
  *
  */
 
@@ -129,6 +129,9 @@ set_viewer_type(const int type)
 		if (Viewer.oktypes[type]==FALSE) return;
 
 	viewer_init(&Viewer,type);
+
+	/* tell the status bar what we are */
+	viewer_type_status (type);
 
 	switch(type) {
 	case NONE:
