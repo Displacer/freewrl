@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.8 2000/08/07 01:03:09 rcoscali Exp $
+# $Id: VRMLRend.pm,v 1.9 2000/08/07 01:24:45 rcoscali Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.9  2000/08/07 01:24:45  rcoscali
+# Removed a glShadeModel(mooth) forgotten after a test
+#
 # Revision 1.8  2000/08/07 01:03:09  rcoscali
 # Fixed another little problem on texture of cone. It was mapped in the wrong way.
 #
@@ -293,7 +296,6 @@ Sphere => 'int vdiv = vert_div;
 		       /* glPushAttrib(GL_LIGHTING); This does what? */
 			   /* glShadeModel(GL_SMOOTH); This makes a smoother shading */
 		}
-glShadeModel(GL_SMOOTH);
 		glScalef($f(radius), $f(radius), $f(radius));
 		glBegin(GL_QUAD_STRIP);
 		START_TRIG1
