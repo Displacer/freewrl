@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.45 2002/01/14 20:16:06 hoenicke Exp $
+# $Id: VRMLNodes.pm,v 1.46 2002/01/17 19:11:57 hoenicke Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1719,7 +1719,7 @@ Script => new VRML::NodeType("Script",
 						eval('require "VRML/VRMLJava.pm"');
 						if($@) {die $@;}
 						$VRML::J = 
-							VRML::JavaCom->new();
+							VRML::JavaCom->new($scene->get_browser);
 					}
 					$VRML::J->newscript($t->{PURL},$_,$t);
 					$t->{J} = $VRML::J;
