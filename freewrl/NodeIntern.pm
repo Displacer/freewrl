@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.3 2002/06/24 20:56:52 ayla Exp $
+# $Id: NodeIntern.pm,v 1.4 2002/07/29 18:43:08 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -533,7 +533,7 @@ sub initialize {
     if ($this->{Type}{Actions}{Initialize}
 	     && $this->{TypeName} ne "Inline") {
 	return &{$this->{Type}{Actions}{Initialize}}($this, $this->{RFields},
-			(my $timestamp=XXX), $this->{Scene});
+			(my $timestamp=(POSIX::times())[0] / 100), $this->{Scene});
 	# XXX $this->{Scene} && $scene ??
     }
     return ();
@@ -614,7 +614,7 @@ sub set_backend_fields {
 							 if $VRML::verbose::be;
 			
 				&{$this->{Type}{Actions}{Initialize}}($this, $this->{RFields},
-													  (my $timestamp=XXX), $this->{Scene});
+					(my $timestamp=(POSIX::times())[0] / 100), $this->{Scene});
 			}
 
 			if ($NOT{$this->{TypeName}} or $this->{TypeName} =~ /^__script/) {
