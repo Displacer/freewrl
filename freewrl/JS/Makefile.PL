@@ -4,18 +4,18 @@
 # for conditions of use and redistribution, EXCEPT on the files
 # which belong under the Mozilla public license.
 #
-# $Id: Makefile.PL,v 1.10 2003/06/06 20:25:22 ayla Exp $
+# $Id: Makefile.PL,v 1.11 2003/07/03 17:02:13 ayla Exp $
+
+BEGIN {
+	if ($^V lt v5.6.0) {
+		warn "Warning: module $moduleName was created under Perl v5.6.0 or greater.\n";
+	}
+}
 
 my $moduleName = 'VRML::JS';
 
-
-
-if ($^V lt v5.6.0) {
-    warn "Warning: module $moduleName was created under Perl v5.6.0.\n";
-}
-
-
 use ExtUtils::MakeMaker;
+require '../Config.pm';
 
 WriteMakefile(
 			  NAME => $moduleName,
@@ -23,22 +23,29 @@ WriteMakefile(
 			  LIBS => "",
 			  INC => "",
 			  dynamic_lib => {
-							  OTHERLDFLAGS => $VRML_CONFIG{LDFLAGS},
-							  LDDLFLAGS => $VRML_CONFIG{LDDLFLAGS}
+							  OTHERLDFLAGS => $VRML::Config::vrml_config{LDFLAGS},
+							  LDDLFLAGS => $VRML::Config::vrml_config{LDDLFLAGS}
 							 },
 			  DEFINE => "",
 			  CCFLAGS => "",
 			  OPTIMIZE => '-O2'
 			 );
 
-sub MY::dynamic_lib {
-"ARMAYBE = :
-OTHERLDFLAGS = $VRML_CONFIG{LDFLAGS} 
+{
+	package MY;
+
+	sub dynamic_lib {
+		if ($VRML::Config::vrml_config{PLATFORM} =~ /macosx/i) {
+			return "ARMAYBE = :
+OTHERLDFLAGS = $VRML::Config::vrml_config{LDFLAGS}
 INST_DYNAMIC_DEP =
 
 \$\(INST_DYNAMIC\): \$\(OBJECT\) \$\(MYEXTLIB\) \$\(BOOTSTRAP\) \$\(INST_ARCHAUTODIR\)/.exists \$\(EXPORT_LIST\) \$\(PERL_ARCHIVE\) \$\(PERL_ARCHIVE_AFTER\) \$\(INST_DYNAMIC_DEP\)
 	\$\(RM_F\) \$\@
 	LD_RUN_PATH=\$\(LD_RUN_PATH\) \$\(LD\) \$\(LDFROM\) \$\(OTHERLDFLAGS\) -o \$\@ \$\(MYEXTLIB\) \$\(PERL_ARCHIVE\) \$\(LDLOADLIBS\) \$\(PERL_ARCHIVE_AFTER\) \$\(EXPORT_LIST\)
-	\$\(CHMOD\) \$\(PERM_RWX\) \$\@
-"
+	\$\(CHMOD\) \$\(PERM_RWX\) \$\@\n";
+		} else {
+			return shift->SUPER::dynamic_lib(@_);
+		}
+	}
 }
