@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.7 2002/11/21 21:24:32 ayla Exp $
+# $Id: NodeIntern.pm,v 1.8 2002/11/28 20:14:42 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -603,7 +603,7 @@ sub set_backend_fields {
 	my $v = $this->{RFields}{$_};
 	print "SBEF: ",VRML::NodeIntern::dump_name($this)," $_ '",
 	    ("ARRAY" eq ref $v ? (join ', ', @$v) : $v), "' \n"
-		if $VRML::verbose::be && $_ ne "__data";
+		if $VRML::verbose::be;
 	
 	if ($this->{Type}{FieldTypes}{$_} =~ /SFNode$/) {
 	    print "SBEF: SFNODE\n" if $VRML::verbose::be;
