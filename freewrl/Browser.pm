@@ -247,7 +247,6 @@ sub shut {
 		VRML::PluginGlue::closeFileDesc($VRML::PluginGlue::globals{freeWRLSock});
 	}
 	if ($this->{JSCleanup}) {
-		print STDERR "VRML::Browser do JS cleanup!\n";
 		&{$this->{JSCleanup}}();
 	}
 	$this->{BE}->close_screen();
@@ -351,22 +350,20 @@ sub replaceWorld {
 }
 
 
-sub createVrmlFromString { 
+sub createVrmlFromString {
+	my ($this, $string) = @_;
 
-
-	my ($this,$string) = @_;
-
-	my $scene = VRML::Scene->new($this->{EV},"FROM A STRING, DUH");
+	my $scene = VRML::Scene->new($this->{EV}, "FROM A STRING, DUH");
 	VRML::Parser::parse($scene, $string);
-        $scene->make_executable();
-	my $ret = $scene->mkbe_and_array($this->{BE},$this->{Scene});
-	# debugging scene graph call: 
+	$scene->make_executable();
+	my $ret = $scene->mkbe_and_array($this->{BE}, $this->{Scene});
+	# debugging scene graph call:
 	# $scene->dump(0);
 
 	return $ret;
 }
 
-sub createVrmlFromURL { 
+sub createVrmlFromURL {
 	my ($this,$file,$url) = @_;
 
 	# stage 1a - get the URL....
@@ -407,14 +404,38 @@ sub createVrmlFromURL {
 	return $ret
 }
 
+sub addRoute {
+	my ($this, $fn, $ff, $tn, $tf, $scene) = @_;
 
-sub addRoute {  print "No addroute yet\n"; exit(1) }
-sub deleteRoute { print "No deleteroute yet"; exit (1) }
+	##print "VRML::Browser::addRoute: $fn, $ff, $tn, $tf, $scene\n";
+
+	my $fromNode = VRML::Handles::get($fn)->real_node();
+	my $toNode = VRML::Handles::get($tn)->real_node();
+	my @ar=[$fromNode, $ff, $toNode, $tf];
+
+	$scene->new_route(@ar);
+	$this->prepare2();
+	# make sure route gets rendered
+	VRML::OpenGL::set_render_frame();
+}
+
+sub deleteRoute {
+	my ($this, $fn, $ff, $tn, $tf, $scene) = @_;
+
+	##print "VRML::Browser::deleteRoute\n";
+
+	my $fromNode = VRML::Handles::get($fn)->real_node();
+	my $toNode = VRML::Handles::get($tn)->real_node();
+	my @ar=[$fromNode, $ff, $toNode, $tf];
+
+	$scene->delete_route(@ar);
+	$this->prepare2();
+}
 
 # EAI
 sub api_beginUpdate { print "no beginupdate yet\n"; exit(1) }
 sub api_endUpdate { print "no endupdate yet\n"; exit(1) }
-sub api_getNode { 
+sub api_getNode {
 	$_[0]->{Scene}->getNode($_[1]);
 }
 sub api__sendEvent { 
