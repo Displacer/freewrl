@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.55 2003/07/22 16:04:48 ayla Exp $
+# $Id: Scene.pm,v 1.56 2003/07/24 18:15:24 ayla Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -143,7 +143,7 @@ sub new {
 					  Stack => undef,
 					  DEF => undef
 					 }, $type;
-	print "VRML::Scene::new $this, $eventmodel, $url, $worldurl\n"
+	print "VRML::Scene::new: ", VRML::Debug::toString(\@_), "\n"
 		if $VRML::verbose::scene;
 	return $this;
 	
@@ -247,7 +247,8 @@ sub newextp {
 		}
     }
 
-    print("EXTERNPROTO with URL: $url\n") if $VRML::verbose::parse;
+    print "EXTERNPROTO with URL: ", VRML::Debug::toString($url), "\n"
+		if $VRML::verbose::parse;
 	my ($string, $protourl, $protoname, $brow, $po);
 	my $success = 0;
 
