@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.23 2002/11/22 16:28:57 ayla Exp $
+# $Id: VRMLFields.pm,v 1.24 2002/11/22 22:09:14 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,9 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.24  2002/11/22 22:09:14  ayla
+# Tweaking SFFloat and SFTime formatting in as_string.
+#
 # Revision 1.23  2002/11/22 16:28:57  ayla
 #
 # Format floating point numbers for string conversion.
@@ -191,7 +194,7 @@ sub parse {
 	return $1;
 }
 
-sub as_string { return sprintf("%.1g", $_[1]); }
+sub as_string { return sprintf("%.2g", $_[1]); }
 
 sub print {print $_[1]}
 
@@ -203,6 +206,7 @@ sub cfunc {"$_[1] = SvNV($_[2]);\n"}
 package VRML::Field::SFTime;
 @ISA=VRML::Field::SFFloat;
 
+sub as_string { return sprintf("%f", $_[1]); }
 
 ###########################################################
 package VRML::Field::SFInt32;
