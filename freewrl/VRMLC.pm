@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.60 2002/07/29 20:07:39 ncoder Exp $
+# $Id: VRMLC.pm,v 1.61 2002/07/30 14:03:35 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.61  2002/07/30 14:03:35  crc_canada
+# MovieTexture repeatS and repeatT flags passed correctly now
+#
 # Revision 1.60  2002/07/29 20:07:39  ncoder
 # Removed lingering printmatrix debug code. (VRMLRend.pm)
 #
@@ -1466,14 +1469,19 @@ CODE:
 ####################################################################
 
 int 
-read_mpg_file(init_tex, fname)
+read_mpg_file(init_tex, fname,repeatS,repeatT)
 	unsigned int init_tex
 	char *fname
+	int repeatS
+	int repeatT
 CODE:
 	/* go directly to the CFuncs/MPEG_Utils, and run from there */
-	RETVAL = mpg_main(init_tex, fname);
+	RETVAL = mpg_main(init_tex, fname, repeatS, repeatT);
 OUTPUT:
 	RETVAL
+
+####################################################################
+#
 
 ####################################################################
 #
