@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.29 2003/03/20 18:37:22 ayla Exp $
+# $Id: VRMLFields.pm,v 1.30 2003/04/25 19:43:13 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,10 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.30  2003/04/25 19:43:13  crc_canada
+# changed SFTime to double from float - float was not enough precision
+# to hold time since epoch values.
+#
 # Revision 1.29  2003/03/20 18:37:22  ayla
 #
 # Added init() functions to be used by VRML::NodeIntern::do_defaults() to
@@ -230,6 +234,7 @@ package VRML::Field::SFTime;
 @ISA=VRML::Field::SFFloat;
 
 sub as_string { return sprintf("%f", $_[1]); }
+sub ctype {"double $_[1]"}
 
 ###########################################################
 package VRML::Field::SFInt32;
