@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.h,v 1.3 2003/06/16 19:49:18 crc_canada Exp $
+ * $Id: jsVRMLBrowser.h,v 1.4 2004/05/27 15:22:04 crc_canada Exp $
  * 
  */
 
@@ -126,6 +126,13 @@ VrmlBrowserAddRoute(JSContext *cx,
 
 
 JSBool
+VrmlBrowserPrint(JSContext *cx,
+					   JSObject *obj,
+					   uintN argc,
+					   jsval *argv,
+					   jsval *rval);
+
+JSBool
 VrmlBrowserDeleteRoute(JSContext *cx,
 					   JSObject *obj,
 					   uintN argc,
@@ -161,6 +168,7 @@ static JSFunctionSpec (BrowserFunctions)[] = {
 	{"createVrmlFromURL", VrmlBrowserCreateVrmlFromURL, 0},
 	{"addRoute", VrmlBrowserAddRoute, 0},
 	{"deleteRoute", VrmlBrowserDeleteRoute, 0},
+	{"print", VrmlBrowserPrint, 0},
 	{0}
 };
 

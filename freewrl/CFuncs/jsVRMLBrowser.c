@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.c,v 1.6 2003/07/10 17:50:28 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.7 2004/05/27 15:22:04 crc_canada Exp $
  * 
  */
 
@@ -416,6 +416,27 @@ VrmlBrowserAddRoute(JSContext *context, JSObject *obj, uintN argc, jsval *argv, 
 }
 
 
+JSBool
+VrmlBrowserPrint(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
+{	int count;
+	JSString *_str;
+	char *_id_c;
+
+	jsval _rval = INT_TO_JSVAL(0);
+	printf ("FreeWRL:javascript: ");
+	for (count=0; count < argc; count++) {
+		if (JSVAL_IS_STRING(argv[count])) {
+			_str = JSVAL_TO_STRING(argv[count]);
+			_id_c = JS_GetStringBytes(_str);
+			printf (_id_c);
+		} else {
+	//		printf ("unknown arg type %d\n",count);
+		}
+	}
+	printf ("\n");
+	*rval = _rval;
+	return JS_TRUE;
+}
 JSBool
 VrmlBrowserDeleteRoute(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
