@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.138 2004/04/20 19:20:23 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.139 2004/05/04 13:28:52 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.139  2004/05/04 13:28:52  crc_canada
+# Commands for java .class, and some EAI changes from Alberto Dubuc.
+#
 # Revision 1.138  2004/04/20 19:20:23  crc_canada
 # Alberto Dubuc cleanup; java .class work.
 #
@@ -2049,15 +2052,12 @@ OUTPUT:
 # We have a new class invocation to worry about...
 
 int
-do_newJavaClass(scriptInvocationNumber,nodestr,node)
+do_newJavaClass(scriptInvocationNumber,nodeURLstr,node)
 	int scriptInvocationNumber
-	char *nodestr
-	int node
+	char *nodeURLstr
+	char *node 
 CODE:
-	printf ("do_newJavaClass, script %d, node %d nodestr %s\n",
-		scriptInvocationNumber,node, nodestr);
-	RETVAL = (int) newJavaClass(scriptInvocationNumber,nodestr,(int *)node);
-	printf ("do_newJavaClass, going to return %d\n",RETVAL);
+	RETVAL = (int) newJavaClass(scriptInvocationNumber,nodeURLstr,node);
 OUTPUT:
 	RETVAL
 
