@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: USE.pm,v 1.5 2004/06/11 13:49:42 crc_canada Exp $
+# $Id: USE.pm,v 1.6 2004/06/22 19:50:37 crc_canada Exp $
 #
 # Package to handle nodes referenced using the USE keyword.
 
@@ -45,12 +45,11 @@ sub make_backend {
 		print "VRML::USE::make_backend: ", VRML::Debug::toString(\@_),
 			" from $package, $line\n";
 	}
-	$this->{DEFNode},"\n";
 
 	my $dn = $this->{DEFNode};
 
 	# this is a DEF here
-	if ($dn->{Node}{BackNode}) {
+	if ($dn->{Node}{BackNode}{CNode}) {
 		print "\tusing $this->{DEFName}{Node}'s BackNode.\n"
 			if $VRML::verbose::be;
 		return $this->{DEFNode}{Node}{BackNode};
