@@ -1,5 +1,5 @@
 #
-# $Id: VRMLC.pm,v 1.1 2000/08/04 07:07:38 rcoscali Exp $
+# $Id: VRMLC.pm,v 1.1.1.1 2000/08/04 07:07:38 rcoscali Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -28,8 +28,8 @@
 #  do normals for indexedfaceset
 #
 # $Log: VRMLC.pm,v $
-# Revision 1.1  2000/08/04 07:07:38  rcoscali
-# Initial revision
+# Revision 1.1.1.1  2000/08/04 07:07:38  rcoscali
+# initial import (creation) of sources repository
 #
 #
 
