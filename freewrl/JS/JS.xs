@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: JS.xs,v 1.4 2002/11/08 01:01:47 ayla Exp $
+ * $Id: JS.xs,v 1.5 2002/11/20 19:11:19 crc_canada Exp $
  * 
  * A substantial amount of code has been adapted from the embedding
  * tutorials from the SpiderMonkey web pages
@@ -16,7 +16,10 @@
  *
  */
 
-#include "XSUB.h"
+#include <EXTERN.h>
+#include <perl.h>
+#include <XSUB.h>
+
 
 #ifndef __jsUtils_h__
 #include "jsUtils.h" /* misc helper C functions and globals */
@@ -87,7 +90,7 @@ void
 doPerlCallMethod(SV *sv, const char *methodName)
 {
 	int count = 0;
-
+ #define PERL_NO_GET_CONTEXT
 	dSP;
 	ENTER;
 	SAVETMPS;
