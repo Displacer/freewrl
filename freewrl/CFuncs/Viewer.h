@@ -2,7 +2,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.10 2003/07/21 13:46:16 crc_canada Exp $
+ * $Id: Viewer.h,v 1.11 2003/07/30 18:46:50 crc_canada Exp $
  *
  */
 
@@ -141,6 +141,7 @@ typedef struct viewer {
 	double eyehalf;
 	double eyehalfangle;
 	unsigned int buffer;
+	int oktypes[6];		//boolean for types being acceptable.
 	VRML_Viewer_Walk *walk;
 	VRML_Viewer_Examine *examine;
 	VRML_Viewer_Fly *fly;
