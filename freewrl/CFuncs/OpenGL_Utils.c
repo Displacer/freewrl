@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.4 2003/07/31 17:07:51 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.5 2004/01/21 19:36:21 crc_canada Exp $
  *
  */
 
@@ -37,7 +37,7 @@ glpOpenGLInitialize()
 
 	/* Configure OpenGL for our uses. */
 
-	glClearColor(red, green, blue, alpha);
+	glClearColor((float)red, (float)green, (float)blue, (float)alpha);
 	glShadeModel(GL_SMOOTH);
 	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_DEPTH_TEST);
@@ -50,7 +50,7 @@ glpOpenGLInitialize()
 
 	/* glEnable(GL_BLEND); */
 	/* glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA); */
-	glAlphaFunc (GL_GREATER, ref);
+	glAlphaFunc (GL_GREATER, (float)ref);
 	glEnable (GL_ALPHA_TEST);
 
 	/* end of ALPHA test */

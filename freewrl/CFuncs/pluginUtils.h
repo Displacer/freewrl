@@ -1,5 +1,5 @@
 /*
- * $Id: pluginUtils.h,v 1.1 2003/12/19 20:31:19 crc_canada Exp $
+ * $Id: pluginUtils.h,v 1.2 2004/01/21 19:36:21 crc_canada Exp $
  *
  * FreeWRL plugin utilities header file.
  */
@@ -12,12 +12,13 @@
 #include <string.h>
 #include <stdio.h>
 
-#ifdef XP_UNIX
-
+#ifdef AQUA
 #include <unistd.h>
 #include <X11/X.h>
+#else
+#include <X11/X.h>
+#endif
 
-#endif /* XP_UNIX */
 
 #ifdef __cplusplus
 extern "C" {

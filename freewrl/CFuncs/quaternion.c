@@ -6,7 +6,7 @@
  ******************************************************************************/
 
 /*
- * $Id: quaternion.c,v 1.7 2003/07/15 14:05:00 crc_canada Exp $
+ * $Id: quaternion.c,v 1.8 2004/01/21 19:36:21 crc_canada Exp $
  *
  * Quaternion math ported from Perl to C
  * (originally in Quaternion.pm)
@@ -212,8 +212,12 @@ scalar_multiply(Quaternion *quat, double s)
 void
 rotation(struct pt *ret, const Quaternion *quat, const struct pt *v)
 {
-	Quaternion q_v = {0, v->x, v->y, v->z}, q_i, q_r1, q_r2;
+	Quaternion q_v, q_i, q_r1, q_r2;
 
+	q_v.w = 0.0;
+	q_v.x = v->x;
+	q_v.y = v->y;
+	q_v.z = v->z;
 	inverse(&q_i, quat);
 	multiply(&q_r1, &q_v, &q_i);
 	multiply(&q_r2, quat, &q_r1);

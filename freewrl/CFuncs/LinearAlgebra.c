@@ -1,4 +1,4 @@
-/* $Id: LinearAlgebra.c,v 1.12 2003/11/26 16:31:06 crc_canada Exp $
+/* $Id: LinearAlgebra.c,v 1.13 2004/01/21 19:36:21 crc_canada Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * Copyright (C) 2003 John Stewart CRC Canada
@@ -381,7 +381,6 @@ GLdouble* matmultiply(GLdouble* r, GLdouble* m , GLdouble* n)
 double matrotate2v(GLdouble* res, struct pt iv/*original*/, struct pt dv/*result*/) {
     struct pt cv;
     double cvl,a;
-    static const GLdouble ident[16] = {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
 
     vecnormal(&dv,&dv);
     vecnormal(&iv,&iv);

@@ -1,16 +1,16 @@
 /*
- * $Id: PluginSocket.h,v 1.1 2003/12/19 20:31:19 crc_canada Exp $
+ * $Id: PluginSocket.h,v 1.2 2004/01/21 19:36:21 crc_canada Exp $
  */
 
 #ifndef __pluginSocket_h__
 #define __pluginSocket_h__
 
 
-#ifdef XP_UNIX
+#ifndef AQUA
 
 #include <unistd.h>
 
-#endif /* XP_UNIX */
+#endif /* AQUA */
 
 #include <fcntl.h>
 #include <sys/ioctl.h>
