@@ -77,7 +77,7 @@ sub new {
 						    @{$pars->{BackEnd} or []}),
 			  EV => new VRML::EventMachine(),
 			  Scene => undef,
-			  URL => undef
+			  URL => undef,
 			  JSCleanup => undef
 			 }, $type;
 	return $this;
