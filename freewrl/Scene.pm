@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.71 2003/12/22 18:49:01 crc_canada Exp $
+# $Id: Scene.pm,v 1.72 2004/02/25 19:09:14 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -1048,29 +1048,5 @@ sub setup_routing {
 	print "VRML::Scene::setup_routing FINISHED for ",VRML::NodeIntern::dump_name($this),"\n"
 		if $VRML::verbose::scene;
 }
-
-
-# Send initial events
-sub init_events {
-	my ($this, $eventmodel, $backend) = @_;
-	my @e;
-
-	print "VRML::Scene::init_events this $this ev $eventmodel be $backend\n"
-		if $VRML::verbose::scene;
-
-	$this->iterate_nodes_all(sub {$_[0]->initialize($this);});
-}
-
-
-sub update_routing {
-	my ($this, $node, $field) = @_;
-	##my ($fn, $ff, $tn, $tf, $item);
-
-	## for EAI:
-	## add code to delete route if a child is removed if necessary...
-	## what else???
-}
-
-
 
 1;
