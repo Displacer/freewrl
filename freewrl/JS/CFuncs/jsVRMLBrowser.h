@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.h,v 1.1.2.3 2002/08/30 04:53:50 ayla Exp $
+ * $Id: jsVRMLBrowser.h,v 1.1.2.4 2002/08/30 05:32:53 ayla Exp $
  * 
  */
 
@@ -177,12 +177,12 @@ static JSClass Browser = {
 
 
 static JSFunctionSpec (BrowserFunctions)[] = {
-	{"createVRMLFromString", VRMLBrowserCreateVRMLFromString, 0},
+	{"createVrmlFromString", VRMLBrowserCreateVRMLFromString, 0},
 	{"getName", VRMLBrowserGetName, 0},
 	{"getVersion", VRMLBrowserGetVersion, 0},
 	{"getCurrentFrameRate", VRMLBrowserGetCurrentFrameRate, 0},
 	{"getWorldURL", VRMLBrowserGetWorldURL, 0},
-	{"createVRMLFromURL", VRMLBrowserCreateVRMLFromURL, 0},
+	{"createVrmlFromURL", VRMLBrowserCreateVRMLFromURL, 0},
 /* 	{"setDescription", VRMLBrowserSetDescription, 0}, */
 /* 	{"deleteRoute", VRMLBrowserDeleteRoute, 0}, */
 /* 	{"loadURL", VRMLBrowserLoadURL, 0}, */
