@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.110 2003/10/16 17:24:59 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.111 2003/10/17 19:54:33 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -730,7 +730,8 @@ my $protono;
 						 height => [SFFloat, 2.0, field],
 						 side => [SFBool, 1, field],
 						 bottom => [SFBool, 1, field],
-						 __points =>[SFInt32,0,field]
+						 __points =>[SFInt32,0,field],
+						 __normals =>[SFInt32,0,field],
 						},
 					   ),
 
