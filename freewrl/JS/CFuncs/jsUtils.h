@@ -1,5 +1,5 @@
 /*
- * $Id: jsUtils.h,v 1.1.2.1 2002/08/12 21:05:01 ayla Exp $
+ * $Id: jsUtils.h,v 1.1.2.2 2002/08/20 21:35:23 ayla Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <EXTERN.h>
+#include <perl.h>
 
 
 #include "jsapi.h" /* JS compiler */
@@ -33,7 +35,7 @@ extern JSBool verbose;
 static JSBool reportWarnings = JS_TRUE;
 
 extern void
-doPerlCallMethod(void *jssv, const char *methodName);
+doPerlCallMethod(SV *jssv, const char *methodName);
 
 void
 reportWarningsOn(void);

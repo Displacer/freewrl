@@ -6,14 +6,14 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: JS.xs,v 1.3.2.2 2002/08/12 21:03:21 ayla Exp $
+ * $Id: JS.xs,v 1.3.2.3 2002/08/20 21:35:23 ayla Exp $
  * 
  * A substantial amount of code has been adapted from the embedding
  * tutorials from the SpiderMonkey web pages
  * (http://www.mozilla.org/js/spidermonkey/)
  * and from js/src/js.c, which is the sample application included with
  * the javascript engine.
- * 
+ *
  */
 
 #include <EXTERN.h>
@@ -73,7 +73,7 @@
 JSBool verbose = 0;
 
 static JSRuntime *runtime;
-/* static BrowserIntern *brow; */
+/* static BrowserInternal *brow; */
 /* static JSContext *context; */
 /* static JSObject *global; */
 static JSClass globalClass = {
@@ -84,13 +84,13 @@ static JSClass globalClass = {
 	JS_PropertyStub,
 	JS_PropertyStub,
 	JS_EnumerateStub,
-	JS_ResolveStub,
+	globalResolve,
 	JS_ConvertStub,
 	JS_FinalizeStub
 };
 
 void
-doPerlCallMethod(void *jssv, const char *methodName)
+doPerlCallMethod(SV *jssv, const char *methodName)
 {
 	int count = 0;
 
@@ -98,7 +98,7 @@ doPerlCallMethod(void *jssv, const char *methodName)
 	ENTER;
 	SAVETMPS;
 	PUSHMARK(sp);
-	XPUSHs((SV *) jssv);
+	XPUSHs(jssv);
 	PUTBACK;
 	count = perl_call_method(methodName, G_SCALAR);
 	if (count && verbose) {
@@ -110,38 +110,40 @@ doPerlCallMethod(void *jssv, const char *methodName)
 }
 
 /* double runscript(void *cxp, void *glo, char *script, SV*r) */
-JSBool
-runScript(void *cx, void *obj, char *script, SV *rstr, SV *rnum)
-{
-	jsval rval;
-	JSString *strval;
-	jsdouble dval = -1.0;
-	char *strp;
-	size_t len;
-	JSObject *globalObj = obj;
-	JSContext *context = cx;
+/* JSBool */
+/* runScript(void *cx, void *obj, char *script, SV *rstr, SV *rnum) */
+/* { */
+/* 	jsval rval; */
+/* 	JSString *strval; */
+/* 	jsdouble dval = -1.0; */
+/* 	char *strp; */
+/* 	size_t len; */
+/* 	JSObject *globalObj = obj; */
+/* 	JSContext *context = cx; */
 
-	if (verbose) {
-		printf("runScript: \"%s\"\n", script);
-	}
-	len = strlen(script);
-	if (!JS_EvaluateScript(context, globalObj, script, len,
-						   FNAME_STUB, LINENO_STUB, &rval)) {
-		fprintf(stderr, "JS_EvaluateScript failed for \"%s\".\n", script);
-		return JS_FALSE;
-	}
-	strval = JS_ValueToString(context, rval);
-	strp = JS_GetStringBytes(strval);
-	sv_setpv(rstr, strp);
+/* 	if (verbose) { */
+/* 		printf("runScript: \"%s\"\n", script); */
+/* 	} */
+/* 	len = strlen(script); */
+/* 	if (!JS_EvaluateScript(context, globalObj, script, len, */
+/* 						   FNAME_STUB, LINENO_STUB, &rval)) { */
+/* 		fprintf(stderr, "JS_EvaluateScript failed for \"%s\".\n", script); */
+/* 		return JS_FALSE; */
+/* 	} */
+/* 	strval = JS_ValueToString(context, rval); */
+/* 	strp = JS_GetStringBytes(strval); */
+/* 	sv_setpv(rstr, strp); */
+/* 	printf("runscript: strp = %s\n", strp); */
 
-	if (!JS_ValueToNumber(context, rval, &dval)) {
-		fprintf(stderr, "JS_ValueToNumber failed.\n");
-		return JS_FALSE;
-	}
-	sv_setnv(rnum, dval);
+/* 	if (!JS_ValueToNumber(context, rval, &dval)) { */
+/* 		fprintf(stderr, "JS_ValueToNumber failed.\n"); */
+/* 		return JS_FALSE; */
+/* 	} */
+/* 	printf("runscript: dval = %f\n", dval); */
+/* 	sv_setnv(rnum, dval); */
 
-	return JS_TRUE;
-}
+/* 	return JS_TRUE; */
+/* } */
 
 
 void *
@@ -171,12 +173,12 @@ TJL_SFColorAssign(void *top, void *fromp)
 {
 	TJL_SFColor *to = top;
 	TJL_SFColor *from = fromp;
-	to->touched ++;
+	to->touched++;
 	(to->v) = (from->v);
 }
 
 void
-TJL_SFColorSet(void *p, void *sv)
+TJL_SFColorSet(void *p, SV *sv)
 {
 	AV *a;
 	SV **b;
@@ -184,16 +186,24 @@ TJL_SFColorSet(void *p, void *sv)
 	TJL_SFColor *ptr = p;
 	ptr->touched = 0;
 
-	if (!SvROK((SV *) sv)) {
+	if (verbose) {
+		printf("TJL_SFColorSet:\n");
+	}
+
+	if (!SvROK(sv)) {
 		(ptr->v).c[0] = 0;
 		(ptr->v).c[1] = 0;
 		(ptr->v).c[2] = 0;
+		if (verbose) {
+			printf("\thardcoded color values\n");
+		}
+
 	} else {
-		if (SvTYPE(SvRV((SV *) sv)) != SVt_PVAV) {
+		if (SvTYPE(SvRV(sv)) != SVt_PVAV) {
 			fprintf(stderr, "SFColor without being arrayref in TJL_SFColorSet.\n");
 			return;
 		}
-		a = (AV *) SvRV((SV *) sv);
+		a = (AV *) SvRV(sv);
 		for (i = 0; i < 3; i++) {
 			b = av_fetch(a, i, 1); /* LVal for easiness */
 			if (!b) {
@@ -234,12 +244,12 @@ TJL_SFRotationAssign(void *top, void *fromp)
 {
 	TJL_SFRotation *to = top;
 	TJL_SFRotation *from = fromp;
-	to->touched ++;
+	to->touched++;
 	(to->v) = (from->v);
 }
 
 void
-TJL_SFRotationSet(void *p, void *sv)
+TJL_SFRotationSet(void *p, SV *sv)
 {
 	AV *a;
 	SV **b;
@@ -247,18 +257,26 @@ TJL_SFRotationSet(void *p, void *sv)
 	TJL_SFRotation *ptr = p;
 	ptr->touched = 0;
 
-	if (!SvROK((SV *) sv)) {
+	if (verbose) {
+		printf("TJL_SFRotationSet:\n");
+	}
+
+	if (!SvROK(sv)) {
+		if (verbose) {
+			printf("\thardcoded rotation values\n");
+		}
+
 		(ptr->v).r[0] = 0;
 		(ptr->v).r[1] = 1;
 		(ptr->v).r[2] = 0;
 		(ptr->v).r[3] = 0;
 	} else {
-		if (SvTYPE(SvRV((SV *) sv)) != SVt_PVAV) {
+		if (SvTYPE(SvRV(sv)) != SVt_PVAV) {
 			fprintf(stderr, "SFRotation without being arrayref in TJL_SFRotationSet.\n");
 			return;
 		}
-		a = (AV *) SvRV((SV *) sv);
-		for (i=0; i<4; i++) {
+		a = (AV *) SvRV(sv);
+		for (i = 0; i < 4; i++) {
 			b = av_fetch(a, i, 1); /* LVal for easiness */
 			if (!b) {
 				fprintf(stderr, "SFRotation b == 0 in TJL_SFRotationSet.\n");
@@ -296,12 +314,12 @@ TJL_SFVec3fAssign(void *top, void *fromp)
 {
 	TJL_SFVec3f *to = top;
 	TJL_SFVec3f *from = fromp;
-	to->touched ++;
+	to->touched++;
 	(to->v) = (from->v);
 }
 
 void
-TJL_SFVec3fSet(void *p, void *sv)
+TJL_SFVec3fSet(void *p, SV *sv)
 {
 	AV *a;
 	SV **b;
@@ -309,23 +327,35 @@ TJL_SFVec3fSet(void *p, void *sv)
 	TJL_SFVec3f *ptr = p;
 	ptr->touched = 0;
 
-	if (!SvROK((SV *) sv)) {
+	if (verbose) {
+		printf("TJL_SFVec3fSet:\n");
+	}
+
+	if (!SvROK(sv)) {
 		(ptr->v).c[0] = 0;
 		(ptr->v).c[1] = 0;
 		(ptr->v).c[2] = 0;
-	} else {
-		if (SvTYPE(SvRV((SV *) sv)) != SVt_PVAV) {
+		if (verbose) {
+			printf("\thardcoded vec3f values\n");
+		}
+	} else if (SvTYPE(SvRV(sv)) != SVt_PVAV) {
 			fprintf(stderr, "SFVec3f without being arrayref in TJL_SFVec3fSet.\n");
 			return;
-		}
-		a = (AV *) SvRV((SV *) sv);
-		for (i=0; i<3; i++) {
+	} else {
+		a = (AV *) SvRV(sv);
+		for (i = 0; i < 3; i++) {
 			b = av_fetch(a, i, 1); /* LVal for easiness */
 			if (!b) {
 				fprintf(stderr, "SFVec3f b == 0 in TJL_SFVec3f.\n");
 				return;
 			}
 			(ptr->v).c[i] = SvNV(*b);
+		}
+		if (verbose) {
+			printf("\tvec3f values: (%f, %f, %f)\n",
+				   (ptr->v).c[0],
+				   (ptr->v).c[1],
+				   (ptr->v).c[2]);
 		}
 	}
 }
@@ -347,7 +377,7 @@ CODE:
 
 
 void
-initContext(context, global, brow, jssv)
+init(context, global, brow, jssv)
 	void *context
 	void *global
 	void *brow
@@ -355,7 +385,7 @@ initContext(context, global, brow, jssv)
 CODE:
 {
     JSContext *cx;
-	BrowserIntern *br;
+	BrowserInternal *br;
 	JSObject *glob;
 
 	if (verbose) {
@@ -407,20 +437,21 @@ CODE:
 		printf("\tJS errror reporter set,\n");
 	}
 
-	br = (BrowserIntern *) JS_malloc(context, sizeof(BrowserIntern));
-	br->jssv = (void *) newSVsv(jssv); /* new duplicate of jssv */
+	br = (BrowserInternal *) JS_malloc(context, sizeof(BrowserInternal));
+	br->jssv = newSVsv(jssv); /* new duplicate of jssv */
 	br->magic = BROWMAGIC;
 	brow = br;
 	
-	if (!LoadVRMLClasses(context, global)) {
+	if (!LoadVRMLClasses(cx, glob)) {
+	/* if (!LoadVRMLClasses(context, global)) { */
 		die("JS_LoadVRMLClasses failed");
 	}
 	if (verbose) {
 		printf("\tVRML classes loaded,\n");
 	}
 
-	/* browser init ??? */
-	if (!VRMLBrowserInit(context, global, brow)) {
+	if (!VRMLBrowserInit(cx, glob, br)) {
+	/* if (!VRMLBrowserInit(context, global, brow)) { */
 		die("JS_VRMLBrowserInit failed");
 	}
 	if (verbose) {
@@ -431,6 +462,7 @@ OUTPUT:
 context
 global
 brow
+jssv
 
 void
 cleanupJS(cx, br)
@@ -438,14 +470,15 @@ cleanupJS(cx, br)
 	void *br
 CODE:
 {
-	BrowserIntern *brow = br;
+	BrowserInternal *brow = br;
 	JSContext *context = cx;
 
 	printf("cleanupJS:\n");
 	if (brow) {
+		printf("\tfree browser internals!!!\n");
 		JS_free(context, brow);
+		printf("\tbrowser internals freed!!!\n");
 	}
-	printf("\tbrowser internals freed!!!\n");
 
 	/* JS_DestroyContext(context); */
 	/* printf("\tJS context destroyed!!!\n"); */
@@ -459,16 +492,193 @@ CODE:
 
 
 JSBool
-runScript(cx, globalObj, script, rstr, rnum)
+runScript(cx, obj, script, rstr, rnum)
 	void *cx
-	void *globalObj
+	void *obj
 	char *script
 	SV *rstr
 	SV *rnum
+CODE:
+{
+	jsval rval;
+	JSString *strval;
+	jsdouble dval = -1.0;
+	char *strp;
+	size_t len;
+	JSObject *globalObj = obj;
+	JSContext *context = cx;
+
+	if (verbose) {
+		printf("runScript: \"%s\"\n", script);
+	}
+	len = strlen(script);
+	if (!JS_EvaluateScript(context, globalObj, script, len,
+						   FNAME_STUB, LINENO_STUB, &rval)) {
+		fprintf(stderr, "JS_EvaluateScript failed for \"%s\".\n", script);
+		RETVAL = JS_FALSE;
+		return;
+	}
+	strval = JS_ValueToString(context, rval);
+	strp = JS_GetStringBytes(strval);
+	sv_setpv(rstr, strp);
+	printf("runscript: strp = %s\n", strp);
+
+	if (!JS_ValueToNumber(context, rval, &dval)) {
+		fprintf(stderr, "JS_ValueToNumber failed.\n");
+		RETVAL = JS_FALSE;
+		return;
+	}
+	printf("runscript: dval = %f\n", dval);
+	sv_setnv(rnum, dval);
+
+	RETVAL = JS_TRUE;
+}
+OUTPUT:
+RETVAL
+rstr
+rnum
+
+
+## Experiment:
+JSBool
+SFRotationAddFunction()
+CODE:
+{
+}
+
+JSBool
+SFColorSetInternal(cx, glob, name, sv)
+	void *cx
+	void *glob
+	char *name
+	SV *sv
+CODE:
+{
+	JSObject *obj;
+	jsval v;
+	void *privateData;
+	JSContext *context;
+	JSObject *globalObj;
+
+	context = cx;
+	globalObj = glob;
+
+
+	if (!JS_GetProperty(context, globalObj, name, &v)) {
+		fprintf(stderr, "JS_GetProperty failed in SFColorSetInternal.\n");
+		RETVAL = JS_FALSE;
+		return;
+	}
+	if (!JSVAL_IS_OBJECT(v)) {
+		fprintf(stderr, "JSVAL_IS_OBJECT failed in SFColorSetInternal.\n");
+		RETVAL = JS_FALSE;
+		return;
+	}
+	obj = JSVAL_TO_OBJECT(v);
+
+	/* set_SFColor(JS_GetPrivate(cx,obj), sv); */
+	if ((privateData = JS_GetPrivate(context, obj)) == NULL) {
+		fprintf(stderr, "JS_GetPrivate failed in SFColorSetInternal.\n");
+		RETVAL = JS_FALSE;
+		return;
+	}
+	TJL_SFColorSet(privateData, sv);
+	RETVAL = JS_TRUE;
+}
+OUTPUT:
+RETVAL
+sv
 
 
 JSBool
-AddAssignProperties(cx, globalObj, name, str)
+SFVec3fSetInternal(cx, glob, name, sv)
+	void *cx
+	void *glob
+	char *name
+	SV *sv
+CODE:
+{
+	JSObject *obj;
+	jsval v;
+	void *privateData;
+	JSContext *context;
+	JSObject *globalObj;
+
+	context = cx;
+	globalObj = glob;
+
+
+	if(!JS_GetProperty(context, globalObj, name, &v)) {
+		fprintf(stderr, "JS_GetProperty failed in SFVec3fSetInternal.\n");
+		RETVAL = JS_FALSE;
+		return;
+	}
+	if(!JSVAL_IS_OBJECT(v)) {
+		fprintf(stderr, "JSVAL_IS_OBJECT failed in SFVec3fSetInternal.\n");
+		RETVAL = JS_FALSE;
+		return;
+	}
+	obj = JSVAL_TO_OBJECT(v);
+
+	/* set_SFVec3f(JS_GetPrivate(cx, obj), sv); */
+	if ((privateData = JS_GetPrivate(context, obj)) == NULL) {
+		fprintf(stderr, "JS_GetPrivate failed in SFVec3fSetInternal.\n");
+		RETVAL = JS_FALSE;
+		return;
+	}
+	TJL_SFVec3fSet(privateData, sv);
+	RETVAL = JS_TRUE;
+}
+OUTPUT:
+RETVAL
+sv
+
+
+JSBool
+SFRotationSetInternal(cx, glob, name, sv)
+	void *cx
+	void *glob
+	char *name
+	SV *sv
+CODE:
+{
+	JSObject *obj;
+	jsval v;
+	void *privateData;
+	JSContext *context;
+	JSObject *globalObj;
+
+	context = cx;
+	globalObj = glob;
+
+	if (!JS_GetProperty(context, globalObj, name, &v)) {
+		fprintf(stderr, "JS_GetProperty failed in SFRotationSetInternal.\n");
+		RETVAL = JS_FALSE;
+		return;
+	}
+	if (!JSVAL_IS_OBJECT(v)) {
+		fprintf(stderr, "JSVAL_IS_OBJECT failed in SFRotationSetInternal.\n");
+		RETVAL = JS_FALSE;
+		return;
+	}
+	obj = JSVAL_TO_OBJECT(v);
+
+	/* set_SFRotation(JS_GetPrivate(cx,obj), sv); */
+	if ((privateData = JS_GetPrivate(context, obj)) == NULL) {
+		fprintf(stderr, "JS_GetPrivate failed in SFRotationSetInternal.\n");
+		RETVAL = JS_FALSE;
+		return;
+	}
+	TJL_SFRotationSet(privateData, sv);
+	RETVAL = JS_TRUE;
+}
+OUTPUT:
+RETVAL
+sv
+
+###
+JSBool
+AddAssignProperty(cx, globalObj, name, str)
 	void *cx
 	void *globalObj
 	char *name
@@ -476,31 +686,9 @@ AddAssignProperties(cx, globalObj, name, str)
 
 
 JSBool
-AddWatchProperties(cx, globalObj, name)
+AddWatchProperty(cx, globalObj, name)
 	void *cx
 	void *globalObj
 	char *name
+###
 
-
-JSBool
-SFColorSetProperty(cx, globalObj, name, sv)
-	void *cx
-	void *globalObj
-	char *name
-	void *sv
-
-
-JSBool
-SFVec3fSetProperty(cx, globalObj, name, sv)
-	void *cx
-	void *globalObj
-	char *name
-	void *sv
-
-
-JSBool
-SFRotationSetProperty(cx, globalObj, name, sv)
-	void *cx
-	void *globalObj
-	char *name
-	void *sv

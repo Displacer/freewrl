@@ -6,32 +6,32 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.c,v 1.1.2.1 2002/08/12 21:05:01 ayla Exp $
+ * $Id: jsVRMLBrowser.c,v 1.1.2.2 2002/08/20 21:35:23 ayla Exp $
  * 
  */
 
 #include "jsVRMLBrowser.h"
 
 JSBool
-VRMLBrowserInit(JSContext *context, JSObject *globalObj, BrowserIntern *brow)
+VRMLBrowserInit(JSContext *context, JSObject *globalObj, BrowserInternal *brow)
 {
 	JSObject *obj;
-/* 	BrowserIntern *brow = (BrowserIntern *) JS_malloc(context, sizeof(BrowserIntern)); */
+	/* BrowserInternal *brow = (BrowserInternal *) JS_malloc(context, sizeof(BrowserInternal)); */
 	/* brow->jssv = newSVsv(jssv); */ /* new duplicate of jssv */
-/* 	brow->magic = BROWMAGIC; */
-
+	/* brow->magic = BROWMAGIC; */
 
 	if (verbose) {
 		printf("VRMLBrowserInit\n");
 	}
+
 	/* why not JS_InitClass ??? */
 	obj = JS_DefineObject(context,
 						  globalObj,
-						  "__Browser_proto", 
+						  "Browser", 
 						  &Browser,
 						  NULL,
 						  JSPROP_ENUMERATE | JSPROP_PERMANENT);
-	if (!JS_DefineFunctions(context, obj, BrowserMethods)) {
+	if (!JS_DefineFunctions(context, obj, BrowserFunctions)) {
 		return JS_FALSE;
 	}
 
@@ -52,7 +52,7 @@ VRMLBrowserCreateVRMLFromString(JSContext *context, JSObject *obj, uintN argc, j
 /* 	SV *sv; */
 	jsval v;
 	unsigned int i;
-	BrowserIntern *brow;
+	BrowserInternal *brow;
 	if ((brow = JS_GetPrivate(context, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in VRMLBrowserCreateVRMLFromString.\n");
 		return JS_FALSE;
@@ -114,7 +114,7 @@ VRMLBrowserCreateVRMLFromString(JSContext *context, JSObject *obj, uintN argc, j
 /* 	SV *sv; */
 /* 	jsval v; */
 /* 	unsigned int i; */
-/* 	BrowserIntern *brow = JS_GetPrivate(context, obj); */
+/* 	BrowserInternal *brow = JS_GetPrivate(context, obj); */
 /* 	UNUSED(count); */
 /* 	UNUSED(sv); */
 
@@ -173,7 +173,7 @@ VRMLBrowserGetName(JSContext *context, JSObject *obj, uintN argc, jsval *argv, j
 /* 	SV *sv; */
 	jsval v;
 	unsigned int i;
-	BrowserIntern *brow;
+	BrowserInternal *brow;
 	if ((brow = JS_GetPrivate(context, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in VRMLBrowserGetName.\n");
 		return JS_FALSE;
@@ -236,7 +236,7 @@ VRMLBrowserGetName(JSContext *context, JSObject *obj, uintN argc, jsval *argv, j
 /* 	SV *sv; */
 /* 	jsval v; */
 /* 	unsigned int i; */
-/* 	BrowserIntern *brow = JS_GetPrivate(context, obj); */
+/* 	BrowserInternal *brow = JS_GetPrivate(context, obj); */
 /* 	UNUSED(count); */
 /* 	UNUSED(sv); */
 
@@ -295,7 +295,7 @@ VRMLBrowserGetName(JSContext *context, JSObject *obj, uintN argc, jsval *argv, j
 /* 	SV *sv; */
 /* 	jsval v; */
 /* 	unsigned int i; */
-/* 	BrowserIntern *brow = JS_GetPrivate(context, obj); */
+/* 	BrowserInternal *brow = JS_GetPrivate(context, obj); */
 /* 	UNUSED(count); */
 /* 	UNUSED(sv); */
 
@@ -353,7 +353,7 @@ VRMLBrowserGetName(JSContext *context, JSObject *obj, uintN argc, jsval *argv, j
 /* 	SV *sv; */
 /* 	jsval v; */
 /* 	unsigned int i; */
-/* 	BrowserIntern *brow = JS_GetPrivate(context, obj); */
+/* 	BrowserInternal *brow = JS_GetPrivate(context, obj); */
 /* 	UNUSED(count); */
 /* 	UNUSED(sv); */
 
@@ -411,7 +411,7 @@ VRMLBrowserGetName(JSContext *context, JSObject *obj, uintN argc, jsval *argv, j
 /* 	SV *sv; */
 /* 	jsval v; */
 /* 	unsigned int i; */
-/* 	BrowserIntern *brow = JS_GetPrivate(context, obj); */
+/* 	BrowserInternal *brow = JS_GetPrivate(context, obj); */
 /* 	UNUSED(count); */
 /* 	UNUSED(sv); */
 
@@ -469,7 +469,7 @@ VRMLBrowserGetVersion(JSContext *context, JSObject *obj, uintN argc, jsval *argv
 /* 	SV *sv; */
 	jsval v;
 	unsigned int i;
-	BrowserIntern *brow;
+	BrowserInternal *brow;
 	if ((brow = JS_GetPrivate(context, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in VRMLBrowserGetVersion.\n");
 		return JS_FALSE;
@@ -531,7 +531,7 @@ VRMLBrowserGetVersion(JSContext *context, JSObject *obj, uintN argc, jsval *argv
 /* 	SV *sv; */
 /* 	jsval v; */
 /* 	unsigned int i; */
-/* 	BrowserIntern *brow = JS_GetPrivate(context, obj); */
+/* 	BrowserInternal *brow = JS_GetPrivate(context, obj); */
 /* 	UNUSED(count); */
 /* 	UNUSED(sv); */
 
@@ -587,7 +587,7 @@ VRMLBrowserGetCurrentFrameRate(JSContext *context, JSObject *obj, uintN argc, js
 /* 	SV *sv; */
 	jsval v;
 	unsigned int i;
-	BrowserIntern *brow;
+	BrowserInternal *brow;
 	if ((brow = JS_GetPrivate(context, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in JS_RMLBrowserGetCurrentFrameRate.\n");
 		return JS_FALSE;
@@ -649,7 +649,7 @@ VRMLBrowserGetWorldURL(JSContext *context, JSObject *obj, uintN argc, jsval *arg
 /* 	SV *sv; */
 	jsval v;
 	unsigned int i;
-	BrowserIntern *brow;
+	BrowserInternal *brow;
 	if ((brow = JS_GetPrivate(context, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in VRMLBrowserGetWorldURL.\n");
 		return JS_FALSE;
@@ -713,7 +713,7 @@ VRMLBrowserCreateVRMLFromURL(JSContext *context, JSObject *obj, uintN argc, jsva
 /* 	SV *sv; */
 	jsval v;
 	unsigned int i;
-	BrowserIntern *brow;
+	BrowserInternal *brow;
 	if ((brow = JS_GetPrivate(context, obj)) == NULL) {
 		fprintf(stderr, "JS_GetPrivate failed in VRMLBrowserCreateVRMLFromURL.\n");
 		return JS_FALSE;

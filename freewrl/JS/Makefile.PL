@@ -4,7 +4,7 @@
 # for conditions of use and redistribution, EXCEPT on the files
 # which belong under the Mozilla public license.
 #
-# $Id: Makefile.PL,v 1.1.1.1.8.1 2002/08/12 21:23:59 ayla Exp $
+# $Id: Makefile.PL,v 1.1.1.1.8.2 2002/08/20 21:35:23 ayla Exp $
 #
 #
 # a.out: js.c
@@ -84,8 +84,9 @@ sub MY::post_constants {
 q{
 
 vpath %.c .:CFuncs
+vpath %.o .:CFuncs
 
-CFUNC_SRC:=$(notdir $(wildcard CFuncs/*.c))
+CFUNC_SRC:=$(wildcard CFuncs/*.c)
 OBJECT+=$(CFUNC_SRC:%c=%o)
 
 };

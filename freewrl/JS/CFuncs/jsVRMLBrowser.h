@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.h,v 1.1.2.1 2002/08/12 21:05:01 ayla Exp $
+ * $Id: jsVRMLBrowser.h,v 1.1.2.2 2002/08/20 21:35:23 ayla Exp $
  * 
  */
 
@@ -24,10 +24,10 @@
  * for now, set magic to pid since we only need one browser per
  * process -- but is it really needed ???
  */
-typedef struct _BrowserIntern {
+typedef struct _BrowserInternal {
 	int magic; /* does this really do anything ??? */
-	void *jssv; /* really SV *, but that doesn't matter here */
-} BrowserIntern;
+	SV *jssv;
+} BrowserInternal;
 
 
 
@@ -41,7 +41,7 @@ typedef struct _BrowserIntern {
 JSBool
 VRMLBrowserInit(JSContext *context,
 			JSObject *globalObj, 
-			BrowserIntern *brow);
+			BrowserInternal *brow);
 
 
 JSBool
@@ -163,7 +163,7 @@ VRMLBrowserGetCurrentFrameRate(JSContext *cx,
 
 
 static JSClass Browser = {
-	"_BrowserClass",
+	"Browser",
 	JSCLASS_HAS_PRIVATE,
 	JS_PropertyStub,
 	JS_PropertyStub,
@@ -176,7 +176,7 @@ static JSClass Browser = {
 };
 
 
-static JSFunctionSpec (BrowserMethods)[] = {
+static JSFunctionSpec (BrowserFunctions)[] = {
 	{"createVRMLFromString", VRMLBrowserCreateVRMLFromString, 0},
 	{"getName", VRMLBrowserGetName, 0},
 	{"getVersion", VRMLBrowserGetVersion, 0},

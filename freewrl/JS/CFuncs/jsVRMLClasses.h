@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.h,v 1.1.2.1 2002/08/12 21:05:01 ayla Exp $
+ * $Id: jsVRMLClasses.h,v 1.1.2.2 2002/08/20 21:35:23 ayla Exp $
  * 
  */
 
@@ -36,8 +36,8 @@ x[2] *= y;
 
 
 
-/* helper functions */
 
+/* helper functions */
 
 static JSBool
 doMFAddProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp);
@@ -47,6 +47,9 @@ doMFSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp);
 
 
 /* class functions */
+
+JSBool
+globalResolve(JSContext *cx, JSObject *obj, jsval id);
 
 JSBool
 LoadVRMLClasses(JSContext *context,
@@ -59,16 +62,16 @@ SetTouchable(JSContext *cx,
 			 jsval *vp);
 
 JSBool
-AddAssignProperties(void *cx,
-					void *globalObj,
-					char *name,
-					char *str);
+AddAssignProperty(void *cx,
+				  void *globalObj,
+				  char *name,
+				  char *str);
 
 
 JSBool
-AddWatchProperties(void *cx,
-				   void *globalObj,
-				   char *name);
+AddWatchProperty(void *cx,
+				 void *globalObj,
+				 char *name);
 
 
 JSBool
@@ -101,7 +104,8 @@ extern void
 TJL_SFColorAssign(void *top, void *fromp);
 
 extern void
-TJL_SFColorSet(void *p, void *sv);
+TJL_SFColorSet(void *p, SV *sv);
+
 
 JSBool
 SFColorToString(JSContext *cx,
@@ -132,22 +136,22 @@ SFColorConstr(JSContext *cx,
 			  jsval *rval);
 
 JSBool
-SFColorGetPrivate(JSContext *cx,
-				  JSObject *obj,
-				  jsval id,
-				  jsval *vp);
+SFColorGetProperty(JSContext *cx,
+				   JSObject *obj,
+				   jsval id,
+				   jsval *vp);
 
 JSBool
-SFColorSetPrivate(JSContext *cx,
-				  JSObject *obj,
-				  jsval id,
-				  jsval *vp);
+SFColorSetProperty(JSContext *cx,
+				   JSObject *obj,
+				   jsval id,
+				   jsval *vp);
 
 JSBool
-SFColorSetProperty(void *cx,
+SFColorSetInternal(void *cx,
 				   void *globalObj,
 				   char *name,
-				   void *sv);
+				   SV *sv);
 
 
 extern void *
@@ -160,7 +164,8 @@ extern void
 TJL_SFVec3fAssign(void *top, void *fromp);
 
 extern void
-TJL_SFVec3fSet(void *p, void *sv);
+TJL_SFVec3fSet(void *p, SV *sv);
+
 
 JSBool
 SFVec3fToString(JSContext *cx,
@@ -233,22 +238,22 @@ SFVec3fConstr(JSContext *cx,
 			  jsval *rval);
 
 JSBool 
-SFVec3fGetPrivate(JSContext *cx,
-				  JSObject *obj,
-				  jsval id,
-				  jsval *vp);
+SFVec3fGetProperty(JSContext *cx,
+				   JSObject *obj,
+				   jsval id,
+				   jsval *vp);
 
 JSBool 
-SFVec3fSetPrivate(JSContext *cx,
-				  JSObject *obj,
-				  jsval id,
-				  jsval *vp);
+SFVec3fSetProperty(JSContext *cx,
+				   JSObject *obj,
+				   jsval id,
+				   jsval *vp);
 
 JSBool
-SFVec3fSetProperty(void *cx,
+SFVec3fSetInternal(void *cx,
 				   void *globalObj,
 				   char *name,
-				   void *sv);
+				   SV *sv);
 
 extern void *
 TJL_SFRotationNew(void);
@@ -260,7 +265,7 @@ extern void
 TJL_SFRotationAssign(void *top, void *fromp);
 
 extern void
-TJL_SFRotationSet(void *p, void *sv);
+TJL_SFRotationSet(void *p, SV *sv);
 
 
 JSBool
@@ -306,22 +311,22 @@ SFRotationConstr(JSContext *cx,
 				 jsval *rval);
 
 JSBool 
-SFRotationGetPrivate(JSContext *cx,
-					 JSObject *obj,
-					 jsval id,
-					 jsval *vp);
+SFRotationGetProperty(JSContext *cx,
+					  JSObject *obj,
+					  jsval id,
+					  jsval *vp);
 
 JSBool 
-SFRotationSetPrivate(JSContext *cx,
-					 JSObject *obj,
-					 jsval id,
-					 jsval *vp);
+SFRotationSetProperty(JSContext *cx,
+					  JSObject *obj,
+					  jsval id,
+					  jsval *vp);
 
 JSBool
-SFRotationSetProperty(void *cx,
+SFRotationSetInternal(void *cx,
 					  void *globalObj,
 					  char *name,
-					  void *sv);
+					  SV *sv);
 
 
 JSBool
@@ -480,7 +485,7 @@ static JSClass SFNodeClass = {
 	JS_FinalizeStub
 };
 
-static JSFunctionSpec (SFNodeMethods)[] = {{0}};
+static JSFunctionSpec (SFNodeFunctions)[] = {{0}};
 
 static JSObject *proto_SFRotation;
 
@@ -499,8 +504,8 @@ static JSClass SFRotationClass = {
 	JSCLASS_HAS_PRIVATE,
 	JS_PropertyStub,
 	JS_PropertyStub,
-	SFRotationGetPrivate,
-	SFRotationSetPrivate,
+	SFRotationGetProperty,
+	SFRotationSetProperty,
 	JS_EnumerateStub,
 	JS_ResolveStub,
 	JS_ConvertStub,
@@ -515,7 +520,7 @@ static JSPropertySpec (SFRotationProperties)[] = {
 	{0}
 };
 
-static JSFunctionSpec (SFRotationMethods)[] = {
+static JSFunctionSpec (SFRotationFunctions)[] = {
 	{"assign", SFRotationAssign, 0},
 	{"toString", SFRotationToString, 0},
 	{"__touched", SFRotationTouched, 0},
@@ -541,8 +546,8 @@ static JSClass SFColorClass = {
 	JSCLASS_HAS_PRIVATE,
 	JS_PropertyStub,
 	JS_PropertyStub,
-	SFColorGetPrivate,
-	SFColorSetPrivate,
+	SFColorGetProperty,
+	SFColorSetProperty,
 	JS_EnumerateStub,
 	JS_ResolveStub,
 	JS_ConvertStub,
@@ -556,7 +561,7 @@ static JSPropertySpec (SFColorProperties)[] = {
 	{0}
 };
 
-static JSFunctionSpec (SFColorMethods)[] = {
+static JSFunctionSpec (SFColorFunctions)[] = {
 	{"assign", SFColorAssign, 0},
 	{"toString", SFColorToString, 0},
 	{"__touched", SFColorTouched, 0},
@@ -576,8 +581,8 @@ static JSClass SFVec3fClass = {
 	JSCLASS_HAS_PRIVATE,
 	JS_PropertyStub,
 	JS_PropertyStub,
-	SFVec3fGetPrivate,
-	SFVec3fSetPrivate,
+	SFVec3fGetProperty,
+	SFVec3fSetProperty,
 	JS_EnumerateStub,
 	JS_ResolveStub,
 	JS_ConvertStub,
@@ -591,7 +596,7 @@ static JSPropertySpec (SFVec3fProperties)[] = {
 	{0}
 };
 
-static JSFunctionSpec (SFVec3fMethods)[] = {
+static JSFunctionSpec (SFVec3fFunctions)[] = {
 	{"assign", SFVec3fAssign, 0},
 	{"toString", SFVec3fToString, 0},
 	{"__touched", SFVec3fTouched, 0},
@@ -620,7 +625,7 @@ static JSClass MFStringClass = {
 	JS_FinalizeStub
 };
 
-static JSFunctionSpec (MFStringMethods)[] = {
+static JSFunctionSpec (MFStringFunctions)[] = {
 	{"assign", MFStringAssign, 0},
 	{0}
 };
@@ -641,7 +646,7 @@ static JSClass MFNodeClass = {
 	JS_FinalizeStub
 };
 
-static JSFunctionSpec (MFNodeMethods)[] = {
+static JSFunctionSpec (MFNodeFunctions)[] = {
 	{"assign", MFNodeAssign, 0},
 	{0}
 };
@@ -662,7 +667,7 @@ static JSClass MFRotationClass = {
 	JS_FinalizeStub
 };
 
-static JSFunctionSpec (MFRotationMethods)[] = {
+static JSFunctionSpec (MFRotationFunctions)[] = {
 	{"assign", MFRotationAssign, 0},
 	{0}
 };
@@ -683,7 +688,7 @@ static JSClass MFVec3fClass = {
 	JS_FinalizeStub
 };
 
-static JSFunctionSpec (MFVec3fMethods)[] = {
+static JSFunctionSpec (MFVec3fFunctions)[] = {
 	{"assign", MFVec3fAssign, 0},
 	{0}
 };
@@ -704,7 +709,7 @@ static JSClass MFColorClass = {
 	JS_FinalizeStub
 };
 
-static JSFunctionSpec (MFColorMethods)[] = {
+static JSFunctionSpec (MFColorFunctions)[] = {
 	{"assign", MFColorAssign, 0},
 	{0}
 };
