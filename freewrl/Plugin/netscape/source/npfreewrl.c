@@ -1,5 +1,5 @@
 /*******************************************************************************
- * $Id: npfreewrl.c,v 1.7 2002/08/13 18:15:09 ayla Exp $
+ * $Id: npfreewrl.c,v 1.8 2002/08/14 18:45:04 ayla Exp $
  *
  * FreeWRL Netscape Plugin, Copyright (c) 2001 CRC Canada, based on
  *
@@ -1172,7 +1172,7 @@ int freewrlReceive(int fd)
 	return(NPERR_GENERIC_ERROR);
     }
     
-    if ( (read(fd, (urlRequest *) &request, request_size)) < 0) {
+    if (read(fd, (urlRequest *) &request, request_size) < 0) {
 	/* If blocked or interrupted, be silent. */
     	if (errno != EINTR && errno != EAGAIN) {
 	    perror("Call to read failed");

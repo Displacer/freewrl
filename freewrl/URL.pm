@@ -1,5 +1,5 @@
 #
-# $Id: URL.pm,v 1.5 2002/08/12 14:34:43 etienne Exp $
+# $Id: URL.pm,v 1.6 2002/08/14 18:45:04 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka, 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -203,31 +203,32 @@ sub get_relative {
     my $url;
 
     if (!$VRML::URL::savedUrls{$key}{$urlKeyList[0]}) {
-	if ($VRML::ENV{AS_PLUGIN}) {
-	    eval 'require VRML::PluginGlue';
-		if (VRML::PluginGlue::requestUrl($VRML::PluginGlue::globals{freeWRLSock},
-										 $VRML::PluginGlue::globals{instance},
-										 $file,
-										 $url) < 0) {
-			warn "Warning: web browser plugin could not retrieve $file.\n";
-			return undef;
-	    }
-	} elsif ($has_lwp) {
-	    $url = URI::URL::url($file, $base)->abs->as_string;
-	} else {
-	    $url = $base;
-	    $url =~ s/[^\/]+$/$file/ or die("Can't do relativization");
-	}
+		if ($VRML::ENV{AS_PLUGIN}) {
+			eval 'require VRML::PluginGlue';
 
-	$VRML::URL::savedUrls{$key} = {
-	    $urlKeyList[0] => $url, # AbsolutePath
-	};
-    }
-    else {
-	$url = $VRML::URL::savedUrls{$key}{$urlKeyList[0]};
+			$url = VRML::PluginGlue::requestUrl($VRML::PluginGlue::globals{pluginSock},
+												$VRML::PluginGlue::globals{instance},
+												$file);
+			if (!$url) {
+				warn "Warning: web browser plugin could not retrieve $file.\n";
+				return undef;
+			}
+		} elsif ($has_lwp) {
+			$url = URI::URL::url($file, $base)->abs->as_string;
+		} else {
+			$url = $base;
+			$url =~ s/[^\/]+$/$file/ or die("Can't do relativization");
+		}
+
+		$VRML::URL::savedUrls{$key} = {
+									   $urlKeyList[0] => $url, # AbsolutePath
+									  };
+    } else {
+		$url = $VRML::URL::savedUrls{$key}{$urlKeyList[0]};
     }
 
     my $txt = get_absolute($url, $as_file, $key);
+
     return (wantarray ? ($txt, $url) : $txt);
 }
 

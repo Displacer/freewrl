@@ -1,5 +1,5 @@
 /*
- * $Id: pluginSocket.h,v 1.2 2002/08/06 04:41:36 ayla Exp $
+ * $Id: pluginSocket.h,v 1.3 2002/08/14 18:45:04 ayla Exp $
  */
 
 #ifndef __pluginSocket_h__
@@ -36,11 +36,10 @@ setIOOptions(int sockDesc,
 			 int nonblock,
 			 int timeout);
 
-int
+char *
 requestUrl(int sockDesc,
 		   unsigned int plugin_instance,
-		   const char *url,
-		   char *return_url);
+		   const char *url);
 
 int
 receiveUrl(int sockDesc, urlRequest *request);

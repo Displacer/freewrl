@@ -1,5 +1,5 @@
 /*
- * $Id: PluginGlue.xs,v 1.4 2002/08/06 04:41:36 ayla Exp $
+ * $Id: PluginGlue.xs,v 1.5 2002/08/14 18:45:04 ayla Exp $
  */
 
 #include "pluginSocket.h"
@@ -21,12 +21,11 @@ MODULE = VRML::PluginGlue PACKAGE = VRML::PluginGlue
 PROTOTYPES: ENABLE
 
 
-int
-requestUrl(fd, plugin_instance, url, return_url)
+char *
+requestUrl(fd, plugin_instance, url)
 	int fd
 	unsigned int plugin_instance
 	const char *url
-	char *return_url
 
 int
 connectToPlugin(server)
