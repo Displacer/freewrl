@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.111 2003/09/09 14:24:36 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.112 2003/09/11 16:00:55 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.112  2003/09/11 16:00:55  crc_canada
+# EAI in C; CreateVrmlFromString, CreateVrmlFromURL work, along with other things
+#
 # Revision 1.111  2003/09/09 14:24:36  crc_canada
 # EAI updates.
 #
@@ -1583,7 +1586,7 @@ void EAI_GetType (unsigned int nodenum, char *fieldname, char *direction,
 	return;
 }
 
-unsigned int EAI_CreateVrmlFromString (char *inputstring, unsigned int *retarr) {
+unsigned int EAI_CreateVrml (char *tp, char *inputstring, unsigned int *retarr) {
 	int count;
 	unsigned int noderef;
 	int tmp;
@@ -1596,7 +1599,10 @@ unsigned int EAI_CreateVrmlFromString (char *inputstring, unsigned int *retarr) 
 
 
 	PUTBACK;
-	count = call_pv("EAI_CreateVrmlFromString", G_ARRAY);
+	if (strcmp(tp,"URL")==0)
+		count = call_pv("EAI_CreateVrmlFromURL", G_ARRAY);
+	else
+		count = call_pv("EAI_CreateVrmlFromString", G_ARRAY);
 	SPAGAIN ;
 
 	//Perl is returning a series of BN/node# pairs, reorder to node#/BN.
