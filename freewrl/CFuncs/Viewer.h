@@ -2,7 +2,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.7 2003/06/26 14:57:58 crc_canada Exp $
+ * $Id: Viewer.h,v 1.8 2003/07/15 14:05:49 crc_canada Exp $
  *
  */
 
@@ -132,7 +132,9 @@ typedef struct viewer_fly {
 
 typedef struct viewer {
 	struct pt Pos;
+	struct pt AntiPos;
 	Quaternion Quat;
+	Quaternion AntiQuat;
 	int headlight;
 	double speed;
 	double Dist;
