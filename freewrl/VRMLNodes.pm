@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.73 2003/01/07 16:01:45 ayla Exp $
+# $Id: VRMLNodes.pm,v 1.74 2003/01/17 20:51:48 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -2324,8 +2324,6 @@ NavigationInfo => new VRML::NodeType("NavigationInfo",
 
 						URL:
 							for $u (@$urls) {
-								##($text, $url) = VRML::URL::get_relative($purl, $u);
-		
 								if (defined $wurl) {
 									($text, $url) = VRML::URL::get_relative($wurl, $u);
 								} else {

@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.39 2002/09/26 19:41:32 crc_canada Exp $
+# $Id: Scene.pm,v 1.40 2003/01/17 20:51:44 ayla Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -378,6 +378,7 @@ sub new_route {
 	print "NEW_ROUTE for ", VRML::NodeIntern::dump_name($this),
 			" $_[0][0] $_[0][1] $_[0][2] $_[0][3], ref ff ",ref $_[0][0],"\n" 
 		if $VRML::verbose::scene;
+
 	push @{$this->{Routes}}, $_[0];
 }
 
@@ -477,9 +478,18 @@ sub get_url {
 	exit (1);
 }
 
+sub set_world_url {
+	my ($this, $url) = @_;
+	print "VRML::Scene::set_world_url: $this, $url\n"
+		if $VRML::verbose::scene;
+
+	$this->{WorldURL} = $url;
+}
+
 sub get_world_url {
 	my ($this) = @_;
-	print "VRML::Scene::get_world_url $this\n" if $VRML::verbose::scene;
+	print "VRML::Scene::get_world_url: $this\n"
+		if $VRML::verbose::scene;
 
 	if (defined $this->{WorldURL}) {
 		return $this->{WorldURL};
@@ -1157,10 +1167,9 @@ sub init_routing {
 		$eventmodel->send_event_to($this->{Bindable}{$_},
 			set_bind, 1);
 	}
-
 	$eventmodel->put_events(\@e);
-
 }
+
 
 sub set_bind {
     my ($this, $node, $value, $time) = @_;
