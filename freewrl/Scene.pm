@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.68 2003/11/28 16:17:05 crc_canada Exp $
+# $Id: Scene.pm,v 1.69 2003/12/04 18:33:57 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -330,6 +330,7 @@ sub newextp {
 my $cnt;
 sub new_node {
 	my ($this, $type, $fields) = @_;
+
 	if ($type eq "Script") {
 		# print "new script node, cnt $cnt ";
 		# Special handling for Script which has an interface.
@@ -835,10 +836,6 @@ sub set_parentnode {
 
 		# Step 5) Collect all prototyped nodes from here
 		# so we can call their events
-		# JAS XXX I think that this is just BS, as Sensors, SubScenes are
-		# not found anywhere else, and the ref is VRML::Scene in here...
-		# Still, until I make sure that TouchSensors are ok from within
-		# PROTOS...
 
 		$this->iterate_nodes(sub {
 								 my ($node) = @_;
@@ -936,29 +933,9 @@ sub make_backend {
 		}
 	} else {
 		print "\tScene: I'm not PROTO ", VRML::NodeIntern::dump_name($this),
-			" $be $parentbe ($this->{IsInline})\n"
+			" $be $parentbe \n"
 				 if $VRML::verbose::be;
-
 		$bn = $this->{RootNode}->make_backend($be, $parentbe);
-
-		#print "Scene, done NOT PROTO ",VRML::NodeIntern::dump_name($this)," $be $parentbe\n";
- 		#JAS $be->set_vp_sub(
- 		#JAS 	sub {
-		#JAS 		# print "set_vp_sub start\n";
- 		#JAS 		my $b = $this->get_browser();
- 		#JAS 		my $vn = $b->get_vp_node();
- 		#JAS 		my $vs = $b->get_vp_scene();
- 		#JAS 		return if (!defined $vn);
-		#JAS 		# print "set_vp_sub, vs $vs\n";
-		#JAS 		# send an unbind of current viewpoint
- 		#JAS 		$vs->{EventModel}->send_set_bind_to($vn, 0);
- 		#JAS 		$b->set_next_vp();
- 		#JAS 		my $vn = $b->get_vp_node();
-		#JAS 		# and send a bind of the next viewpoint
- 		#JAS 		$vs->{EventModel}->send_set_bind_to($vn, 1);
-		#JAS 		# print "set_vp_sub end\n";
- 		#JAS 	}
- 		#JAS	);	
 	}
 	$this->{BackNode} = $bn;
 	return $bn;
