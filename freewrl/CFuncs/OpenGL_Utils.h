@@ -9,7 +9,7 @@
 #define __OPENGL_UTILS_H_
 
 /*
- * $Id: OpenGL_Utils.h,v 1.8 2004/03/03 21:48:46 sdumoulin Exp $
+ * $Id: OpenGL_Utils.h,v 1.9 2004/03/19 20:20:47 sdumoulin Exp $
  *
  */
 
@@ -62,6 +62,7 @@ BackEndHeadlightOn(void);
 extern Display *dpy;
 extern Window win;
 extern void openMainWindow(Display *dpy, Window *win, GLXContext *glocx);
+extern void resetGeometry();
 #endif
 extern void glpOpenGLInitialize(void);
 
