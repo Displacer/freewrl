@@ -6,7 +6,7 @@
 # the License at http://www.mozilla.org/NPL/
 #
 # Software distributed under the License is distributed on an "AS
-# IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+# IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
 # implied. See the License for the specific language governing
 # rights and limitations under the License.
 #
@@ -39,9 +39,9 @@
 CC = gcc
 CCC = g++
 CFLAGS +=  -Wall -Wno-format
-OS_CFLAGS = -DXP_UNIX -DSVR4 -DSYSV -D_BSD_SOURCE -DPOSIX_SOURCE
+OS_CFLAGS = -DXP_UNIX -DSVR4 -DSYSV -D_BSD_SOURCE -DPOSIX_SOURCE -DHAVE_LOCALTIME_R
 
-RANLIB = @echo
+RANLIB = echo
 MKSHLIB = $(LD) -shared $(XMKSHLIBOPTS)
 
 #.c.o:
@@ -80,5 +80,4 @@ OS_CFLAGS += -mieee
 endif
 
 # Use the editline library to provide line-editing support.
-JS_EDITLINE = 0
-JS_READLINE = 0
+JS_EDITLINE = 1

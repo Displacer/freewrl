@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -41,6 +41,10 @@
 #include "jspubtd.h"
 #include "jsstr.h"
 
+#ifdef JS_THREADSAFE
+#include "jsdhash.h"
+#endif
+
 struct JSRegExpStatics {
     JSString    *input;         /* input string to match (perl $_, GC root) */
     JSBool      multiline;      /* whether input contains newlines (perl $*) */
@@ -65,13 +69,19 @@ struct JSRegExpStatics {
        : &(res)->moreParens[(num) - 9]                                        \
      : &js_EmptySubString)
 
+typedef struct RENode RENode;
+
 struct JSRegExp {
-    jsrefcount  nrefs;          /* reference count */
-    JSString    *source;        /* locked source string, sans // */
-    uintN       lastIndex;      /* index after last match, for //g iterator */
-    uintN       parenCount;     /* number of parenthesized submatches */
-    uint8       flags;          /* flags, see jsapi.h */
-    struct RENode *ren;         /* regular expression tree root */
+    jsrefcount   nrefs;         /* reference count */
+    uint32       parenCount:24, /* number of parenthesized submatches */
+                 flags:8;       /* flags, see jsapi.h's JSREG_* defines */
+    double       lastIndex;     /* index after last match, for //g iterator */
+    RENode       *ren;          /* regular expression tree root */
+    JSString     *source;       /* locked source string, sans // */
+#ifdef JS_THREADSAFE            /* extension: lastIndex is thread-specific */
+    jsword       owningThread;  /* (not quite right if someone intentionally */
+    JSDHashTable *lastIndexes;  /* passes a regexp from thread A to B) */
+#endif
 };
 
 extern JSRegExp *

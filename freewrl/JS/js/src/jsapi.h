@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -139,6 +139,13 @@ JS_BEGIN_EXTERN_C
 #define JSVAL_ONE               INT_TO_JSVAL(1)
 #define JSVAL_FALSE             BOOLEAN_TO_JSVAL(JS_FALSE)
 #define JSVAL_TRUE              BOOLEAN_TO_JSVAL(JS_TRUE)
+
+/*
+ * Microseconds since the epoch, midnight, January 1, 1970 UTC.  See the
+ * comment in jstypes.h regarding safe int64 usage.
+ */
+extern JS_PUBLIC_API(int64)
+JS_Now();
 
 /* Don't want to export data, so provide accessors for non-inline jsvals. */
 extern JS_PUBLIC_API(jsval)
@@ -879,6 +886,10 @@ JS_ConstructObject(JSContext *cx, JSClass *clasp, JSObject *proto,
                    JSObject *parent);
 
 extern JS_PUBLIC_API(JSObject *)
+JS_ConstructObjectWithArguments(JSContext *cx, JSClass *clasp, JSObject *proto,
+                                JSObject *parent, uintN argc, jsval *argv);
+
+extern JS_PUBLIC_API(JSObject *)
 JS_DefineObject(JSContext *cx, JSObject *obj, const char *name, JSClass *clasp,
                 JSObject *proto, uintN attrs);
 
@@ -1087,8 +1098,40 @@ JS_NewFunction(JSContext *cx, JSNative call, uintN nargs, uintN flags,
 extern JS_PUBLIC_API(JSObject *)
 JS_GetFunctionObject(JSFunction *fun);
 
+/*
+ * Deprecated, useful only for diagnostics.  Use JS_GetFunctionId instead for
+ * anonymous vs. "anonymous" disambiguation and Unicode fidelity.
+ */
 extern JS_PUBLIC_API(const char *)
 JS_GetFunctionName(JSFunction *fun);
+
+/*
+ * Return the function's identifier as a JSString, or null if fun is unnamed.
+ * The returned string lives as long as fun, so you don't need to root a saved
+ * reference to it if fun is well-connected or rooted, and provided you bound
+ * the use of the saved reference by fun's lifetime.
+ *
+ * Prefer JS_GetFunctionId over JS_GetFunctionName because it returns null for
+ * truly anonymous functions, and because it doesn't chop to ISO-Latin-1 chars
+ * from UTF-16-ish jschars.
+ */
+extern JS_PUBLIC_API(JSString *)
+JS_GetFunctionId(JSFunction *fun);
+
+/*
+ * Return JSFUN_* flags for fun.
+ */
+extern JS_PUBLIC_API(uintN)
+JS_GetFunctionFlags(JSFunction *fun);
+
+/*
+ * Infallible predicate to test whether obj is a function object (faster than
+ * comparing obj's class name to "Function", but equivalent unless someone has
+ * overwritten the "Function" identifier with a different constructor and then
+ * created instances using that constructor that might be passed in as obj).
+ */
+extern JS_PUBLIC_API(JSBool)
+JS_ObjectIsFunction(JSContext *cx, JSObject *obj);
 
 extern JS_PUBLIC_API(JSBool)
 JS_DefineFunctions(JSContext *cx, JSObject *obj, JSFunctionSpec *fs);
@@ -1170,6 +1213,13 @@ JS_CompileFileHandleForPrincipals(JSContext *cx, JSObject *obj,
  */
 extern JS_PUBLIC_API(JSObject *)
 JS_NewScriptObject(JSContext *cx, JSScript *script);
+
+/*
+ * Infallible getter for a script's object.  If JS_NewScriptObject has not been
+ * called on script yet, the return value will be null.
+ */
+extern JS_PUBLIC_API(JSObject *)
+JS_GetScriptObject(JSScript *script);
 
 extern JS_PUBLIC_API(void)
 JS_DestroyScript(JSContext *cx, JSScript *script);
@@ -1590,15 +1640,15 @@ extern JS_PUBLIC_API(void)
 JS_ClearPendingException(JSContext *cx);
 
 /*
- * Save the current exception state. This takes a snapshot of the current
+ * Save the current exception state.  This takes a snapshot of cx's current
  * exception state without making any change to that state.
  *
- * The returned object MUST be later passed to either JS_RestoreExceptionState
- * (to restore that saved state) or JS_DropExceptionState (to cleanup the state
- * object in case it is not desireable to restore to that state). Both
- * JS_RestoreExceptionState and JS_DropExceptionState will destroy the
- * JSExceptionState object -- so that object can not be referenced again
- * after making either of those calls.
+ * The returned state pointer MUST be passed later to JS_RestoreExceptionState
+ * (to restore that saved state, overriding any more recent state) or else to
+ * JS_DropExceptionState (to free the state struct in case it is not correct
+ * or desirable to restore it).  Both Restore and Drop free the state struct,
+ * so callers must stop using the pointer returned from Save after calling the
+ * Release or Drop API.
  */
 extern JS_PUBLIC_API(JSExceptionState *)
 JS_SaveExceptionState(JSContext *cx);
@@ -1610,10 +1660,11 @@ extern JS_PUBLIC_API(void)
 JS_DropExceptionState(JSContext *cx, JSExceptionState *state);
 
 /*
- * If the given jsval is an engine exception with an attached error report
- * then return a pointer to that report. Else, return NULL.
- * The lifetime of the error report that might be returned is linked to the
- * lifetime of the exception.
+ * If the given value is an exception object that originated from an error,
+ * the exception will contain an error report struct, and this API will return
+ * the address of that struct.  Otherwise, it returns NULL.  The lifetime of
+ * the error report struct that might be returned is the same as the lifetime
+ * of the exception object.
  */
 extern JS_PUBLIC_API(JSErrorReport *)
 JS_ErrorFromException(JSContext *cx, jsval v);

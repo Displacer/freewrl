@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -67,6 +67,8 @@
 #include <Resources.h>
 #include <Timer.h>
 #include <UTCUtils.h>
+#include <Power.h>
+#include <CodeFragments.h>
 #endif
 
 #if defined(XP_UNIX) || defined(XP_BEOS)
@@ -131,6 +133,17 @@ static void MacintoshInitializeTime(void)
     JSLL_MUL(dstLocalBaseMicroseconds, oneMillion, startupTimeMicroSeconds);
 }
 
+static SleepQRec  gSleepQEntry = { NULL, sleepQType, NULL, 0 };
+static JSBool     gSleepQEntryInstalled = JS_FALSE;
+
+static pascal long MySleepQProc(long message, SleepQRecPtr sleepQ)
+{
+    /* just woke up from sleeping, so must recompute dstLocalBaseMicroseconds. */
+    if (message == kSleepWakeUp)
+        MacintoshInitializeTime();
+    return 0;
+}
+
 /* Because serial port and SLIP conflict with ReadXPram calls,
  * we cache the call here
  */
@@ -143,10 +156,45 @@ static void MyReadLocation(MachineLocation * loc)
     {
         MacintoshInitializeTime();
         ReadLocation(&storedLoc);
+        /* install a sleep queue routine, so that when the machine wakes up, time can be recomputed. */
+        if ((gSleepQEntry.sleepQProc = NewSleepQUPP(MySleepQProc)) != NULL) {
+            SleepQInstall(&gSleepQEntry);
+            gSleepQEntryInstalled = JS_TRUE;
+        }
         didReadLocation = JS_TRUE;
      }
      *loc = storedLoc;
 }
+
+
+#ifndef XP_MACOSX
+
+/* CFM library init and terminate routines. We'll use the terminate routine
+   to clean up the sleep Q entry. On Mach-O, the sleep Q entry gets cleaned
+   up for us, so nothing to do there.
+*/
+
+extern pascal OSErr __NSInitialize(const CFragInitBlock* initBlock);
+extern pascal void __NSTerminate();
+
+pascal OSErr __JSInitialize(const CFragInitBlock* initBlock);
+pascal void __JSTerminate(void);
+
+pascal OSErr __JSInitialize(const CFragInitBlock* initBlock)
+{
+	return __NSInitialize(initBlock);
+}
+
+pascal void __JSTerminate()
+{
+  // clean up the sleepQ entry
+  if (gSleepQEntryInstalled)
+    SleepQRemove(&gSleepQEntry);
+  
+	__NSTerminate();
+}
+#endif /* XP_MACOSX */
+
 #endif /* XP_MAC */
 
 #define IS_LEAP(year) \
@@ -357,7 +405,7 @@ PRMJ_DSTOffset(JSInt64 local_time)
     JSInt64  maxtimet;
     struct tm tm;
     PRMJTime prtm;
-#if ( defined( USE_AUTOCONF ) && !defined( HAVE_LOCALTIME_R) ) || ( !defined ( USE_AUTOCONF ) && ( defined( XP_PC ) || defined( __FreeBSD__ ) || defined ( HPUX9 ) || defined ( SNI ) || defined ( NETBSD ) || defined ( OPENBSD ) || defined( DARWIN ) ) )
+#ifndef HAVE_LOCALTIME_R
     struct tm *ptm;
 #endif
 
@@ -376,7 +424,7 @@ PRMJ_DSTOffset(JSInt64 local_time)
     }
     JSLL_L2UI(local,local_time);
     PRMJ_basetime(local_time,&prtm);
-#if ( defined( USE_AUTOCONF ) && !defined( HAVE_LOCALTIME_R) ) || ( !defined ( USE_AUTOCONF ) && ( defined( XP_PC ) || defined( __FreeBSD__ ) || defined ( HPUX9 ) || defined ( SNI ) || defined ( NETBSD ) || defined ( OPENBSD ) || defined( DARWIN ) ) )
+#ifndef HAVE_LOCALTIME_R
     ptm = localtime(&local);
     if(!ptm){
         return JSLL_ZERO;

@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -161,11 +161,10 @@ static void dprintf(const char *format, ...)
 
 JS_PUBLIC_API(void) JS_Assert(const char *s, const char *file, JSIntn ln)
 {
-#if defined(XP_UNIX) || defined(XP_OS2)
-    fprintf(stderr, "Assertion failure: %s, at %s:%d\n", s, file, ln);
-#endif
 #ifdef XP_MAC
     dprintf("Assertion failure: %s, at %s:%d\n", s, file, ln);
+#else
+    fprintf(stderr, "Assertion failure: %s, at %s:%d\n", s, file, ln);
 #endif
 #if defined(WIN32) || defined(XP_OS2)
     DebugBreak();

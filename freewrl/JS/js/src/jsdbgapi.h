@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -78,14 +78,14 @@ extern JS_PUBLIC_API(JSBool)
 JS_SetWatchPoint(JSContext *cx, JSObject *obj, jsval id,
 		 JSWatchPointHandler handler, void *closure);
 
-extern JS_PUBLIC_API(void)
+extern JS_PUBLIC_API(JSBool)
 JS_ClearWatchPoint(JSContext *cx, JSObject *obj, jsval id,
 		   JSWatchPointHandler *handlerp, void **closurep);
 
-extern JS_PUBLIC_API(void)
+extern JS_PUBLIC_API(JSBool)
 JS_ClearWatchPointsForObject(JSContext *cx, JSObject *obj);
 
-extern JS_PUBLIC_API(void)
+extern JS_PUBLIC_API(JSBool)
 JS_ClearAllWatchPoints(JSContext *cx);
 
 #ifdef JS_HAS_OBJ_WATCHPOINT
@@ -93,12 +93,27 @@ JS_ClearAllWatchPoints(JSContext *cx);
  * Hide these non-API function prototypes by testing whether the internal
  * header file "jsconfig.h" has been included.
  */
+extern void
+js_MarkWatchPoints(JSRuntime *rt);
+
 extern JSScopeProperty *
-js_FindWatchPoint(JSRuntime *rt, JSObject *obj, jsval userid);
+js_FindWatchPoint(JSRuntime *rt, JSScope *scope, jsid id);
+
+extern JSPropertyOp
+js_GetWatchedSetter(JSRuntime *rt, JSScope *scope,
+                    const JSScopeProperty *sprop);
 
 extern JSBool JS_DLL_CALLBACK
 js_watch_set(JSContext *cx, JSObject *obj, jsval id, jsval *vp);
-#endif
+
+extern JSBool JS_DLL_CALLBACK
+js_watch_set_wrapper(JSContext *cx, JSObject *obj, uintN argc, jsval *argv,
+                     jsval *rval);
+
+extern JSPropertyOp
+js_WrapWatchedSetter(JSContext *cx, jsid id, uintN attrs, JSPropertyOp setter);
+
+#endif /* JS_HAS_OBJ_WATCHPOINT */
 
 /************************************************************************/
 
@@ -161,8 +176,10 @@ JS_GetFrameFunction(JSContext *cx, JSStackFrame *fp);
 extern JS_PUBLIC_API(JSObject *)
 JS_GetFrameFunctionObject(JSContext *cx, JSStackFrame *fp);
 
+/* XXXrginda Initially published with typo */
+#define JS_IsContructorFrame JS_IsConstructorFrame
 extern JS_PUBLIC_API(JSBool)
-JS_IsContructorFrame(JSContext *cx, JSStackFrame *fp);
+JS_IsConstructorFrame(JSContext *cx, JSStackFrame *fp);
 
 extern JS_PUBLIC_API(JSBool)
 JS_IsDebuggerFrame(JSContext *cx, JSStackFrame *fp);
@@ -184,6 +201,9 @@ JS_GetScriptBaseLineNumber(JSContext *cx, JSScript *script);
 extern JS_PUBLIC_API(uintN)
 JS_GetScriptLineExtent(JSContext *cx, JSScript *script);
 
+extern JS_PUBLIC_API(JSVersion)
+JS_GetScriptVersion(JSContext *cx, JSScript *script);
+     
 /************************************************************************/
 
 /*
@@ -232,6 +252,10 @@ typedef struct JSPropertyDesc {
 #define JSPD_ALIAS      0x08    /* property has an alias id */
 #define JSPD_ARGUMENT   0x10    /* argument to function */
 #define JSPD_VARIABLE   0x20    /* local variable in function */
+#define JSPD_EXCEPTION  0x40    /* exception occurred fetching the property, */
+                                /* value is exception */
+#define JSPD_ERROR      0x80    /* native getter returned JS_FALSE without */
+                                /* throwing an exception */
 
 typedef struct JSPropertyDescArray {
     uint32          length;     /* number of elements in array */

@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -181,9 +181,14 @@ struct JSObject {
  * obj->slots[slot] from the GC's thread, once rt->gcRunning has been set.  See
  * jsgc.c for details.
  */
+#define THREAD_IS_RUNNING_GC(rt, thread)                                      \
+    ((rt)->gcRunning && (rt)->gcThread == (thread))
+
+#define CX_THREAD_IS_RUNNING_GC(cx)                                           \
+    THREAD_IS_RUNNING_GC((cx)->runtime, (cx)->thread)
+
 #define GC_AWARE_GET_SLOT(cx, obj, slot)                                      \
-    (OBJ_IS_NATIVE(obj) &&                                                    \
-     ((cx)->runtime->gcRunning && (cx)->runtime->gcThread == (cx)->thread)    \
+    ((OBJ_IS_NATIVE(obj) && CX_THREAD_IS_RUNNING_GC(cx))                      \
      ? (obj)->slots[slot]                                                     \
      : OBJ_GET_SLOT(cx, obj, slot))
 
@@ -287,7 +292,7 @@ js_NewObject(JSContext *cx, JSClass *clasp, JSObject *proto, JSObject *parent);
 
 extern JSObject *
 js_ConstructObject(JSContext *cx, JSClass *clasp, JSObject *proto,
-		   JSObject *parent);
+                   JSObject *parent, uintN argc, jsval *argv);
 
 extern void
 js_FinalizeObject(JSContext *cx, JSObject *obj);
@@ -297,6 +302,25 @@ js_AllocSlot(JSContext *cx, JSObject *obj, uint32 *slotp);
 
 extern void
 js_FreeSlot(JSContext *cx, JSObject *obj, uint32 slot);
+
+/*
+ * Find or create a property named by id in obj's scope, with the given getter
+ * and setter, slot, attributes, and other members.
+ */
+extern JSScopeProperty *
+js_AddNativeProperty(JSContext *cx, JSObject *obj, jsid id,
+                     JSPropertyOp getter, JSPropertyOp setter, uint32 slot,
+                     uintN attrs, uintN flags, intN shortid);
+
+/*
+ * Change sprop to have the given attrs, getter, and setter in scope, morphing
+ * it into a potentially new JSScopeProperty.  Return a pointer to the changed
+ * or identical property.
+ */
+extern JSScopeProperty *
+js_ChangeNativePropertyAttrs(JSContext *cx, JSObject *obj,
+                             JSScopeProperty *sprop, uintN attrs, uintN mask,
+                             JSPropertyOp getter, JSPropertyOp setter);
 
 /*
  * On error, return false.  On success, if propp is non-null, return true with
@@ -309,6 +333,11 @@ extern JSBool
 js_DefineProperty(JSContext *cx, JSObject *obj, jsid id, jsval value,
 		  JSPropertyOp getter, JSPropertyOp setter, uintN attrs,
 		  JSProperty **propp);
+
+extern JSBool
+js_DefineNativeProperty(JSContext *cx, JSObject *obj, jsid id, jsval value,
+                        JSPropertyOp getter, JSPropertyOp setter, uintN attrs,
+                        uintN flags, intN shortid, JSProperty **propp);
 
 /*
  * Unlike js_DefineProperty, propp must be non-null.  On success, and if id was

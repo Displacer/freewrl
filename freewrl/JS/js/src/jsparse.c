@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -635,8 +635,9 @@ FunctionDef(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc,
     JSObject *parent;
     JSObject *pobj;
     JSScopeProperty *sprop;
+    uintN dupflag;
+    JSBool ok;
     JSTreeContext funtc;
-    jsid oldArgId;
     JSAtomListElement *ale;
 
     /* Make a TOK_FUNCTION node. */
@@ -674,51 +675,40 @@ FunctionDef(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc,
                                    (JSProperty **)&sprop)) {
                 return NULL;
             }
-            if (sprop && pobj == fun->object) {
-                if (SPROP_GETTER(sprop, pobj) == js_GetArgument) {
+            dupflag = 0;
+            if (sprop) {
+                ok = JS_TRUE;
+                if (pobj == fun->object &&
+                    sprop->getter == js_GetArgument) {
                     /*
-                     * A duplicate parameter name. We create a dummy symbol
-                     * entry with property id of the parameter number and set
-                     * the id to the name of the parameter.
-                     * The decompiler will know to treat this case specially.
+                     * A duplicate parameter name. We force a duplicate node
+                     * on the SCOPE_LAST_PROP(scope) list with the same id,
+                     * distinguished by the SPROP_IS_DUPLICATE flag, and not
+                     * mapped by an entry in scope.
                      */
-                    oldArgId = (jsid) sprop->id;
-                    OBJ_DROP_PROPERTY(cx, pobj, (JSProperty *)sprop);
-                    sprop = NULL;
-
-                    if (JS_HAS_STRICT_OPTION(cx) &&
-                        !js_ReportCompileErrorNumber(cx, ts, NULL,
+                    ok = js_ReportCompileErrorNumber(cx, ts, NULL,
                                                      JSREPORT_WARNING |
                                                      JSREPORT_STRICT,
                                                      JSMSG_DUPLICATE_FORMAL,
-                                                     ATOM_BYTES(argAtom))) {
-                        return NULL;
-                    }
+                                                     ATOM_BYTES(argAtom));
 
-                    if (!js_DefineProperty(cx, fun->object,
-                                           oldArgId, JSVAL_VOID,
-                                           js_GetArgument, js_SetArgument,
-                                           JSPROP_ENUMERATE | JSPROP_PERMANENT,
-                                           (JSProperty **)&sprop)) {
-                        return NULL;
-                    }
-                    sprop->id = (jsid) argAtom;
+                    dupflag = SPROP_IS_DUPLICATE;
                 }
-            }
-            if (sprop) {
                 OBJ_DROP_PROPERTY(cx, pobj, (JSProperty *)sprop);
+                if (!ok)
+                    return NULL;
                 sprop = NULL;
             }
-            if (!js_DefineProperty(cx, fun->object,
-                                   (jsid)argAtom, JSVAL_VOID,
-                                   js_GetArgument, js_SetArgument,
-                                   JSPROP_ENUMERATE | JSPROP_PERMANENT,
-                                   (JSProperty **)&sprop)) {
+            if (!js_AddNativeProperty(cx, fun->object, (jsid)argAtom,
+                                      js_GetArgument, js_SetArgument,
+                                      SPROP_INVALID_SLOT,
+                                      JSPROP_ENUMERATE | JSPROP_PERMANENT |
+                                      JSPROP_SHARED,
+                                      SPROP_HAS_SHORTID | dupflag,
+                                      fun->nargs)) {
                 return NULL;
             }
-            JS_ASSERT(sprop);
-            sprop->id = INT_TO_JSVAL(fun->nargs++);
-            OBJ_DROP_PROPERTY(cx, fun->object, (JSProperty *)sprop);
+            fun->nargs++;
         } while (js_MatchToken(cx, ts, TOK_COMMA));
 
         MUST_MATCH_TOKEN(TOK_RP, JSMSG_PAREN_AFTER_FORMAL);
@@ -817,17 +807,16 @@ FunctionDef(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc,
             varobj = fp->varobj;
             JS_ASSERT(OBJ_GET_CLASS(cx, varobj) == &js_FunctionClass);
             JS_ASSERT(fp->fun == (JSFunction *) JS_GetPrivate(cx, varobj));
-            if (!js_DefineProperty(cx, varobj, (jsid)funAtom,
-                                   OBJECT_TO_JSVAL(fun->object),
-                                   js_GetLocalVariable, js_SetLocalVariable,
-                                   JSPROP_ENUMERATE,
-                                   (JSProperty **)&sprop)) {
+            if (!js_DefineNativeProperty(cx, varobj, (jsid)funAtom,
+                                         OBJECT_TO_JSVAL(fun->object),
+                                         js_GetLocalVariable,
+                                         js_SetLocalVariable,
+                                         JSPROP_ENUMERATE,
+                                         SPROP_HAS_SHORTID, fp->fun->nvars,
+                                         NULL)) {
                 return NULL;
             }
-
-            /* Allocate a slot for this property. */
-            sprop->id = INT_TO_JSVAL(fp->fun->nvars++);
-            OBJ_DROP_PROPERTY(cx, varobj, (JSProperty *)sprop);
+            fp->fun->nvars++;
         }
 #endif
     }
@@ -1702,8 +1691,7 @@ Statement(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc)
         js_PopStatement(tc);
 
         /* Deprecate after parsing, in case of WERROR option. */
-        if (JS_HAS_STRICT_OPTION(cx) &&
-            !js_ReportCompileErrorNumber(cx, ts, NULL,
+        if (!js_ReportCompileErrorNumber(cx, ts, NULL,
                                          JSREPORT_WARNING | JSREPORT_STRICT,
                                          JSMSG_DEPRECATED_USAGE,
                                          js_with_statement_str)) {
@@ -1979,16 +1967,15 @@ Variables(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc)
         if (pobj == obj &&
             OBJ_IS_NATIVE(pobj) &&
             (sprop = (JSScopeProperty *)prop) != NULL) {
-            if (SPROP_GETTER(sprop, pobj) == js_GetArgument) {
+            if (sprop->getter == js_GetArgument) {
                 if (pn->pn_op == JSOP_DEFCONST) {
                     js_ReportCompileErrorNumber(cx, ts, NULL, JSREPORT_ERROR,
                                                 JSMSG_REDECLARED_PARAM,
                                                 ATOM_BYTES(atom));
-                    return NULL;
-                }
-                currentGetter = js_GetArgument;
-                currentSetter = js_SetArgument;
-                if (JS_HAS_STRICT_OPTION(cx)) {
+                    ok = JS_FALSE;
+                } else {
+                    currentGetter = js_GetArgument;
+                    currentSetter = js_SetArgument;
                     ok = js_ReportCompileErrorNumber(cx, ts, NULL,
                                                      JSREPORT_WARNING |
                                                      JSREPORT_STRICT,
@@ -1996,39 +1983,39 @@ Variables(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc)
                                                      ATOM_BYTES(atom));
                 }
             } else {
-                ok = JS_TRUE;
                 if (fun) {
                     /* Not an argument, must be a redeclared local var. */
                     if (clasp == &js_FunctionClass) {
-                        JS_ASSERT(SPROP_GETTER(sprop,pobj) == js_GetLocalVariable);
-                        JS_ASSERT(JSVAL_IS_INT(sprop->id) &&
-                                  JSVAL_TO_INT(sprop->id) < fun->nvars);
+                        JS_ASSERT(sprop->getter == js_GetLocalVariable);
+                        JS_ASSERT((sprop->flags & SPROP_HAS_SHORTID) &&
+                                  sprop->shortid < fun->nvars);
                     } else if (clasp == &js_CallClass) {
-                        if (SPROP_GETTER(sprop, pobj) == js_GetCallVariable) {
+                        if (sprop->getter == js_GetCallVariable) {
                             /*
                              * Referencing a variable introduced by a var
                              * statement in the enclosing function. Check
                              * that the slot number we have is in range.
                              */
-                            JS_ASSERT(JSVAL_IS_INT(sprop->id) &&
-                                      JSVAL_TO_INT(sprop->id) < fun->nvars);
+                            JS_ASSERT((sprop->flags & SPROP_HAS_SHORTID) &&
+                                      sprop->shortid < fun->nvars);
                         } else {
                             /*
                              * A variable introduced through another eval:
                              * don't use the special getters and setters
                              * since we can't allocate a slot in the frame.
                              */
-                            currentGetter = SPROP_GETTER(sprop, pobj);
-                            currentSetter = SPROP_SETTER(sprop, pobj);
+                            currentGetter = sprop->getter;
+                            currentSetter = sprop->setter;
                         }
                     }
 
                     /* Override the old getter and setter, to handle eval. */
-                    SPROP_GETTER(sprop, pobj) = currentGetter;
-                    SPROP_SETTER(sprop, pobj) = currentSetter;
-                } else {
-                    /* Global var: (re-)set id a la js_DefineProperty. */
-                    sprop->id = ATOM_KEY(atom);
+                    sprop = js_ChangeNativePropertyAttrs(cx, obj, sprop,
+                                                         0, sprop->attrs,
+                                                         currentGetter,
+                                                         currentSetter);
+                    if (!sprop)
+                        ok = JS_FALSE;
                 }
             }
         } else {
@@ -2054,20 +2041,14 @@ Variables(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc)
                 atom != cx->runtime->atomState.argumentsAtom &&
                 fp->scopeChain == obj &&
                 !js_InWithStatement(tc)) {
-                ok = OBJ_DEFINE_PROPERTY(cx, obj, (jsid)atom, JSVAL_VOID,
-                                         currentGetter, currentSetter,
-                                         pn2->pn_attrs, &prop);
-                if (ok) {
-                    pobj = obj;
-
-                    /*
-                     * Allocate more room for variables in the function's
-                     * frame.  We can do this only before the function is
-                     * first called.
-                     */
-                    sprop = (JSScopeProperty *)prop;
-                    sprop->id = INT_TO_JSVAL(fun->nvars++);
+                if (!js_AddNativeProperty(cx, obj, (jsid)atom,
+                                          currentGetter, currentSetter,
+                                          SPROP_INVALID_SLOT,
+                                          pn2->pn_attrs | JSPROP_SHARED,
+                                          SPROP_HAS_SHORTID, fun->nvars)) {
+                    ok = JS_FALSE;
                 }
+                fun->nvars++;
             }
         }
 
@@ -2150,7 +2131,7 @@ AssignExpr(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc)
 
     op = CURRENT_TOKEN(ts).t_op;
     for (pn2 = pn; pn2->pn_type == TOK_RP; pn2 = pn2->pn_kid)
-        ;
+        continue;
     switch (pn2->pn_type) {
       case TOK_NAME:
         pn2->pn_op = JSOP_SETNAME;
@@ -2536,7 +2517,7 @@ UnaryExpr(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc)
     return pn;
 }
 
-static JSParseNode *
+static JSBool
 ArgumentList(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc,
              JSParseNode *listNode)
 {
@@ -2549,13 +2530,17 @@ ArgumentList(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc,
         do {
             JSParseNode *argNode = AssignExpr(cx, ts, tc);
             if (!argNode)
-                return NULL;
+                return JS_FALSE;
             PN_APPEND(listNode, argNode);
         } while (js_MatchToken(cx, ts, TOK_COMMA));
 
-        MUST_MATCH_TOKEN(TOK_RP, JSMSG_PAREN_AFTER_ARGS);
+        if (js_GetToken(cx, ts) != TOK_RP) {
+            js_ReportCompileErrorNumber(cx, ts, NULL, JSREPORT_ERROR,
+                                        JSMSG_PAREN_AFTER_ARGS);
+            return JS_FALSE;
+        }
     }
-    return listNode;
+    return JS_TRUE;
 }
 
 static JSParseNode *
@@ -2580,12 +2565,10 @@ MemberExpr(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc,
             return NULL;
         pn->pn_op = JSOP_NEW;
         PN_INIT_LIST_1(pn, pn2);
+        pn->pn_pos.begin = pn2->pn_pos.begin;
 
-        if (js_MatchToken(cx, ts, TOK_LP)) {
-            pn = ArgumentList(cx, ts, tc, pn);
-            if (!pn)
-                return NULL;
-        }
+        if (js_MatchToken(cx, ts, TOK_LP) && !ArgumentList(cx, ts, tc, pn))
+            return NULL;
         if (pn->pn_count - 1 >= ARGC_LIMIT) {
             JS_ReportErrorNumber(cx, js_GetErrorMessage, NULL,
                                  JSMSG_TOO_MANY_CON_ARGS);
@@ -2647,9 +2630,9 @@ MemberExpr(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc,
             }
 
             PN_INIT_LIST_1(pn2, pn);
+            pn2->pn_pos.begin = pn->pn_pos.begin;
 
-            pn2 = ArgumentList(cx, ts, tc, pn2);
-            if (!pn2)
+            if (!ArgumentList(cx, ts, tc, pn2))
                 return NULL;
             if (pn2->pn_count - 1 >= ARGC_LIMIT) {
                 JS_ReportErrorNumber(cx, js_GetErrorMessage, NULL,
@@ -2829,8 +2812,7 @@ PrimaryExpr(JSContext *cx, JSTokenStream *ts, JSTreeContext *tc)
                         pn3->pn_atom = CURRENT_TOKEN(ts).t_atom;
                     break;
                   case TOK_RC:
-                    if (JS_HAS_STRICT_OPTION(cx) &&
-                        !js_ReportCompileErrorNumber(cx, ts, NULL,
+                    if (!js_ReportCompileErrorNumber(cx, ts, NULL,
                                                      JSREPORT_WARNING |
                                                      JSREPORT_STRICT,
                                                      JSMSG_TRAILING_COMMA)) {

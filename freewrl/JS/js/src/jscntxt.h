@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -60,6 +60,11 @@ typedef enum JSRuntimeState {
     JSRTS_UP,
     JSRTS_LANDING
 } JSRuntimeState;
+
+typedef struct JSPropertyTreeEntry {
+    JSDHashEntryHdr     hdr;
+    JSScopeProperty     *child;
+} JSPropertyTreeEntry;
 
 struct JSRuntime {
     JSRuntimeState      state;
@@ -182,7 +187,7 @@ struct JSRuntime {
  * value.
  */
 #define NO_SCOPE_SHARING_TODO   ((JSScope *) 0xfeedbeef)
-#endif
+#endif /* JS_THREADSAFE */
 
     /*
      * Check property accessibility for objects of arbitrary class.  Used at
@@ -193,6 +198,11 @@ struct JSRuntime {
     /* Security principals serialization support. */
     JSPrincipalsTranscoder principalsTranscoder;
 
+    /* Shared scope property tree, and allocator for its nodes. */
+    JSDHashTable        propertyTreeHash;
+    JSScopeProperty     *propertyFreeList;
+    JSArenaPool         propertyArenaPool;
+
 #ifdef DEBUG
     /* Function invocation metering. */
     jsrefcount          inlineCalls;
@@ -200,7 +210,7 @@ struct JSRuntime {
     jsrefcount          nonInlineCalls;
     jsrefcount          constructs;
 
-    /* Scope lock and related metering. */
+    /* Scope lock and property metering. */
     jsrefcount          claimAttempts;
     jsrefcount          claimedScopes;
     jsrefcount          deadContexts;
@@ -209,6 +219,13 @@ struct JSRuntime {
     jsrefcount          sharedScopes;
     jsrefcount          totalScopes;
     jsrefcount          badUndependStrings;
+    jsrefcount          liveScopeProps;
+    jsrefcount          totalScopeProps;
+    jsrefcount          livePropTreeNodes;
+    jsrefcount          duplicatePropTreeNodes;
+    jsrefcount          totalPropTreeNodes;
+    jsrefcount          propTreeKidsChunks;
+    jsrefcount          middleDeleteFixups;
 
     /* String instrumentation. */
     jsrefcount          liveStrings;
@@ -340,12 +357,19 @@ struct JSContext {
     JSPackedBool        rval2set;
 #endif
 
-    /* True if clearing a scope -- used to coalesce property cache flushes. */
-    JSPackedBool        clearingScope;
+    /*
+     * True if creating an exception object, to prevent runaway recursion.
+     * NB: creatingException packs with rval2set, #if JS_HAS_LVALUE_RETURN,
+     * and with throwing, below.
+     */
+    JSPackedBool        creatingException;
 
-    /* Exception state (NB: throwing packs with clearingScope, above). */
+    /*
+     * Exception state -- the exception member is a GC root by definition.
+     * NB: throwing packs with creatingException and rval2set, above.
+     */
     JSPackedBool        throwing;           /* is there a pending exception? */
-    jsval               exception;          /* most-recently-thrown exceptin */
+    jsval               exception;          /* most-recently-thrown exception */
 
     /* Per-context options. */
     uint32              options;            /* see jsapi.h for JSOPTION_* */
@@ -403,13 +427,13 @@ js_ReportErrorVA(JSContext *cx, uintN flags, const char *format, va_list ap);
 
 extern JSBool
 js_ReportErrorNumberVA(JSContext *cx, uintN flags, JSErrorCallback callback,
-		       void *userRef, const uintN errorNumber,
+                       void *userRef, const uintN errorNumber,
                        JSBool charArgs, va_list ap);
 
 extern JSBool
 js_ExpandErrorArguments(JSContext *cx, JSErrorCallback callback,
-			void *userRef, const uintN errorNumber,
-			char **message, JSErrorReport *reportp,
+                        void *userRef, const uintN errorNumber,
+                        char **message, JSErrorReport *reportp,
                         JSBool *warningp, JSBool charArgs, va_list ap);
 #endif
 

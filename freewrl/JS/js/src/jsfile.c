@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -281,20 +281,20 @@ js_isAbsolute(const char *name)
 static char*
 js_combinePath(JSContext *cx, const char *base, const char *name)
 {
-    int len = strlen(base)-1;
-    char* result = (char*)JS_malloc(cx, strlen(base)+strlen(name)+2);
+    int len = strlen(base);
+    char* result = (char*)JS_malloc(cx, len+strlen(name)+2);
 
     if (!result)  return NULL;
 
     strcpy(result, base);
 
-    if (base[len]!=FILESEPARATOR
+    if (base[len-1]!=FILESEPARATOR
 #ifdef XP_PC
-            && base[len]!=FILESEPARATOR2
+            && base[len-1]!=FILESEPARATOR2
 #endif
             ) {
-      result[len+1] = FILESEPARATOR;
-      result[len+2] = '\0';
+      result[len] = FILESEPARATOR;
+      result[len+1] = '\0';
     }
     strcat(result, name);
     return result;
@@ -507,7 +507,7 @@ js_canonicalPath(JSContext *cx, char *oldpath)
     }
     strcpy(result, dir);
     c = strlen(result);
-    if (strlen(tmp)>0) {
+    if (tmp[0]!='\0') {
         if ((result[c-1]!=FILESEPARATOR)&&(result[c-1]!=FILESEPARATOR2)) {
             result[c] = FILESEPARATOR;
             result[c+1] = '\0';

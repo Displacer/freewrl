@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -260,7 +260,7 @@ GetLine(JSContext *cx, char *bufp, FILE *file, const char *prompt) {
         char *linep;
         if ((linep = readline(prompt)) == NULL)
             return JS_FALSE;
-        if (strlen(linep) > 0)
+        if (linep[0] != '\0')
             add_history(linep);
         strcpy(bufp, linep);
         JS_free(cx, linep);
@@ -1147,46 +1147,37 @@ DumpAtom(JSHashEntry *he, int i, void *arg)
     return HT_ENUMERATE_NEXT;
 }
 
-static int
-DumpSymbol(JSHashEntry *he, int i, void *arg)
-{
-    FILE *fp = (FILE *) arg;
-    JSSymbol *sym = (JSSymbol *)he;
-
-    fprintf(fp, "%3d %08x", i, (uintN)he->keyHash);
-    if (JSVAL_IS_INT(sym_id(sym)))
-        fprintf(fp, " [%ld]\n", (long)JSVAL_TO_INT(sym_id(sym)));
-    else
-        fprintf(fp, " \"%s\"\n", ATOM_BYTES(sym_atom(sym)));
-    return HT_ENUMERATE_NEXT;
-}
-
-extern JS_FRIEND_DATA(JSScopeOps) js_list_scope_ops;
-
 static void
-DumpScope(JSContext *cx, JSObject *obj, JSHashEnumerator dump, FILE *fp)
+DumpScope(JSContext *cx, JSObject *obj, FILE *fp)
 {
+    uintN i;
     JSScope *scope;
-    JSSymbol *sym;
-    int i;
+    JSScopeProperty *sprop;
 
-    fprintf(fp, "\n%s scope contents:\n", JS_GET_CLASS(cx, obj)->name);
+    i = 0;
     scope = OBJ_SCOPE(obj);
-    if (!MAP_IS_NATIVE(&scope->map))
-        return;
-    if (scope->ops == &js_list_scope_ops) {
-        for (sym = (JSSymbol *)scope->data, i = 0; sym;
-             sym = (JSSymbol *)sym->entry.next, i++) {
-            DumpSymbol(&sym->entry, i, fp);
-        }
-    } else {
-        JS_HashTableDump((JSHashTable *) scope->data, dump, fp);
+    for (sprop = SCOPE_LAST_PROP(scope); sprop; sprop = sprop->parent) {
+        if (SCOPE_HAD_MIDDLE_DELETE(scope) && !SCOPE_HAS_PROPERTY(scope, sprop))
+            continue;
+        fprintf(fp, "%3u %p", i, sprop);
+        if (sprop->id & JSVAL_INT)
+            fprintf(fp, " [%ld]", (long)JSVAL_TO_INT(sprop->id));
+        else
+            fprintf(fp, " \"%s\"", ATOM_BYTES((JSAtom *)sprop->id));
+
+#define DUMP_ATTR(name) if (sprop->attrs & JSPROP_##name) fputs(" " #name, fp)
+        DUMP_ATTR(ENUMERATE);
+        DUMP_ATTR(READONLY);
+        DUMP_ATTR(PERMANENT);
+        DUMP_ATTR(EXPORTED);
+        DUMP_ATTR(GETTER);
+        DUMP_ATTR(SETTER);
+#undef  DUMP_ATTR
+
+        fprintf(fp, " slot %lu flags %x shortid %d\n",
+                sprop->slot, sprop->flags, sprop->shortid);
     }
 }
-
-/* These are callable from gdb. */
-static void Dsym(JSSymbol *sym) { if (sym) DumpSymbol(&sym->entry, 0, gErrFile); }
-static void Datom(JSAtom *atom) { if (atom) DumpAtom(&atom->entry, 0, gErrFile); }
 
 static JSBool
 DumpStats(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
@@ -1212,7 +1203,7 @@ DumpStats(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
             fprintf(gOutFile, "\natom table contents:\n");
             JS_HashTableDump(cx->runtime->atomState.table, DumpAtom, stdout);
         } else if (strcmp(bytes, "global") == 0) {
-            DumpScope(cx, cx->globalObject, DumpSymbol, stdout);
+            DumpScope(cx, cx->globalObject, stdout);
         } else {
             atom = js_Atomize(cx, bytes, JS_GetStringLength(str), 0);
             if (!atom)
@@ -1231,7 +1222,7 @@ DumpStats(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
             }
             obj = JSVAL_TO_OBJECT(value);
             if (obj)
-                DumpScope(cx, obj, DumpSymbol, stdout);
+                DumpScope(cx, obj, stdout);
         }
     }
     return JS_TRUE;
@@ -1423,6 +1414,29 @@ Intern(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
     return JS_TRUE;
 }
 
+static JSBool
+Clone(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
+{
+    JSFunction *fun;
+    JSObject *funobj, *parent, *clone;
+
+    fun = JS_ValueToFunction(cx, argv[0]);
+    if (!fun)
+        return JS_FALSE;
+    funobj = JS_GetFunctionObject(fun);
+    if (argc > 1) {
+        if (!JS_ValueToObject(cx, argv[1], &parent))
+            return JS_FALSE;
+    } else {
+        parent = JS_GetParent(cx, funobj);
+    }
+    clone = JS_CloneFunctionObject(cx, funobj, parent);
+    if (!clone)
+        return JS_FALSE;
+    *rval = OBJECT_TO_JSVAL(clone);
+    return JS_TRUE;
+}
+
 static JSFunctionSpec shell_functions[] = {
     {"version",         Version,        0},
     {"options",         Options,        0},
@@ -1443,7 +1457,7 @@ static JSFunctionSpec shell_functions[] = {
     {"stats",           DumpStats,      1},
 #endif
 #ifdef TEST_EXPORT
-    {"doexp",           DoExport,       2},
+    {"xport",           DoExport,       2},
 #endif
 #ifdef TEST_CVTARGS
     {"cvtargs",         ConvertArgs,    0, 0, 12},
@@ -1451,6 +1465,7 @@ static JSFunctionSpec shell_functions[] = {
     {"build",           BuildDate,      0},
     {"clear",           Clear,          0},
     {"intern",          Intern,         1},
+    {"clone",           Clone,          1},
     {0}
 };
 
@@ -1460,14 +1475,14 @@ static char *shell_help_messages[] = {
     "version([number])      Get or set JavaScript version number",
     "options([option ...])  Get or toggle JavaScript options",
     "load(['foo.js' ...])   Load files named by string arguments",
-    "print([expr ...])      Evaluate and print expressions",
+    "print([exp ...])       Evaluate and print expressions",
     "help([name ...])       Display usage and help messages",
     "quit()                 Quit the shell",
     "gc()                   Run the garbage collector",
-    "trap([fun] [pc] expr)  Trap bytecode execution",
-    "untrap([fun] [pc])     Remove a trap",
-    "line2pc([fun] line)    Map line number to PC",
-    "pc2line([fun] [pc])    Map PC to line number",
+    "trap([fun, [pc,]] exp) Trap bytecode execution",
+    "untrap(fun[, pc])      Remove a trap",
+    "line2pc([fun,] line)   Map line number to PC",
+    "pc2line(fun[, pc])     Map PC to line number",
 #ifdef DEBUG
     "dis([fun])             Disassemble functions into bytecodes",
     "dissrc([fun])          Disassemble functions with source lines",
@@ -1476,7 +1491,7 @@ static char *shell_help_messages[] = {
     "stats([string ...])    Dump 'arena', 'atom', 'global' stats",
 #endif
 #ifdef TEST_EXPORT
-    "doexp(obj, id)         Export identified property from object",
+    "xport(obj, id)         Export identified property from object",
 #endif
 #ifdef TEST_CVTARGS
     "cvtargs(b, c, ...)     Test JS_ConvertArguments",
@@ -1484,6 +1499,7 @@ static char *shell_help_messages[] = {
     "build()                Show build date and time",
     "clear([obj])           Clear properties of object",
     "intern(str)            Internalize str in the atom table",
+    "clone(fun[, scope])    Clone function object",
     0
 };
 
@@ -1563,12 +1579,12 @@ enum its_tinyid {
 };
 
 static JSPropertySpec its_props[] = {
-    {"color",           ITS_COLOR,	JSPROP_ENUMERATE},
-    {"height",          ITS_HEIGHT,	JSPROP_ENUMERATE},
-    {"width",           ITS_WIDTH,	JSPROP_ENUMERATE},
-    {"funny",           ITS_FUNNY,	JSPROP_ENUMERATE},
-    {"array",           ITS_ARRAY,	JSPROP_ENUMERATE},
-    {"rdonly",		ITS_RDONLY,	JSPROP_READONLY},
+    {"color",           ITS_COLOR,      JSPROP_ENUMERATE},
+    {"height",          ITS_HEIGHT,     JSPROP_ENUMERATE},
+    {"width",           ITS_WIDTH,      JSPROP_ENUMERATE},
+    {"funny",           ITS_FUNNY,      JSPROP_ENUMERATE},
+    {"array",           ITS_ARRAY,      JSPROP_ENUMERATE},
+    {"rdonly",          ITS_RDONLY,     JSPROP_READONLY},
     {0}
 };
 
@@ -1869,7 +1885,7 @@ Exec(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
         exit(127);
       default:
         while (waitpid(pid, &status, 0) < 0 && errno == EINTR)
-            ;
+            continue;
         break;
     }
     JS_free(cx, nargv);
@@ -2007,15 +2023,17 @@ main(int argc, char **argv)
                 FILE *f = fopen("testargs.txt", "r");
                 if (f != NULL) {
                         int maxArgs = 32; /* arbitrary max !!! */
+                        int argText_strlen;
                         argc = 1;
                         argv = malloc(sizeof(char *) * maxArgs);
                         argv[0] = NULL;
                         while (fgets(argText, 255, f) != NULL) {
                                  /* argText includes '\n' */
-                                argv[argc] = malloc(strlen(argText));
+                                argText_strlen = strlen(argText);
+                                argv[argc] = malloc(argText_strlen);
                                 strncpy(argv[argc], argText,
-                                                    strlen(argText) - 1);
-                                argv[argc][strlen(argText) - 1] = '\0';
+                                                    argText_strlen - 1);
+                                argv[argc][argText_strlen - 1] = '\0';
                                 argc++;
                                 if (argc >= maxArgs) break;
                         }

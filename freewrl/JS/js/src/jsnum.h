@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -55,11 +55,11 @@ JS_BEGIN_EXTERN_C
  * are stored in big endian`s way.
  */
 
-#if defined(__arm) || defined(__arm32__) || defined(_arm26__)
+#if defined(__arm) || defined(__arm32__) || defined(__arm26__) || defined(__arm__)
 #define CPU_IS_ARM
 #endif
 
-#if __GNUC__ >= 2
+#if (__GNUC__ == 2 && __GNUC_MINOR__ > 95) || __GNUC__ > 2
 /*
  * This version of the macros is safe for the alias optimizations that gcc
  * does, but uses gcc-specific extensions.

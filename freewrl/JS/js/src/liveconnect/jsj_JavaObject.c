@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -84,6 +84,31 @@ static PRMonitor *java_obj_reflections_monitor = NULL;
 static int java_obj_reflections_mutation_count = 0;
 #endif
 
+static JSBool installed_GC_callback = JS_FALSE;
+static JSGCCallback old_GC_callback = NULL;
+static JavaObjectWrapper* deferred_wrappers = NULL;
+
+static JSBool JS_DLL_CALLBACK jsj_GC_callback(JSContext *cx, JSGCStatus status)
+{
+    if (status == JSGC_END && deferred_wrappers) {
+        JNIEnv *jEnv;
+        JSJavaThreadState *jsj_env = jsj_EnterJava(cx, &jEnv);
+        if (jEnv) {
+            JavaObjectWrapper* java_wrapper = deferred_wrappers;
+            while (java_wrapper) {
+                deferred_wrappers = java_wrapper->u.next;
+                (*jEnv)->DeleteGlobalRef(jEnv, java_wrapper->java_obj);
+                jsj_ReleaseJavaClassDescriptor(cx, jEnv, java_wrapper->class_descriptor);
+                JS_free(cx, java_wrapper);
+                java_wrapper = deferred_wrappers;
+            }
+            jsj_ExitJava(jsj_env);
+        }
+    }
+    /* always chain to old GC callback if non-null. */
+    return old_GC_callback ? old_GC_callback(cx, status) : JS_TRUE;
+}
+
 JSBool
 jsj_InitJavaObjReflectionsTable(void)
 {
@@ -97,7 +122,7 @@ jsj_InitJavaObjReflectionsTable(void)
 
 #ifdef JSJ_THREADSAFE
     java_obj_reflections_monitor = 
-	(struct PRMonitor *) PR_NewMonitor();
+    (struct PRMonitor *) PR_NewMonitor();
     if (!java_obj_reflections_monitor) {
         JSJ_HashTableDestroy(java_obj_reflections);
         return JS_FALSE;
@@ -132,6 +157,15 @@ jsj_WrapJavaObject(JSContext *cx,
     PR_EnterMonitor(java_obj_reflections_monitor);
 #endif
     
+    if (!installed_GC_callback) {
+        /*
+         * Hook into GC callback mechanism, so we can defer deleting global
+         * references until it's safe.
+         */
+        old_GC_callback =  JS_SetGCCallback(cx, jsj_GC_callback);
+        installed_GC_callback = JS_TRUE;
+    }
+
     hep = JSJ_HashTableRawLookup(java_obj_reflections,
                                  hash_code, java_obj, (void*)jEnv);
     he = *hep;
@@ -190,9 +224,9 @@ jsj_WrapJavaObject(JSContext *cx,
         if (he) {
             js_wrapper_obj = (JSObject *)he->value;
             if (js_wrapper_obj) {
-		PR_ExitMonitor(java_obj_reflections_monitor);
+                PR_ExitMonitor(java_obj_reflections_monitor);
                 return js_wrapper_obj;
-	    }
+            }
         }
     }
 
@@ -204,6 +238,9 @@ jsj_WrapJavaObject(JSContext *cx,
     java_wrapper->java_obj = java_obj;
     if (!java_obj)
         goto out_of_memory;
+
+    /* cache the hash code for all time. */
+    java_wrapper->u.hash_code = hash_code; 
 
     /* Add the JavaObject to the hash table */
     he = JSJ_HashTableRawAdd(java_obj_reflections, hep, hash_code,
@@ -226,24 +263,21 @@ out_of_memory:
 }
 
 static void
-remove_java_obj_reflection_from_hashtable(jobject java_obj, JNIEnv *jEnv)
+remove_java_obj_reflection_from_hashtable(jobject java_obj, JSJHashNumber hash_code)
 {
-    JSJHashNumber hash_code;
     JSJHashEntry *he, **hep;
-
-    hash_code = jsj_HashJavaObject((void*)java_obj, (void*)jEnv);
 
 #ifdef JSJ_THREADSAFE
     PR_EnterMonitor(java_obj_reflections_monitor);
 #endif
 
     hep = JSJ_HashTableRawLookup(java_obj_reflections, hash_code,
-                                 java_obj, (void*)jEnv);
+                                 java_obj, NULL);
     he = *hep;
 
     JS_ASSERT(he);
     if (he)
-        JSJ_HashTableRawRemove(java_obj_reflections, hep, he, (void*)jEnv);
+        JSJ_HashTableRawRemove(java_obj_reflections, hep, he, NULL);
 
 #ifdef JSJ_THREADSAFE
     java_obj_reflections_mutation_count++;
@@ -270,11 +304,16 @@ JavaObject_finalize(JSContext *cx, JSObject *obj)
         return;
 
     if (java_obj) {
-        remove_java_obj_reflection_from_hashtable(java_obj, jEnv);
-        (*jEnv)->DeleteGlobalRef(jEnv, java_obj);
+        remove_java_obj_reflection_from_hashtable(java_obj, java_wrapper->u.hash_code);
+
+        /* defer releasing global refs until it is safe to do so. */
+        java_wrapper->u.next = deferred_wrappers;
+        deferred_wrappers = java_wrapper;
+    } else {
+        jsj_ReleaseJavaClassDescriptor(cx, jEnv, java_wrapper->class_descriptor);
+        JS_free(cx, java_wrapper);
     }
-    jsj_ReleaseJavaClassDescriptor(cx, jEnv, java_wrapper->class_descriptor);
-    JS_free(cx, java_wrapper);
+
     jsj_ExitJava(jsj_env);
 }
 
@@ -359,38 +398,38 @@ JavaObject_convert(JSContext *cx, JSObject *obj, JSType type, jsval *vp)
 
     case JSTYPE_VOID:
     case JSTYPE_STRING:
-	/* Get the Java per-thread environment pointer for this JSContext */
-	jsj_env = jsj_EnterJava(cx, &jEnv);
-	if (!jEnv)
-	    return JS_FALSE;
+        /* Get the Java per-thread environment pointer for this JSContext */
+        jsj_env = jsj_EnterJava(cx, &jEnv);
+        if (!jEnv)
+            return JS_FALSE;
 
         /* Either extract a C-string from the java.lang.String object
            or call the Java toString() method */
         result = jsj_ConvertJavaObjectToJSString(cx, jEnv, class_descriptor, java_obj, vp);
-	jsj_ExitJava(jsj_env);
-	return result;
+        jsj_ExitJava(jsj_env);
+        return result;
 
     case JSTYPE_NUMBER:
-	/* Get the Java per-thread environment pointer for this JSContext */
-	jsj_env = jsj_EnterJava(cx, &jEnv);
-	if (!jEnv)
-	    return JS_FALSE;
-	
-	/* Call Java doubleValue() method, if applicable */
+        /* Get the Java per-thread environment pointer for this JSContext */
+        jsj_env = jsj_EnterJava(cx, &jEnv);
+        if (!jEnv)
+            return JS_FALSE;
+        
+        /* Call Java doubleValue() method, if applicable */
         result = jsj_ConvertJavaObjectToJSNumber(cx, jEnv, class_descriptor, java_obj, vp);
-	jsj_ExitJava(jsj_env);
-	return result;
+        jsj_ExitJava(jsj_env);
+        return result;
 
     case JSTYPE_BOOLEAN:
-	/* Get the Java per-thread environment pointer for this JSContext */
-	jsj_env = jsj_EnterJava(cx, &jEnv);
-	if (!jEnv)
-	    return JS_FALSE;
+        /* Get the Java per-thread environment pointer for this JSContext */
+        jsj_env = jsj_EnterJava(cx, &jEnv);
+        if (!jEnv)
+            return JS_FALSE;
 
         /* Call booleanValue() method, if applicable */
         result = jsj_ConvertJavaObjectToJSBoolean(cx, jEnv, class_descriptor, java_obj, vp);
-	jsj_ExitJava(jsj_env);
-	return result;
+        jsj_ExitJava(jsj_env);
+        return result;
 
     default:
         JS_ASSERT(0);
@@ -427,12 +466,18 @@ inherit_props_from_JS_natives(JSContext *cx, const char *js_constructor_name,
     return JS_GetProperty(cx, prototype_obj, member_name, vp) && *vp != JSVAL_VOID;
 }
 
+struct JSJPropertyInfo {
+    const char* name;
+    uintN attributes;
+};
+typedef struct JSJPropertyInfo JSJPropertyInfo;
+
 static JSBool
 lookup_member_by_id(JSContext *cx, JNIEnv *jEnv, JSObject *obj,
-                    JavaObjectWrapper **java_wrapperp,
-                    jsid id,
+                    JavaObjectWrapper **java_wrapperp, jsid id,
                     JavaMemberDescriptor **member_descriptorp,
-                    jsval *vp)
+                    jsval *vp, JSObject **proto_chainp,
+                    JSJPropertyInfo *prop_infop)
 {
     jsval idval;
     JavaObjectWrapper *java_wrapper;
@@ -440,7 +485,9 @@ lookup_member_by_id(JSContext *cx, JNIEnv *jEnv, JSObject *obj,
     const char *member_name;
     JavaClassDescriptor *class_descriptor;
     JSObject *proto_chain;
+    JSBool found_in_proto;
     
+    found_in_proto = JS_FALSE;
     member_descriptor = NULL;
     java_wrapper = JS_GetPrivate(cx, obj);
 
@@ -516,16 +563,21 @@ lookup_member_by_id(JSContext *cx, JNIEnv *jEnv, JSObject *obj,
     if (member_descriptor)
         goto done;
     
-    /* Is this lookup on behalf of a GetProperty or a LookupProperty ? */
-    if (vp) {
+    /* Is the property defined in the prototype chain? */
+    if (proto_chainp && prop_infop) {
         /* If so, follow __proto__ link to search prototype chain */
         proto_chain = JS_GetPrototype(cx, obj);
 
-        /* TODO: No way to tell if the property doesn't exist in proto_chain
-           or if it exists, but has an undefined value.  We assume the former. */
-        if (proto_chain && JS_LookupProperty(cx, proto_chain, member_name, vp) &&
-            (*vp != JSVAL_VOID))
+        /* Use JS_GetPropertyAttributes to determine if the property actually
+           exists in the prototype chain. */
+        if (proto_chain &&
+            JS_GetPropertyAttributes(cx, proto_chain, member_name,
+                                     &prop_infop->attributes, &found_in_proto) &&
+            found_in_proto) {
+            *proto_chainp = proto_chain;
+            prop_infop->name = member_name;
             goto done;
+        }
     }
 
     /* Report lack of Java member with the given property name */
@@ -539,6 +591,8 @@ done:
         *java_wrapperp = java_wrapper;
     if (member_descriptorp)
         *member_descriptorp = member_descriptor;
+    if (proto_chainp && !found_in_proto)
+        *proto_chainp = NULL;
     return JS_TRUE;
 }
 
@@ -553,6 +607,8 @@ JavaObject_getPropertyById(JSContext *cx, JSObject *obj, jsid id, jsval *vp)
     jsval field_val, method_val;
     JSBool success;
     JSJavaThreadState *jsj_env;
+    JSObject *proto_chain;
+    JSJPropertyInfo prop_info;
 
     /* printf("In JavaObject_getProperty\n"); */
 
@@ -562,16 +618,19 @@ JavaObject_getPropertyById(JSContext *cx, JSObject *obj, jsid id, jsval *vp)
         return JS_FALSE;
         
     if (vp)
-	*vp = JSVAL_VOID;
-    if (!lookup_member_by_id(cx, jEnv, obj, &java_wrapper, id, &member_descriptor, vp)) {
-	jsj_ExitJava(jsj_env);
+        *vp = JSVAL_VOID;
+    if (!lookup_member_by_id(cx, jEnv, obj, &java_wrapper, id, &member_descriptor, vp,
+                             &proto_chain, &prop_info)) {
+        jsj_ExitJava(jsj_env);
         return JS_FALSE;
     }
 
     /* Handle access to special, non-Java properties of JavaObjects, e.g. the 
        "constructor" property of the prototype object */
     if (!member_descriptor) {
-	jsj_ExitJava(jsj_env);
+        jsj_ExitJava(jsj_env);
+        if (proto_chain)
+            return JS_GetProperty(cx, proto_chain, prop_info.name, vp);
         return JS_TRUE;
     }
 
@@ -582,9 +641,9 @@ JavaObject_getPropertyById(JSContext *cx, JSObject *obj, jsid id, jsval *vp)
     if (member_descriptor->field) {
         success = jsj_GetJavaFieldValue(cx, jEnv, member_descriptor->field, java_obj, &field_val);
         if (!success) {
-	    jsj_ExitJava(jsj_env);
+            jsj_ExitJava(jsj_env);
             return JS_FALSE;
-	}
+        }
     }
 
     /* If a method member, build a wrapper around the Java method */
@@ -593,9 +652,9 @@ JavaObject_getPropertyById(JSContext *cx, JSObject *obj, jsid id, jsval *vp)
            JSFUN_BOUND_METHOD binds it as the default 'this' for the function. */
         funobj = JS_CloneFunctionObject(cx, member_descriptor->invoke_func_obj, obj);
         if (!funobj) {
-	    jsj_ExitJava(jsj_env);
+            jsj_ExitJava(jsj_env);
             return JS_FALSE;
-	}
+        }
         method_val = OBJECT_TO_JSVAL(funobj);
     }
 
@@ -603,7 +662,7 @@ JavaObject_getPropertyById(JSContext *cx, JSObject *obj, jsid id, jsval *vp)
     /* Always create a JavaMember object, even though it's inefficient */
     obj = jsj_CreateJavaMember(cx, method_val, field_val);
     if (!obj) {
-	jsj_ExitJava(jsj_env);
+        jsj_ExitJava(jsj_env);
         return JS_FALSE;
     }
     *vp = OBJECT_TO_JSVAL(obj);
@@ -620,9 +679,9 @@ JavaObject_getPropertyById(JSContext *cx, JSObject *obj, jsid id, jsval *vp)
                can statically determine which is being accessed. */
             obj = jsj_CreateJavaMember(cx, method_val, field_val);
             if (!obj) {
-		jsj_ExitJava(jsj_env);
+                jsj_ExitJava(jsj_env);
                 return JS_FALSE;
-	    }
+            }
             *vp = OBJECT_TO_JSVAL(obj);
         }
 
@@ -648,6 +707,8 @@ JavaObject_setPropertyById(JSContext *cx, JSObject *obj, jsid id, jsval *vp)
     jsval idval;
     JNIEnv *jEnv;
     JSJavaThreadState *jsj_env;
+    JSObject *proto_chain;
+    JSJPropertyInfo prop_info;
     JSBool result;
 
     /* printf("In JavaObject_setProperty\n"); */
@@ -657,27 +718,32 @@ JavaObject_setPropertyById(JSContext *cx, JSObject *obj, jsid id, jsval *vp)
     if (!jEnv)
         return JS_FALSE;
     
-    if (!lookup_member_by_id(cx, jEnv, obj, &java_wrapper, id, &member_descriptor, NULL)) {
-	jsj_ExitJava(jsj_env);
+    if (!lookup_member_by_id(cx, jEnv, obj, &java_wrapper, id, &member_descriptor, NULL,
+                             &proto_chain, &prop_info)) {
+        jsj_ExitJava(jsj_env);
         return JS_FALSE;
     }
 
     /* Could be assignment to magic JS __proto__ property rather than a Java field */
     if (!member_descriptor) {
-        JS_IdToValue(cx, id, &idval);
-        if (!JSVAL_IS_STRING(idval))
-            goto no_such_field;
-        member_name = JS_GetStringBytes(JSVAL_TO_STRING(idval));
-        if (strcmp(member_name, "__proto__"))
-            goto no_such_field;
-        if (!JSVAL_IS_OBJECT(*vp)) {
-            JS_ReportErrorNumber(cx, jsj_GetErrorMessage, NULL, 
-                                 JSJMSG_BAD_PROTO_ASSIGNMENT);
-	    jsj_ExitJava(jsj_env);
-            return JS_FALSE;
+        if (proto_chain && (prop_info.attributes & JSPROP_SHARED)) {
+            JS_SetProperty(cx, proto_chain, prop_info.name, vp);
+        } else {
+            JS_IdToValue(cx, id, &idval);
+            if (!JSVAL_IS_STRING(idval))
+                goto no_such_field;
+            member_name = JS_GetStringBytes(JSVAL_TO_STRING(idval));
+            if (strcmp(member_name, "__proto__"))
+                goto no_such_field;
+            if (!JSVAL_IS_OBJECT(*vp)) {
+                JS_ReportErrorNumber(cx, jsj_GetErrorMessage, NULL, 
+                                     JSJMSG_BAD_PROTO_ASSIGNMENT);
+                jsj_ExitJava(jsj_env);
+                return JS_FALSE;
+            }
+            JS_SetPrototype(cx, obj, JSVAL_TO_OBJECT(*vp));
         }
-        JS_SetPrototype(cx, obj, JSVAL_TO_OBJECT(*vp));
-	jsj_ExitJava(jsj_env);
+        jsj_ExitJava(jsj_env);
         return JS_TRUE;
     }
 
@@ -688,7 +754,7 @@ JavaObject_setPropertyById(JSContext *cx, JSObject *obj, jsid id, jsval *vp)
 
     /* Silently fail if field value is final (immutable), as required by ECMA spec */
     if (member_descriptor->field->modifiers & ACC_FINAL) {
-	jsj_ExitJava(jsj_env);
+        jsj_ExitJava(jsj_env);
         return JS_TRUE;
     }
     
@@ -719,6 +785,8 @@ JavaObject_lookupProperty(JSContext *cx, JSObject *obj, jsid id,
     JNIEnv *jEnv;
     JSErrorReporter old_reporter;
     jsval dummy_val;
+    JSObject *proto_chain;
+    JSJPropertyInfo prop_info;
     JSJavaThreadState *jsj_env;
 
     /* printf("In JavaObject_lookupProperty()\n"); */
@@ -729,12 +797,10 @@ JavaObject_lookupProperty(JSContext *cx, JSObject *obj, jsid id,
         return JS_FALSE;
 
     old_reporter = JS_SetErrorReporter(cx, NULL);
-    if (lookup_member_by_id(cx, jEnv, obj, NULL, id, NULL, &dummy_val)) {
-        /* TODO - objp may not be set correctly if a property is found, not in
-           obj, but somewhere in obj's proto chain.  However, there is
-           no exported JS API to discover which object a property is defined
-           in. */
-        *objp = obj;
+    if (lookup_member_by_id(cx, jEnv, obj, NULL, id, NULL, &dummy_val,
+                            &proto_chain, &prop_info)) {
+        /* signify that the property is in the prototype chain or the object itself. */
+        *objp = (proto_chain ? proto_chain : obj);
         *propp = (JSProperty*)1;
     } else {
         *objp = NULL;
@@ -762,7 +828,7 @@ JavaObject_getAttributes(JSContext *cx, JSObject *obj, jsid id,
 {
     /* We don't maintain JS property attributes for Java class members */
     *attrsp = JSPROP_PERMANENT|JSPROP_ENUMERATE;
-    return JS_FALSE;
+    return JS_TRUE;
 }
 
 JS_STATIC_DLL_CALLBACK(JSBool)
@@ -837,7 +903,7 @@ JavaObject_newEnumerate(JSContext *cx, JSObject *obj, JSIterateOp enum_op,
         *statep = PRIVATE_TO_JSVAL(member_descriptor);
         if (idp)
             *idp = INT_TO_JSVAL(class_descriptor->num_instance_members);
-	jsj_ExitJava(jsj_env);
+        jsj_ExitJava(jsj_env);
         return JS_TRUE;
         
     case JSENUMERATE_NEXT:

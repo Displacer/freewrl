@@ -5,7 +5,7 @@
 # the License at http://www.mozilla.org/NPL/
 #
 # Software distributed under the License is distributed on an "AS
-# IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+# IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
 # implied. See the License for the specific language governing
 # rights and limitations under the License.
 #
@@ -41,6 +41,10 @@ include $(DEPTH)/config/autoconf.mk
 MODULE		= java
 LIBRARY_NAME	= jsj
 EXPORT_LIBRARY = 1
+ifeq ($(OS_ARCH),WINNT)
+LIBRARY_NAME	= jsj$(MOZ_BITS)$(VERSION_NUMBER)
+MAPFILE		= $(LIBRARY_NAME).map
+endif
 REQUIRES	= js \
 		  xpcom \
 		  xpconnect \
@@ -69,7 +73,6 @@ EXPORTS		= \
 		$(srcdir)/$(JNI_GEN_DIR)/netscape_javascript_JSException.h \
 		$(NULL)
 
-LLIBS		= $(NSPR_LIBS) $(DIST)/lib/js$(MOZ_BITS)$(VERSION_NUMBER).lib
 
 include $(topsrcdir)/config/config.mk
 
@@ -84,8 +87,6 @@ CPPSRCS		= \
 		nsCLiveconnect.cpp \
 		nsCLiveconnectFactory.cpp \
 		$(NULL)
-
-LLIBS		+= $(DIST)/lib/xpcom32.lib
 
 EXPORTS		+= \
 		$(srcdir)/nsILiveconnect.h \

@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -382,8 +382,7 @@ js_strchr(const jschar *s, jschar c);
 extern jschar *
 js_strchr_limit(const jschar *s, jschar c, const jschar *limit);
 
-extern jschar *
-js_strncpy(jschar *t, const jschar *s, size_t n);
+#define js_strncpy(t, s, n)     memcpy((t), (s), (n) * sizeof(jschar))
 
 /*
  * Return s advanced past any Unicode white space characters.

@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -260,8 +260,9 @@ ReportStatementTooLarge(JSContext *cx, JSCodeGenerator *cg)
   to the target bytecode.  The lookup and table switch opcodes may contain
   many jump offsets.
 
-  This patch adds "X" counterparts to the opcodes/formats (X is suffixed, btw,
-  to prefer JSOP_ORX and thereby to avoid colliding on the JSOP_XOR name for
+  Mozilla bug #80981 (http://bugzilla.mozilla.org/show_bug.cgi?id=80981) was
+  fixed by adding extended "X" counterparts to the opcodes/formats (NB: X is
+  suffixed to prefer JSOP_ORX thereby avoiding a JSOP_XOR name collision for
   the extended form of the JSOP_OR branch opcode).  The unextended or short
   formats have 16-bit signed immediate offset operands, the extended or long
   formats have 32-bit signed immediates.  The span-dependency problem consists
@@ -865,7 +866,7 @@ OptimizeSpanDeps(JSContext *cx, JSCodeGenerator *cg)
             type = (js_CodeSpec[op].format & JOF_TYPEMASK);
 
             for (sd2 = sd - 1; sd2 >= sdbase && sd2->top == top; sd2--)
-                ;
+                continue;
             sd2++;
             pivot = sd2->offset;
             JS_ASSERT(top == sd2->before);
@@ -1035,12 +1036,18 @@ OptimizeSpanDeps(JSContext *cx, JSCodeGenerator *cg)
     }
 
 #ifdef DEBUG_brendan
+  {
+    uintN bigspans = 0;
     top = -1;
     for (sd = sdbase; sd < sdlimit; sd++) {
         offset = sd->offset;
 
         /* NB: sd->top cursors into the original, unextended bytecode vector. */
         if (sd->top != top) {
+            JS_ASSERT(top == -1 ||
+                      !JOF_TYPE_IS_EXTENDED_JUMP(type) ||
+                      bigspans != 0);
+            bigspans = 0;
             top = sd->top;
             JS_ASSERT(top == sd->before);
             op = (JSOp) base[offset];
@@ -1057,12 +1064,19 @@ OptimizeSpanDeps(JSContext *cx, JSCodeGenerator *cg)
         pc = base + offset;
         if (JOF_TYPE_IS_EXTENDED_JUMP(type)) {
             span = GET_JUMPX_OFFSET(pc);
-            JS_ASSERT(span < JUMP_OFFSET_MIN || JUMP_OFFSET_MAX < span);
+            if (span < JUMP_OFFSET_MIN || JUMP_OFFSET_MAX < span) {
+                bigspans++;
+            } else {
+                JS_ASSERT(type == JOF_TABLESWITCHX ||
+                          type == JOF_LOOKUPSWITCHX);
+            }
         } else {
             span = GET_JUMP_OFFSET(pc);
         }
         JS_ASSERT(SD_TARGET_OFFSET(sd) == pivot + span);
     }
+    JS_ASSERT(!JOF_TYPE_IS_EXTENDED_JUMP(type) || bigspans != 0);
+  }
 #endif
 
     /*
@@ -1117,7 +1131,7 @@ GetJumpOffset(JSCodeGenerator *cg, jsbytecode *pc)
 
     top = sd->top;
     while (--sd >= cg->spanDeps && sd->top == top)
-        ;
+        continue;
     sd++;
     return JT_CLR_TAG(jt)->offset - sd->offset;
 }
@@ -1126,13 +1140,15 @@ JSBool
 js_SetJumpOffset(JSContext *cx, JSCodeGenerator *cg, jsbytecode *pc,
                  ptrdiff_t off)
 {
-    if (!cg->spanDeps && JUMP_OFFSET_MIN <= off && off <= JUMP_OFFSET_MAX) {
-        SET_JUMP_OFFSET(pc, off);
-        return JS_TRUE;
-    }
+    if (!cg->spanDeps) {
+        if (JUMP_OFFSET_MIN <= off && off <= JUMP_OFFSET_MAX) {
+            SET_JUMP_OFFSET(pc, off);
+            return JS_TRUE;
+        }
 
-    if (!cg->spanDeps && !BuildSpanDepTable(cx, cg))
-        return JS_FALSE;
+        if (!BuildSpanDepTable(cx, cg))
+            return JS_FALSE;
+    }
 
     return SetSpanDepTarget(cx, cg, GetSpanDep(cg, pc), off);
 }
@@ -1300,6 +1316,9 @@ EmitGoto(JSContext *cx, JSCodeGenerator *cg, JSStmtInfo *toStmt,
                                  (ptrdiff_t) ALE_INDEX(label))) {
             return -1;
         }
+    } else if (noteType != SRC_NULL) {
+        if (js_NewSrcNote(cx, cg, noteType) < 0)
+            return -1;
     }
 
     EMIT_BACKPATCH_OP(cx, cg, *last, JSOP_BACKPATCH, jmp);
@@ -1330,21 +1349,7 @@ BackPatch(JSContext *cx, JSCodeGenerator *cg, ptrdiff_t last,
     return JS_TRUE;
 }
 
-ptrdiff_t
-js_EmitBreak(JSContext *cx, JSCodeGenerator *cg, JSStmtInfo *stmt,
-             JSAtomListElement *label)
-{
-    return EmitGoto(cx, cg, stmt, &stmt->breaks, label, SRC_BREAK2LABEL);
-}
-
-ptrdiff_t
-js_EmitContinue(JSContext *cx, JSCodeGenerator *cg, JSStmtInfo *stmt,
-                JSAtomListElement *label)
-{
-    return EmitGoto(cx, cg, stmt, &stmt->continues, label, SRC_CONT2LABEL);
-}
-
-extern void
+void
 js_PopStatement(JSTreeContext *tc)
 {
     tc->topStmt = tc->topStmt->down;
@@ -1458,7 +1463,7 @@ LookupArgOrVar(JSContext *cx, JSTreeContext *tc, JSParseNode *pn)
     op = pn->pn_op;
     if (sprop) {
         if (pobj == obj) {
-            JSPropertyOp getter = SPROP_GETTER(sprop, pobj);
+            JSPropertyOp getter = sprop->getter;
 
             if (getter == js_GetArgument) {
                 switch (op) {
@@ -1490,7 +1495,7 @@ LookupArgOrVar(JSContext *cx, JSTreeContext *tc, JSParseNode *pn)
             }
             if (op != pn->pn_op) {
                 pn->pn_op = op;
-                pn->pn_slot = JSVAL_TO_INT(sprop->id);
+                pn->pn_slot = sprop->shortid;
             }
             pn->pn_attrs = sprop->attrs;
         }
@@ -1779,24 +1784,29 @@ js_EmitFunctionBody(JSContext *cx, JSCodeGenerator *cg, JSParseNode *body,
 /* A macro for inlining at the top of js_EmitTree (whence it came). */
 #define UPDATE_LINENO_NOTES(cx, cg, pn)                                       \
     JS_BEGIN_MACRO                                                            \
-        uintN _line = (pn)->pn_pos.begin.lineno;                              \
-        uintN _delta = _line - (cg)->currentLine;                             \
-        (cg)->currentLine = _line;                                            \
-        if (_delta) {                                                         \
+        uintN line_ = (pn)->pn_pos.begin.lineno;                              \
+        uintN delta_ = line_ - (cg)->currentLine;                             \
+        if (delta_ != 0) {                                                    \
             /*                                                                \
              * Encode any change in the current source line number by using   \
-             * either several SRC_NEWLINE notes or one SRC_SETLINE note,      \
+             * either several SRC_NEWLINE notes or just one SRC_SETLINE note, \
              * whichever consumes less space.                                 \
+             *                                                                \
+             * NB: We handle backward line number deltas (possible with for   \
+             * loops where the update part is emitted after the body, but its \
+             * line number is <= any line number in the body) here by letting \
+             * unsigned delta_ wrap to a very large number, which triggers a  \
+             * SRC_SETLINE.                                                   \
              */                                                               \
-            if (_delta >= (uintN)(2 + ((_line > SN_3BYTE_OFFSET_MASK)<<1))) { \
-                JS_ASSERT(_line != 0);                                        \
-                if (js_NewSrcNote2(cx, cg, SRC_SETLINE, (ptrdiff_t)_line) < 0)\
+            (cg)->currentLine = line_;                                        \
+            if (delta_ >= (uintN)(2 + ((line_ > SN_3BYTE_OFFSET_MASK)<<1))) { \
+                if (js_NewSrcNote2(cx, cg, SRC_SETLINE, (ptrdiff_t)line_) < 0)\
                     return JS_FALSE;                                          \
             } else {                                                          \
                 do {                                                          \
                     if (js_NewSrcNote(cx, cg, SRC_NEWLINE) < 0)               \
                         return JS_FALSE;                                      \
-                } while (--_delta != 0);                                      \
+                } while (--delta_ != 0);                                      \
             }                                                                 \
         }                                                                     \
     JS_END_MACRO
@@ -1821,6 +1831,7 @@ js_EmitTree(JSContext *cx, JSCodeGenerator *cg, JSParseNode *pn)
     JSAtomListElement *ale;
     jsatomid atomIndex;
     intN noteIndex;
+    JSSrcNoteType noteType;
     JSOp op;
     uint32 argc;
 
@@ -1901,7 +1912,7 @@ js_EmitTree(JSContext *cx, JSCodeGenerator *cg, JSParseNode *pn)
                 return JS_FALSE;
             }
             JS_ASSERT(sprop && pobj == obj);
-            slot = (uintN) JSVAL_TO_INT(sprop->id);
+            slot = sprop->shortid;
             OBJ_DROP_PROPERTY(cx, pobj, (JSProperty *)sprop);
 
             /* Emit [JSOP_DEFLOCALFUN, local variable slot, atomIndex]. */
@@ -2681,12 +2692,15 @@ js_EmitTree(JSContext *cx, JSCodeGenerator *cg, JSParseNode *pn)
                 return JS_FALSE;
             while (stmt->type != STMT_LABEL || stmt->label != atom)
                 stmt = stmt->down;
+            noteType = SRC_BREAK2LABEL;
         } else {
             ale = NULL;
             while (!STMT_IS_LOOP(stmt) && stmt->type != STMT_SWITCH)
                 stmt = stmt->down;
+            noteType = SRC_NULL;
         }
-        if (js_EmitBreak(cx, cg, stmt, ale) < 0)
+
+        if (EmitGoto(cx, cg, stmt, &stmt->breaks, ale, noteType) < 0)
             return JS_FALSE;
         break;
 
@@ -2705,14 +2719,15 @@ js_EmitTree(JSContext *cx, JSCodeGenerator *cg, JSParseNode *pn)
                 stmt = stmt->down;
             }
             stmt = loop;
+            noteType = SRC_CONT2LABEL;
         } else {
             ale = NULL;
             while (!STMT_IS_LOOP(stmt))
                 stmt = stmt->down;
-            if (js_NewSrcNote(cx, cg, SRC_CONTINUE) < 0)
-                return JS_FALSE;
+            noteType = SRC_CONTINUE;
         }
-        if (js_EmitContinue(cx, cg, stmt, ale) < 0)
+
+        if (EmitGoto(cx, cg, stmt, &stmt->continues, ale, noteType) < 0)
             return JS_FALSE;
         break;
 
@@ -2839,7 +2854,7 @@ js_EmitTree(JSContext *cx, JSCodeGenerator *cg, JSParseNode *pn)
 
                     /* Compensate for the [leavewith]. */
                     cg->stackDepth++;
-                    JS_ASSERT(cg->stackDepth <= cg->maxStackDepth);
+                    JS_ASSERT((uintN) cg->stackDepth <= cg->maxStackDepth);
 
                     if (js_NewSrcNote(cx, cg, SRC_HIDDEN) < 0 ||
                         js_Emit1(cx, cg, JSOP_LEAVEWITH) < 0) {
@@ -2960,7 +2975,7 @@ js_EmitTree(JSContext *cx, JSCodeGenerator *cg, JSParseNode *pn)
 
                 /* Compensate for the [leavewith]. */
                 cg->stackDepth++;
-                JS_ASSERT(cg->stackDepth <= cg->maxStackDepth);
+                JS_ASSERT((uintN) cg->stackDepth <= cg->maxStackDepth);
 
                 if (js_NewSrcNote(cx, cg, SRC_HIDDEN) < 0 ||
                     js_Emit1(cx, cg, JSOP_LEAVEWITH) < 0) {
@@ -3054,24 +3069,31 @@ js_EmitTree(JSContext *cx, JSCodeGenerator *cg, JSParseNode *pn)
             if (!LookupArgOrVar(cx, &cg->treeContext, pn2))
                 return JS_FALSE;
             op = pn2->pn_op;
-            if (pn2->pn_slot >= 0) {
-                atomIndex = (jsatomid) pn2->pn_slot;
+            if (op == JSOP_ARGUMENTS) {
+                JS_ASSERT(!pn2->pn_expr); /* JSOP_ARGUMENTS => no initializer */
+#ifdef __GNUC__
+                atomIndex = 0;            /* quell GCC overwarning */
+#endif
             } else {
-                ale = js_IndexAtom(cx, pn2->pn_atom, &cg->atomList);
-                if (!ale)
-                    return JS_FALSE;
-                atomIndex = ALE_INDEX(ale);
+                if (pn2->pn_slot >= 0) {
+                    atomIndex = (jsatomid) pn2->pn_slot;
+                } else {
+                    ale = js_IndexAtom(cx, pn2->pn_atom, &cg->atomList);
+                    if (!ale)
+                        return JS_FALSE;
+                    atomIndex = ALE_INDEX(ale);
 
-                /* Emit a prolog bytecode to predefine the var w/ void value. */
-                CG_SWITCH_TO_PROLOG(cg);
-                EMIT_ATOM_INDEX_OP(pn->pn_op, atomIndex);
-                CG_SWITCH_TO_MAIN(cg);
-            }
-            if (pn2->pn_expr) {
-                if (op == JSOP_SETNAME)
-                    EMIT_ATOM_INDEX_OP(JSOP_BINDNAME, atomIndex);
-                if (!js_EmitTree(cx, cg, pn2->pn_expr))
-                    return JS_FALSE;
+                    /* Emit a prolog bytecode to predefine the variable. */
+                    CG_SWITCH_TO_PROLOG(cg);
+                    EMIT_ATOM_INDEX_OP(pn->pn_op, atomIndex);
+                    CG_SWITCH_TO_MAIN(cg);
+                }
+                if (pn2->pn_expr) {
+                    if (op == JSOP_SETNAME)
+                        EMIT_ATOM_INDEX_OP(JSOP_BINDNAME, atomIndex);
+                    if (!js_EmitTree(cx, cg, pn2->pn_expr))
+                        return JS_FALSE;
+                }
             }
             if (pn2 == pn->pn_head &&
                 js_NewSrcNote(cx, cg,
@@ -3080,7 +3102,12 @@ js_EmitTree(JSContext *cx, JSCodeGenerator *cg, JSParseNode *pn)
                               : SRC_VAR) < 0) {
                 return JS_FALSE;
             }
-            EMIT_ATOM_INDEX_OP(op, atomIndex);
+            if (op == JSOP_ARGUMENTS) {
+                if (js_Emit1(cx, cg, op) < 0)
+                    return JS_FALSE;
+            } else {
+                EMIT_ATOM_INDEX_OP(op, atomIndex);
+            }
             tmp = CG_OFFSET(cg);
             if (noteIndex >= 0) {
                 if (!js_SetSrcNoteOffset(cx, cg, (uintN)noteIndex, 0, tmp-off))
@@ -3906,6 +3933,8 @@ js_NewSrcNote(JSContext *cx, JSCodeGenerator *cg, JSSrcNoteType type)
      * incrementing cg->noteCount.
      */
     index = AllocSrcNote(cx, cg);
+    if (index < 0)
+        return -1;
     sn = &cg->notes[index];
 
     /*

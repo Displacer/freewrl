@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -235,6 +235,34 @@ num_toSource(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 }
 #endif
 
+/* The buf must be big enough for MIN_INT to fit including '-' and '\0'. */
+static char *
+IntToString(jsint i, char *buf, size_t bufSize)
+{
+    char *cp;
+    jsuint u;
+    
+    u = (i < 0) ? -i : i;
+
+    cp = buf + bufSize; /* one past last buffer cell */
+    *--cp = '\0';       /* null terminate the string to be */
+    
+    /*
+     * Build the string from behind. We use multiply and subtraction
+     * instead of modulus because that's much faster.
+     */
+    do {
+        jsuint newu = u / 10;
+        *--cp = (char)(u - newu * 10) + '0';
+        u = newu;
+    } while (u != 0);
+    
+    if (i < 0)
+        *--cp = '-';
+
+    return cp;
+}
+
 static JSBool
 num_toString(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
@@ -254,9 +282,9 @@ num_toString(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 	    return JS_FALSE;
 	if (base < 2 || base > 36) {
 	    char numBuf[12];
-	    JS_snprintf(numBuf, sizeof numBuf, "%ld", (long) base);
+	    char *numStr = IntToString(base, numBuf, sizeof numBuf);
 	    JS_ReportErrorNumber(cx, js_GetErrorMessage, NULL, JSMSG_BAD_RADIX,
-	    			 numBuf);
+	    			 numStr);
 	    return JS_FALSE;
 	}
     }
@@ -583,10 +611,10 @@ js_NumberToString(JSContext *cx, jsdouble d)
 {
     jsint i;
     char buf[DTOSTR_STANDARD_BUFFER_SIZE];
-    char *numStr = buf;
+    char *numStr;
 
     if (JSDOUBLE_IS_INT(d, i))
-	JS_snprintf(buf, sizeof buf, "%ld", (long)i);
+	numStr = IntToString(i, buf, sizeof buf);
     else {
 	numStr = JS_dtostr(buf, sizeof buf, DTOSTR_STANDARD, 0, d);
 	if (!numStr) {
@@ -672,15 +700,15 @@ js_DoubleToECMAInt32(JSContext *cx, jsdouble d, int32 *ip)
     jsdouble two31 = 2147483648.0;
 
     if (!JSDOUBLE_IS_FINITE(d) || d == 0) {
-	*ip = 0;
-	return JS_TRUE;
+        *ip = 0;
+        return JS_TRUE;
     }
     d = fmod(d, two32);
-    d = d >= 0 ? d : d + two32;
+    d = (d >= 0) ? floor(d) : ceil(d) + two32;
     if (d >= two31)
-	*ip = (int32)(d - two32);
+        *ip = (int32)(d - two32);
     else
-	*ip = (int32)d;
+        *ip = (int32)d;
     return JS_TRUE;
 }
 
@@ -711,7 +739,7 @@ js_DoubleToECMAUint32(JSContext *cx, jsdouble d, uint32 *ip)
 
     d = fmod(d, two32);
 
-    d = d >= 0 ? d : d + two32;
+    d = (d >= 0) ? d : d + two32;
     *ip = (uint32)d;
     return JS_TRUE;
 }
@@ -722,6 +750,10 @@ js_ValueToInt32(JSContext *cx, jsval v, int32 *ip)
     jsdouble d;
     JSString *str;
 
+    if (JSVAL_IS_INT(v)) {
+        *ip = JSVAL_TO_INT(v);
+        return JS_TRUE;
+    }
     if (!js_ValueToNumber(cx, v, &d))
 	return JS_FALSE;
     if (JSDOUBLE_IS_NaN(d) || d <= -2147483649.0 || 2147483648.0 <= d) {
@@ -787,6 +819,7 @@ js_DoubleToInteger(jsdouble d)
 JSBool
 js_strtod(JSContext *cx, const jschar *s, const jschar **ep, jsdouble *dp)
 {
+    char cbuf[32];
     size_t i;
     char *cstr, *istr, *estr;
     JSBool negative;
@@ -794,9 +827,15 @@ js_strtod(JSContext *cx, const jschar *s, const jschar **ep, jsdouble *dp)
     const jschar *s1 = js_SkipWhiteSpace(s);
     size_t length = js_strlen(s1);
 
-    cstr = (char *) malloc(length + 1);
-    if (!cstr)
-	return JS_FALSE;
+    /* Use cbuf to avoid malloc */
+    if (length >= sizeof cbuf) {
+        cstr = (char *) malloc(length + 1);
+        if (!cstr)
+           return JS_FALSE;
+    } else {
+        cstr = cbuf;
+    }
+   
     for (i = 0; i <= length; i++) {
 	if (s1[i] >> 8) {
 	    cstr[i] = 0;
@@ -833,7 +872,8 @@ js_strtod(JSContext *cx, const jschar *s, const jschar **ep, jsdouble *dp)
     }
 
     i = estr - cstr;
-    free(cstr);
+    if (cstr != cbuf)
+        free(cstr);
     *ep = i ? s1 + i : s;
     *dp = d;
     return JS_TRUE;

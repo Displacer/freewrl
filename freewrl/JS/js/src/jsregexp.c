@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -62,8 +62,6 @@
 #endif
 
 #if JS_HAS_REGEXPS
-
-typedef struct RENode RENode;
 
 typedef enum REOp {
     REOP_EMPTY      = 0,  /* match rest of input against rest of r.e. */
@@ -1229,16 +1227,96 @@ js_NewRegExp(JSContext *cx, JSTokenStream *ts,
     if (!re)
 	goto out;
     re->nrefs = 1;
-    re->source = str;
-    re->lastIndex = 0;
     re->parenCount = state.parenCount;
     re->flags = flags;
+    re->lastIndex = 0;
+    re->source = str;
+#ifdef JS_THREADSAFE
+    re->owningThread = 0;
+    re->lastIndexes = NULL;
+#endif
 
     re->ren = ren;
 
 out:
     JS_ARENA_RELEASE(&cx->tempPool, mark);
     return re;
+}
+
+#ifdef JS_THREADSAFE
+typedef struct LastIndexEntry {
+    JSDHashEntryHdr     hdr;
+    jsword              thread;
+    jsdouble            index;
+} LastIndexEntry;
+#endif
+
+/*
+ * NB: Get and SetLastIndex must be called with re's owning object locked.
+ */
+static jsdouble
+GetLastIndex(JSContext *cx, JSRegExp *re)
+{
+#ifdef JS_THREADSAFE
+    /*
+     * If no thread has set a lastIndex property yet, return re->lastIndex,
+     * which must be 0.  But if another thread owns re, then re->lastIndexes
+     * must have been created by SetLastIndex, even though cx->thread may not
+     * be mapped by re->lastIndexes yet (in which case, we return 0).
+     */
+    if (!re->owningThread) {
+        JS_ASSERT(re->lastIndex == 0);
+    } else if (cx->thread != re->owningThread) {
+        LastIndexEntry *entry = (LastIndexEntry *)
+            JS_DHashTableOperate(re->lastIndexes, (const void *) cx->thread,
+                                 JS_DHASH_LOOKUP);
+        if (JS_DHASH_ENTRY_IS_BUSY(&entry->hdr))
+            return entry->index;
+        return 0;
+    }
+#endif
+    return re->lastIndex;
+}
+
+static JSBool
+SetLastIndex(JSContext *cx, JSRegExp *re, jsdouble lastIndex)
+{
+#ifdef JS_THREADSAFE
+    if (!re->owningThread) {
+        /*
+         * Claim ownership and fall through to the final "update re->lastIndex
+         * and return" clause.  Recall that re's object must be locked (and we
+         * know re has an object, else why would its lastIndex member be set).
+         */
+        re->owningThread = cx->thread;
+    } else if (cx->thread != re->owningThread) {
+        LastIndexEntry *entry;
+
+        /* Bootstrap re->lastIndexes, interlocked by re's object lock. */
+        if (!re->lastIndexes) {
+            re->lastIndexes = JS_NewDHashTable(JS_DHashGetStubOps(), NULL,
+                                               sizeof(LastIndexEntry),
+                                               JS_DHASH_MIN_SIZE);
+            if (!re->lastIndexes)
+                goto boom;
+        }
+
+        /* Find or create a mapping from cx->thread to its own last index. */
+        entry = (LastIndexEntry *)
+            JS_DHashTableOperate(re->lastIndexes, (const void *) cx->thread,
+                                 JS_DHASH_ADD);
+        if (!entry) {
+      boom:
+            JS_ReportOutOfMemory(cx);
+            return JS_FALSE;
+        }
+        entry->thread = cx->thread;
+        entry->index = lastIndex;
+        return JS_TRUE;
+    }
+#endif
+    re->lastIndex = lastIndex;
+    return JS_TRUE;
 }
 
 JSRegExp *
@@ -1317,6 +1395,10 @@ js_DestroyRegExp(JSContext *cx, JSRegExp *re)
 {
     if (JS_ATOMIC_DECREMENT(&re->nrefs) == 0) {
         freeRENtree(cx, re->ren, NULL);
+#ifdef JS_THREADSAFE
+        if (re->lastIndexes)
+            JS_DHashTableDestroy(re->lastIndexes);
+#endif
         JS_free(cx, re);
     }
 }
@@ -1466,39 +1548,48 @@ static void calcBMSize(MatchState *state, RENode *ren)
     uintN maxc = 0;
     jschar c, c2;
     while (cp < cp2) {
-	c = *cp++;
-	if (c == '\\') {
-	    if (cp + 5 <= cp2 && *cp == 'u' &&
-		JS7_ISHEX(cp[1]) && JS7_ISHEX(cp[2]) &&
-		JS7_ISHEX(cp[3]) && JS7_ISHEX(cp[4])) {
-		c = (((((JS7_UNHEX(cp[1]) << 4)
-			+ JS7_UNHEX(cp[2])) << 4)
-		      + JS7_UNHEX(cp[3])) << 4)
-		    + JS7_UNHEX(cp[4]);
-		cp += 5;
-	    } else {
+        c = *cp++;
+        if (c == '\\') {
+            if (cp + 5 <= cp2 && *cp == 'u' &&
+                JS7_ISHEX(cp[1]) && JS7_ISHEX(cp[2]) &&
+                JS7_ISHEX(cp[3]) && JS7_ISHEX(cp[4])) {
+                c = (((((JS7_UNHEX(cp[1]) << 4)
+                        + JS7_UNHEX(cp[2])) << 4)
+                      + JS7_UNHEX(cp[3])) << 4)
+                    + JS7_UNHEX(cp[4]);
+                cp += 5;
+            } 
+            else {
+                /* 
+                 * For the not whitespace, not word or not digit cases
+                 * we widen the range to the complete unicode range.
+                 */
+                if ((*cp == 'S') || (*cp == 'W') || (*cp == 'D')) {
+                    maxc = 65535;
+                    break;  /* leave now, it can't get worse */
+                }
                 if (maxc < 255) maxc = 255;
-        	/*
-		 * Octal and hex escapes can't be > 255.  Skip this
-		 * backslash and let the loop pass over the remaining
-		 * escape sequence as if it were text to match.
-		 */
-		continue;
-	    }
-	}
-	if (state->flags & JSREG_FOLD) {
-	    /*
-	     * Don't assume that lowercase are above uppercase, or
-	     * that c is either even when c has upper and lowercase
-	     * versions.
-	     */
-	    if ((c2 = JS_TOUPPER(c)) > maxc)
-		maxc = c2;
-	    if ((c2 = JS_TOLOWER(c2)) > maxc)
-		maxc = c2;
-	}
-	if (c > maxc)
-	    maxc = c;
+                /*
+                 * Octal and hex escapes can't be > 255.  Skip this
+                 * backslash and let the loop pass over the remaining
+                 * escape sequence as if it were text to match.
+                 */
+                continue;
+            }
+        }
+        if (state->flags & JSREG_FOLD) {
+            /*
+             * Don't assume that lowercase are above uppercase, or
+             * that c is either even when c has upper and lowercase
+             * versions.
+             */
+            if ((c2 = JS_TOUPPER(c)) > maxc)
+                maxc = c2;
+            if ((c2 = JS_TOLOWER(c2)) > maxc)
+                maxc = c2;
+        }
+        if (c > maxc)
+            maxc = c;
     }
     ren->u.ucclass.bmsize = (uint16)((size_t)(maxc + JS_BITS_PER_BYTE) 
                                                     / JS_BITS_PER_BYTE);
@@ -1634,11 +1725,11 @@ static JSBool buildBitmap(MatchState *state, RENode *ren)
 		ocp = cp;
 		c = *cp++;
 		if (JS7_ISHEX(c)) {
-		    n = JS7_UNHEX(c);
+		    n = JS7_UNHEX((char) c);
 		    c = *cp++;
 		    if (JS7_ISHEX(c)) {
 			n <<= 4;
-			n += JS7_UNHEX(c);
+			n += JS7_UNHEX((char) c);
 		    }
 		} else {
 		    cp = ocp;	/* \xZZ is xZZ (Perl does \0ZZ!) */
@@ -1805,6 +1896,9 @@ static const jschar *matchRENodes(MatchState *state, RENode *ren, RENode *stop,
           kidMatch = matchRENodes(state, (RENode *)ren->kid,
                                         ren->next, cp);
           if (kidMatch == NULL) {
+              /* need to undo the result of running the kid */
+              for (i = num; i < state->parenCount; i++)
+                  state->parens[i].length = 0;
               state->parenCount = num;
               break;
           }
@@ -1813,6 +1907,8 @@ static const jschar *matchRENodes(MatchState *state, RENode *ren, RENode *stop,
                                             stop, kidMatch);
               if (restMatch == NULL) {
                     /* need to undo the result of running the kid */
+                  for (i = num; i < state->parenCount; i++)
+                      state->parens[i].length = 0;
                   state->parenCount = num;
                   break;
               }
@@ -1905,11 +2001,11 @@ static const jschar *matchRENodes(MatchState *state, RENode *ren, RENode *stop,
               return NULL;
           break;
         case REOP_DOTSTARMIN:
-          for (cp2 = cp; cp2 < cpend; cp2++) {
+          for (cp2 = cp; cp2 <= cpend; cp2++) {
               const jschar *cp3 = matchRENodes(state, ren->next, stop, cp2);
               if (cp3 != NULL)
                   return cp3;
-              if (IS_LINE_TERMINATOR(*cp2))
+              if ((cp2 == cpend) || IS_LINE_TERMINATOR(*cp2))
                   return NULL;
           }
           return NULL;
@@ -2075,7 +2171,7 @@ js_ExecuteRegExp(JSContext *cx, JSRegExp *re, JSString *str, size_t *indexp,
      */
     state.context = cx;
     state.anchoring = JS_FALSE;
-    state.flags = re->flags;
+    state.flags = (uint8) re->flags;
 
     /*
      * It's safe to load from cp because JSStrings have a zero at the end,
@@ -2186,7 +2282,7 @@ js_ExecuteRegExp(JSContext *cx, JSRegExp *re, JSString *str, size_t *indexp,
 		    res->moreLength = 10;
 		    morepar = (JSSubString*) JS_malloc(cx,
                                                        10 * sizeof(JSSubString));
-		} else if (morenum > res->moreLength) {
+		} else if (morenum >= res->moreLength) {
 		    res->moreLength += 10;
 		    morepar = (JSSubString*) JS_realloc(cx, morepar,
 					 res->moreLength * sizeof(JSSubString));
@@ -2292,7 +2388,7 @@ static JSBool
 regexp_getProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
     jsint slot;
-    double lastIndex;
+    jsdouble lastIndex;
     JSRegExp *re;
 
     if (!JSVAL_IS_INT(id))
@@ -2313,7 +2409,7 @@ regexp_getProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 	    break;
 	  case REGEXP_LAST_INDEX:
             /* NB: early unlock/return, so we don't deadlock with the GC. */
-            lastIndex = re->lastIndex;
+            lastIndex = GetLastIndex(cx, re);
             JS_UNLOCK_OBJ(cx, obj);
             return js_NewNumberValue(cx, lastIndex, vp);
 	  case REGEXP_MULTILINE:
@@ -2328,12 +2424,14 @@ regexp_getProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 static JSBool
 regexp_setProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 {
+    JSBool ok;
     jsint slot;
     JSRegExp *re;
     jsdouble d;
 
+    ok = JS_TRUE;
     if (!JSVAL_IS_INT(id))
-	return JS_TRUE;
+	return ok;
     slot = JSVAL_TO_INT(id);
     if (slot == REGEXP_LAST_INDEX) {
         if (!js_ValueToNumber(cx, *vp, &d))
@@ -2342,10 +2440,10 @@ regexp_setProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
         JS_LOCK_OBJ(cx, obj);
         re = (JSRegExp *) JS_GetInstancePrivate(cx, obj, &js_RegExpClass, NULL);
         if (re)
-            re->lastIndex = (uintN)d;
+            ok = SetLastIndex(cx, re, d);
         JS_UNLOCK_OBJ(cx, obj);
     }
-    return JS_TRUE;
+    return ok;
 }
 
 /*
@@ -2539,7 +2637,7 @@ regexp_xdrObject(JSXDRState *xdr, JSObject **objp)
 	if (!re)
 	    return JS_FALSE;
 	source = re->source;
-	flags = re->flags;
+	flags = (uint8) re->flags;
     }
     if (!JS_XDRString(xdr, &source) ||
 	!JS_XDRUint8(xdr, &flags)) {
@@ -2717,6 +2815,7 @@ regexp_exec_sub(JSContext *cx, JSObject *obj, uintN argc, jsval *argv,
 {
     JSBool ok;
     JSRegExp *re;
+    jsdouble lastIndex;
     JSString *str;
     size_t i;
 
@@ -2732,7 +2831,7 @@ regexp_exec_sub(JSContext *cx, JSObject *obj, uintN argc, jsval *argv,
 
     /* NB: we must reach out: after this paragraph, in order to drop re. */
     HOLD_REGEXP(cx, re);
-    i = (re->flags & JSREG_GLOB) ? re->lastIndex : 0;
+    lastIndex = (re->flags & JSREG_GLOB) ? GetLastIndex(cx, re) : 0;
     JS_UNLOCK_OBJ(cx, obj);
 
     /* Now that obj is unlocked, it's safe to (potentially) grab the GC lock. */
@@ -2754,11 +2853,19 @@ regexp_exec_sub(JSContext *cx, JSObject *obj, uintN argc, jsval *argv,
 	argv[0] = STRING_TO_JSVAL(str);
     }
 
-    ok = js_ExecuteRegExp(cx, re, str, &i, test, rval);
-    JS_LOCK_OBJ(cx, obj);
-    if (re->flags & JSREG_GLOB)
-	re->lastIndex = (*rval == JSVAL_NULL) ? 0 : i;
-    JS_UNLOCK_OBJ(cx, obj);
+    if (lastIndex < 0 || JSSTRING_LENGTH(str) < lastIndex) {
+        JS_LOCK_OBJ(cx, obj);
+        ok = SetLastIndex(cx, re, 0);
+        JS_UNLOCK_OBJ(cx, obj);
+        *rval = JSVAL_NULL;
+    } else {
+        i = (size_t) lastIndex;
+        ok = js_ExecuteRegExp(cx, re, str, &i, test, rval);
+        JS_LOCK_OBJ(cx, obj);
+        if (ok && (re->flags & JSREG_GLOB))
+            ok = SetLastIndex(cx, re, (*rval == JSVAL_NULL) ? 0 : i);
+        JS_UNLOCK_OBJ(cx, obj);
+    }
 
 out:
     DROP_REGEXP(cx, re);

@@ -6,7 +6,7 @@
  * the License at http://www.mozilla.org/NPL/
  *
  * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express oqr
+ * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
@@ -1065,30 +1065,23 @@ match_or_replace(JSContext *cx, JSObject *obj, uintN argc, jsval *argv,
         reobj = JSVAL_TO_OBJECT(argv[0]);
         re = (JSRegExp *) JS_GetPrivate(cx, reobj);
     } else {
-        if (JSVAL_IS_VOID(argv[0])) {
-            re = js_NewRegExp(cx, NULL, cx->runtime->emptyString, 0, JS_FALSE);
-        } else {
-            src = js_ValueToString(cx, argv[0]);
-            if (!src)
+        src = js_ValueToString(cx, argv[0]);
+        if (!src)
+            return JS_FALSE;
+        if (data->optarg < argc) {
+            argv[0] = STRING_TO_JSVAL(src);
+            opt = js_ValueToString(cx, argv[data->optarg]);
+            if (!opt)
                 return JS_FALSE;
-            if (data->optarg < argc) {
-                argv[0] = STRING_TO_JSVAL(src);
-                opt = js_ValueToString(cx, argv[data->optarg]);
-                if (!opt)
-                    return JS_FALSE;
-            } else {
-                opt = NULL;
-            }
-            re = js_NewRegExpOpt(cx, NULL, src, opt, forceFlat);
+        } else {
+            opt = NULL;
         }
+        re = js_NewRegExpOpt(cx, NULL, src, opt, forceFlat);
         if (!re)
             return JS_FALSE;
         reobj = NULL;
     }
     data->regexp = re;
-
-    if (reobj)
-        JS_LOCK_OBJ(cx, reobj);
 
     data->global = (re->flags & JSREG_GLOB) != 0;
     index = 0;
@@ -1121,11 +1114,8 @@ match_or_replace(JSContext *cx, JSObject *obj, uintN argc, jsval *argv,
                               rval);
     }
 
-    if (reobj) {
-        JS_UNLOCK_OBJ(cx, reobj);
-    } else {
+    if (!reobj)
         js_DestroyRegExp(cx, re);
-    }
     return ok;
 }
 
@@ -1146,7 +1136,7 @@ match_glob(JSContext *cx, jsint count, GlobData *data)
     mdata = (MatchData *)data;
     arrayobj = mdata->arrayobj;
     if (!arrayobj) {
-        arrayobj = js_ConstructObject(cx, &js_ArrayClass, NULL, NULL);
+        arrayobj = js_ConstructObject(cx, &js_ArrayClass, NULL, NULL, 0, NULL);
         if (!arrayobj)
             return JS_FALSE;
         mdata->arrayobj = arrayobj;
@@ -1250,11 +1240,16 @@ interpret_dollar(JSContext *cx, jschar *dp, ReplaceData *rdata, size_t *skip)
             }
         } else { /* ECMA 3, 1-9 or 01-99 */
             num = JS7_UNDEC(dc);
+            if (num > res->parenCount)
+                return NULL;
             cp = dp + 2;
-            dc = dp[2];
+            dc = *cp;
             if ((dc != 0) && JS7_ISDEC(dc)) {
-                num = 10 * num + JS7_UNDEC(dc);
-                cp++;
+                tmp = 10 * num + JS7_UNDEC(dc);
+                if (tmp <= res->parenCount) {
+                    cp++;
+                    num = tmp;
+                }
             }
             if (num == 0)
                 return NULL;
@@ -1749,7 +1744,7 @@ static JSBool
 str_split(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
     JSString *str, *sub;
-    JSObject *arrayobj, *reobj;
+    JSObject *arrayobj;
     jsval v;
     JSBool ok, limited;
     JSRegExp *re;
@@ -1763,7 +1758,7 @@ str_split(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
         return JS_FALSE;
     argv[-1] = STRING_TO_JSVAL(str);
 
-    arrayobj = js_ConstructObject(cx, &js_ArrayClass, NULL, NULL);
+    arrayobj = js_ConstructObject(cx, &js_ArrayClass, NULL, NULL, 0, NULL);
     if (!arrayobj)
         return JS_FALSE;
     *rval = OBJECT_TO_JSVAL(arrayobj);
@@ -1774,8 +1769,7 @@ str_split(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
     } else {
 #if JS_HAS_REGEXPS
         if (JSVAL_IS_REGEXP(cx, argv[0])) {
-            reobj = JSVAL_TO_OBJECT(argv[0]);
-            re = (JSRegExp *) JS_GetPrivate(cx, reobj);
+            re = (JSRegExp *) JS_GetPrivate(cx, JSVAL_TO_OBJECT(argv[0]));
             sep = &tmp;
 
             /* Set a magic value so we can detect a successful re match. */
@@ -1795,7 +1789,6 @@ str_split(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
             tmp.length = JSSTRING_LENGTH(str2);
             tmp.chars = JSSTRING_CHARS(str2);
             sep = &tmp;
-            reobj = NULL;
             re = NULL;
         }
 
@@ -1813,24 +1806,16 @@ str_split(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
                 limit = 1 + JSSTRING_LENGTH(str);
         }
 
-        if (reobj) {
-            /* Lock to protect re just in case it's shared and global. */
-            JS_LOCK_OBJ(cx, reobj);
-        }
-
         len = i = 0;
         while ((j = find_split(cx, str, re, &i, sep)) >= 0) {
             if (limited && len >= limit)
                 break;
             sub = js_NewDependentString(cx, str, i, (size_t)(j - i), 0);
-            if (!sub) {
-                ok = JS_FALSE;
-                goto unlock_reobj;
-            }
+            if (!sub)
+                return JS_FALSE;
             v = STRING_TO_JSVAL(sub);
-            ok = JS_SetElement(cx, arrayobj, len, &v);
-            if (!ok)
-                goto unlock_reobj;
+            if (!JS_SetElement(cx, arrayobj, len, &v))
+                return JS_FALSE;
             len++;
 #if JS_HAS_REGEXPS
             /*
@@ -1848,14 +1833,11 @@ str_split(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
                     parsub = REGEXP_PAREN_SUBSTRING(&cx->regExpStatics, num);
                     sub = js_NewStringCopyN(cx, parsub->chars, parsub->length,
                                             0);
-                    if (!sub) {
-                        ok = JS_FALSE;
-                        goto unlock_reobj;
-                    }
+                    if (!sub)
+                        return JS_FALSE;
                     v = STRING_TO_JSVAL(sub);
-                    ok = JS_SetElement(cx, arrayobj, len, &v);
-                    if (!ok)
-                        goto unlock_reobj;
+                    if (!JS_SetElement(cx, arrayobj, len, &v))
+                        return JS_FALSE;
                     len++;
                 }
                 sep->chars = NULL;
@@ -1872,9 +1854,6 @@ str_split(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
             }
         }
         ok = (j != -2);
-      unlock_reobj:
-        if (reobj)
-            JS_UNLOCK_OBJ(cx, reobj);
     }
     return ok;
 }
@@ -2515,22 +2494,26 @@ js_FinalizeString(JSContext *cx, JSString *str)
 void
 js_FinalizeStringRT(JSRuntime *rt, JSString *str)
 {
-    jschar *chars;
+    JSBool valid;
     size_t length;
     JSHashNumber hash;
     JSHashEntry *he, **hep;
 
     JS_RUNTIME_UNMETER(rt, liveStrings);
     if (JSSTRING_IS_DEPENDENT(str)) {
+        /* If JSSTRFLAG_DEPENDENT is set, this string must be valid. */
+        JS_ASSERT(JSSTRDEP_BASE(str));
         JS_RUNTIME_UNMETER(rt, liveDependentStrings);
-        chars = JSSTRDEP_CHARS(str);
+        valid = JS_TRUE;
         length = JSSTRDEP_LENGTH(str);
     } else {
-        chars = str->chars;
+        /* A stillborn string has null chars, so is not valid. */
+        valid = (str->chars != NULL);
         length = str->length;
-        free(chars);
+        if (valid)
+            free(str->chars);
     }
-    if (chars) {
+    if (valid) {
         str->chars = NULL;
         if (deflated_string_cache) {
             hash = js_hash_string_pointer(str);
@@ -2639,7 +2622,7 @@ js_strlen(const jschar *s)
     const jschar *t;
 
     for (t = s; *t != 0; t++)
-        ;
+        continue;
     return (size_t)(t - s);
 }
 
@@ -2672,16 +2655,6 @@ js_SkipWhiteSpace(const jschar *s)
     while (JS_ISSPACE(*s))
         s++;
     return s;
-}
-
-jschar *
-js_strncpy(jschar *t, const jschar *s, size_t n)
-{
-    size_t i;
-
-    for (i = 0; i < n; i++)
-        t[i] = s[i];
-    return t;
 }
 
 #define INFLATE_STRING_BODY                                                   \
