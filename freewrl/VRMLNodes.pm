@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.124 2004/10/07 20:54:32 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.125 2004/12/01 21:28:08 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -595,7 +595,8 @@ my $protono;
 						parameter => [MFString, [], exposedField],
 						url => [MFString, [], exposedField],
 						bboxCenter => [SFVec3f, [0, 0, 0], field],
-						bboxSize => [SFVec3f, [-1, -1, -1], field]
+						bboxSize => [SFVec3f, [-1, -1, -1], field],
+						__parenturl =>[SFString,"",field],
 					   },
 					  ),
 	Billboard =>
