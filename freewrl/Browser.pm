@@ -69,10 +69,17 @@ use POSIX;
 sub new {
 	my($type,$pars) = @_;
 	my $this = bless {
-		Verbose => delete $pars->{Verbose},
-		BE => new VRML::GLBackEnd($pars->{FullScreen}, @{$pars->{BackEnd} or []}),
-		EV => new VRML::EventMachine(),
-	}, $type;
+			  Verbose => delete $pars->{Verbose},
+			  BE => new VRML::GLBackEnd($pars->{FullScreen}, 
+						    $pars->{Shutter}, 
+						    $pars->{EyeDist}, 
+						    $pars->{ScreenDist}, 
+						    @{$pars->{BackEnd} or []}),
+			  EV => new VRML::EventMachine(),
+			  Scene => undef,
+			  URL => undef
+			  JSCleanup => undef
+			 }, $type;
 	return $this;
 }
 
@@ -206,10 +213,8 @@ sub eventloop {
 		    }
 		  }
 		}
-	      }
-
-	if ($VRML::PLUGIN{NETSCAPE}) { PluginGlue::close_fd($VRML::PLUGIN{socket}); }
-	$this->{BE}->close_screen();
+	}
+	$this->shut();
 }
 
 sub prepare {
@@ -232,6 +237,22 @@ sub prepare2 {
 	$this->{Scene}->init_routing($this->{EV},$this->{BE});
 	$this->{EV}->print;
 }
+
+sub shut {
+	my($this) = @_;
+
+	if ($VRML::ENV{AS_PLUGIN}) {
+		VRML::PluginGlue::closeFileDesc($VRML::PluginGlue::globals{pluginSock});
+		VRML::PluginGlue::closeFileDesc($VRML::PluginGlue::globals{freeWRLSock});
+	}
+	if ($this->{JSCleanup}) {
+		print STDERR "VRML::Brower do JS cleanup!\n";
+		&{$this->{JSCleanup}}();
+	}
+	$this->{BE}->close_screen();
+}
+
+
 sub tick {
 	#
 	my($this) = @_;
