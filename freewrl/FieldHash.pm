@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: FieldHash.pm,v 1.1 2002/05/22 21:47:52 ayla Exp $
+# $Id: FieldHash.pm,v 1.2 2002/11/28 20:13:29 crc_canada Exp $
 #
 # The FieldHash
 #
@@ -74,11 +74,7 @@ sub STORE {
 	# }
 	$$v = $value;
 	if ($VRML::verbose::events) {
-		if ($k eq "__data") {
-			print "STORE, $node, $k, BINARY DATA\n";
-		} else { 
-			print "STORE, $node, $k, $value\n";
-		}
+		print "STORE, $node, $k, $value\n";
 	}
 
 	if (defined $node->{EventModel}){
