@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: IS.pm,v 1.1 2002/05/22 21:47:52 ayla Exp $
+# $Id: IS.pm,v 1.2 2002/06/25 02:26:35 ayla Exp $
 #
 # Package to handle IS statements in prototype definitions.
 #
@@ -20,8 +20,9 @@ package VRML::IS;
 sub new {
 	my ($type, $name) = @_;
 	my $this = bless {
-		Name => $name
-	}, $type;
+					  Name => $name,
+					  Ref => undef
+					 }, $type;
 	return $this;
 }
 
