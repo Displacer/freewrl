@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.13 2005/03/21 13:39:07 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.14 2005/03/22 15:15:55 crc_canada Exp $
  *
  */
 
@@ -138,10 +138,11 @@ void fwLoadIdentity () {
 
 void fwMatrixMode (int mode) {
 	if (myMat != mode) {
-		//printf ("fwMatrixMode ");
-		//if (mode == GL_PROJECTION) printf ("GL_PROJECTION\n");
-		//else if (mode == GL_MODELVIEW) printf ("GL_MODELVIEW\n");
-		//else {printf ("unknown %d\n",mode);}
+		/*printf ("fwMatrixMode ");
+		if (mode == GL_PROJECTION) printf ("GL_PROJECTION\n");
+		else if (mode == GL_MODELVIEW) printf ("GL_MODELVIEW\n");
+		else {printf ("unknown %d\n",mode);}
+		*/
 
 		myMat = mode;
 		glMatrixMode(mode);
@@ -176,7 +177,7 @@ void compare (char *where, double *a, double *b) {
 void fwGetDoublev (int ty, double *mat) {
 #ifdef DEBUGCACHEMATRIX
 	double TMPmat[16];
-	//printf (" sav %d tot %d\n",sav,tot);
+	/*printf (" sav %d tot %d\n",sav,tot); */
 	tot++;
 
 #endif

@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.87 2005/03/21 13:38:56 crc_canada Exp $
+# $Id: Scene.pm,v 1.88 2005/03/22 15:15:43 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -337,7 +337,7 @@ sub new_node {
 
 	# VRML scripting.
 	if ($type eq "Script") {
-		print "Scene.pm - new script node, cnt $cnt\n ";
+		#print "Scene.pm - new script node, cnt $cnt\n ";
 		# Special handling for Script which has an interface.
 		my $t = "__script__".$cnt++;
 		 #print " name is $t ";
