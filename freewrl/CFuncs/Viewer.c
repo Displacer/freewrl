@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.15 2003/07/15 14:52:12 crc_canada Exp $
+ * $Id: Viewer.c,v 1.16 2003/07/18 18:37:08 crc_canada Exp $
  *
  */
 
@@ -98,6 +98,12 @@ int
 get_headlight(VRML_Viewer *viewer)
 {
 	return(viewer->headlight);
+}
+
+void 
+set_headlight(VRML_Viewer *viewer, int val)
+{
+	viewer->headlight = val;
 }
 
 void
