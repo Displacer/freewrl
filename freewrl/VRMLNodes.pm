@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.99 2003/06/12 19:08:40 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.100 2003/06/24 15:49:36 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -59,13 +59,15 @@ sub register_vp {
 sub set_next_vp {
 	$vpno++;
 	if ($vpno > $#vpn) {$vpno = 0;}
-	print "set_next_vp, next vp to get is number $vpno\n";
+	# print "set_next_vp, next vp to get is number $vpno\n";
 }
 
-sub get_vp_node { print "get_vp_node, returning vp $vpno " , $vpn[$vpno],"\n";
+sub get_vp_node { 
+	#print "get_vp_node, returning vp $vpno " , $vpn[$vpno],"\n";
 return $vpn[$vpno];}
 
-sub get_vp_scene {print "get_vp_scene, returning ", $vps[$vpno],"\n";
+sub get_vp_scene {
+	#print "get_vp_scene, returning ", $vps[$vpno],"\n";
 return $vps[$vpno];}
 
 
