@@ -1,5 +1,5 @@
 #
-# $Id: Parser.pm,v 1.12 2002/05/22 21:47:52 ayla Exp $
+# $Id: Parser.pm,v 1.13 2002/06/21 19:36:28 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -63,8 +63,8 @@ sub parsefail {
 	my $n = ($p>=50 ? 50 : $p);
 	my $textb = substr($_[0],$p-$n,$n);
 	my $texta = substr($_[0],$p,50);
-	die ("PARSE ERROR: '$textb' XXX '$texta', in $_[1] because $_[2]");
-	# exit (1);
+	print ("PARSE ERROR: '$textb' XXX '$texta', $_[1] $_[2]\n");
+	exit (1);
 }
 
 sub parsewarnstd {
