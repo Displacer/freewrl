@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: IS.pm,v 1.4 2003/03/20 22:44:28 ayla Exp $
+# $Id: IS.pm,v 1.5 2003/03/27 22:15:00 ayla Exp $
 #
 # Package to handle IS statements in prototype definitions.
 #
@@ -31,8 +31,13 @@ sub new {
 
 sub copy {
 	my ($this) = @_;
-	my $a = $this->{Name};
-	bless { Name => $a }, ref $this;
+
+	my $new = bless {}, ref $this;
+	$new->{Name} = $this->{Name};
+	$new->{ISField} = $this->{ISField};
+	$new->{Ref} = $this->{Ref}; ## correct???
+
+	return $new;
 }
 
 sub make_executable {
@@ -51,7 +56,6 @@ sub name {
 
 sub set_ref {
 	my ($this, $ref) = @_;
-
 	$this->{Ref} = $ref;
 }
 
