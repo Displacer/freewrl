@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.h,v 1.7 2004/05/31 20:24:28 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.8 2004/10/05 15:19:35 crc_canada Exp $
  * 
  * Complex VRML nodes as Javascript classes.
  *
@@ -14,6 +14,10 @@
 
 #ifndef __jsVRMLClasses_h__
 #define  __jsVRMLClasses_h__
+
+#ifndef UNUSED
+#define UNUSED(v) ((void) v)
+#endif
 
 #include <math.h>
 #include "LinearAlgebra.h" /* FreeWRL math */

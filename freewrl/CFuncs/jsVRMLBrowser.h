@@ -6,13 +6,16 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.h,v 1.4 2004/05/27 15:22:04 crc_canada Exp $
+ * $Id: jsVRMLBrowser.h,v 1.5 2004/10/05 15:19:35 crc_canada Exp $
  * 
  */
 
 
 #ifndef __jsVRMLBrowser_h__
 #define __jsVRMLBrowser_h__
+#ifndef UNUSED
+#define UNUSED(v) ((void) v)
+#endif
 
 #include "jsUtils.h"
 #include "jsNative.h"
