@@ -1,5 +1,5 @@
 /*******************************************************************************
- * $Id: npfreewrl.c,v 1.3 2001/07/11 20:43:05 ayla Exp $
+ * $Id: npfreewrl.c,v 1.4 2001/07/20 21:12:28 ayla Exp $
  *
  * FreeWRL Netscape Plugin, Copyright (c) 2001 CRC Canada, based on
  *
@@ -1042,7 +1042,9 @@ signal(int signo, Sigfunc func)
 
     /* Add option flags for handling signal: */
     action.sa_flags |= SA_NOCLDSTOP;
-    action.sa_flags |= SA_NOCLDWAIT;
+#ifdef SA_NOCLDWAIT
+	action.sa_flags |= SA_NOCLDWAIT;
+#endif
 
     if (sigaction(signo, &action, &old_action) < 0) {
 	perror("Call to sigaction failed");
