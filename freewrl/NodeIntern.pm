@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.36 2004/06/25 18:19:09 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.37 2004/08/06 15:46:23 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -639,6 +639,46 @@ sub set_backend_fields {
 
 	sub make_backend {
 		my ($this, $be, $parentbe) = @_;
+
+		# print "make_backend, have type of ",$this->{TypeName},"\n";
+
+		# if this is a Text node, check the attached fontStyle. If the fontStyle
+		# is a proto, copy it over. We have to do this for Text nodes here, 
+		# because fontStyle is handled in C in the same routines as Text, and we
+		# can handle protos here easier than within C code. 
+		if ("Text" eq $this->{TypeName}) {
+			#print "have a Text node - is the FontStyle a proto? \n";
+			#foreach (keys %{$this->{Fields}}) { print "Text key $_\n"; }
+
+			 # does the fontStyle node exist? 
+			 if (NULL ne  $this->{Fields}{fontStyle}) {
+
+				# it exists - is it a PROTO?
+				if ($this->{Fields}{fontStyle}{IsProto}) {
+
+					# get the ProtoExpansion:
+					my $pexp = $this->{Fields}{fontStyle}{ProtoExp}{Nodes}[0];
+
+					# $pexp should hold the first node of the Proto Expansion,
+					# which should be a Group node. So, get the first child
+					# of the Group node - this had better be the fontStyle.
+					
+					my $fsnode = $pexp->{Fields}{children}[0]; 
+
+					#print "pexp is $pexp, ",dump_name($pexp),"\n";
+					#print "fsnode is ",dump_name($fsnode),"\n";
+
+					if ("FontStyle" eq $fsnode->{TypeName}) {
+						$this->{Fields}{fontStyle} = $fsnode;
+					} else {
+						print "expect a FontStyle for PROTO expansion, but got ",
+							$fsnode->{TypeName},"\n";
+						$this->{Fields}{fontStyle} = NULL;
+					}
+				}
+			}
+		}
+
 
 		if ($VRML::verbose::be) {
 			my ($package, $filename, $line) = caller;
