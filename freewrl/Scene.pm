@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.73 2004/03/16 16:54:16 crc_canada Exp $
+# $Id: Scene.pm,v 1.74 2004/03/17 19:04:55 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -148,21 +148,21 @@ sub new {
 	
 }
 
-# is this node a new "replaceWorld'd" node, and does it need to be put on the stack?
-sub replaceWorld_Bindable {
-    my ($this, $node) = @_;
-
-    # Check if it is bindable and first -> bind to it later..
-
-    if ($VRML::Nodes::bindable{$node->{TypeName}}) {
-		# this should never happen...
-		if (!defined $this->{Bindable}{$node->{TypeName}}) {
-			$this->{Bindable}{$node->{TypeName}} = $node;
-		}
-
-		push @{$this->{Bindables}{$node->{TypeName}}}, $node;
-    }
-}
+#JAS# is this node a new "replaceWorld'd" node, and does it need to be put on the stack?
+#JASsub replaceWorld_Bindable {
+#JAS    my ($this, $node) = @_;
+#JAS
+#JAS    # Check if it is bindable and first -> bind to it later..
+#JAS
+#JAS    if ($VRML::Nodes::bindable{$node->{TypeName}}) {
+#JAS		# this should never happen...
+#JAS		if (!defined $this->{Bindable}{$node->{TypeName}}) {
+#JAS			$this->{Bindable}{$node->{TypeName}} = $node;
+#JAS		}
+#JAS
+#JAS		push @{$this->{Bindables}{$node->{TypeName}}}, $node;
+#JAS    }
+#JAS}
 
 	
 sub set_url {
