@@ -1,4 +1,4 @@
-/* $Id: LinearAlgebra.c,v 1.9 2003/03/03 20:52:11 crc_canada Exp $
+/* $Id: LinearAlgebra.c,v 1.10 2003/03/17 16:03:27 crc_canada Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * Portions Copyright (C) 1998 Tuomas J. Lukka 1998 Bernhard Reiter 1999 John Stewart CRC Canada
@@ -39,7 +39,7 @@ float calc_angle_between_two_vectors(struct pt a, struct pt b)
     length_a = calc_vector_length(a);
     length_b = calc_vector_length(b);
 
-    printf("scalar: %f  length_a: %f  length_b: %f \n", scalar, length_a, length_b);
+    //printf("scalar: %f  length_a: %f  length_b: %f \n", scalar, length_a, length_b);
 	
     if (scalar == 0){
 	return M_PI/2;	
