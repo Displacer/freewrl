@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.39 2001/07/30 20:06:48 kitfox Exp $
+# $Id: VRMLC.pm,v 1.40 2001/08/03 16:44:03 kitfox Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.40  2001/08/03 16:44:03  kitfox
+# Fixed colors with nancy face and elevation grids.
+#
 # Revision 1.39  2001/07/30 20:06:48  kitfox
 # Added support for user-specified normals on elevation grids
 #
@@ -2074,6 +2077,7 @@ void render_polyrep(void *node,
 	/* Do we have any colours?	*/
 	hasc = (ncolors || r->color);
 	if(hasc) {
+		glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
 		glEnable(GL_COLOR_MATERIAL);
 	}
 
