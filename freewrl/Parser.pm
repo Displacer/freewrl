@@ -1,5 +1,5 @@
 #
-# $Id: Parser.pm,v 1.21 2003/07/24 18:15:24 ayla Exp $
+# $Id: Parser.pm,v 1.22 2003/07/30 16:04:20 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -332,7 +332,10 @@ sub parse {
 		return "NULL";
 	}
 	my $vrmlname;
+	my $is_name;
 	my $p;
+	my $rep_field;
+	my $field_counter = 1;
 
 	if($nt eq "DEF") {
 		$_[2] =~ /\G\s*($Word)/ogsc or parsefail($_[2],
@@ -445,8 +448,37 @@ sub parse {
 			 if $VRML::verbose::parse;
 
 		if($_[2] =~ /\G\s*IS\s+($Word)/gsc) {
-			$f{$f} = $scene->new_is($1, $f);
-			print "storing type 1, $f, (name ", %{$f{$f}}, ")\n" if $VRML::verbose::parse;
+			$is_name = $1;
+
+			# Allow multiple IS statements for a single field in a node in
+			# a prototype definition.
+			# Prepending digits to the field name should be safe, since legal
+			# VRML names may not begin with numerical characters.
+			#
+			# See NIST test Misc, PROTO, #19 (30eventouts.wrl) as example.
+			if (exists $f{$f}) {
+				$rep_field = ++$field_counter.$f;
+				print "VRML::Field::SFNode::parse: an IS for $ft $f exists, try $rep_field.\n"
+					if $VRML::verbose::parse;
+				$no->{FieldTypes}{$rep_field} = $no->{FieldTypes}{$f};
+				$no->{FieldKinds}{$rep_field} = $no->{FieldKinds}{$f};
+				$no->{Defaults}{$rep_field} = $no->{Defaults}{$f};
+
+				if (exists $no->{EventIns}{$f}) {
+					$no->{EventIns}{$rep_field} = $rep_field;
+				}
+
+				if (exists $no->{EventOuts}{$f}) {
+					$no->{EventOuts}{$rep_field} = $rep_field;
+				}
+
+				$f{$rep_field} = $scene->new_is($is_name, $rep_field);
+			} else {
+				$f{$f} = $scene->new_is($is_name, $f);
+			}
+			print "storing type 1, $f, (name ",
+				VRML::Debug::toString($f{$f}), ")\n"
+						if $VRML::verbose::parse;
 		} else {
 			$f{$f} = "VRML::Field::$ft"->parse($scene,$_[2]);
 				print "storing type 2, $f, (",
