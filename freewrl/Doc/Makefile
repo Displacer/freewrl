@@ -1,4 +1,4 @@
-## $Id: Makefile,v 1.1 2002/05/08 16:29:22 ayla Exp $
+## $Id: Makefile,v 1.2 2002/05/15 20:09:45 ayla Exp $
 ##
 ## Makefile for LaTeX documentation.
 
@@ -13,6 +13,8 @@ LOG = ${DOCS:.tex=.log}
 DVI = ${DOCS:.tex=.dvi}
 PS  = ${DOCS:.tex=.ps}
 PDF = ${DOCS:.tex=.pdf}
+
+BIB = freewrl-cites.bib
 
 dvi: ${DVI}
 
