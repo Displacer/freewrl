@@ -1,5 +1,5 @@
 /*
- * $Id: PluginSocket.c,v 1.4 2004/03/19 22:03:21 crc_canada Exp $
+ * $Id: PluginSocket.c,v 1.5 2004/03/22 16:16:51 crc_canada Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
@@ -45,7 +45,7 @@ int waitForData(int sock) {
 	count = 0;
 	do {
 		tv.tv_sec = 0;
-		tv.tv_usec = 100;
+		tv.tv_usec = 50;
 		FD_ZERO(&rfds);
 		FD_SET((sock), &rfds);
 	
@@ -58,7 +58,10 @@ int waitForData(int sock) {
 		} else {
 			pluginprint ("eaitForData returns FALSE\n","");
 			count ++;
-			if (count > 10000) return (FALSE);
+			if (count > 1000) {
+				pluginprint ("waitForData, timing out\n","");
+				return (FALSE);
+			}
 		}
 	} while (!retval);
 }
