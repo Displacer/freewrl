@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.h,v 1.3 2002/11/21 16:33:44 ayla Exp $
+ * $Id: jsVRMLBrowser.h,v 1.4 2002/12/04 17:17:27 ayla Exp $
  * 
  */
 
@@ -14,19 +14,8 @@
 #ifndef __jsVRMLBrowser_h__
 #define __jsVRMLBrowser_h__
 
-#ifndef __jsUtils_h__
 #include "jsUtils.h"
-#endif /* __jsUtils_h__ */
-
-
-/*
- * for now, could try setting magic to pid since we only need one browser
- * per process -- but is it really needed ???
- */
-typedef struct _BrowserNative {
-	int magic; /* does this really do anything ??? */
-	SV *sv_js;
-} BrowserNative;
+#include "jsNative.h"
 
 
 static JSBool
@@ -40,8 +29,8 @@ doVRMLRoute(JSContext *context,
 
 JSBool
 VrmlBrowserInit(JSContext *context,
-			JSObject *globalObj, 
-			BrowserNative *brow);
+				JSObject *globalObj,
+				BrowserNative *brow);
 
 
 JSBool
