@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.5 2002/12/04 17:17:27 ayla Exp $
+ * $Id: jsUtils.h,v 1.6 2002/12/19 18:45:22 ayla Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -27,8 +27,6 @@
 #define LARGESTRING 2048
 #define STRING 512
 #define SMALLSTRING 128
-
-#define BROWMAGIC 12345
 
 #define FNAME_STUB "file"
 #define LINENO_STUB 0

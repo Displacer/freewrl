@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.h,v 1.5 2002/12/04 17:17:27 ayla Exp $
+ * $Id: jsVRMLClasses.h,v 1.6 2002/12/19 18:45:23 ayla Exp $
  * 
  * Complex VRML nodes as Javascript classes.
  *
@@ -31,6 +31,9 @@
 #define INIT_ARGC_IMG 3
 #define INIT_ARGC 3
 #define INIT_ARGC_ROT 2
+
+#define NULL_HANDLE "NULL"
+#define BROWSER_SFNODE "__node"
 
 #if 0
 /* #define AVECLEN(x) (sqrt((x)[0]*(x)[0]+(x)[1]*(x)[1]+(x)[2]*(x)[2])) */
@@ -91,6 +94,7 @@ JSBool
 loadVrmlClasses(JSContext *context,
 				JSObject *globalObj);
 
+
 JSBool
 setECMANative(JSContext *cx,
 			  JSObject *obj,
@@ -98,11 +102,11 @@ setECMANative(JSContext *cx,
 			  jsval *vp);
 
 
-/* JSBool */
-/* getAssignProperty(JSContext *context, */
-/* 				  JSObject *obj, */
-/* 				  jsval id, */
-/* 				  jsval *vp); */
+JSBool
+getAssignProperty(JSContext *context,
+				  JSObject *obj,
+				  jsval id,
+				  jsval *vp);
 
 JSBool
 setAssignProperty(JSContext *context,
@@ -120,6 +124,13 @@ SFNodeAssign(JSContext *cx,
 			 jsval *rval);
 
 JSBool
+SFNodeTouched(JSContext *cx,
+			  JSObject *obj,
+			  uintN argc,
+			  jsval *argv,
+			  jsval *rval);
+
+JSBool
 SFNodeConstr(JSContext *cx,
 			 JSObject *obj,
 			 uintN argc,
@@ -129,6 +140,12 @@ SFNodeConstr(JSContext *cx,
 JSBool
 SFNodeFinalize(JSContext *cx,
 			   JSObject *obj);
+
+JSBool
+SFNodeGetProperty(JSContext *cx,
+				  JSObject *obj,
+				  jsval id,
+				  jsval *vp);
 
 JSBool
 SFNodeSetProperty(JSContext *cx,
@@ -765,6 +782,13 @@ MFStringAssign(JSContext *cx,
 			   jsval *argv,
 			   jsval *rval);
 
+JSBool
+MFStringToString(JSContext *cx,
+				 JSObject *obj,
+				 uintN argc,
+				 jsval *argv,
+				 jsval *rval);
+
 JSBool 
 MFStringGetProperty(JSContext *cx,
 					JSObject *obj,
@@ -796,8 +820,7 @@ static JSClass SFNodeClass = {
 	JSCLASS_HAS_PRIVATE,
 	JS_PropertyStub,
 	JS_PropertyStub,
-	JS_PropertyStub,
-/* 	SFNodeGetProperty, */
+	SFNodeGetProperty,
 	SFNodeSetProperty,
 	JS_EnumerateStub,
 	JS_ResolveStub,
@@ -805,15 +828,18 @@ static JSClass SFNodeClass = {
 	SFNodeFinalize
 };
 
-/* static JSFunctionSpec (SFNodeFunctions)[] = {{0}}; */
+static JSPropertySpec (SFNodeProperties)[] = {
+	{"__vrmlstring", 0, JSPROP_ENUMERATE},
+	{"__handle", 1, JSPROP_ENUMERATE},
+	{0}
+};
 
 static JSFunctionSpec (SFNodeFunctions)[] = {
 	{"assign", SFNodeAssign, 0},
 /* 	{"toString", SFNodeToString, 0}, */
+	{"__touched", SFNodeTouched, 0},
 	{0}
 };
-
-/* static JSPropertySpec (SFNodeProperties)[] = {{0}}; */
 
 
 static JSObject *proto_SFRotation;
@@ -1079,6 +1105,7 @@ static JSClass MFStringClass = {
 };
 
 static JSFunctionSpec (MFStringFunctions)[] = {
+	{"toString", MFStringToString, 0},
 	{"assign", MFStringAssign, 0},
 	{0}
 };
