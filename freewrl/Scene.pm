@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.83 2004/11/22 19:26:34 crc_canada Exp $
+# $Id: Scene.pm,v 1.84 2005/02/10 14:50:25 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -878,6 +878,7 @@ my %VISIBLE = map {($_=>1)} qw/
 	GeoElevationGrid
 	Extrusion
 	IndexedLineSet
+	LineSet
 	Background
 	PointLight
 	Fog

@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.126 2005/01/28 14:55:34 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.127 2005/02/10 14:50:25 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -461,6 +461,18 @@ my $protono;
 						coordIndex => [MFInt32, [], field]
 					   }
 					  ),
+
+	LineSet =>
+	new VRML::NodeType("LineSet",
+					   {
+						color => [SFNode, NULL, exposedField],
+						coord => [SFNode, NULL, exposedField],
+						vertexCount => [MFInt32,[],exposedField],
+						__points  =>[SFInt32,0,field],
+
+					   }
+					  ),
+
 	PointSet =>
 	new VRML::NodeType("PointSet",
 					   {
