@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.38 2002/09/19 19:39:01 crc_canada Exp $
+# $Id: Scene.pm,v 1.39 2002/09/26 19:41:32 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -646,6 +646,9 @@ sub mkbe_and_array {
 	# print "\nmkbe_and_array: Gathering defs for Nodes of ",VRML::NodeIntern::dump_name($this),")\n";
 	foreach (@{$this->{Nodes}}) {
 		$_->gather_defs($parentscene);
+
+		# reserve the Node so that EAI can get it, if necessary
+        	VRML::NodeIntern::dump_name($_->real_node());
 	}
   }
 
