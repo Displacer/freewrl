@@ -1,5 +1,5 @@
 /*
- * $Id: nputils.h,v 1.2 2001/08/07 22:18:57 ayla Exp $
+ * $Id: nputils.h,v 1.3 2001/08/18 02:16:56 ayla Exp $
  *
  * FreeWRL plugin utilities header file.
  */
