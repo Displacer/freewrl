@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.18 2003/04/29 17:12:24 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.19 2003/05/08 15:49:13 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -349,10 +349,10 @@ sub get_firstevent {
 		print "\tAction clocktick!\n" if $VRML::verbose;
 		my @ev = &{$this->{Type}{Actions}{ClockTick}}(
 				$this, $this->{RFields}, $timestamp);
-		for (@ev) {
-			$this->{Fields}{$_->[1]} = $_->[2];
-		}
-		return @ev;
+#JAS		for (@ev) {
+#JAS			$this->{Fields}{$_->[1]} = $_->[2];
+#JAS		}
+#JAS		return @ev;
     }
     return ();
 }
@@ -624,14 +624,15 @@ sub set_backend_fields {
 	#		CoordinateInterpolator
 	#		NormalInterpolator
 	#		TimeSensor
+	#		TouchSensor
+	#		PlaneSensor
+	#		SphereSensor
+	#		CylinderSensor
+	#		VisibilitySensor
 
+	# Nodes without C backends (ie, no C structs)
 	my %NOT = map {($_=>1)} qw/
 		WorldInfo
-		TouchSensor
-		PlaneSensor
-		SphereSensor
-		CylinderSensor
-		VisibilitySensor
 	/;
 
 	#############################################################
