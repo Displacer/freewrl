@@ -4,7 +4,7 @@
 # for conditions of use and redistribution, EXCEPT on the files
 # which belong under the Mozilla public license.
 #
-# $Id: Makefile.PL,v 1.3 2002/11/20 16:53:14 sdumoulin Exp $
+# $Id: Makefile.PL,v 1.4 2002/11/21 14:27:49 sdumoulin Exp $
 #
 #
 # a.out: js.c
@@ -49,7 +49,6 @@ use ExtUtils::MakeMaker;
 ## get rid of -W eventually
 my $ccflags = q{-Wall\
 -W\
--Wfloat-equal\
 -Wundef\
 -Wshadow\
 -Wpointer-arith\
