@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.19 2003/05/08 15:49:13 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.20 2003/05/14 18:04:40 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -348,11 +348,7 @@ sub get_firstevent {
     if ($this->{Type}{Actions}{ClockTick}) {
 		print "\tAction clocktick!\n" if $VRML::verbose;
 		my @ev = &{$this->{Type}{Actions}{ClockTick}}(
-				$this, $this->{RFields}, $timestamp);
-#JAS		for (@ev) {
-#JAS			$this->{Fields}{$_->[1]} = $_->[2];
-#JAS		}
-#JAS		return @ev;
+				$this, $timestamp);
     }
     return ();
 }
