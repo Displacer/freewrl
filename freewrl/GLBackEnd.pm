@@ -651,6 +651,9 @@ sub setup_projection {
 sub setup_viewpoint {
 	my($this,$node) = @_;
 	my $viewpoint = 0;
+
+	print "SETUP VIEWPOINT !!\n";
+
 	$this->{Viewer}->togl(); # Make viewpoint
 
 	# Store stack depth
@@ -683,6 +686,13 @@ sub setup_viewpoint {
 	  {
 	    my $mod = pack ("d16",0,0,0,0,0,0,0,0,0,0,0,0);
 	    glGetDoublev(&GL_MODELVIEW_MATRIX, $mod);
+
+	    my ($i11, $i12, $i13, $i21, $i22, $i23, $i31, $i32, $i33, $i41, $i42, $i43) = unpack( "d16", $mod );
+	    print "ModelView Matrix:\n";
+	    printf( "%02.5f %02.5f %02.5f\n", $i11, $i12, $i13);
+	    printf( "%02.5f %02.5f %02.5f\n", $i21, $i22, $i23);
+	    printf( "%02.5f %02.5f %02.5f\n", $i31, $i32, $i33);
+	    printf( "%02.5f %02.5f %02.5f\n", $i41, $i42, $i43);
 
 	    while($depnow-- > $dep) 
 	      {
@@ -764,10 +774,10 @@ sub render {
 	VRML::VRMLFunc::render_hier($node,	# Node                 
 				    0,		# reverse_trans        
 				    0,		# render view point    
-				    1,		# render geoms         
+				    0,		# render geoms         
 				    0,		# render lights        
 				    0,		# render sensitive     
-				    0,		# render blend         
+				    1,		# render blend         
 				    0);		# what view point      
 	# glFlush();
 	glXSwapBuffers();

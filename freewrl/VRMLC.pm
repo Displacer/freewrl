@@ -1,5 +1,5 @@
 #
-# $Id: VRMLC.pm,v 1.10.2.1 2000/09/05 21:19:17 rcoscali Exp $
+# $Id: VRMLC.pm,v 1.10.2.2 2000/09/05 23:41:07 rcoscali Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -28,6 +28,10 @@
 #  do normals for indexedfaceset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.10.2.2  2000/09/05 23:41:07  rcoscali
+# Continue investigation on core rendering engine and implementation of alpha blending rendering. It is on the way.
+# A very interresting feature for blending algo is ray hit. The same kind of transforms calc is to be applied for z calculation.
+#
 # Revision 1.10.2.1  2000/09/05 21:19:17  rcoscali
 # Start implementation of alpha blending rendering
 #
@@ -924,15 +928,14 @@ CODE:
 
 sub get_rendfunc {
 	my($n) = @_;
+
 	print "RENDF $n ";
-	# XXX
-	my @f = qw/Prep PrepBlendRend Rend Child Fin RendRay GenPolyRep Light Get3 Get2
-		Changed/;
-	my $f;
-	my $v = "
-static struct VRML_Virt virt_${n} = { ".
-	(join ',',map {${$_."C"}{$n} ? "${n}_$_" : "NULL"} @f).
-",\"$n\"};";
+
+	# These must be in the same order the function pointers are defined in VRML_Virt structure
+	my @f = qw/Prep Rend Child Fin RendRay GenPolyRep Light PrepBlendRend Get3 Get2 Changed/;
+
+	# Create virtual table for each node type
+	my $f, $v = "\nstatic struct VRML_Virt virt_${n} = { ".(join ',',map {${$_."C"}{$n} ? "${n}_$_" : "NULL"} @f).",\"$n\"};";
 	for(@f) {
 		my $c =${$_."C"}{$n};
 		next if !defined $c;
@@ -1215,8 +1218,10 @@ static struct VRML_Virt virt_${n} = { ".
 		}
 		$f .= "{ /* GENERATED FROM HASH ${_}C, MEMBER $n */
 			struct VRML_$n *this_ = (struct VRML_$n *)nod_;
-			{$c}
-			}";
+			{
+                            $c
+                        }
+}";
 	}
 	print "\n";
 	return ($f,$v);
@@ -1327,7 +1332,6 @@ struct VRML_Virt {
 	void (*mkpolyrep)(void *);
 	void (*light)(void *);
 	void (*prep_blended_rend)(void *);
-	void (*blend_rend)(void *);
 	/* And get float coordinates : Coordinate, Color */
 	/* XXX Relies on MFColor repr.. */
 	struct SFColor *(*get3)(void *, int *); /* Number in int */
@@ -1365,7 +1369,8 @@ int render_vp;
 int render_geom;
 int render_light;
 int render_sensitive;
-int render_blend;
+int render_blend;        /* Have to render blended nodes */
+int under_blended_shape = 0;   /* Indicate that we are under a blended shape node */
 
 int horiz_div; int vert_div;
 int vp_dist = 200000;
@@ -1548,7 +1553,7 @@ float tx,float ty, char *descr)  {
 	GLdouble projMatrix[16];
 	GLdouble wx, wy, wz;
 	/* Real rat-testing */
-	if(verbose) printf("RAY HIT %s! %f (%f %f %f) (%f %f %f)\nR: (%f %f %f) (%f %f %f)\n",
+	if(1 || verbose) printf("RAY HIT %s! %f (%f %f %f) (%f %f %f)\nR: (%f %f %f) (%f %f %f)\n",
 		descr, rat,cx,cy,cz,nx,ny,nz,
 		t_r1.x, t_r1.y, t_r1.z,
 		t_r2.x, t_r2.y, t_r2.z
@@ -1577,10 +1582,10 @@ void upd_ray() {
 		&t_r2.x,&t_r2.y,&t_r2.z);
 	gluUnProject(r3.x,r3.y,r3.z,modelMatrix,projMatrix,viewport,
 		&t_r3.x,&t_r3.y,&t_r3.z);
-/*	printf("Upd_ray: (%f %f %f)->(%f %f %f) == (%f %f %f)->(%f %f %f)\n",
+	printf("Upd_ray: (%f %f %f)->(%f %f %f) == (%f %f %f)->(%f %f %f)\n",
 		r1.x,r1.y,r1.z,r2.x,r2.y,r2.z,
 		t_r1.x,t_r1.y,t_r1.z,t_r2.x,t_r2.y,t_r2.z);
-*/
+
 }
 
 
@@ -2000,6 +2005,7 @@ void calc_poly_normals_flat(struct VRML_PolyRep *rep)
 int
 is_node_blended( struct VRML_Box *p )
 {
+  struct VRML_Virt *v = *(struct VRML_Virt **)p;
   int blended = 0;
   if (!strcmp(v->name, "Shape")) 
     {
@@ -2065,7 +2071,7 @@ is_node_blended( struct VRML_Box *p )
  * blended polygons
  */
 void
-render_blended_poly(void)
+render_blended_polys(void)
 {
   printf( "========!!!  render_blended_poly  !!!========\n");
 }
@@ -2089,25 +2095,31 @@ void render_node(void *node) {
 	v = *(struct VRML_Virt **)node;
 	p = node;
 	
-	if(verbose)
+	blended=is_node_blended(p);
+
+	if(1 || verbose)
 	  {
 	    printf("=========================================NODE RENDERED===================================================\n");
-	    printf("Render_node_v %d (%s) %d %d %d %d RAY: %d HYP: %d\n",v,
+	    printf("Render_node_v 0x%08lx (%s) 0x%08lx 0x%08lx 0x%08lx 0x%08lx 0x%08lx RAY: 0x%08lx HYP: 0x%08lx\n",
+		   v,
 		   v->name, 
 		   v->prep, 
 		   v->rend, 
 		   v->children, 
 		   v->fin, 
+		   v->prep_blended_rend, 
 		   v->rendray,
 		   hypersensitive);
-	    printf("Render_state any %d geom %d light %d sens %d\n",
+	    printf("Render_state any=%d geom=%d light=%d sens=%d blended=%d under_blended_shape=%d\n",
 		   render_anything, 
 		   render_geom, 
 		   render_light, 
-		   render_sensitive);
+		   render_sensitive,
+		   blended,
+		   under_blended_shape);
 	  }
 
-	blended=is_node_blended(p);
+	if (blended) under_blended_shape = 1;
 
 	if(p->_change != p->_ichange && v->changed) 
 	  {
@@ -2125,18 +2137,18 @@ void render_node(void *node) {
 	  }
 	if(render_anything && render_geom && !render_sensitive) 
 	  {
-	    if (! blended && v->rend)
+	    if (!(blended || under_blended_shape) && v->rend)
 	      {
 		v->rend(node);
 	      }
-	    elseif (blended && v->prep_blended_rend)
+	    else if ((blended || under_blended_shape) && v->prep_blended_rend)
 	      {
 		v->prep_blended_rend(node);
 	      }
 	  }
 	if(render_anything && render_blend)
 	  {
-	    /* Called only once for the whole scene as the support is not the scene
+	    /* Called only once for one rendering of the whole scene as the support is not the scene
 	       but the Btree of the blended polygons builded while prep_blended_rend */
 	    render_blended_polys();
 	    return;
@@ -2172,7 +2184,7 @@ void render_node(void *node) {
 	    hyper_r2 = t_r2;
 	    hyperhit = 1;
 	  }
-	if(render_anything && v->children && ! blended) {
+	if(render_anything && v->children) {
 	  v->children(node);
 	}
 	if(render_anything && render_sensitive && p->_sens) 
@@ -2191,6 +2203,7 @@ void render_node(void *node) {
 		upd_ray();
 	      }
 	  }
+	if (blended && under_blended_shape) under_blended_shape = 0;
 }
 
 /*
