@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.147 2004/07/16 13:17:50 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.148 2004/07/21 19:04:00 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.148  2004/07/21 19:04:00  crc_canada
+# working on EXTERNPROTOS
+#
 # Revision 1.147  2004/07/16 13:17:50  crc_canada
 # SFString as a Java .class script field entry.
 #
@@ -1005,6 +1008,7 @@ int SoundEngineStarted = FALSE;
 /* stored FreeWRL version, pointers to initialize data */
 char *BrowserVersion = NULL;
 char *BrowserURL = NULL;
+char *BrowserFullPath = NULL;
 char *BrowserName = "FreeWRL VRML/X3D Browser";
 
 int rootNode=0;	// scene graph root node
@@ -1252,6 +1256,7 @@ void render_node(void *node) {
 	    printf ("pchange %d pichange %d vchanged %d\n",p->_change, p->_ichange,v->changed);
 	    printf("==============\n");
 	  }
+
 }
 
 /*
@@ -1594,6 +1599,13 @@ SV *
 GetBrowserURL()
 CODE:
 	RETVAL = newSVpv(BrowserURL, strlen(BrowserURL));
+OUTPUT:
+	RETVAL
+
+SV *
+GetBrowserFullPath()
+CODE:
+	RETVAL = newSVpv(BrowserFullPath, strlen(BrowserFullPath));
 OUTPUT:
 	RETVAL
 
