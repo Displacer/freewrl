@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.23 2003/11/06 14:39:28 crc_canada Exp $
+ * $Id: Viewer.c,v 1.24 2003/11/26 16:31:07 crc_canada Exp $
  *
  */
 
@@ -114,10 +114,10 @@ toggle_headlight()
 }
 
 void
-set_eyehalf(VRML_Viewer *viewer, const double eyehalf, const double eyehalfangle)
+set_eyehalf(const double eyehalf, const double eyehalfangle)
 {
-	viewer->eyehalf = eyehalf;
-	viewer->eyehalfangle = eyehalfangle;
+	Viewer.eyehalf = eyehalf;
+	Viewer.eyehalfangle = eyehalfangle;
 }
 
 void

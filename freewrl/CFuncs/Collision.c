@@ -1,6 +1,7 @@
-/* $Id: Collision.c,v 1.16 2003/06/20 07:12:24 ayla Exp $
+/* $Id: Collision.c,v 1.17 2003/11/26 16:31:06 crc_canada Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
+ * Copyright (C) 2003 John Stewart CRC Canada
  * DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
  * See the GNU Library General Public License (file COPYING in the distribution)
  * for conditions of use and redistribution.
