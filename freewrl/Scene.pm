@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.76 2004/06/11 13:49:42 crc_canada Exp $
+# $Id: Scene.pm,v 1.77 2004/06/23 14:06:20 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -426,8 +426,12 @@ sub new_externproto {
 sub topnodes {
 	my ($this, $nodes) = @_;
 
-	$this->{Nodes} = $nodes;
 	$this->{RootNode} = $this->new_node("Group",{children => $nodes});
+
+	#JAS - had trouble with protos as topnodes in 1.07; just simplify
+	#JAS   that by making all in a group.
+	#JAS - was $this->{Nodes} = $nodes;
+	push (@{$this->{Nodes}},$this->{RootNode});
 }
 
 sub get_proto {
@@ -862,7 +866,8 @@ sub make_backend {
 		" $be $parentbe \n"
 			if $VRML::verbose::be;
 
-	return $this->{BackNode} if ($this->{BackNode});
+	#JAS return $this->{BackNode} if ($this->{BackNode});
+	return $this->{BackNode} if ($this->{BackNode}{CNode});
 
 	my $bn;
 	if ($this->{Parent}) {
