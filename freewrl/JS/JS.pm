@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: JS.pm,v 1.25 2003/07/09 18:11:02 crc_canada Exp $
+# $Id: JS.pm,v 1.26 2003/07/17 16:41:42 crc_canada Exp $
 #
 #
 #
@@ -597,5 +597,21 @@ sub jspSFNodeSetProperty {
 
 	} else {
 		$node->{RFields}{$actualField} = $val;
+	}
+}
+
+sub jspSFNodeGetProperty {
+	my ($this, $prop, $handle) = @_;
+
+	$node = VRML::Handles::get($handle);
+	my $type = $node->{Type}{FieldTypes}{$prop};
+	my $ftype = "VRML::Field::$type";
+	my ($rs, $rval);
+
+	my $value = $node->{RFields}{$prop};
+	if (!VRML::VRMLFunc::jsrunScript($this->{ScriptNum},
+				   "$handle"."_$prop=".$ftype->as_string($value, 1),
+				   $rs, $rval)) {
+		cleanupDie("runScript failed in VRML::JS::jspSFNodeGetProperty");
 	}
 }
