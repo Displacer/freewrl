@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.66 2002/10/16 15:35:49 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.67 2003/01/07 18:59:49 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.67  2003/01/07 18:59:49  crc_canada
+# more sound engine work
+#
 # Revision 1.66  2002/10/16 15:35:49  crc_canada
 # More sound work...
 #
@@ -1144,6 +1147,9 @@ int sound_from_audioclip = 0;
 
 /* and, we allow a maximum of so many pixels per texture */
 GLint global_texSize = 64;
+
+/* for printing warnings about Sound node problems - only print once per invocation */
+int soundWarned = FALSE;
 
 int verbose;
 int verbose_collision; /*print out collision info*/
