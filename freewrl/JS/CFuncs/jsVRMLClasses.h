@@ -1,13 +1,15 @@
 /*
- * Copyright (C) 1998 Tuomas J. Lukka, 2002 John Stewart CRC Canada
+ * Copyright (C) 1998 Tuomas J. Lukka, 2002 John Stewart, Ayla Khan CRC Canada
  * DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
  * See the GNU Library General Public License
  * (file COPYING in the distribution) for conditions of use and
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.h,v 1.1.2.2 2002/08/20 21:35:23 ayla Exp $
+ * $Id: jsVRMLClasses.h,v 1.1.2.3 2002/08/30 04:56:18 ayla Exp $
  * 
+ * Complex VRML nodes as Javascript classes.
+ *
  */
 
 #ifndef __jsVRMLClasses_h__
@@ -21,19 +23,43 @@
 
 #include "jsVRMLBrowser.h"
 #include "Structs.h"
+#include "LinearAlgebra.h" /* do the math */
 
+#define INIT_ARGC_IMG 3
 #define INIT_ARGC 3
+#define INIT_ARGC_ROT 2
 
+#if 0
+/* #define AVECLEN(x) (sqrt((x)[0]*(x)[0]+(x)[1]*(x)[1]+(x)[2]*(x)[2])) */
+/* #define AVECPT(x,y) ((x)[0]*(y)[0]+(x)[1]*(y)[1]+(x)[2]*(y)[2]) */
+/* #define AVECSCALE(x,y) x[0] *= y;\ */
+/* x[1] *= y;\ */
+/* x[2] *= y; */
+/* #define AVECCP(x,y,z) (z)[0]=(x)[1]*(y)[2]-(x)[2]*(y)[1]; \ */
+/* (z)[1]=(x)[2]*(y)[0]-(x)[0]*(y)[2]; \ */
+/* (z)[2]=(x)[0]*(y)[1]-(x)[1]*(y)[0]; */
+#endif
 
-#define AVECLEN(x) (sqrt((x)[0]*(x)[0]+(x)[1]*(x)[1]+(x)[2]*(x)[2]))
-#define AVECPT(x,y) ((x)[0]*(y)[0]+(x)[1]*(y)[1]+(x)[2]*(y)[2])
-#define AVECSCALE(x,y) x[0] *= y;\
-x[1] *= y;\
-x[2] *= y;
-#define AVECCP(x,y,z) (z)[0]=(x)[1]*(y)[2]-(x)[2]*(y)[1]; \
-(z)[1]=(x)[2]*(y)[0]-(x)[0]*(y)[2]; \
-(z)[2]=(x)[0]*(y)[1]-(x)[1]*(y)[0];
-
+/*
+ * The simple VRML field types are supported in perl (see JS.pm):
+ * * SFBool, SFFloat, SFTime, SFInt32, SFString
+ *
+ * VRML field types that are implemented here as Javascript classes
+ * are:
+ *
+ * * SFColor, MFColor
+ * * SFVec2f, MFVec2f -- untested!!!
+ * * SFVec3f, MFVec3f
+ * * SFRotation, MFRotation
+ * * SFNode (special case - also implemented in perl (see JS.pm), MFNode
+ * * SFImage -- untested!!!
+ *
+ * These fields have struct types defined elsewhere (see Structs.h)
+ * that are stored by Javascript classes as private data. 
+ *
+ * Some of the computations for SFVec3f, SFRotation are now defined
+ * elsewhere (see LinearAlgebra.h) to avoid duplication.
+ */
 
 
 
@@ -52,27 +78,42 @@ JSBool
 globalResolve(JSContext *cx, JSObject *obj, jsval id);
 
 JSBool
-LoadVRMLClasses(JSContext *context,
+loadVRMLClasses(JSContext *context,
 				JSObject *globalObj);
 
 JSBool
-SetTouchable(JSContext *cx,
+setTouchable(JSContext *cx,
 			 JSObject *obj,
 			 jsval id,
 			 jsval *vp);
 
 JSBool
-AddAssignProperty(void *cx,
-				  void *globalObj,
+addAssignProperty(void *cx,
+				  void *glob,
 				  char *name,
-				  char *str);
+				  char *str,
+				  void *robj);
 
+/*
+ * Adds additional (touchable) property to instance of an existing
+ * class.
+ */
+extern JSBool
+addTouchableProperty(void *cx,
+					 void *glob,
+					 char *name);
+
+extern JSBool
+getAssignProperty(JSContext *context,
+				  JSObject *obj,
+				  jsval id,
+				  jsval *vp);
 
 JSBool
-AddWatchProperty(void *cx,
-				 void *globalObj,
-				 char *name);
-
+setAssignProperty(JSContext *context,
+				  JSObject *obj,
+				  jsval id,
+				  jsval *vp);
 
 JSBool
 SFNodeConstr(JSContext *cx,
@@ -92,7 +133,6 @@ SFNodeSetProperty(JSContext *cx,
 				  JSObject *obj,
 				  jsval id,
 				  jsval *vp);
-
 
 extern void *
 TJL_SFColorNew(void);
@@ -148,7 +188,174 @@ SFColorSetProperty(JSContext *cx,
 				   jsval *vp);
 
 JSBool
+SFColorFinalize(JSContext *cx,
+				JSObject *obj);
+
+JSBool
 SFColorSetInternal(void *cx,
+				   void *globalObj,
+				   char *name,
+				   SV *sv);
+
+
+extern void *
+TJL_SFImageNew(void);
+
+extern void
+TJL_SFImageDelete(void *p);
+
+extern void
+TJL_SFImageAssign(void *top, void *fromp);
+
+extern void
+TJL_SFImageSet(void *p, SV *sv);
+
+
+JSBool
+SFImageToString(JSContext *cx,
+				JSObject *obj,
+				uintN argc,
+				jsval *argv,
+				jsval *rval);
+
+JSBool
+SFImageAssign(JSContext *cx,
+			  JSObject *obj,
+			  uintN argc,
+			  jsval *argv,
+			  jsval *rval);
+
+JSBool
+SFImageTouched(JSContext *cx,
+			   JSObject *obj,
+			   uintN argc,
+			   jsval *argv,
+			   jsval *rval);
+
+JSBool 
+SFImageConstr(JSContext *cx,
+			  JSObject *obj,
+			  uintN argc,
+			  jsval *argv,
+			  jsval *rval);
+
+JSBool 
+SFImageFinalize(JSContext *cx,
+				JSObject *obj);
+
+JSBool
+SFImageGetProperty(JSContext *cx,
+				   JSObject *obj,
+				   jsval id,
+				   jsval *vp);
+
+JSBool
+SFImageSetProperty(JSContext *cx,
+				   JSObject *obj,
+				   jsval id,
+				   jsval *vp);
+
+JSBool
+SFImageSetInternal(void *cx,
+				   void *globalObj,
+				   char *name,
+				   SV *sv);
+
+
+extern void *
+TJL_SFVec2fNew(void);
+
+extern void
+TJL_SFVec2fDelete(void *p);
+
+extern void
+TJL_SFVec2fAssign(void *top, void *fromp);
+
+extern void
+TJL_SFVec2fSet(void *p, SV *sv);
+
+
+JSBool
+SFVec2fToString(JSContext *cx,
+				JSObject *obj,
+				uintN argc,
+				jsval *argv,
+				jsval *rval);
+
+JSBool
+SFVec2fAssign(JSContext *cx,
+			  JSObject *obj,
+			  uintN argc,
+			  jsval *argv,
+			  jsval *rval);
+
+JSBool
+SFVec2fTouched(JSContext *cx,
+			   JSObject *obj,
+			   uintN argc,
+			   jsval *argv,
+			   jsval *rval);
+
+JSBool
+SFVec2fSubtract(JSContext *cx,
+				JSObject *obj,
+				uintN argc,
+				jsval *argv,
+				jsval *rval);
+
+JSBool
+SFVec2fNormalize(JSContext *cx,
+				 JSObject *obj,
+				 uintN argc,
+				 jsval *argv,
+				 jsval *rval);
+
+JSBool
+SFVec2fAdd(JSContext *cx,
+		   JSObject *obj,
+		   uintN argc,
+		   jsval *argv,
+		   jsval *rval);
+
+JSBool
+SFVec2fLength(JSContext *cx,
+			  JSObject *obj,
+			  uintN argc,
+			  jsval *argv,
+			  jsval *rval);
+
+JSBool
+SFVec2fNegate(JSContext *cx,
+			  JSObject *obj,
+			  uintN argc,
+			  jsval *argv,
+			  jsval *rval);
+
+JSBool
+SFVec2fConstr(JSContext *cx,
+			  JSObject *obj,
+			  uintN argc,
+			  jsval *argv,
+			  jsval *rval);
+
+JSBool
+SFVec2fFinalize(JSContext *cx,
+				JSObject *obj);
+
+JSBool 
+SFVec2fGetProperty(JSContext *cx,
+				   JSObject *obj,
+				   jsval id,
+				   jsval *vp);
+
+JSBool 
+SFVec2fSetProperty(JSContext *cx,
+				   JSObject *obj,
+				   jsval id,
+				   jsval *vp);
+
+JSBool
+SFVec2fSetInternal(void *cx,
 				   void *globalObj,
 				   char *name,
 				   SV *sv);
@@ -237,6 +444,10 @@ SFVec3fConstr(JSContext *cx,
 			  jsval *argv,
 			  jsval *rval);
 
+JSBool
+SFVec3fFinalize(JSContext *cx,
+				JSObject *obj);
+
 JSBool 
 SFVec3fGetProperty(JSContext *cx,
 				   JSObject *obj,
@@ -309,6 +520,10 @@ SFRotationConstr(JSContext *cx,
 				 uintN argc,
 				 jsval *argv,
 				 jsval *rval);
+
+JSBool 
+SFRotationFinalize(JSContext *cx,
+				   JSObject *obj);
 
 JSBool 
 SFRotationGetProperty(JSContext *cx,
@@ -466,6 +681,7 @@ MFStringAddProperty(JSContext *cx,
 					jsval *vp);
 
 
+
 /*
  * VRML Node types as JS classes:
  */
@@ -487,11 +703,8 @@ static JSClass SFNodeClass = {
 
 static JSFunctionSpec (SFNodeFunctions)[] = {{0}};
 
-static JSObject *proto_SFRotation;
+JSObject *proto_SFRotation;
 
-/* typedef struct _SFRotationIntern { */
-/* 	float r[4]; */
-/* } SFRotationIntern; */
 
 typedef struct _TJL_SFRotation {
 	int touched; 
@@ -509,7 +722,7 @@ static JSClass SFRotationClass = {
 	JS_EnumerateStub,
 	JS_ResolveStub,
 	JS_ConvertStub,
-	JS_FinalizeStub
+	SFRotationFinalize
 };
 
 static JSPropertySpec (SFRotationProperties)[] = {
@@ -532,10 +745,6 @@ static JSFunctionSpec (SFRotationFunctions)[] = {
 
 static JSObject *proto_SFColor;
 
-/* typedef struct _SFColorIntern { */
-/* 	float c[3]; */
-/* } SFColorIntern; */
-
 typedef struct _TJL_SFColor {
 	int touched; 
 	struct SFColor v;
@@ -551,7 +760,7 @@ static JSClass SFColorClass = {
 	JS_EnumerateStub,
 	JS_ResolveStub,
 	JS_ConvertStub,
-	JS_FinalizeStub
+	SFColorFinalize
 };
 
 static JSPropertySpec (SFColorProperties)[] = {
@@ -568,8 +777,45 @@ static JSFunctionSpec (SFColorFunctions)[] = {
 	{0}
 };
 
+static JSObject *proto_SFImage;
 
-static JSObject *proto_SFVec3f;
+typedef struct _TJL_SFImage {
+	int touched; 
+	struct SFImage v;
+} TJL_SFImage;
+
+
+static JSClass SFImageClass = {
+	"SFImage",
+	JSCLASS_HAS_PRIVATE,
+	JS_PropertyStub,
+	JS_PropertyStub,
+	JS_PropertyStub, /* getter */
+	JS_PropertyStub, /* setter */
+	JS_EnumerateStub,
+	JS_ResolveStub,
+	JS_ConvertStub,
+	SFImageFinalize
+};
+
+static JSPropertySpec (SFImageProperties)[] = {
+	{"x", 0, JSPROP_ENUMERATE},
+	{"y", 1, JSPROP_ENUMERATE},
+	{"depth", 2, JSPROP_ENUMERATE},
+	{"data", 3, JSPROP_ENUMERATE},
+	{"texture", 4, JSPROP_ENUMERATE},
+	{0}
+};
+
+static JSFunctionSpec (SFImageFunctions)[] = {
+	{"assign", SFImageAssign, 0},
+	{"toString", SFImageToString, 0},
+	{"__touched", SFImageTouched, 0},
+	{0}
+};
+
+
+JSObject *proto_SFVec3f;
 
 typedef struct _TJL_SFVec3f {
 	int touched; 
@@ -586,7 +832,7 @@ static JSClass SFVec3fClass = {
 	JS_EnumerateStub,
 	JS_ResolveStub,
 	JS_ConvertStub,
-	JS_FinalizeStub
+	SFVec3fFinalize
 };
 
 static JSPropertySpec (SFVec3fProperties)[] = {
@@ -606,6 +852,44 @@ static JSFunctionSpec (SFVec3fFunctions)[] = {
 	{"length", SFVec3fLength, 0},
 	{"cross", SFVec3fCross, 0},
 	{"negate", SFVec3fNegate, 0},
+	{0}
+};
+
+JSObject *proto_SFVec2f;
+
+typedef struct _TJL_SFVec2f {
+	int touched; 
+	struct SFVec2f v;
+} TJL_SFVec2f;
+
+static JSClass SFVec2fClass = {
+	"SFVec2f",
+	JSCLASS_HAS_PRIVATE,
+	JS_PropertyStub,
+	JS_PropertyStub,
+	SFVec2fGetProperty,
+	SFVec2fSetProperty,
+	JS_EnumerateStub,
+	JS_ResolveStub,
+	JS_ConvertStub,
+	SFVec2fFinalize
+};
+
+static JSPropertySpec (SFVec2fProperties)[] = {
+	{"x", 0, JSPROP_ENUMERATE},
+	{"y", 1, JSPROP_ENUMERATE},
+	{0}
+};
+
+static JSFunctionSpec (SFVec2fFunctions)[] = {
+	{"assign", SFVec2fAssign, 0},
+	{"toString", SFVec2fToString, 0},
+	{"__touched", SFVec2fTouched, 0},
+	{"subtract", SFVec2fSubtract, 0},
+	{"normalize", SFVec2fNormalize, 0},
+	{"add", SFVec2fAdd, 0},
+	{"length", SFVec2fLength, 0},
+	{"negate", SFVec2fNegate, 0},
 	{0}
 };
 
