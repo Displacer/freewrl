@@ -1,5 +1,5 @@
 #
-# $Id: Parser.pm,v 1.16 2002/11/29 17:07:07 ayla Exp $
+# $Id: Parser.pm,v 1.17 2002/12/05 22:20:36 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -113,6 +113,8 @@ sub parse {
 # return undef.
 sub parse_statement { # string in $_[1]
 	my($scene) = @_;
+	## commas again
+	$_[1] =~ /\G\s*,\s*/gsc;
 	my $justcheck = $_[2];
 	print "PARSE: '",substr($_[1],pos $_[1]),"'\n"
 		if $VRML::verbose::parse;
@@ -304,7 +306,7 @@ sub parse {
 
 
 		my $node = VRML::Field::SFNode->parse($scene,$_[2]);
-		print "DEF - node is $node \n" if  $VRML::verbose::parse;
+		print "DEF - node $defname is $node \n" if  $VRML::verbose::parse;
 
                 return $scene->new_def($defname, $node);
 
