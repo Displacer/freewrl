@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.56 2003/07/24 18:15:24 ayla Exp $
+# $Id: Scene.pm,v 1.57 2003/07/30 21:45:52 ayla Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -865,6 +865,7 @@ my %VISIBLE = map {($_=>1)} qw/
 
 sub make_backend {
 	my ($this, $be, $parentbe) = @_;
+	my $vrml97_msg = "VRML97 4.8.3: 'A prototype definition consists of one or more nodes, nested PROTO statements, and ROUTE statements.'";
 
 	print "VRML::SCENE::make_backend ",VRML::NodeIntern::dump_name($this),
 		" $be $parentbe \n"
@@ -886,13 +887,19 @@ sub make_backend {
 
 		# this is the first node; make it no matter what kind it is.
 		# print "going to make this, no matter what: ",$this->{Nodes}[0]->{TypeName},"\n";
+		if (! defined $this->{Nodes}[0]) {
+			die("$vrml97_msg Empty prototype definition for $this->{NodeParent}{TypeName}");
+		}
 		$bn = $this->{Nodes}[0]->make_backend($be, $parentbe);
 
 
 		# other nodes; make them as long as they are not visible
-		my $nc; my $tn; my $wn;
+		my $nc;
+		my $tn;
+		my $wn;
 
-		$nc = 1;	# already did first node...
+		$nc = 1; # already did first node...
+
 		my $tn = $#{$this->{Nodes}};
 
 		while ($nc <= $tn) {
