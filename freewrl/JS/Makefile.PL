@@ -4,7 +4,7 @@
 # for conditions of use and redistribution, EXCEPT on the files
 # which belong under the Mozilla public license.
 #
-# $Id: Makefile.PL,v 1.5 2002/11/25 17:50:38 ayla Exp $
+# $Id: Makefile.PL,v 1.6 2003/01/15 16:52:34 sdumoulin Exp $
 #
 #
 # a.out: js.c
@@ -71,8 +71,9 @@ WriteMakefile(
 			  # You have to explain here how to find your opengl libs.
 			  LIBS => $libs,
 			  INC => $inc,
+dynamic_lib => { 'OTHERLDFLAGS' => $VRML_CONFIG{LDFLAGS}, 'LDDLFLAGS' => $VRML_CONFIG{LDDLFLAGS} },
 			  DEFINE => '-DXP_UNIX', # assume Unix and related OSs for now
-			  ##CCFLAGS => $ccflags,
+			  CCFLAGS => $ccflags,
 			  OPTIMIZE => '-O2'
 			 );
 
@@ -93,6 +94,18 @@ OBJECT+=$(CFUNC_SRC:%c=%o)
 };
 
 	return ($post_const);
+}
+
+sub MY::dynamic_lib {
+"ARMAYBE = :
+OTHERLDFLAGS =  -dynamic -bundle -L/usr/local/lib -L/Library/Perl/darwin/CORE/ -lperl
+INST_DYNAMIC_DEP =
+
+\$\(INST_DYNAMIC\): \$\(OBJECT\) \$\(MYEXTLIB\) \$\(BOOTSTRAP\) \$\(INST_ARCHAUTODIR\)/.exists \$\(EXPORT_LIST\) \$\(PERL_ARCHIVE\) \$\(PERL_ARCHIVE_AFTER\) \$\(INST_DYNAMIC_DEP\)
+	\$\(RM_F\) \$\@
+	LD_RUN_PATH=\$\(LD_RUN_PATH\) \$\(LD\) \$\(LDFROM\) \$\(OTHERLDFLAGS\) -o \$\@ \$\(MYEXTLIB\) \$\(PERL_ARCHIVE\) \$\(LDLOADLIBS\) \$\(PERL_ARCHIVE_AFTER\) \$\(EXPORT_LIST\)
+	\$\(CHMOD\) \$\(PERM_RWX\) \$\@
+"
 }
 
 sub MY::c_o {
