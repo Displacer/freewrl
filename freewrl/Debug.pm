@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Debug.pm,v 1.1 2003/03/20 22:44:20 ayla Exp $
+# $Id: Debug.pm,v 1.2 2003/03/27 22:48:42 ayla Exp $
 #
 # Useful for verbose/debugging statements.
 
@@ -17,9 +17,12 @@ package VRML::Debug;
 sub toString {
 	my ($dt) = @_;
 
-	return "NULL" if ($dt eq "");
+	return "NULL" if (!defined $dt);
+	return "\"\"" if ($dt eq "");
 
 	my $ref = ref $dt;
+
+	return $dt if (!$ref);
 
 	if ($ref eq "HASH") {
 		my $key;
@@ -45,8 +48,10 @@ sub toString {
 		return "$dt { $dt->{DEFName}, ".toString($dt->{DEFNode})." }";
 	} elsif ($ref eq "VRML::IS") {
 		return "$dt { $dt->{Name}, ".toString($dt->{Ref}).", ".toString($dt->{ISField})." }";
-	} else {
+	} elsif ($ref =~ /(Intern|Scene|Type)$/) {
 		return VRML::NodeIntern::dump_name($dt);
+	} else {
+		return "$ref ".$dt;
 	}
 }
 
