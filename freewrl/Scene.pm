@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.51 2003/06/19 20:20:59 crc_canada Exp $
+# $Id: Scene.pm,v 1.52 2003/06/24 15:49:59 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -928,19 +928,19 @@ sub make_backend {
 		#print "Scene, done NOT PROTO ",VRML::NodeIntern::dump_name($this)," $be $parentbe\n";
  		$be->set_vp_sub(
  			sub {
-				print "set_vp_sub start\n";
+				# print "set_vp_sub start\n";
  				my $b = $this->get_browser();
  				my $vn = $b->get_vp_node();
  				my $vs = $b->get_vp_scene();
  				return if (!defined $vn);
-				print "set_vp_sub, vs $vs\n";
+				# print "set_vp_sub, vs $vs\n";
 				# send an unbind of current viewpoint
  				$vs->{EventModel}->send_set_bind_to($vn, 0);
  				$b->set_next_vp();
  				my $vn = $b->get_vp_node();
 				# and send a bind of the next viewpoint
  				$vs->{EventModel}->send_set_bind_to($vn, 1);
-				print "set_vp_sub end\n";
+				# print "set_vp_sub end\n";
  			}
  		);	
 	}
