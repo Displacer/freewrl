@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.72 2003/04/01 20:08:46 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.73 2003/04/03 17:29:01 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.73  2003/04/03 17:29:01  crc_canada
+# setup_projection function to take advantage of animated Viewpoints
+#
 # Revision 1.72  2003/04/01 20:08:46  crc_canada
 # zpl code removed - see freewrl.PL.
 #
@@ -1209,6 +1212,10 @@ GLint viewport[4] = {-1,-1,2,2};
 struct pt hp, ht1, ht2;
 double hpdist; /* distance in ray: 0 = r1, 1 = r2, 2 = 2*r2-r1... */
 
+/* Viewpoint Field of View */
+GLdouble fieldofview = 45;
+
+
 struct currayhit {
 void *node; /* What node hit at that distance? */
 GLdouble modelMatrix[16]; /* What the matrices were at that node */
@@ -1773,6 +1780,17 @@ CODE:
 	ViewerDelta.x = x;
 	ViewerDelta.y = y;
 	ViewerDelta.z = z;
+
+
+# setup_projection
+void
+setup_projection(ratio)
+	double ratio
+CODE:
+        gluPerspective(fieldofview, ratio, 0.1, 21000.0);
+        glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
+        glMatrixMode(GL_MODELVIEW);
+
 
 
 void
