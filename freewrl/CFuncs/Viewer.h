@@ -2,7 +2,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.3 2003/06/12 14:51:37 ayla Exp $
+ * $Id: Viewer.h,v 1.4 2003/06/12 18:21:48 ayla Exp $
  *
  */
 
@@ -33,13 +33,19 @@
 #include "quaternion.h"
 #include "OpenGL_Utils.h"
 
-#define UNUSED(v) ((void) v)
 
 #define NONE 0
 #define EXAMINE 1
 #define WALK 2
 #define EXFLY 3
 #define FLY 4
+
+#define VIEWER_STRING(type) ( \
+	type == NONE ? "NONE" : ( \
+	type == EXAMINE ? "EXAMINE" : ( \
+	type == WALK ? "WALK" : ( \
+	type == EXFLY ? "EXFLY" : ( \
+	type == FLY ? "FLY" : "UNKNOWN")))))
 
 #define PRESS "PRESS"
 #define PRESS_LEN 5
@@ -149,6 +155,9 @@ viewer_init(
 			VRML_Viewer *viewer,
 			int type
 			);
+
+void
+print_viewpoint(VRML_Viewer *viewer);
 
 unsigned int
 get_buffer(VRML_Viewer *viewer);
