@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.47 2003/05/12 19:02:57 crc_canada Exp $
+# $Id: Scene.pm,v 1.48 2003/05/14 15:42:27 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -753,11 +753,8 @@ sub set_parentnode {
 # XXX This routine is too static - should be split and executed
 # as the scene graph grows/shrinks.
 
-# JAS XXX - I don't think that TouchSensors (maybe TimeSensors??) are 
-# cought by this "sends" stuff....
-
 {
-	my %sends = map {($_ => 1)} qw/ TouchSensor TimeSensor /;
+	my %sends = map {($_ => 1)} qw/ Anchor TouchSensor TimeSensor /;
 
 	sub make_executable {
 		my ($this) = @_;
@@ -917,49 +914,51 @@ sub setup_routing {
 	}
 
     $this->iterate_nodes(sub {
-							 print "\tITNOREF: ",VRML::NodeIntern::dump_name($_[0]),"\n"
-								 if $VRML::verbose::scene;
+		 print "\tITNOREF: ",VRML::NodeIntern::dump_name($_[0]),"\n"
+		 if $VRML::verbose::scene;
 
-							 return unless "VRML::NodeIntern" eq ref $_[0];
-							 print "\t\tITNO: $_[0]->{TypeName} ($VRML::Nodes::initevents{$_[0]->{TypeName}})\n" 
-								 if $VRML::verbose::scene;
-							 if ($VRML::Nodes::initevents{$_[0]->{TypeName}}) {
-								 print "\tITNO:is member of initevents\n" 
-									 if $VRML::verbose::scene;
-								 $eventmodel->add_first($_[0]);
-							 } else {
-								 if ($_[0]->{ProtoExp}) {
-									 # print "VRML::Scene::setup routing, this is a proto, calling protoexp setup_routing\n";
-									 $_[0]->{ProtoExp}->setup_routing($eventmodel, $be);
-								 }
-							 }
-							 # Look at child nodes
-							 my $c;
-							 if ($c = $VRML::Nodes::children{$_[0]->{TypeName}}) {
-								 my $ref = $_[0]->{RFields}{$c};
-								 print "\tCHILDFIELD: GOT @$ref FOR CHILDREN\n"
-									 if $VRML::verbose::scene;
+		 return unless "VRML::NodeIntern" eq ref $_[0];
+		 print "\t\tITNO: $_[0]->{TypeName} ($VRML::Nodes::initevents{$_[0]->{TypeName}})\n" 
+			 if $VRML::verbose::scene;
+		 if ($VRML::Nodes::initevents{$_[0]->{TypeName}}) {
+			 print "\tITNO:is member of initevents\n" 
+				 if $VRML::verbose::scene;
+			 $eventmodel->add_first($_[0]);
+		 } else {
+			 if ($_[0]->{ProtoExp}) {
+				 # print "VRML::Scene::setup routing, this is a proto, calling protoexp setup_routing\n";
+				 $_[0]->{ProtoExp}->setup_routing($eventmodel, $be);
+			 }
+		 }
+		 # Look at child nodes
+		 my $c;
+		 if ($c = $VRML::Nodes::children{$_[0]->{TypeName}}) {
+			 my $ref = $_[0]->{RFields}{$c};
+			 print "\tCHILDFIELD: GOT @$ref FOR CHILDREN\n"
+				 if $VRML::verbose::scene;
 
-								 for (@$ref) {
-									 # XXX Removing/moving sensors?!?!
-									 my $n = $_->real_node();
+			 for (@$ref) {
+				 # XXX Removing/moving sensors?!?!
+				 my $n = $_->real_node();
 
-									 print "\tREALNODE: $n $n->{TypeName}\n" if $VRML::verbose::scene;
-									 if ($VRML::Nodes::siblingsensitive{$n->{TypeName}}) {
-										 print "VRML::Scene sibling sensitive $n $n->{TypeName} bn ",
-											 $_[0], "\n" if $VRML::verbose::scene;
-										 $be->set_sensitive($_[0]->{BackNode},
-															sub {
-																$eventmodel->handle_touched($n, @_);
-															});
-									 }
-								 }
-							 }
+				 print "\tREALNODE: $n $n->{TypeName}\n" if $VRML::verbose::scene;
+				 if ($VRML::Nodes::siblingsensitive{$n->{TypeName}}) {
+					 print "VRML::Scene sibling sensitive $n $n->{TypeName} bn ",
+						 $_[0], "\n" if $VRML::verbose::scene;
+					 $be->set_sensitive($_[0]->{BackNode},
+						sub {
+							$eventmodel->handle_touched($n, @_);
+						});
+				 }
+			 }
+		 }
 
-							 if ($VRML::Nodes::sensitive{$_[0]->{TypeName}}) {
-								 $be->set_sensitive($_[0]->{BackNode}, sub {},);
-							 }
-						 });
+		# Anchors, etc. 
+		 if ($VRML::Nodes::sensitive{$_[0]->{TypeName}}) {
+			my $n = $_->real_node();
+			$be->set_sensitive($_[0]->{BackNode}, sub {$eventmodel->handle_touched($n, @_); });
+		 }
+	 });
 
 	print "\tDEFINED NODES in ", VRML::NodeIntern::dump_name($this),": ",
 		(join ',', keys %{$this->{DEF}}),"\n"
