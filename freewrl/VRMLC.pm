@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.100 2003/07/09 18:30:34 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.101 2003/07/15 14:04:08 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.101  2003/07/15 14:04:08  crc_canada
+# Viewer selection work
+#
 # Revision 1.100  2003/07/09 18:30:34  crc_canada
 # removeChildren now possible for a normal ROUTE.
 #
@@ -2246,12 +2249,6 @@ CODE:
 
 #********************************************************************************
 # Viewer functions implemented in C replacing viewer Perl module
-
-void
-do_viewer_init(type)
-	int type
-CODE:
-	viewer_init(&Viewer, type);
 
 void
 do_print_viewer()
