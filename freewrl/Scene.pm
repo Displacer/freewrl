@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.61 2003/09/25 17:40:42 crc_canada Exp $
+# $Id: Scene.pm,v 1.62 2003/10/01 16:56:54 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -765,7 +765,7 @@ sub set_parentnode {
 # as the scene graph grows/shrinks.
 
 {
-	my %sends = map {($_ => 1)} qw/ Anchor TouchSensor TimeSensor /;
+	my %sends = map {($_ => 1)} qw/ Anchor TouchSensor TimeSensor GeoTouchSensor /;
 
 	sub make_executable {
 		my ($this) = @_;
@@ -868,6 +868,7 @@ my %VISIBLE = map {($_=>1)} qw/
 	Sphere
 	IndexedFaceSet
 	ElevationGrid
+	GeoElevationGrid
 	Extrusion
 	IndexedLineSet
 	Background
