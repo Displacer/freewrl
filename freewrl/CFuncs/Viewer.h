@@ -2,7 +2,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.6 2003/06/20 07:12:24 ayla Exp $
+ * $Id: Viewer.h,v 1.7 2003/06/26 14:57:58 crc_canada Exp $
  *
  */
 
@@ -132,9 +132,7 @@ typedef struct viewer_fly {
 
 typedef struct viewer {
 	struct pt Pos;
-	struct pt AntiPos;
 	Quaternion Quat;
-	Quaternion AntiQuat;
 	int headlight;
 	double speed;
 	double Dist;
@@ -246,10 +244,11 @@ set_stereo_offset(unsigned int buffer,
 				  const double eyehalfangle,
 				  double fieldofview);
 
-
 void
 increment_pos(VRML_Viewer *viewer,
 			  struct pt *vec);
 
+void
+bind_viewpoint(struct VRML_Viewpoint *node);
 
 #endif /* __VIEWER_H_ */
