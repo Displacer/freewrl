@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.65 2002/08/02 15:08:53 ncoder Exp $
+# $Id: VRMLNodes.pm,v 1.66 2002/08/14 17:43:34 ncoder Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1934,6 +1934,7 @@ Viewpoint => new VRML::NodeType("Viewpoint",
 
 		$t->{BackEnd}->bind_viewpoint($t,
 			($revealed?$t->{VP_Info}:undef));
+		VRML::VRMLFunc::reset_upvector();
 	},
 	WhenUnBound => sub {
 		my($t,$scene) = @_;
