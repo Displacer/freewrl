@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: USE.pm,v 1.3 2003/03/27 22:46:22 ayla Exp $
+# $Id: USE.pm,v 1.4 2004/03/09 20:19:20 crc_canada Exp $
 #
 # Package to handle nodes referenced using the USE keyword.
 
@@ -69,6 +69,12 @@ sub name {
 
 sub node {
     my ($this) = @_;
+    if (!defined  ($this->{DEFNode})) {
+	    print "USE name: ", $this->{DEFName}, " not DEF'd\n";
+	    print "Unrecoverable error; FreeWRL has to exit. \n";
+	    exit(1);
+    }
+
     return $this->{DEFNode}->node();
 }
 
