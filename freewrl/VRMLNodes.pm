@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.125 2004/12/01 21:28:08 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.126 2005/01/28 14:55:34 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -293,7 +293,8 @@ my $protono;
 	PixelTexture =>
 	new VRML::NodeType("PixelTexture",
 					   {
-						image => [SFImage, [0, 0, 0], exposedField],
+						#JAS image => [SFImage, [0, 0, 0], exposedField],
+						image => [SFImage, "0, 0, 0", exposedField],
 						repeatS => [SFBool, 1, field],
 						repeatT => [SFBool, 1, field],
 						__texture => [SFInt32, 0, field],
