@@ -1,4 +1,4 @@
-/* $Id: LinearAlgebra.h,v 1.7 2002/08/20 15:19:48 ncoder Exp $
+/* $Id: LinearAlgebra.h,v 1.8 2003/04/09 16:33:10 sdumoulin Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * Portions Copyright (C) 1998 Tuomas J. Lukka 1998 Bernhard Reiter 1999 John Stewart CRC Canada
@@ -11,8 +11,11 @@
 
 
 #include <math.h>
+#ifdef AQUA 
+#include <gl.h>
+#else
 #include <GL/gl.h>
-
+#endif
 #include "Structs.h"
 
 /*Fast macros */
