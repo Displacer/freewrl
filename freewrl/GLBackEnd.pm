@@ -120,13 +120,15 @@ sub new {
         glClearColor(0,0,0,1);
 #        my $lb = VRML::OpenGL::glpRasterFont("5x8",0,256);
 #        $VRML::OpenGL::fontbase = $lb;
-#       glDisable(&GL_DITHER);
-        # glShadeModel (&GL_SMOOTH);
+#        glDisable(&GL_DITHER);
+#        glShadeModel (&GL_SMOOTH);
         glShadeModel (&GL_FLAT);
 	glDepthFunc(&GL_LEQUAL);
         glEnable(&GL_DEPTH_TEST);
 	glEnable(&GL_BLEND);
-	glBlendFunc(&GL_SRC_ALPHA,&GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFunc(&GL_SRC_ALPHA,&GL_ONE_MINUS_SRC_ALPHA);
+#	glBlendFunc(&GL_SRC_ALPHA, &GL_ONE);
+
         glEnable(&GL_NORMALIZE);
         glEnable(&GL_LIGHTING);
         glEnable(&GL_LIGHT0);

@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.12 2000/09/03 20:17:50 rcoscali Exp $
+# $Id: VRMLRend.pm,v 1.12.2.1 2000/09/05 21:18:50 rcoscali Exp $
 #
 # Name:        VRMLRend.c
 # Description: 
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.12.2.1  2000/09/05 21:18:50  rcoscali
+# Start implementation of alpha blending rendering
+#
 # Revision 1.12  2000/09/03 20:17:50  rcoscali
 # Made some test for blending
 # Tests are displayed with 38 & 39.wrlð
@@ -81,11 +84,6 @@ Box => (join '',
 	 glPushAttrib(GL_LIGHTING);
 	 glShadeModel(GL_FLAT);
 	 glBegin(GL_QUADS);
-
-				  glEnable(GL_BLEND);
-				  glDepthFunc(GL_LEQUAL);
-				  glDepthMask(GL_FALSE);
-				  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 		/* front side */
 		glNormal3f(0,0,1);
@@ -1308,6 +1306,58 @@ DirectionalLight => '
 	}
 ',
 
+);
+#######################################################################
+#######################################################################
+#######################################################################
+#
+# PrepBlendRend --
+#  Prepare for rendering a node - e.g. for transforms, do the transform
+#  but not the children.
+#
+# We need for each kind of geom ,
+#  - cut the geom in several polys (immediate for sphere or indexed face set, not for box)
+#  - for each poly in this set of polys
+#    + calculate the coords of the poly in viewpoint reference
+#    + calc the average z
+#    + calc a hash key being a function of z
+#    + create a new blended_poly struct (keeping all GL params used for rendering)
+#        -- The rendering of the polys will be done by going through the scene as normal rendering --
+#    + linkage of this struct in the list of blended poly
+#    + Adding this struct in the z ordered list or Btree
+#
+
+%PrepBlendRendC = (
+Box => '
+	/* Blended polygons rendering preparation for Box */
+',
+Cylinder => '
+	/* Blended polygons rendering preparation for Cylinder */
+',
+Cone => '
+	/* Blended polygons rendering preparation for Cone */
+',
+Sphere => '
+	/* Blended polygons rendering preparation for Sphere */
+',
+IndexedFaceSet => '
+	/* Blended polygons rendering preparation for IndexedFaceSet */
+',
+IndexedLineSet => '
+	/* Blended polygons rendering preparation for IndexedLineSet */
+',
+Extrusion => '
+	/* Blended polygons rendering preparation for Extrusion */
+',
+ElevationGrid => '
+	/* Blended polygons rendering preparation for ElevationGrid */
+',
+Text => '
+	/* Blended polygons rendering preparation for Text */
+',
+PointSet => '
+	/* Blended polygons rendering preparation for PointSet */
+'
 );
 
 #######################################################################

@@ -1,5 +1,5 @@
 #
-# $Id: VRMLC.pm,v 1.10 2000/09/03 20:17:50 rcoscali Exp $
+# $Id: VRMLC.pm,v 1.10.2.1 2000/09/05 21:19:17 rcoscali Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -28,6 +28,9 @@
 #  do normals for indexedfaceset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.10.2.1  2000/09/05 21:19:17  rcoscali
+# Start implementation of alpha blending rendering
+#
 # Revision 1.10  2000/09/03 20:17:50  rcoscali
 # Made some test for blending
 # Tests are displayed with 38 & 39.wrlð
@@ -923,7 +926,7 @@ sub get_rendfunc {
 	my($n) = @_;
 	print "RENDF $n ";
 	# XXX
-	my @f = qw/Prep Rend Child Fin RendRay GenPolyRep Light Get3 Get2
+	my @f = qw/Prep PrepBlendRend Rend Child Fin RendRay GenPolyRep Light Get3 Get2
 		Changed/;
 	my $f;
 	my $v = "
@@ -1034,9 +1037,6 @@ static struct VRML_Virt virt_${n} = { ".
 				glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, \$f(repeatS$1) ? GL_REPEAT : GL_CLAMP );
 				glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, \$f(repeatT$1) ? GL_REPEAT : GL_CLAMP );
 
-/*
-				glDisable(GL_LIGHTING);
-*/
 				glEnable(GL_TEXTURE_2D);
 				glColor3f(1.0,1.0,1.0);
 
@@ -1326,6 +1326,8 @@ struct VRML_Virt {
 	void (*rendray)(void *);
 	void (*mkpolyrep)(void *);
 	void (*light)(void *);
+	void (*prep_blended_rend)(void *);
+	void (*blend_rend)(void *);
 	/* And get float coordinates : Coordinate, Color */
 	/* XXX Relies on MFColor repr.. */
 	struct SFColor *(*get3)(void *, int *); /* Number in int */
@@ -1357,7 +1359,7 @@ struct VRML_PolyRep { /* Currently a bit wasteful, because copying */
 	print XS '
 
 int verbose;
-
+int bverbose = 1;
 int reverse_trans;
 int render_vp; 
 int render_geom;
@@ -1703,12 +1705,16 @@ void destruct_tessellation(void) {
  */
 	';
 
-#######################################################j
-
-
+##
+## Now add rendering funcs & structs
+##
 	print XS join '',@func;
 	print XS join '',@vstruc;
-#######################################################
+
+##
+## Basic rendering funcs (polys & nodes)
+##
+
 	print XS <<'ENDHERE'
 
 /*********************************************************************
@@ -1902,7 +1908,7 @@ void render_ray_polyrep(void *node,
 			 	v3.x,v3.y,v3.z, -1,-1, "polyrep");
 		 }
 
-#ifdef FOOEIFJOESFIJESF
+#if 0
 		/* But maybe easier: calc. (ray1->p1) x ray,
 		 * (ray1->p2) x ray and (ray1->p3) x ray 
 		 * and dot products of these. if sum > -180, ok.
@@ -1929,7 +1935,7 @@ void render_ray_polyrep(void *node,
 		/* Now the simple condition: one of the angles 
 		if( acos(pt1) + acos(pt2) + acos(pt3)
 		*/
-#endif FOEIJFOEJFOIEJ
+#endif /* 0 */
 	}
 }
 
@@ -1987,6 +1993,86 @@ void calc_poly_normals_flat(struct VRML_PolyRep *rep)
 /*********************************************************************
  *********************************************************************
  *
+ * is_node_blended : look at the children of a Shape node to see if
+ * it is translucent.
+ * Return a boolean (0/1)
+ */
+int
+is_node_blended( struct VRML_Box *p )
+{
+  int blended = 0;
+  if (!strcmp(v->name, "Shape")) 
+    {
+      struct VRML_Appearance *ap = (struct VRML_Appearance *)(((struct VRML_Shape *)p)->appearance);
+      struct VRML_Virt *vgeom = ((((struct VRML_Shape *)p)->geometry) ? *((struct VRML_Virt **)(((struct VRML_Shape *)p)->geometry)) : NULL);
+      char *geom_name = (vgeom ? vgeom->name : "NO GEOMETRY");
+      if (bverbose) printf("==> Render_node %s\n", v->name );
+      if(ap) 
+	{
+	  struct VRML_Material *mat = (struct VRML_Material *)ap->material;
+	  struct VRML_Virt *tex = *(struct VRML_Virt **)ap->texture;
+
+	  if(mat) 
+	    {
+	      float trans = mat->transparency;
+	      if(trans < 1.0) 
+		{
+		  if (bverbose) printf("This Shape (%s) is translucent (Mat trans = %f)\n", geom_name, trans);
+		  blended = 1;
+		} 
+	      else 
+		{
+		  if (bverbose) printf("Opaque %s Shape (Mat trans = %f)\n", geom_name, trans);
+		}
+	    }
+	  if(tex && !strcmp(tex->name, "ImageTexture")) 
+	    {
+	      struct VRML_ImageTexture *itex = (struct VRML_ImageTexture *)ap->texture;
+	      int dep = itex->__depth;
+	      if(dep == 4) 
+		{
+		  if (bverbose) printf("This shape (%s) is textured with a transparent image\n", geom_name);
+		  blended = 1;
+		} 
+	      else 
+		{
+		  if (bverbose) printf("Opaque %s shape\n", geom_name);
+		}
+	    }
+	  if(tex && !strcmp(tex->name, "PixelTexture")) 
+	    {
+	      struct VRML_PixelTexture *ptex = (struct VRML_PixelTexture *)ap->texture;
+	      int dep = ptex->__depth;
+	      if(dep == 4) 
+		{
+		  if (bverbose) printf("This shape (%s) is textured with transparent pixels\n", geom_name);
+		  blended = 1;
+		} 
+	      else 
+		{
+		  if (bverbose) printf("Opaque %s shape\n", geom_name);
+		}
+	    }
+	}
+    }
+  return blended;
+}
+
+/*********************************************************************
+ *********************************************************************
+ *
+ * render_blended_poly: follow the Btree in reverse z order & rend 
+ * blended polygons
+ */
+void
+render_blended_poly(void)
+{
+  printf( "========!!!  render_blended_poly  !!!========\n");
+}
+
+/*********************************************************************
+ *********************************************************************
+ *
  * render_node : call the correct virtual functions to render the node
  * depending on what we are doing right now.
  */
@@ -1997,6 +2083,7 @@ void render_node(void *node) {
 	int srg;
 	int sch;
 	struct currayhit srh;
+	int blended = 0;
 	if(verbose) printf("Render_node %d\n",node);
 	if(!node) {return;}
 	v = *(struct VRML_Virt **)node;
@@ -2020,6 +2107,8 @@ void render_node(void *node) {
 		   render_sensitive);
 	  }
 
+	blended=is_node_blended(p);
+
 	if(p->_change != p->_ichange && v->changed) 
 	  {
 	    v->changed(node);
@@ -2034,9 +2123,23 @@ void render_node(void *node) {
 		upd_ray();
 	      }
 	  }
-	if(render_anything && render_geom && !render_sensitive && v->rend) 
+	if(render_anything && render_geom && !render_sensitive) 
 	  {
-	    v->rend(node);
+	    if (! blended && v->rend)
+	      {
+		v->rend(node);
+	      }
+	    elseif (blended && v->prep_blended_rend)
+	      {
+		v->prep_blended_rend(node);
+	      }
+	  }
+	if(render_anything && render_blend)
+	  {
+	    /* Called only once for the whole scene as the support is not the scene
+	       but the Btree of the blended polygons builded while prep_blended_rend */
+	    render_blended_polys();
+	    return;
 	  }
 	if(render_anything && render_light && v->light) 
 	  {
@@ -2069,7 +2172,7 @@ void render_node(void *node) {
 	    hyper_r2 = t_r2;
 	    hyperhit = 1;
 	  }
-	if(render_anything && v->children) {
+	if(render_anything && v->children && ! blended) {
 	  v->children(node);
 	}
 	if(render_anything && render_sensitive && p->_sens) 
