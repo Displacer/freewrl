@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.44 2002/01/14 20:11:46 hoenicke Exp $
+# $Id: VRMLNodes.pm,v 1.45 2002/01/14 20:16:06 hoenicke Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -750,7 +750,8 @@ FontStyle => new VRML::NodeType("FontStyle",
      print("Transform:removeChildren\n");
      print ("node $node, values ",(join " ", @$value),"\n");
      my %toremove = map { $_ => 1 } @{$value};
-     $node->{RFields}{children} = grep { !$toremove{$_} }  @{$node->{Fields}{children}};
+     my @nchild = grep { !$toremove{$_} }  @{$node->{Fields}{children}};
+     $node->{RFields}{children} = \@nchild;
      return ();
  },
 
