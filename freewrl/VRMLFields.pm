@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.17 2002/05/22 21:47:52 ayla Exp $
+# $Id: VRMLFields.pm,v 1.18 2002/06/17 16:39:19 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,10 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.18  2002/06/17 16:39:19  ayla
+#
+# Fixed VRML::DEF copy problem in package VRML::Field.
+#
 # Revision 1.17  2002/05/22 21:47:52  ayla
 #
 # Broke Scene.pm into files containing constituent packages for sanity's sake.
@@ -136,19 +140,22 @@ sub jsimpleget {return {}}
 
 sub copy {
 	my($type, $value) = @_;
-	if(!ref $value) {return $value}
-	if(ref $value eq "ARRAY") {
+
+	if (!ref $value) {
+		return $value
+	} elsif (ref $value eq "ARRAY") {
 		return [map {copy("",$_)} @$value]
-	}
-	if(ref $value eq "VRML::NodeIntern") {
+	} elsif (ref $value eq "VRML::NodeIntern") {
 		return $value;
-	}
-	if(ref $value eq "VRML::DEF") {
-		my $ret = [map {copy("",$_)} @$value];
-		bless $ret, "VRML::DEF";
+	} elsif (ref $value eq "VRML::DEF") {
+		##my $ret = [map {copy("",$_)} @$value];
+		##bless $ret, "VRML::DEF";
+		##return $ret;
+		my $ret = bless { map {copy("",$_)} %$value }, "VRML::DEF";
 		return $ret;
+	} else {
+		die("Can't copy this");
 	}
-	die("Can't copy this");
 }
 
 sub as_string {"VRML::Field - can't print this!"}
