@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.66 2003/11/26 16:31:06 crc_canada Exp $
+# $Id: Scene.pm,v 1.67 2003/11/27 14:50:51 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -940,8 +940,6 @@ sub make_backend {
 				 if $VRML::verbose::be;
 
 		$bn = $this->{RootNode}->make_backend($be, $parentbe);
-
-		#JAS $be->set_root($bn) unless $this->{IsInline};
 
 		#print "Scene, done NOT PROTO ",VRML::NodeIntern::dump_name($this)," $be $parentbe\n";
  		$be->set_vp_sub(

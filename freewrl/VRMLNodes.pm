@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.113 2003/11/26 16:31:06 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.114 2003/11/27 14:50:51 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -272,10 +272,6 @@ sub getTextFromURLs {
 # Image loading.
 #
 
-#JAS broken in threads my %image_same_url = ();
-
-
-
 # picture image
 sub init_image {
 	my($name, $urlname, $t, $f, $scene, $flip) = @_;
@@ -297,19 +293,7 @@ sub init_image {
 		goto NO_TEXTURE;
 	}
 
-        #JAS broken in threads if(exists $image_same_url{$file}) {
-	#JAS broken in threads 	# we have already seen this image
-	#JAS broken in threads 	$f->{__texture.$name} = $image_same_url{$file};
-	#JAS broken in threads 	return;
-	#JAS broken in threads }
-
-
-	#JAS $f->{__texture.$name} = VRML::VRMLFunc::glGenTexture();
 	$f->{__texture.$name} = 0;	# bind during rendering stage
-
-	# save the texture number for later
-	#JAS broken in threads $image_same_url{$file} = $f->{__texture.$name};
-
 
 	# find out what kind of file it is...
 	my $lgname = $ENV{LOGNAME};
