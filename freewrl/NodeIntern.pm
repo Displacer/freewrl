@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.38 2004/11/22 19:26:31 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.39 2005/03/11 01:02:16 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -223,6 +223,10 @@ sub startScript {
 	my $scene = $node->{Scene};
 	my $Browser = $node->{Scene}->get_browser();
 
+	#foreach (keys %$node) { print "startScript node key $_\n"; }
+	#foreach (keys %{$node->{Fields}}) { print "startScript nodefield key $_ val ",
+	#		$node->{Fields}{$_},"\n"; }
+
 	for (@{$node->{Fields}{url}}) {
 		# is this already made???
 		print "URL $_\n" if $VRML::verbose::events;
@@ -302,7 +306,7 @@ sub startScript {
 
 			$node->{J} = VRML::JS->new($scriptInvocationNumber, $code, $node, $Browser);
 			last;
-		} elsif (s/^\s*?(java|vrml)script://) {
+		} elsif (s/^\s*?(ecma|java|vrml)script://) {
 			eval('require VRML::JS;');
 			die $@ if ($@);
 
@@ -646,7 +650,7 @@ sub set_backend_fields {
 	sub make_backend {
 		my ($this, $be, $parentbe) = @_;
 
-		# print "make_backend, have type of ",$this->{TypeName},"\n";
+		#print "WSDT make_backend, have type of ",$this->{TypeName}," for $this\n";
 
 		# if this is a Text node, check the attached fontStyle. If the fontStyle
 		# is a proto, copy it over. We have to do this for Text nodes here, 

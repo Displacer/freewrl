@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.130 2005/03/08 15:27:35 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.131 2005/03/11 01:02:28 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -124,10 +124,9 @@ my $protono;
     # XXX When this changes, change Scene.pm: VRML::Scene::newp too --
     # the members must correspond.
     sub new {
-		my($type, $name, $fields, $eventsubs) = @_;
+		my($type, $name, $fields) = @_;
 		my $this = bless {
 						  Name => $name,
-						  Actions => $eventsubs,
 						  Defaults => {},
 						  EventOuts => {},
 						  EventIns => {},
