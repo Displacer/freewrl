@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.80 2004/10/08 19:28:01 crc_canada Exp $
+# $Id: Scene.pm,v 1.81 2004/10/22 19:02:25 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -215,6 +215,8 @@ sub newextp {
     $this->{URL} = $url;
     $this->{WorldURL} = $parentURL;
 
+    #print "newextp, url ",@{$url},", parenturl $parentURL\n";
+
     # is this an EXTERNPROTO invoked from another EXTERNPROTO? If so,
     # we may not have the correct parent url passed in.
     # this is not quite correct, but should work for 99% of the time.
@@ -256,13 +258,14 @@ sub newextp {
 
 	for (@{$url}) {
 		($protourl, $protoname) = split(/#/, $_, 2);
-
 		$string = VRML::Browser::getTextFromFile($protourl,$parentURL);
-
 		next if (!$string);
 
+
+		my $newurl = VRML::VRMLFunc::GetLastReadFile();
+		#print "Scene.pm - this file is $newurl\n";
 		# marijn: set the url for this proto
-		$this->set_url($protourl,$parentURL);
+		$this->set_url($newurl,$parentURL);
 
 		# convert from X3D if required.
 		if ($string =~/^<\?xml version/s) {

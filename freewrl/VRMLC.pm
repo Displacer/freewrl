@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.157 2004/10/06 13:39:44 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.158 2004/10/22 19:02:25 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.158  2004/10/22 19:02:25  crc_canada
+# javascript work.
+#
 # Revision 1.157  2004/10/06 13:39:44  crc_canada
 # Debian patches from Sam Hocevar.
 #
@@ -1040,6 +1043,7 @@ char *BrowserVersion = NULL;
 char *BrowserURL = NULL;
 char *BrowserFullPath = NULL;
 char *BrowserName = "FreeWRL VRML/X3D Browser";
+char *lastReadFile = NULL;
 
 int rootNode=0;	// scene graph root node
 
@@ -1713,6 +1717,15 @@ CODE:
 	RETVAL = newSVpv(BrowserFullPath, strlen(BrowserFullPath));
 OUTPUT:
 	RETVAL
+
+# get the last file read in in InputFunctions.c
+SV *
+GetLastReadFile()
+CODE:
+	RETVAL = newSVpv(lastReadFile, strlen(lastReadFile));
+OUTPUT:
+	RETVAL
+	
 
 #****************JAVASCRIPT FUNCTIONS*********************************
 
