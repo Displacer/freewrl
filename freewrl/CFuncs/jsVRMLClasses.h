@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLClasses.h,v 1.1 2003/05/28 14:23:33 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.2 2003/05/28 19:05:33 crc_canada Exp $
  * 
  * Complex VRML nodes as Javascript classes.
  *
@@ -256,8 +256,7 @@ SFNodeToString(JSContext *cx,
 			   jsval *rval);
 
 JSBool
-SFNodeAssign(
-			 int num,
+SFNodeAssign(JSContext *cx, JSObject *obj,
 			 uintN argc,
 			 jsval *argv,
 			 jsval *rval);

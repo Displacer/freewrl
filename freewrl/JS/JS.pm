@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: JS.pm,v 1.19 2003/05/28 14:01:59 crc_canada Exp $
+# $Id: JS.pm,v 1.20 2003/05/28 19:03:59 crc_canada Exp $
 #
 #
 #
@@ -278,16 +278,10 @@ sub constrString {
 					$h = VRML::Handles::reserve($v->[$i]);
 				}
 
-				print "in constrString, h is $h, arris ",$v->[$i],"\n";
-				foreach (keys %{$h}) {
-					print "key $_\n";
-				}
-
 				if (!defined ($cn=$h->{BackNode}{CNode})) {
 					cleanupDie("ConstrString: no backend node for node $h");
 				}
 
-				#JAS $c .= "new SFNode('".VRML::Field::SFNode->as_string($h)."','".$cn."')";
 				$c .= "new SFNode('".$cn."','".VRML::Field::SFNode->as_string($h)."')";
 				$c .= "," unless ($i == ($l - 1));
 			}
