@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  * 
- * $Id: jsVRMLBrowser.c,v 1.5 2003/06/20 07:12:24 ayla Exp $
+ * $Id: jsVRMLBrowser.c,v 1.6 2003/07/10 17:50:28 crc_canada Exp $
  * 
  */
 
@@ -107,7 +107,6 @@ VrmlBrowserGetCurrentFrameRate(JSContext *context, JSObject *obj, uintN argc, js
 	sprintf (FPSstring,"%6.2f",BrowserFPS);
 	_str = JS_NewString(context,FPSstring,strlen(FPSstring)+1);
 	*rval = STRING_TO_JSVAL(_str);
-	printf ("fps from freewrl %s rval ptr %d val %d\n",FPSstring,rval,*rval);
 	return JS_TRUE;
 }
 
