@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.123 2004/07/13 19:46:20 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.124 2004/10/07 20:54:32 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -312,7 +312,9 @@ my $protono;
 						 repeatT => [SFBool, 1, field],
 						 duration_changed => [SFTime, -1, eventOut],
 						 isActive => [SFBool, 0, eventOut],
-						 #JAS __locfile => [MFString, [], field],
+						 
+						 # has the URL changed???
+						 __oldurl => [MFString, [""], field],
 						 # initial texture number
 						 __texture0_ => [SFInt32, 0, field],
 						 # last texture number
