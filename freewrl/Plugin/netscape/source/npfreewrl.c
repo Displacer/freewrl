@@ -1,5 +1,5 @@
 /*******************************************************************************
- * $Id: npfreewrl.c,v 1.6 2002/08/06 04:41:36 ayla Exp $
+ * $Id: npfreewrl.c,v 1.7 2002/08/13 18:15:09 ayla Exp $
  *
  * FreeWRL Netscape Plugin, Copyright (c) 2001 CRC Canada, based on
  *
@@ -271,7 +271,7 @@ void swallow_check (PluginInstance * This)
 									err = XFree(subchildren);
 									printXError("XFree(subchildren)", err);
 #else
-									XFree (subsubchildren);
+									XFree (subchildren);
 #endif
 								}
 								if (0 != XQueryTree (This->display, subchildren[k], &root,
