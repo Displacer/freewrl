@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.92 2003/05/08 16:01:18 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.93 2003/05/09 15:09:33 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1435,7 +1435,10 @@ my $protono;
 						offset => [SFRotation, [0, 1, 0, 0], exposedField],
 						isActive => [SFBool, 0, eventOut],
 						rotation_changed => [SFRotation, [0, 0, 1, 0], eventOut],
-						trackPoint_changed => [SFVec3f, [0, 0, 0], eventOut]
+						trackPoint_changed => [SFVec3f, [0, 0, 0], eventOut],
+						# where we are at a press...
+						_origPoint => [SFVec3f, [0, 0, 0], field],
+						_radius => [SFFloat, 0, field],
 					   },
 					  ),
 
