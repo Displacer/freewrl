@@ -1,11 +1,15 @@
 /*
- * $Id: pluginSocket.c,v 1.4 2002/11/19 20:48:41 sdumoulin Exp $
+ * $Id: pluginSocket.c,v 1.5 2004/01/21 21:11:50 crc_canada Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
  */
 
 #include "pluginSocket.h"
+
+#ifdef F_SETSIG
+#define FSIGOK
+#endif
 
 int
 createUDPSocket()
@@ -30,7 +34,7 @@ setIOOptions(int sockDesc,
 	struct timespec ts;
     int signo = 0; /* int io_flags = 0; */
 	const int on = 1;
-
+#ifdef FSIGOK
 	ts.tv_sec = PLUGIN_TIMEOUT_SEC;
 	ts.tv_nsec = PLUGIN_TIMEOUT_NSEC;
 
@@ -79,7 +83,7 @@ setIOOptions(int sockDesc,
 			return SOCKET_ERROR;
 		}
 	}
-
+#endif
     return NO_ERROR;
 }
 
