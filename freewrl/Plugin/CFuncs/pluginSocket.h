@@ -1,5 +1,5 @@
 /*
- * $Id: pluginSocket.h,v 1.3 2002/08/14 18:45:04 ayla Exp $
+ * $Id: pluginSocket.h,v 1.4 2002/11/19 20:48:33 sdumoulin Exp $
  */
 
 #ifndef __pluginSocket_h__
@@ -16,6 +16,8 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/time.h>
+#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 

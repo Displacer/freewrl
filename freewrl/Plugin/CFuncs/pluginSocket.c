@@ -1,5 +1,5 @@
 /*
- * $Id: pluginSocket.c,v 1.3 2002/08/14 18:45:04 ayla Exp $
+ * $Id: pluginSocket.c,v 1.4 2002/11/19 20:48:41 sdumoulin Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
@@ -37,6 +37,7 @@ setIOOptions(int sockDesc,
 
 	if (nonblock) {
 		/* use signals */
+		#ifndef __APPLE__
 		if (fcntl(sockDesc, F_GETSIG, signo) < 0) {
 			perror("fcntl with command F_GETSIG failed");
 			return SOCKET_ERROR;
@@ -48,6 +49,7 @@ setIOOptions(int sockDesc,
 				return SOCKET_ERROR;
 			}
 		}
+		#endif
 
 		/* F_SETOWN is specific to BSD and Linux. */
 		if (fcntl(sockDesc, F_SETOWN, (pid_t) pid) < 0) {
@@ -199,7 +201,8 @@ int
 pluginBind(struct sockaddr_in *addr)
 {
 	int sockDesc;
-	socklen_t addrLen = 0;
+	// socklen_t addrLen = 0;
+	int addrLen = 0;
 
     if ((sockDesc = createUDPSocket()) < 0) {
         fprintf(stderr, "createUDPSocket failed.\n");
