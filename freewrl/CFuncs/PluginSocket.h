@@ -1,5 +1,5 @@
 /*
- * $Id: PluginSocket.h,v 1.2 2004/01/21 19:36:21 crc_canada Exp $
+ * $Id: PluginSocket.h,v 1.3 2004/03/29 17:24:02 crc_canada Exp $
  */
 
 #ifndef __pluginSocket_h__
@@ -28,28 +28,15 @@
 extern "C" {
 #endif
 
-	
-int
-createUDPSocket();
+/* what Browser are we running under? eg, netscape, mozilla, konqueror, etc */
 
-int
-setIOOptions(int sockDesc,
-			 pid_t pid,
-			 int nonblock,
-			 int timeout);
-
+#define MAXNETSCAPENAMELEN 256
+extern char NetscapeName[MAXNETSCAPENAMELEN];
+	                                                                                
 char *requestUrlfromPlugin(int sockDesc, unsigned int plugin_instance, const char *url);
 
 int
 receiveUrl(int sockDesc, urlRequest *request);
-
-
-int
-pluginBind(struct sockaddr_in *addr);
-
-/* use a "connected" UDP socket */ 
-int
-connectToPlugin(const char *server);
 
 
 #ifdef __cplusplus
