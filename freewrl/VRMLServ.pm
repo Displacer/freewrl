@@ -1,5 +1,5 @@
 
-# $Id: VRMLServ.pm,v 1.19 2002/05/22 21:49:51 ayla Exp $
+# $Id: VRMLServ.pm,v 1.20 2002/08/06 04:41:36 ayla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -10,6 +10,16 @@
 
 #
 # $Log: VRMLServ.pm,v $
+# Revision 1.20  2002/08/06 04:41:36  ayla
+#
+# Merging mozilla development branch to trunk.
+# The plugin for the Mozilla browser (version 1.0) is only partially working.
+#
+# Revision 1.19.2.1  2002/07/11 19:00:22  ayla
+#
+# Got freewrl partly working as a plugin.
+# Doesn't handle resizing in Mozilla yet and there's a problem with EAI.
+#
 # Revision 1.19  2002/05/22 21:49:51  ayla
 #
 # Files changed to reflect change from VRML::Node to VRML::NodeIntern.
@@ -204,7 +214,7 @@ sub poll {
        		         #print "FreeWRL: Poll: socket not opened yet...\n";
        		 } elsif (!$sock
 			     && $EAIfailure >= $VRML::ENV{EAI_CONN_RETRY}
-			     && $VRML::PLUGIN{NETSCAPE}) {
+			     && $VRML::ENV{AS_PLUGIN}) {
 			 print "FreeWRL: Poll: connect to EAI socket timed-out.\n"
 			     if $VRML::verbose::EAI;
 			 ## remove the sub poll from array reference
