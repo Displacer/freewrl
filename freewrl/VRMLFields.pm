@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.7 2000/12/13 14:41:57 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.8 2001/03/23 16:02:11 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,9 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.8  2001/03/23 16:02:11  crc_canada
+# unknown, unrecorded changes.
+#
 # Revision 1.7  2000/12/13 14:41:57  crc_canada
 # Bug hunting.
 #
@@ -1029,6 +1032,9 @@ sub as_string {
 }
 
 sub js_default { 'new SFNode("","NULL")' }
+
+sub toj {$_[1]}
+sub fromj {$_[1]}
 
 # javascript implemented in place because of special nature.
 
