@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.62 2003/10/01 16:56:54 crc_canada Exp $
+# $Id: Scene.pm,v 1.63 2003/10/06 16:41:13 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -653,7 +653,7 @@ sub get_copy {
 
 	my $key;
 	foreach $key (keys(%{$this->{Protos}})) {
-		print "$key, $this->{Protos}{$key}\n";
+		#print "Scene.pm::get_copy: $key, $this->{Protos}{$key}\n";
 		# try shallow copy first
 		$new->{Protos}{$key} = $this->{Protos}{$key};
 	}
