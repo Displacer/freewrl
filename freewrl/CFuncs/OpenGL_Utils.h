@@ -9,7 +9,7 @@
 #define __OPENGL_UTILS_H_
 
 /*
- * $Id: OpenGL_Utils.h,v 1.6 2003/12/01 18:53:01 crc_canada Exp $
+ * $Id: OpenGL_Utils.h,v 1.7 2004/01/14 15:36:23 crc_canada Exp $
  *
  */
 
@@ -24,8 +24,10 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glu.h>
-#include <GL/glext.h>
+#endif
 
+#ifdef LINUX
+#include <GL/glext.h>
 #endif
 
 
