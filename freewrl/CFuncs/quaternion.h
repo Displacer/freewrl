@@ -6,7 +6,7 @@
 *******************************************************************************/
 
 /*
- * $Id: quaternion.h,v 1.3 2003/06/20 07:12:24 ayla Exp $
+ * $Id: quaternion.h,v 1.4 2003/07/02 19:20:28 sdumoulin Exp $
  *
  */
 
@@ -16,7 +16,11 @@
 
 #include "headers.h"
 
+#ifndef AQUA
 #include <GL/gl.h>
+#else
+#include <gl.h>
+#endif
 #include <math.h>
 
 typedef struct quaternion {
