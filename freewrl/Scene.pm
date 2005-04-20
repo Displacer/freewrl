@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.89 2005/04/20 15:06:04 crc_canada Exp $
+# $Id: Scene.pm,v 1.90 2005/04/20 15:40:30 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -956,7 +956,7 @@ sub make_backend {
 						" $be $parentbe\n"
 				if $VRML::verbose::be;
 
-		print "   has node $#{$this->{Nodes}}\n";
+		#print "   has node $#{$this->{Nodes}}\n";
 
 		# this is the first node; make it no matter what kind it is.
 		if (! defined $this->{Nodes}[0]) {
