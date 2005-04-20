@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.132 2005/03/21 13:39:04 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.133 2005/04/20 15:06:05 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -660,7 +660,8 @@ my $protono;
 						removeChildren => [MFNode, undef, eventIn],
 						children => [MFNode, [], exposedField],
 						bboxCenter => [SFVec3f, [0, 0, 0], field],
-						bboxSize => [SFVec3f, [-1, -1, -1], field]
+						bboxSize => [SFVec3f, [-1, -1, -1], field],
+						 __isProto => [SFInt32, 0, field],
 					   },
 					  ),
 	Anchor =>
