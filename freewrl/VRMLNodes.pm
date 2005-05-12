@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.133 2005/04/20 15:06:05 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.134 2005/05/12 16:16:37 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -363,7 +363,7 @@ my $protono;
 
 						resumeTime => [SFTime,0,exposedField],
 						pauseTime => [SFTime,0,exposedField],
-						isActive => [SFTime,0,eventOut],
+						elapsedTime => [SFTime,0,eventOut],
 						isPaused => [SFTime,0,eventOut],
 
 						 # has the URL changed???
