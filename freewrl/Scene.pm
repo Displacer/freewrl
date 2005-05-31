@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.91 2005/05/31 18:45:01 crc_canada Exp $
+# $Id: Scene.pm,v 1.92 2005/05/31 19:43:43 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -271,7 +271,7 @@ sub newextp {
 		unless ($string =~ /^#VRML V2.0/s) {
 			die("Sorry, this file is according to VRML V1.0, I only know V2.0")
 				if ($string =~ /^#VRML V1.0/);
-			warn("File $protourl doesn't start with the '#VRML V2.0' header line");
+			#warn("File $protourl doesn't start with the '#VRML V2.0' header line");
 		}
 
 		# remove comments, etc...
