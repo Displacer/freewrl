@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.c,v 1.25 2005/03/22 15:15:57 crc_canada Exp $
+ * $Id: jsVRMLClasses.c,v 1.26 2005/06/02 17:49:36 crc_canada Exp $
  *
  */
 
@@ -3719,11 +3719,11 @@ MFNodeSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp) {
 	char *_c;
 	int32 _index;
 
-	printf ("start of MFNODESETPROPERTY obj %d\n",obj);
+	/* printf ("start of MFNODESETPROPERTY obj %d\n",obj); */
 
 	if (JSVRMLClassesVerbose && JSVAL_IS_INT(id)) {
 		_index = JSVAL_TO_INT(id);
-		printf ("MFNodeSetProperty, setting %d for obj %d\n",_index,obj);
+		printf ("MFNodeSetProperty, setting %d for obj %d\n",_index,obj); 
 		if (JSVAL_IS_OBJECT(*vp)) {
 			if (!JS_ValueToObject(cx, *vp, &_obj)) {
 				printf(
