@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.135 2005/06/06 16:21:37 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.136 2005/06/06 19:04:56 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -209,7 +209,6 @@ my $protono;
 # section of:
 #ISO-IEC-19775-IS-X3DAbstractSpecification/Part01/concepts.html#f-Objecthierarchy
 %VRML::Nodes::children = map {($_=>1)} qw/
-	_PROTOEXPANSION
 	Fog
 	GeoViewpoint
 	NavigationInfo
