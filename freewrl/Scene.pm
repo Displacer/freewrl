@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.92 2005/05/31 19:43:43 crc_canada Exp $
+# $Id: Scene.pm,v 1.93 2005/06/06 16:21:36 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -310,7 +310,7 @@ sub newextp {
 			(pos $string) -= ((length $1) + (length $2));
 
 			# parse this PROTO
-			VRML::Parser::parse_statement($this, $string);
+			VRML::Parser::parse_statement($this, $string,0,"protoTop");
 
 			# strip off any whitespace at the beginning of the string.
                 	$string =~ s/^\s+//g;
@@ -1038,7 +1038,7 @@ sub setup_routing {
 		 }
 		 # Look at child nodes
 		 my $c;
-		 if ($c = $VRML::Nodes::children{$_[0]->{TypeName}}) {
+		 if ($c = $VRML::Nodes::Transchildren{$_[0]->{TypeName}}) {
 			 my $ref = $_[0]->{RFields}{$c};
 			 print "\tCHILDFIELD: GOT @$ref FOR CHILDREN\n"
 				 if $VRML::verbose::scene;
