@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.172 2005/06/24 12:35:09 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.173 2005/06/24 18:51:29 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,8 +26,8 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
-# Revision 1.172  2005/06/24 12:35:09  crc_canada
-# Changes to help with 64 bit compiles.
+# Revision 1.173  2005/06/24 18:51:29  crc_canada
+# more 64 bit compile changes.
 #
 # Revision 1.171  2005/06/09 14:52:49  crc_canada
 # ColorRGBA nodes supported.
@@ -1774,7 +1774,7 @@ void
 set_root(rn)
 	unsigned long  rn
 CODE:
-	printf ("VRMLC; set_root to %d\n", rn);
+	/* printf ("VRMLC; set_root to %d\n", rn); */
 	rootNode = (void *) rn;
 
 #********************************************************************************
