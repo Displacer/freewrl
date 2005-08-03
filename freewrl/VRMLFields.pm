@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.52 2005/06/30 14:20:05 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.53 2005/08/03 18:41:40 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,9 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.53  2005/08/03 18:41:40  crc_canada
+# Working on Polyrep structure.
+#
 # Revision 1.52  2005/06/30 14:20:05  crc_canada
 # 64 bit compile changes.
 #
@@ -1255,7 +1258,7 @@ sub parse {
 		}
 
 		# JAS print "checking if this $nt field $f is a ComposedGeom node\n";
-		if (defined $VRML::Nodes::X3DComposedGeometry{$nt}) {
+		if (defined $VRML::Nodes::X3DFaceGeometry{$nt}) {
 			# JAS print "it IS a composedGeom node\n";
 
 			my $ok = 1;
@@ -1263,6 +1266,10 @@ sub parse {
 			# check field exists matrix. Must be a better way to code this.
 			if ($nt eq "IndexedFaceSet") {
 			    if (!defined $VRML::Nodes::X3DCG_IndexedFaceSet{$f}) {
+				$ok = 0;
+			    }
+			} elsif ($nt eq "JASElevationGrid") {
+			    if (!defined $VRML::Nodes::X3DCG_JASElevationGrid{$f}) {
 				$ok = 0;
 			    }
 			} elsif ($nt eq "IndexedTriangleFanSet") {
