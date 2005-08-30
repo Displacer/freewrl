@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.35 2005/03/22 13:25:26 crc_canada Exp $
+ * $Id: Viewer.c,v 1.36 2005/08/30 13:29:29 sdumoulin Exp $
  *
  */
 
@@ -23,7 +23,7 @@
 #endif
 
 static int viewer_type = NONE;
-static int viewer_initialized = FALSE;
+extern int viewer_initialized = FALSE;
 static VRML_Viewer_Walk viewer_walk = { 0, 0, 0, 0, 0, 0 };
 static VRML_Viewer_Examine viewer_examine = { { 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, 0, 0 };
 static VRML_Viewer_Fly viewer_fly = { { 0, 0, 0 }, { 0, 0, 0 }, KEYMAP, KEYMAP, -1 };
