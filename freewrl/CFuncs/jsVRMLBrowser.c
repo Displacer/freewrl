@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.13 2005/03/22 15:15:57 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.14 2005/09/02 15:49:40 crc_canada Exp $
  *
  */
 
@@ -307,7 +307,7 @@ VrmlBrowserCreateVrmlFromString(JSContext *context, JSObject *obj,
 		JS_ConvertArguments(context, argc, argv, _c_format, &_c)) {
 		if (JSVerbose) {
 			printf("VrmlBrowserCreateVrmlFromString: obj = %u, str = \"%s\"\n",
-				   (unsigned int) obj, _c);
+				   obj, _c);
 		}
 
 		doPerlCallMethodVA(brow->sv_js, "jspBrowserCreateVrmlFromString", "s", _c);
