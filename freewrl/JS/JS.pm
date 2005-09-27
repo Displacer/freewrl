@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: JS.pm,v 1.34 2005/03/21 13:39:07 crc_canada Exp $
+# $Id: JS.pm,v 1.35 2005/09/27 02:31:49 crc_canada Exp $
 #
 #
 #
@@ -38,10 +38,6 @@ bootstrap VRML::JS $VERSION;
 
 ## Debug:
 #$VRML::verbose::js=1;
-
-if ($VRML::verbose::js) {
-	VRML::VRMLFunc::setJSVerbose(1);
-}
 
 our $ECMAScriptNative = qr{^SF(?:Bool|Float|Time|Int32|String)$};
 

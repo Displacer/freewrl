@@ -1,4 +1,4 @@
-/* $Id: Collision.c,v 1.22 2005/06/29 17:00:14 crc_canada Exp $
+/* $Id: Collision.c,v 1.23 2005/09/27 02:31:49 crc_canada Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * Copyright (C) 2003 John Stewart CRC Canada
@@ -1826,7 +1826,8 @@ void collideIndexedFaceSet (struct VRML_IndexedFaceSet *this_ ){
 
 	       accumulate_disp(&CollisionInfo,delta);
 
-	       if(verbose_collision && (fabs(delta.x) != 0. || fabs(delta.y) != 0. || fabs(delta.z) != 0.))  {
+		#ifdef COLLISIONVERBOSE
+	       if((fabs(delta.x) != 0. || fabs(delta.y) != 0. || fabs(delta.z) != 0.))  {
 /*		   printmatrix(modelMatrix);*/
 		   fprintf(stderr,"COLLISION_IFS: ref%d (%f %f %f) (%f %f %f)\n",refnum++,
 			  t_orig.x, t_orig.y, t_orig.z,
@@ -1834,5 +1835,6 @@ void collideIndexedFaceSet (struct VRML_IndexedFaceSet *this_ ){
 			  );
 
 	       }
+		#endif
 
 }
