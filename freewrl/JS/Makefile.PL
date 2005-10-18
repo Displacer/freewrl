@@ -4,7 +4,7 @@
 # for conditions of use and redistribution, EXCEPT on the files
 # which belong under the Mozilla public license.
 #
-# $Id: Makefile.PL,v 1.12 2005/04/06 16:56:10 crc_canada Exp $
+# $Id: Makefile.PL,v 1.13 2005/10/18 13:24:09 crc_canada Exp $
 
 BEGIN {
 	if ($^V lt v5.6.0) {
@@ -35,7 +35,7 @@ WriteMakefile(
 	package MY;
 
 	sub dynamic_lib {
-		if ($VRML::Config::vrml_config{PLATFORM} =~ /macosx/i) {
+		if ($VRML::Config::vrml_config{PLATFORM} ="Darwin") {
 			return "ARMAYBE = :
 OTHERLDFLAGS = $VRML::Config::vrml_config{LDFLAGS2}
 INST_DYNAMIC_DEP =
