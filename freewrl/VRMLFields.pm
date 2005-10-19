@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.54 2005/08/05 18:54:39 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.55 2005/10/19 19:38:58 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,9 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.55  2005/10/19 19:38:58  crc_canada
+# MultiTexture, META, PROFILE, COMPONENT node support.
+#
 # Revision 1.54  2005/08/05 18:54:39  crc_canada
 # ElevationGrid to new structure. works ok; still some minor errors.
 #
@@ -1245,6 +1248,17 @@ sub parse {
 			if $VRML::verbose::parse;
 
 		my $f = VRML::Parser::parse_exposedField($1, $no);
+
+		# X3DV - some changes to the spec - make things ok here...
+		# some nodes have same fields as VRML97, but different name.
+		if (($nt eq "LOD") && ($f eq "children")) {
+			$f = level; # VRML97, children
+		}
+		if (($nt eq "Switch") && ($f eq "children")) {
+			$f = choice; # VRML97, children
+		}
+
+
 		my $ft = $no->{FieldTypes}{$f};
 		print "FT: $ft\n"
 			if $VRML::verbose::parse;
