@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.147 2005/10/19 19:38:58 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.148 2005/10/19 19:45:30 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -317,6 +317,9 @@ my $protono;
 	BooleanToggle
 	GeoMetadata
 	WorldInfo
+	PROFILE
+	COMPONENT
+	META
         /;
 
 # nodes that are valid children fields. Check out the X3DChildNode
