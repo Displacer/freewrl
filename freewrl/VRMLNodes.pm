@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.148 2005/10/19 19:45:30 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.149 2005/10/21 20:16:52 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -660,8 +660,8 @@ my $protono;
 						mode =>[MFString,[],exposedField],
 						source =>[MFString,[],exposedField],
 						texture=>[MFNode,undef,exposedField],
-						__sources => [SFInt32, 0, field],
-						__modes => [SFInt32, 0, field],
+						__pnames => [SFInt32, 0, field],
+						__params => [SFInt32, 0, field],
 
 					
 					   },

@@ -9,7 +9,7 @@
 #define __OPENGL_UTILS_H_
 
 /*
- * $Id: OpenGL_Utils.h,v 1.10 2005/03/21 13:39:07 crc_canada Exp $
+ * $Id: OpenGL_Utils.h,v 1.11 2005/10/21 20:16:52 crc_canada Exp $
  *
  */
 
@@ -52,11 +52,8 @@ BackEndClearBuffer(void);
 void
 BackEndLightsOff(void);
 
-void
-BackEndHeadlightOff(void);
+void lightState (GLint light, int state);
 
-void
-BackEndHeadlightOn(void);
 
 #ifndef AQUA
 extern Display *dpy;
