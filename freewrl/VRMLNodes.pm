@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.149 2005/10/21 20:16:52 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.150 2005/10/27 16:57:06 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -576,7 +576,7 @@ my $protono;
 	Switch 			=>children,
 	Text 			=>geometry,
 	TextureCoordinate 	=>texCoord,
-	TextureTransform 	=>texture,
+	TextureTransform 	=>textureTransform,
 	TimeSensor 		=>children,
 	TouchSensor 		=>children,
 	Transform 		=>children,
