@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.151 2005/10/28 17:00:18 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.152 2005/10/29 16:24:00 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -437,6 +437,7 @@ my $protono;
 # nodes that are valid texcoord fields.
 %VRML::Nodes::texCoord = map {($_=>1)} qw/
 	TextureCoordinate
+	MultiTextureCoordinate
 	/;
 
 # nodes that are valid sound source fields.
@@ -547,6 +548,7 @@ my $protono;
 	LOD 			=>children,
 	Material 		=>material,
 	MultiTexture		=>texture,
+	MultiTextureCoordinate  =>texCoord,
 	MovieTexture 		=>texture,
 	NavigationInfo 		=>children,
 	Normal 			=>normal,
@@ -718,9 +720,8 @@ my $protono;
 					   ),
 
 	MultiTextureCoordinate =>
-	new VRML::NodeType("MultiTextureCoordinate",
-					   {
-						texture=>[MFNode,undef,exposedField],
+	new VRML::NodeType("MultiTextureCoordinate", {
+						texCoord =>[MFNode,undef,exposedField],
 					   },
 					  ),
 
