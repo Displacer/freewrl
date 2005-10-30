@@ -1,4 +1,4 @@
-/* $Id: Collision.c,v 1.23 2005/09/27 02:31:49 crc_canada Exp $
+/* $Id: Collision.c,v 1.24 2005/10/30 19:45:25 crc_canada Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * Copyright (C) 2003 John Stewart CRC Canada
@@ -1756,6 +1756,8 @@ void collideIndexedFaceSet (struct VRML_IndexedFaceSet *this_ ){
 	       prflags flags = 0;
 	       int change = 0;
 
+	        struct VRML_Coordinate *xc;
+
 		/* JAS - first pass, intern is probably zero */
 		if (((struct VRML_PolyRep *)this_->_intern) == 0) return;
 
@@ -1787,17 +1789,12 @@ void collideIndexedFaceSet (struct VRML_IndexedFaceSet *this_ ){
 		   see whether we have got here before the first rendering of a possibly new
 		   IndexedFaceSet */
 		if (!pr.coord) {
-	       		/* $fv(coord, points, get3, &npoints); */
-	
-			if(this_->coord) {
-				  if(!(*(struct VRML_Virt **)(this_->coord))-> get3) {
-				  	freewrlDie("NULL METHOD IndexedLineSet coord  get3");
-		  		}
-		   		points =  ((*(struct VRML_Virt **)(this_->coord))-> get3(this_->coord,
-		     			&npoints)) ;}
- 	  		else { (freewrlDie("NULL FIELD IndexedLineSet coord "));};
-			pr.coord = (float*)points;
-
+	                xc = (struct VRML_Coordinate *) this_->coord;
+	                if (xc->_nodeType != NODE_Coordinate) {
+	                        printf ("Collision - coord expected %d, got %d\n",NODE_Coordinate, xc->_nodeType);
+	                } else {
+	                        pr.coord = (float *) xc->point.p;
+	                }
 		}
 
 	       fwGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
