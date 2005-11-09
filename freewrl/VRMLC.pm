@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.188 2005/11/09 13:29:08 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.189 2005/11/09 14:25:19 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.189  2005/11/09 14:25:19  crc_canada
+# segfault fixing...
+#
 # Revision 1.188  2005/11/09 13:29:08  crc_canada
 # TextureCoordinateGenerator nodes - first try
 #
@@ -996,6 +999,12 @@ sub gen {
 		push @str, $defstr;
 		$nodeIntegerType ++;
 	}
+
+	# for the Status bar - it currently renders just like a normal node
+	my $defstr = "#define NODE_Statusbar	$nodeIntegerType\n";
+	$nodeIntegerType++;
+	push @str, $defstr;
+
 
 	for(@VRML::Fields) {
 		push @str, ("VRML::Field::$_")->cstruct . "\n";
