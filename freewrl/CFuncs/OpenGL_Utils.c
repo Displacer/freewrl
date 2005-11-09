@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.17 2005/11/03 16:15:06 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.18 2005/11/09 16:33:46 crc_canada Exp $
  *
  */
 
@@ -82,6 +82,7 @@ void start_textureTransform (void *textureNode, int ttnum) {
 
 /* keep track of lighting */
 void lightState(GLint light, int status) {
+	if (light<0) return; /* nextlight will return -1 if too many lights */
 	if (lights[light] != status) {
 		if (status) glEnable(GL_LIGHT0+light);
 		else glDisable(GL_LIGHT0+light);
