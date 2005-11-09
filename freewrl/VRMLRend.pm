@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.174 2005/11/08 16:21:33 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.175 2005/11/09 13:29:08 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description:
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.175  2005/11/09 13:29:08  crc_canada
+# TextureCoordinateGenerator nodes - first try
+#
 # Revision 1.174  2005/11/08 16:21:33  crc_canada
 # material node for Interchange testing.
 #
@@ -1043,6 +1046,11 @@ Coordinate => ' UNUSED(this_);',
 ColorRGBA => ' UNUSED(this_);',
 Color => ' UNUSED(this_);',
 Normal => ' UNUSED(this_);',
+
+TextureCoordinateGenerator => '
+	printf ("rendering TextureCoordinateGenerator\n");
+
+',
 
 
 # Text is a polyrep, as of freewrl 0.34

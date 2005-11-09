@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.187 2005/11/08 16:00:20 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.188 2005/11/09 13:29:08 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.188  2005/11/09 13:29:08  crc_canada
+# TextureCoordinateGenerator nodes - first try
+#
 # Revision 1.187  2005/11/08 16:00:20  crc_canada
 # reorg for 10.4.3 (OSX) dylib problem.
 #
@@ -1065,6 +1068,7 @@ struct VRML_PolyRep { /* Currently a bit wasteful, because copying */
 	float *normal; /* triples or null */
         int *tcindex; /* triples or null */
         float *tcoord;	/* triples (per triangle) of texture coords */
+	int tcoordtype; /* type of texture coord node - is this a NODE_TextureCoordGenerator... */
 };
 
 /* viewer dimentions (for collision detection) */

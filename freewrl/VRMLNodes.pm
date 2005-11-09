@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.155 2005/11/03 16:15:06 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.156 2005/11/09 13:29:08 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -438,6 +438,7 @@ my $protono;
 %VRML::Nodes::texCoord = map {($_=>1)} qw/
 	TextureCoordinate
 	MultiTextureCoordinate
+	TextureCoordinateGenerator
 	/;
 
 # nodes that are valid sound source fields.
@@ -579,6 +580,7 @@ my $protono;
 	Switch 			=>children,
 	Text 			=>geometry,
 	TextureCoordinate 	=>texCoord,
+	TextureCoordinateGenerator  =>texCoord,
 	TextureTransform 	=>textureTransform,
 	TimeSensor 		=>children,
 	TouchSensor 		=>children,
@@ -727,16 +729,15 @@ my $protono;
 					   { point => [MFVec2f, [], exposedField],
 						 }
 					  ),
+	TextureCoordinateGenerator =>
+	new VRML::NodeType("TextureCoordinate",
+					   { 
+						parameter => [MFFloat, [], exposedField],
+						mode => [SFString,"SPHERE",exposedField],
+					 }
+					  ),
 #############################################################################################
 
-
-
-	TextureCoordinateGenerator =>
-	new VRML::NodeType("TextureCoordinateGenerator", {
-					mode => [SFString,"SPHERE",exposedField],
-					parameter => [MFFloat,[],exposedField],
-					}
-					  ),
 
 
 	TextureTransform =>
