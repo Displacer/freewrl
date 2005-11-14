@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.156 2005/11/09 13:29:08 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.157 2005/11/14 14:18:53 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -726,11 +726,13 @@ my $protono;
 
 	TextureCoordinate =>
 	new VRML::NodeType("TextureCoordinate",
-					   { point => [MFVec2f, [], exposedField],
-						 }
+					   { 
+						point => [MFVec2f, [], exposedField],
+						__compiledpoint => [MFVec2f, [], exposedField],
+					 },
 					  ),
 	TextureCoordinateGenerator =>
-	new VRML::NodeType("TextureCoordinate",
+	new VRML::NodeType("TextureCoordinateGenerator",
 					   { 
 						parameter => [MFFloat, [], exposedField],
 						mode => [SFString,"SPHERE",exposedField],
