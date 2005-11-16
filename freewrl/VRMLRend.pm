@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.177 2005/11/14 14:18:53 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.178 2005/11/16 16:02:01 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description:
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.178  2005/11/16 16:02:01  crc_canada
+# MultiTextureCoordinate work.
+#
 # Revision 1.177  2005/11/14 14:18:53  crc_canada
 # Texture rework in progress...
 #
@@ -1059,8 +1062,8 @@ TextureCoordinate => '
 ',
 
 MultiTextureCoordinate => ' 
-	/* go to Textures.c and render the textures there */
-	render_multitexturecoordinate((struct VRML_MultiTextureCoordinate *)this_);
+	/* go to Textures.c and render the textures there in textureDraw_start() */
+	UNUSED(this_);
 ',
 
 

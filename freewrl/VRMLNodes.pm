@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.157 2005/11/14 14:18:53 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.158 2005/11/16 16:02:01 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -251,12 +251,10 @@ my $protono;
 	TriangleStripSet
         /;
 
-# nodes that are valid at the top; not all children nodes
+# nodes that are valid at the top; not all nodes
 # can reside at the top of the scenegraph.
+# see http://www.web3d.org/x3d/specifications/ISO-IEC-19775-X3DAbstractSpecification/
 %VRML::Nodes::topNodes = map {($_=>1)} qw/
-	GeoOrigin
-	Contour2D
-	NurbsTextureCoordinate
 	Fog
 	GeoViewpoint
 	NavigationInfo
@@ -265,6 +263,7 @@ my $protono;
 	TextureBackground
 	Inline
 	StaticGroup
+	Shape
 	Anchor
 	Billboard
 	Collision
@@ -282,7 +281,7 @@ my $protono;
 	NurbsOrientationInterpolator
 	NurbsPositionInterpolator
 	NurbsSurfaceInterpolator
-	HanimHumanoid
+	HAnimHumanoid
 	ReceiverPdu
 	SignalPdu
 	TransmitterPdu
@@ -313,6 +312,13 @@ my $protono;
 	TouchSensor
 	Sound
 	TimeSensor
+	AudioClip
+	MovieTexture
+	BooleanSequencer
+	IntegerSequencer
+	BooleanTrigger
+	IntegerTrigger
+	TimeTrigger
 	BooleanFilter
 	BooleanToggle
 	GeoMetadata
