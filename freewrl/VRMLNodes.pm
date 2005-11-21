@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.162 2005/11/21 14:29:04 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.163 2005/11/21 15:06:56 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -391,7 +391,6 @@ my $protono;
 	TouchSensor
 	Sound
 	TimeSensor
-	X3DSoundSourceNode
 	BooleanSequencer
 	IntegerSequencer
 	BooleanTrigger
@@ -526,7 +525,7 @@ my $protono;
 %VRML::X3DNodes::defaultContainerType = (
 	Anchor 			=>children,
 	Appearance 		=>appearance,
-	AudioClip 		=>children,
+	AudioClip 		=>source,
 	Background 		=>children,
 	Billboard 		=>children,
 	Box 			=>geometry,
@@ -1233,6 +1232,8 @@ my $protono;
 						topToBottom => [SFBool, 1, field]
 					   }
 					  ),
+
+################################################################################################
 	AudioClip =>
 	new VRML::NodeType("AudioClip",
 					   {
@@ -1261,6 +1262,7 @@ my $protono;
 						__inittime => [SFTime, 0, field],
 					   }
 					  ),
+
 	Sound =>
 	new VRML::NodeType("Sound",
 					   {
@@ -1276,6 +1278,8 @@ my $protono;
 						spatialize => [SFBool,1, field]
 					   },
 					  ),
+
+################################################################################################
 	Switch =>
 	new VRML::NodeType("Switch",
 					   {
