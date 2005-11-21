@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.161 2005/11/18 21:00:27 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.162 2005/11/21 14:29:04 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -499,6 +499,7 @@ my $protono;
 %VRML::Nodes::Transchildren = qw(
  Transform	children
  Group		children
+ StaticGroup	children
  Billboard	children
  Anchor		children
  Collision	children
@@ -597,6 +598,7 @@ my $protono;
 	Sphere 			=>geometry,
 	SphereSensor 		=>children,
 	SpotLight 		=>children,
+	StaticGroup		=>children,
 	Switch 			=>children,
 	Text 			=>geometry,
 	TextureBackground 	=>children,
@@ -1327,6 +1329,17 @@ my $protono;
 						bboxCenter => [SFVec3f, [0, 0, 0], field],
 						bboxSize => [SFVec3f, [-1, -1, -1], field],
 						 __isProto => [SFInt32, 0, field],
+					   },
+					  ),
+	StaticGroup =>
+	new VRML::NodeType("StaticGroup",
+					   {
+						children => [MFNode, [], exposedField],
+						bboxCenter => [SFVec3f, [0, 0, 0], field],
+						bboxSize => [SFVec3f, [-1, -1, -1], field],
+						 __isProto => [SFInt32, 0, field],
+						 __transparency => [SFInt32, -1, field],
+						 __solid => [SFInt32, -1, field],
 					   },
 					  ),
 	Anchor =>
