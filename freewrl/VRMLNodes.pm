@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.163 2005/11/21 15:06:56 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.164 2005/11/21 21:03:34 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -90,6 +90,14 @@ my $protono;
 /;
 
 
+
+%VRML::Nodes::X3DUrlObject = map {($_=>1)} qw/
+	ImageTexture
+	MovieTexture
+	Inline
+	Script
+	AudioClip
+	/;
 
 %VRML::Nodes::X3DFaceGeometry = map {($_=>1)} qw/
 	ElevationGrid
@@ -545,7 +553,7 @@ my $protono;
 	Extrusion 		=>geometry,
 	FillProperties		=>fillProperties,
 	Fog 			=>children,
-	FontStyle 		=>children,
+	FontStyle 		=>fontStyle,
 	GeoCoordinate 		=>children,
 	GeoElevationGrid 	=>geometry,
 	GeoLocation 		=>children,
@@ -566,6 +574,7 @@ my $protono;
 	InlineLoadControl 	=>children,
 	LineSet 		=>geometry,
 	LineProperties		=>lineProperties,
+	LoadSensor		=>children,
 	LOD 			=>children,
 	Material 		=>material,
 	MultiTexture		=>texture,
@@ -1570,7 +1579,21 @@ my $protono;
 						__t2 => [SFRotation, [0, 1, 0, 0], exposedField]
 					   },
 					  ),
-
+	LoadSensor =>
+	new VRML::NodeType("LoadSensor",
+					{
+						enabled => [SFBool,1,exposedField],
+						timeOut  => [SFTime,0,exposedField],
+						watchList => [MFNode, [], exposedField],
+						isActive  => [SFBool,0,eventOut],
+						isLoaded  => [SFBool,0,eventOut],
+						loadTime  => [SFTime,0,eventOut],
+						progress  => [SFFloat,0,eventOut],
+						__loading => [SFBool,0,field],		# current internal status
+						__finishedloading => [SFBool,0,field],	# current internal status
+						__StartLoadTime => [SFTime,0,eventOut], # time we started loading...
+					},
+					),
 
 	DirectionalLight =>
 	new VRML::NodeType("DirectionalLight",
