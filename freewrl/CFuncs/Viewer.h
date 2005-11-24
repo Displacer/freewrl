@@ -10,7 +10,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.19 2005/03/22 13:25:26 crc_canada Exp $
+ * $Id: Viewer.h,v 1.20 2005/11/24 20:20:29 crc_canada Exp $
  *
  */
 
@@ -256,4 +256,6 @@ extern float screendist;
 
 
 void XEventStereo(void);
+
+float getCurrentSpeed();
 #endif /* __VIEWER_H_ */
