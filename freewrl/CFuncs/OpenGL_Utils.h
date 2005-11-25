@@ -9,7 +9,7 @@
 #define __OPENGL_UTILS_H_
 
 /*
- * $Id: OpenGL_Utils.h,v 1.12 2005/11/03 16:15:06 crc_canada Exp $
+ * $Id: OpenGL_Utils.h,v 1.13 2005/11/25 21:14:55 crc_canada Exp $
  *
  */
 
@@ -34,6 +34,7 @@
 #include "headers.h"
 
 void start_textureTransform (void *textureNode, int ttnum);
+void end_textureTransform (void *textureNode, int ttnum);
 
 int
 get_now_mapped(void);
