@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.166 2005/11/29 16:48:46 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.167 2005/12/07 18:07:55 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -706,16 +706,15 @@ my $protono;
 						children => [MFNode, [], exposedField],
 						bboxCenter => [SFVec3f, [0, 0, 0], field],
 						bboxSize => [SFVec3f, [-1, -1, -1], field],
-						 __isProto => [SFInt32, 0, field],
+						 __isProto => [SFInt32, 0, field], # tell renderer that this is a proto...
 					   }),
 
 	StaticGroup => new VRML::NodeType("StaticGroup", {
 						children => [MFNode, [], exposedField],
 						bboxCenter => [SFVec3f, [0, 0, 0], field],
 						bboxSize => [SFVec3f, [-1, -1, -1], field],
-						 __isProto => [SFInt32, 0, field],
-						 __transparency => [SFInt32, -1, field],
-						 __solid => [SFInt32, -1, field],
+						 __transparency => [SFInt32, -1, field], # display list for transparencies
+						 __solid => [SFInt32, -1, field],	 # display list for solid geoms.
 					   }),
 
 	Switch => new VRML::NodeType("Switch", {
