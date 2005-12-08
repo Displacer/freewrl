@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.167 2005/12/07 18:07:55 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.168 2005/12/08 19:38:56 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1941,16 +1941,6 @@ my $protono;
 
 	###################################################################################
 	# Internal structures, to store def and use in the right way
-	#DEF =>
-	#new VRML::NodeType("DEF",
-	#				   { node => [SFNode, NULL, exposedField] },
-	#				   id => [SFString, ""]
-	#				  ),
-	#USE =>
-	#new VRML::NodeType("USE",
-	#				   { node => [SFNode, NULL, exposedField] },
-	#				   id => [SFString, ""]
-	#				  ),
 
 	InlineLoadControl =>
 	new VRML::NodeType("InlineLoadControl",
