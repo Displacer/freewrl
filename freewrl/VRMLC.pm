@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.192 2005/12/07 22:04:44 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.193 2005/12/10 20:26:18 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -26,6 +26,9 @@
 #  Test indexedlineset
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.193  2005/12/10 20:26:18  crc_canada
+# Move some functions into new "Component" files.
+#
 # Revision 1.192  2005/12/07 22:04:44  crc_canada
 # replaceWorld functionality being added.
 #
@@ -1122,7 +1125,7 @@ struct sNaviInfo {
 /* Code here comes almost verbatim from VRMLC.pm */
 
 #include "CFuncs/headers.h"
-#include "CFuncs/GeoVRML.h"
+#include "CFuncs/Component_Geospatial.h"
 #include "CFuncs/jsUtils.h"
 #include "XSUB.h"
 
