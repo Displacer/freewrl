@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.168 2005/12/08 19:38:56 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.169 2005/12/13 17:00:29 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -241,6 +241,14 @@ my $protono;
 
 # nodes that are valid geometry fields.
 %VRML::Nodes::geometry = map {($_=>1)} qw/
+	Arc2D
+	ArcClose2D
+	Circle2D
+	Disk2D
+	Polyline2D
+	Polypoint2D
+	Rectangle2D
+	TriangleSet2D
 	Box
 	Cone
 	Sphere
@@ -1157,6 +1165,8 @@ my $protono;
 					    	endAngle => [SFFloat, 1.5707, field],
 					    	radius => [SFFloat, 1.0, field],
 					    	startAngle => [SFFloat, 0.0, field],
+						__points  =>[FreeWRLPTR,0,field],
+						__numPoints =>[SFInt32,0,field],
  					   }),
 
 	ArcClose2D => new VRML::NodeType("ArcClose2D", {
@@ -1165,36 +1175,50 @@ my $protono;
 					    	radius => [SFFloat, 1.0, field],
 						solid => [SFBool, 0, field],
 					    	startAngle => [SFFloat, 0.0, field],
+						__points  =>[FreeWRLPTR,0,field],
+						__numPoints =>[SFInt32,0,field],
  					   }),
 
 
 	Circle2D => new VRML::NodeType("Circle2D", {
 					    	radius => [SFFloat, 1.0, field],
+						__points  =>[FreeWRLPTR,0,field],
+						__numPoints =>[SFInt32,0,field],
  					   }),
 
 	Disk2D => new VRML::NodeType("Disk2D", {
 					    	innerRadius => [SFFloat, 0.0, field],
 					    	outerRadius => [SFFloat, 1.0, field],
 						solid => [SFBool, 0, field],
+						__points  =>[FreeWRLPTR,0,field],
+						__numPoints =>[SFInt32,0,field],
  					   }),
 
 	Polyline2D => new VRML::NodeType("Polyline2D", {
 					    	lineSegments => [MFVec2f, [], field],
+						__points  =>[FreeWRLPTR,0,field],
+						__numPoints =>[SFInt32,0,field],
  					   }),
 
 	Polypoint2D => new VRML::NodeType("Polypoint2D", {
 					    	point => [MFVec2f, [], exposedField],
+						__points  =>[FreeWRLPTR,0,field],
+						__numPoints =>[SFInt32,0,field],
  					   }),
 
 	Rectangle2D => new VRML::NodeType("Rectangle2D", {
 					    	size => [SFVec2f, [2.0, 2.0], field],
 						solid => [SFBool, 0, field],
+						__points  =>[FreeWRLPTR,0,field],
+						__numPoints =>[SFInt32,0,field],
  					   }),
 
 
 	TriangleSet2D => new VRML::NodeType("TriangleSet2D", {
 					    	vertices => [MFVec2f, [], exposedField],
 						solid => [SFBool, 0, field],
+						__points  =>[FreeWRLPTR,0,field],
+						__numPoints =>[SFInt32,0,field],
  					   }),
 
 	###################################################################################
