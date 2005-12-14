@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.22 2005/12/14 13:51:32 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.23 2005/12/14 14:32:35 crc_canada Exp $
  *
  */
 
@@ -604,13 +604,13 @@ void kill_rendering(void *thisnode) {
 			case NODE_Polyline2D: {
 				struct VRML_Polyline2D *thisNode;
 				thisNode = (struct VRML_Polyline2D *) thisnode;
-				kill_MFVec2f(thisNode->lineSegments);
+				kill_MFVec2f(&thisNode->lineSegments);
 				break; }
 
 			case NODE_Polypoint2D: {
 				struct VRML_Polypoint2D *thisNode;
 				thisNode = (struct VRML_Polypoint2D *) thisnode;
-				kill_MFVec2f(thisNode->point);
+				kill_MFVec2f(&thisNode->point);
 				break; }
 
 
