@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.185 2005/12/13 17:00:29 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.186 2005/12/14 13:51:32 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description:
@@ -20,6 +20,9 @@
 #                      %RendC, %PrepC, %FinC, %ChildC, %LightC
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.186  2005/12/14 13:51:32  crc_canada
+# More Geometry2D nodes.
+#
 # Revision 1.185  2005/12/13 17:00:29  crc_canada
 # Arc2D work.
 #
@@ -1530,21 +1533,14 @@ ProximitySensor => q~
 
 %CollisionC = (
 
-Arc2D => q~
-	       ~,
-ArcClose2D => q~
-	       ~,
-Circle2D => q~
-	       ~,
 Disk2D => q~
-	       ~,
-Polyline2D => q~
-	       ~,
-Polypoint2D => q~
+		collideIndexedFaceSet ((struct VRML_IndexedFaceSet *) this_);
 	       ~,
 Rectangle2D => q~
+		collideIndexedFaceSet ((struct VRML_IndexedFaceSet *) this_);
 	       ~,
 TriangleSet2D => q~
+		collideIndexedFaceSet ((struct VRML_IndexedFaceSet *) this_);
 	       ~,
 
 Sphere => q~
