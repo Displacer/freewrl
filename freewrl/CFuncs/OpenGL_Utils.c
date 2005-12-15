@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.23 2005/12/14 14:32:35 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.24 2005/12/15 19:57:59 crc_canada Exp $
  *
  */
 
@@ -611,6 +611,22 @@ void kill_rendering(void *thisnode) {
 				struct VRML_Polypoint2D *thisNode;
 				thisNode = (struct VRML_Polypoint2D *) thisnode;
 				kill_MFVec2f(&thisNode->point);
+				break; }
+
+			case NODE_Rectangle2D: break;
+
+			case NODE_Disk2D: {
+				struct VRML_Disk2D *thisNode;
+				thisNode = (struct VRML_Disk2D *) thisnode;
+				kill_FreeWRLPTR(thisNode->__points);
+				kill_FreeWRLPTR(thisNode->__texCoords);
+				break; }
+
+			case NODE_TriangleSet2D: {
+				struct VRML_TriangleSet2D *thisNode;
+				thisNode = (struct VRML_TriangleSet2D *) thisnode;
+				kill_MFVec2f(&thisNode->vertices);
+				kill_FreeWRLPTR(thisNode->__texCoords);
 				break; }
 
 
