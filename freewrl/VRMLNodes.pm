@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.170 2005/12/15 19:57:58 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.171 2005/12/15 20:42:01 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -539,6 +539,15 @@ my $protono;
 
 # used for the X3D Parser only. Return type of node.
 %VRML::X3DNodes::defaultContainerType = (
+	Arc2D			=>geometry,
+	ArcClose2D		=>geometry,
+	Circle2D		=>geometry,
+	Disk2D			=>geometry,
+	Polyline2D		=>geometry,
+	Polypoint2D		=>geometry,
+	Rectangle2D		=>geometry,
+	TriangleSet2D		=>geometry,
+	
 	Anchor 			=>children,
 	Appearance 		=>appearance,
 	AudioClip 		=>source,
@@ -554,6 +563,7 @@ my $protono;
 	Coordinate 		=>coord,
 	CoordinateDeformer 	=>children,
 	CoordinateInterpolator 	=>children,
+	CoordinateInterpolator2D 	=>children,
 	Cylinder 		=>geometry,
 	CylinderSensor 		=>children,
 	DirectionalLight 	=>children,
@@ -603,8 +613,8 @@ my $protono;
 	PlaneSensor 		=>children,
 	PointLight 		=>children,
 	PointSet 		=>geometry,
-	PolyLine2D 		=>geometry,
 	PositionInterpolator 	=>children,
+	PositionInterpolator2D 	=>children,
 	ProximitySensor 	=>children,
 	ScalarInterpolator 	=>children,
 	Scene 			=>children,
@@ -1473,6 +1483,21 @@ my $protono;
 			keyValue => [MFFloat, [], exposedField],
 			value_changed => [SFFloat, 0.0, eventOut]
 		   }),
+
+	CoordinateInterpolator2D => new VRML::NodeType("CoordinateInterpolator2D", {
+			set_fraction => [SFFloat, undef, eventIn],
+			key => [MFFloat, [], exposedField],
+			keyValue => [MFVec2f, [], exposedField],
+			value_changed => [MFVec2f, [], eventOut],
+		}),
+
+	PositionInterpolator2D => new VRML::NodeType("PositionInterpolator2D", {
+			set_fraction => [SFFloat, undef, eventIn],
+			key => [MFFloat, [], exposedField],
+			keyValue => [MFVec2f, [], exposedField],
+			value_changed => [SFVec2f, [0, 0, 0], eventOut],
+		}),
+
 
 	###################################################################################
 
