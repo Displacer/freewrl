@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.94 2005/12/07 18:07:55 crc_canada Exp $
+# $Id: Scene.pm,v 1.95 2005/12/19 21:25:08 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -406,12 +406,15 @@ sub new_node {
 
 		# work on everything else BUT the url .-|
 		for my $fk (keys %{$fields->{ScriptInterface}}) {
-			#print "X3DScript in Scene, key $fk\n";
+			# print "X3DScript in Scene, key $fk\n";
 			if (($fk eq "directOutput") || ($fk eq "mustEvaluate")) {
 				#print "found $fk\n";
 				my $iv = 0;
 				if ($fields->{ScriptInterface}{$fk} eq "true") {$iv = 1;}
 				$f{$fk} = ["SFBool",$iv,"field"];
+			} elsif ($fk eq "containerField") {
+				# print "X3DScript - got containerField...\n";
+				
 			} elsif ($fk eq "field") {
 				#print "found a field\n";
 				for my $sfk (keys %{$fields->{ScriptInterface}{$fk}}) {
