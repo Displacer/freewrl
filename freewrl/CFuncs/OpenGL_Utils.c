@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.27 2005/12/22 14:20:59 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.28 2005/12/22 21:44:53 crc_canada Exp $
  *
  */
 
@@ -908,8 +908,6 @@ void kill_oldWorld(int kill_EAI, int kill_JavaScript, int kill_JavaClass) {
 
 
 	/* free textures */
-printf ("here in killing\n");
-
 	
 	/* free scripts */
 	kill_javascript();
