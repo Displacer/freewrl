@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.199 2005/12/22 14:20:58 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.200 2005/12/22 14:50:30 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.200  2005/12/22 14:50:30  crc_canada
+# remove name field of X3D_Virt
+#
 # Revision 1.199  2005/12/22 14:20:58  crc_canada
 # Group rendering problems fixed = sorting of children and alpha channels
 #
@@ -578,7 +581,7 @@ struct X3D_Virt {
 	void (*changed)(void *);
 	void (*proximity)(void *);
 	void (*collision)(void *);
-	char *name;
+	/* char *name; */
 };
 
 /* Internal representation of IndexedFaceSet, Text, Extrusion & ElevationGrid:
