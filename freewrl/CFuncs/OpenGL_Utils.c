@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.26 2005/12/21 19:12:43 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.27 2005/12/22 14:20:59 crc_canada Exp $
  *
  */
 
@@ -311,7 +311,6 @@ void kill_MFNode (struct Multi_Node *par) {
 	childCount = par->n;
 	par->n = 0;
 	for (i=0; i<childCount; i++) {
-printf ("killing MFNode, for child %d of %d, we have par %d\n",i,childCount,par->p[i]);
 		kill_rendering (par->p[i]);
 		/* FREE_IF_NZ(par->p[i]); */
 	}
@@ -386,7 +385,7 @@ void kill_rendering(void *thisnode) {
 	if (thisnode == 0) return;
 	
 	rn = (struct X3D_Group *) thisnode;
-	printf ("kill_rendering, killing node type %d\n",rn->_nodeType); 
+	/* printf ("kill_rendering, killing node type %d\n",rn->_nodeType);  */
 
 
 	switch (rn->_nodeType) {
