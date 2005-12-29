@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.28 2005/12/22 21:44:53 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.29 2005/12/29 14:53:14 crc_canada Exp $
  *
  */
 
@@ -896,6 +896,8 @@ void kill_rendering(void *thisnode) {
 void kill_oldWorld(int kill_EAI, int kill_JavaScript, int kill_JavaClass) {
         char mystring[20];
 
+	/* consoleMessage - ok, not exactly a kill, more of a reset */
+	consMsgCount = 0;
 
 	/* kill DEFS, handles */
 	EAI_killBindables();
