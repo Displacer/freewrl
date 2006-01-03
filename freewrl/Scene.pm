@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.98 2005/12/29 20:19:13 crc_canada Exp $
+# $Id: Scene.pm,v 1.99 2006/01/03 23:01:22 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -321,8 +321,7 @@ sub newextp {
     my @node = ($n);
 
 
-    # XXX marijn: code copied from Parser::parse_proto
-    $this->prototopnodes(\@node);
+	$this->topnodes(\@node);
 
     # marijn: copy defaults from PROTO
 	$this->{Defaults} = {
@@ -533,6 +532,9 @@ sub new_externproto {
 
 sub prototopnodes {
 	my ($this, $nodes) = @_;
+
+	#my ($package, $filename, $line) = caller;
+	#print "\nprototopnodes, this ",VRML::NodeIntern::dump_name($this)," called from $package, $line\n";
 
 	# encase the proto nodes in a Group
 	 my $ntn = ($this->new_node("Group",{children => $nodes}));
