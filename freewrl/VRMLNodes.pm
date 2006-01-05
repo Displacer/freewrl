@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.172 2005/12/19 21:25:08 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.173 2006/01/05 15:15:54 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1044,6 +1044,7 @@ my $protono;
 						 geometry => [SFNode, NULL, exposedField],
 						 bboxCenter => [SFVec3f, [0, 0, 0], field],
 						 bboxSize => [SFVec3f, [-1, -1, -1], field],
+						 __ShapeNumber =>[SFInt32,-1,field], # for Occlusion tests.
 						}),
 
 
@@ -1701,6 +1702,7 @@ my $protono;
 						__points =>[FreeWRLPTR,0,field],
 						__colours =>[FreeWRLPTR,0,field],
 						__quadcount => [SFInt32,0,field],
+						__BGNumber => [SFInt32,-1,field], # for ordering backgrounds for binding
 
 						frontTexture=>[SFNode,NULL,exposedField],
 						backTexture=>[SFNode,NULL,exposedField],
@@ -1723,6 +1725,7 @@ my $protono;
 						__points =>[FreeWRLPTR,0,field],
 						__colours =>[FreeWRLPTR,0,field],
 						__quadcount => [SFInt32,0,field],
+						__BGNumber => [SFInt32,-1,field], # for ordering backgrounds for binding
 
 						(map {(
 							   $_.Url => [MFString, [], exposedField],

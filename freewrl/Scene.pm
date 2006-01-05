@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.99 2006/01/03 23:01:22 crc_canada Exp $
+# $Id: Scene.pm,v 1.100 2006/01/05 15:15:54 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -341,6 +341,8 @@ my $cnt;
 sub new_node {
 	my ($this, $type, $fields) = @_;
 
+	# print "Scene.pm - new node of type $type\n";
+
 	# VRML scripting.
 	if ($type eq "Script") {
 		#print "Scene.pm - new script node, cnt $cnt\n ";
@@ -444,8 +446,14 @@ sub new_node {
 
 	my $node = VRML::NodeIntern->new($this, $type, $fields, $this->{EventModel});
 
+	# we keep track of shape nodes.
+	if ($type eq "Shape") {VRML::Browser::NewShapeNode($node);}
+
 	# Check if it is bindable and first -> bind to it later..
 	if ($VRML::Nodes::bindable{$type}) {
+		# print "Scene.pm - this is bindable\n";
+		VRML::Browser::reserve_bind_space($node);
+
 		if (!defined $this->{Bindable}{$type}) {
 			$this->{Bindable}{$type} = $node;
 		}
@@ -1040,7 +1048,7 @@ sub setup_routing {
 
 		# Anchors, etc.
 		 if ($VRML::Nodes::sensitive{$_[0]->{TypeName}}) {
-			print "sesens call for ", $_[0]->{TypeName},"\n";
+			# print "sesens call for ", $_[0]->{TypeName},"\n";
 			my $n = $_->real_node();
 			# print "going to set_sensitive. this node $_[0] \n";
 			if (!defined $_[0]->{BackNode}) {
