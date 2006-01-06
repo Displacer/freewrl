@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.101 2006/01/06 14:30:59 crc_canada Exp $
+# $Id: Scene.pm,v 1.102 2006/01/06 22:05:15 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -447,9 +447,7 @@ sub new_node {
 	my $node = VRML::NodeIntern->new($this, $type, $fields, $this->{EventModel});
 
 	# we keep track of nodes that can generate Occlusion queries.
-	if ($type eq "Shape") {VRML::Browser::NewOccludeNode($node);}
-	if ($type eq "Transform") {VRML::Browser::NewOccludeNode($node);}
-	if ($type eq "StaticGroup") {VRML::Browser::NewOccludeNode($node);}
+	if ($VRML::Nodes::occludeEvents{$type}) {VRML::Browser::NewOccludeNode($node);}
 
 	# Check if it is bindable and first -> bind to it later..
 	if ($VRML::Nodes::bindable{$type}) {
