@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.173 2006/01/05 15:15:54 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.174 2006/01/06 14:31:00 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -738,6 +738,7 @@ my $protono;
 						bboxSize => [SFVec3f, [-1, -1, -1], field],
 						 __transparency => [SFInt32, -1, field], # display list for transparencies
 						 __solid => [SFInt32, -1, field],	 # display list for solid geoms.
+						 __OccludeNumber =>[SFInt32,-1,field], # for Occlusion tests.
 					   }),
 
 	Switch => new VRML::NodeType("Switch", {
@@ -760,6 +761,7 @@ my $protono;
 						 translation => [SFVec3f, [0, 0, 0], exposedField],
 						 bboxCenter => [SFVec3f, [0, 0, 0], field],
 						 bboxSize => [SFVec3f, [-1, -1, -1], field],
+						 __OccludeNumber =>[SFInt32,-1,field], # for Occlusion tests.
 
 						 # fields for reducing redundant calls
 						 __do_center => [SFInt32, 0, field],
@@ -1044,7 +1046,7 @@ my $protono;
 						 geometry => [SFNode, NULL, exposedField],
 						 bboxCenter => [SFVec3f, [0, 0, 0], field],
 						 bboxSize => [SFVec3f, [-1, -1, -1], field],
-						 __ShapeNumber =>[SFInt32,-1,field], # for Occlusion tests.
+						 __OccludeNumber =>[SFInt32,-1,field], # for Occlusion tests.
 						}),
 
 
