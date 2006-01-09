@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.30 2006/01/09 16:46:40 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.31 2006/01/09 20:54:51 crc_canada Exp $
  *
  */
 
@@ -18,7 +18,7 @@ extern CGLContextObj aqglobalContext;
 #endif
 
 
-#define FREE_IF_NZ(a) if(a) {free(a); printf ("fnz for %d\n",a); a = 0;}
+#define FREE_IF_NZ(a) if(a) {free(a); a = 0;}
 
 static int now_mapped = 1;		/* are we on screen, or minimized? */
 
