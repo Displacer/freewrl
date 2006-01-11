@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.175 2006/01/06 22:05:15 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.176 2006/01/11 16:31:18 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -79,16 +79,13 @@ my $protono;
 
 
 # commented out - for using occlusion to do frustum culling.
-#%VRML::Nodes::occludeEvents = map {($_,1)} qw/
-#	VisibilitySensor
+%VRML::Nodes::occludeEvents = map {($_,1)} qw/
+	VisibilitySensor
 #	Shape
 #	StaticGroup
 #	Transform
-#/;
-
-%VRML::Nodes::occludeEvents = map {($_,1)} qw/
-	VisibilitySensor
 /;
+
 
 %VRML::Nodes::bindable = map {($_,1)} qw/
  Viewpoint
