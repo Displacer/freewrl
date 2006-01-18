@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.177 2006/01/12 21:25:01 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.178 2006/01/18 03:52:26 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1865,8 +1865,8 @@ my $protono;
 						children => [MFNode, [], field],
 						geoOrigin => [SFNode, NULL, field],
 						geoSystem => [MFString,["GD","WE"],field],
-						__bboxCenter => [SFVec3f, [0, 0, 0], field],
-						__bboxSize => [SFVec3f, [-1, -1, -1], field],
+						bboxCenter => [SFVec3f, [0, 0, 0], field],
+						bboxSize => [SFVec3f, [-1, -1, -1], field],
 
 						# "compiled" versions of strings above
 						__geoCoords => [SFVec3f,[0, 0, 0], field],
