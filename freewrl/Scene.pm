@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.102 2006/01/06 22:05:15 crc_canada Exp $
+# $Id: Scene.pm,v 1.103 2006/01/24 15:04:44 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -293,20 +293,20 @@ sub newextp {
 				$protoname = $2;
 			}
 
-			#print "requested proto is $protoname, found $2; d1 is $1\n";
+			# print "requested proto is $protoname, found $2; d1 is $1\n";
 			if ($2 eq $protoname) {
 				# found our proto
 				$success = 1;
-			}
 	
-			# back up; put the "PROTO name" back on the front
-			(pos $string) -= ((length $1) + (length $2));
+				# back up; put the "PROTO name" back on the front
+				(pos $string) -= ((length $1) + (length $2));
 
-			# parse this PROTO
-			VRML::Parser::parse_statement($this, $string,0,"protoTop");
+				# parse this PROTO
+				VRML::Parser::parse_statement($this, $string,0,"protoTop");
 
-			# strip off any whitespace at the beginning of the string.
-                	$string =~ s/^\s+//g;
+				# strip off any whitespace at the beginning of the string.
+                		#$string =~ s/^\s+//g;
+			}
 
 		}
 		last if ($success);

@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.178 2006/01/18 03:52:26 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.179 2006/01/24 15:04:44 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -428,6 +428,11 @@ my $protono;
 #nodes that are valid appearance fields.
 %VRML::Nodes::appearance = map {($_=>1)} qw/
 	Appearance
+        /;
+
+#nodes that are valid normal fields.
+%VRML::Nodes::normal = map {($_=>1)} qw/
+	Normal	
         /;
 
 #nodes that are valid material fields.

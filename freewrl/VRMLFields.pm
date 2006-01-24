@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.57 2005/12/21 18:16:40 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.58 2006/01/24 15:04:44 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,9 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.58  2006/01/24 15:04:44  crc_canada
+# Some warnings removed.
+#
 # Revision 1.57  2005/12/21 18:16:40  crc_canada
 # Rework Generation code.
 #
@@ -1142,7 +1145,11 @@ sub parse {
 		if ($VRML::Nodes::{$parentField}{$nt}) {
 		        #print "node $nt is ok for a parentField of $parentField\n";
 		} else {
-			my $okPROTO = 0;
+
+
+##### THIS IS BROKEN FOR EXTERNPROTOS - JUST ASSUME ALL PROTOS ARE OK FOR NOW
+			### my $okPROTO = 0;
+			my $okPROTO = 1;
 
 			# is this a proto?
 			my $prot = $scene->get_proto($nt);
