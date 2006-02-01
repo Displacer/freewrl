@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.31 2006/01/09 20:54:51 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.32 2006/02/01 20:24:53 crc_canada Exp $
  *
  */
 
@@ -44,7 +44,7 @@ void start_textureTransform (void *textureNode, int ttnum) {
 
 	/* stuff common to all textureTransforms - gets undone at end_textureTransform */
 	glMatrixMode(GL_TEXTURE);
-       	glEnable(GL_TEXTURE_2D);
+       	/* done in RenderTextures now glEnable(GL_TEXTURE_2D); */
 	glLoadIdentity();
 
 	/* is this a simple TextureTransform? */

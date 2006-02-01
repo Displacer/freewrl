@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.203 2006/01/12 21:25:01 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.204 2006/02/01 20:24:53 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.204  2006/02/01 20:24:53  crc_canada
+# MultiTexture work.
+#
 # Revision 1.203  2006/01/12 21:25:01  crc_canada
 # More Occlusion stuff.
 #
@@ -598,7 +601,6 @@ struct sNaviInfo {
 #include "CFuncs/OpenGL_Utils.h"
 #include "CFuncs/Collision.h"
 #include "CFuncs/Bindable.h"
-#include "CFuncs/Textures.h"
 #include "CFuncs/Polyrep.h"
 #include "CFuncs/sounds.h"
 #include "CFuncs/SensInterps.h"
