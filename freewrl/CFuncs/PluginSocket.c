@@ -1,5 +1,5 @@
 /*
- * $Id: PluginSocket.c,v 1.14 2006/02/08 13:43:03 crc_canada Exp $
+ * $Id: PluginSocket.c,v 1.15 2006/02/08 21:25:17 crc_canada Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
@@ -37,8 +37,8 @@ void pluginprint (const char *m, const char *p) {
 
 	fprintf(tty, m,p);
 	fflush(tty);
-#endif
 }
+#endif
 
 /* loop about waiting for the Browser to send us some stuff. */
 int waitForData(int sock) {
