@@ -9,7 +9,7 @@
 #define __OPENGL_UTILS_H_
 
 /*
- * $Id: OpenGL_Utils.h,v 1.13 2005/11/25 21:14:55 crc_canada Exp $
+ * $Id: OpenGL_Utils.h,v 1.14 2006/02/13 18:26:21 crc_canada Exp $
  *
  */
 
@@ -58,9 +58,9 @@ void lightState (GLint light, int state);
 
 
 #ifndef AQUA
-extern Display *dpy;
-extern Window win;
-extern void openMainWindow(Display *dpy, Window *win, GLXContext *glocx);
+extern Display *Xdpy;
+extern Window Xwin;
+extern GLXContext GLcx;
 extern void resetGeometry();
 #endif
 extern void glpOpenGLInitialize(void);

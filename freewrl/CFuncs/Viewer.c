@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.40 2005/12/16 13:49:23 crc_canada Exp $
+ * $Id: Viewer.c,v 1.41 2006/02/13 18:26:21 crc_canada Exp $
  *
  */
 
@@ -76,7 +76,7 @@ void viewer_default() {
 		atan2(eyedist/2.0,screendist)*360.0/(2.0*3.1415926));
 
 #ifndef AQUA
-	if (shutter)
+	if (shutterGlasses)
 		XEventStereo();
 #endif
 }
