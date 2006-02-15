@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.36 2006/02/14 23:21:12 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.37 2006/02/15 16:08:03 crc_canada Exp $
  *
  */
 
@@ -19,6 +19,7 @@ extern CGLContextObj aqglobalContext;
 Display *Xdpy;
 Window Xwin;
 GLXContext GLcx;
+XVisualInfo *Xvi;
 int fullscreen = 0;
 #endif
 
