@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.179 2006/01/24 15:04:44 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.180 2006/02/24 16:08:12 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1411,7 +1411,7 @@ my $protono;
 						mode =>[MFString,[],exposedField],
 						source =>[MFString,[],exposedField],
 						texture=>[MFNode,undef,exposedField],
-						__params => [SFInt32, 0, field],
+						__params => [FreeWRLPTR, 0, field],
 					   }),
 
 	MultiTextureCoordinate => new VRML::NodeType("MultiTextureCoordinate", {
