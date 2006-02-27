@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.41 2006/02/13 18:26:21 crc_canada Exp $
+ * $Id: Viewer.c,v 1.42 2006/02/27 20:55:48 crc_canada Exp $
  *
  */
 
@@ -724,7 +724,7 @@ xy2qua(Quaternion *ret, const double x, const double y)
 
 float stereoParameter = 0.4;
 
-void setStereoParameter (char *optArg) {
+void setStereoParameter (const char *optArg) {
 	sscanf(optArg,"%f",&stereoParameter);
 }
 

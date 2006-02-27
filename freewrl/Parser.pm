@@ -1,5 +1,5 @@
 #
-# $Id: Parser.pm,v 1.37 2006/01/06 14:30:59 crc_canada Exp $
+# $Id: Parser.pm,v 1.38 2006/02/27 20:55:42 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -279,6 +279,7 @@ sub parse_interfacedecl {
 			my($ft, $t, $n) = ($access, $2, $3);
 			print "PARSING 2: $ft $t $n $fieldval\n"
 				if $VRML::verbose::parse;
+			warn "$ft $t $n redeclared\n" if exists $f{$n};
 			$f{$n} = [$ft, $t];
 			if($fieldval) {
 				if($_[3] =~ /\G\s*IS\s+($Word)/gsc) {

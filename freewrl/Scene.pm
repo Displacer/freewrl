@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.103 2006/01/24 15:04:44 crc_canada Exp $
+# $Id: Scene.pm,v 1.104 2006/02/27 20:55:42 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -781,20 +781,25 @@ sub make_is {
 	my $node_ft = $node->{Type}{FieldKinds}{$field} or
 		die("Missing field type for $node->{TypeName} $field from statement: $field IS $is");
 
-		die("Incompatible field or event types in statement: $field IS $is")
-			if ($proto_ft ne $node_ft and $node_ft ne "exposedField");
+#              die("Incompatible field or event types in statement: $field IS $is")
+#                      if ($proto_ft ne $node_ft and $node_ft ne "exposedField");
 
+	if (($proto_ft eq $node_ft) ^ (($node_ft eq "exposedField") ^ ($proto_ft ne "exposedField"))) {
+		die("Incompatible field or event types in statement:\n$field IS $is: type in proto:'$proto_ft'; type in node:'$node_ft'\n");
+	}
 	# If child's a field or exposedField, get initial value
 	print "VRML::Scene::make_is: $node_ft $field, NodeParent $proto_ft $is\n"
 		 if $VRML::verbose::scene;
 
 	my $ftype = "VRML::Field::"."$node->{Type}{FieldTypes}{$field}";
 
-	if ($node_ft =~ /[fF]ield$/ and $proto_ft =~ /[fF]ield$/) {
-		print "VRML::Scene::make_is: returning $this->{NodeParent}{Fields}{$is}\n"
+        if ($node_ft =~ /field$/ and $proto_ft =~ /[fF]ield$/) {
+                print "VRML::Scene::make_is: returning (raw) $this->{NodeParent}{Fields}{$is}\n"
 			if $VRML::verbose::scene;
 		$retval= $ftype->copy($this->{NodeParent}{Fields}{$is});
 	} else {
+		print "VRML::Scene::make_is: returning (IS) $is ($node->{Type}{Defaults}{$is})\n"
+			if $VRML::verbose::scene;
 		$retval = $node->{Type}{Defaults}{$is};
 	}
 

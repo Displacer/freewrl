@@ -1,5 +1,5 @@
 /*
- * $Id: pluginUtils.h,v 1.6 2006/02/03 20:26:57 crc_canada Exp $
+ * $Id: pluginUtils.h,v 1.7 2006/02/27 20:55:49 crc_canada Exp $
  *
  * FreeWRL plugin utilities header file.
  */
@@ -66,7 +66,7 @@ typedef struct _urlRequest {
 const char* XEventToString(int type);
 const char* XErrorToString(int error);
 
-void URLencod (char *dest, char *src, int maxlen);
+void URLencod (char *dest, const char *src, int maxlen);
 
 #ifdef __cplusplus
 }

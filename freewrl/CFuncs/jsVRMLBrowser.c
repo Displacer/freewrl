@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.16 2005/11/24 20:20:29 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.17 2006/02/27 20:55:48 crc_canada Exp $
  *
  */
 
@@ -84,12 +84,11 @@ JSBool
 VrmlBrowserGetCurrentSpeed(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
 	JSString *_str;
+	char string[10];
 
 	UNUSED(obj);
 	UNUSED(argc);
 	UNUSED(argv);
-
-	char string[10];
 
 	sprintf (string,"%f",getCurrentSpeed());
 	_str = JS_NewString(context,string,strlen(string)+1);
@@ -422,15 +421,15 @@ VrmlBrowserPrint(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsv
 {	int count;
 	JSString *_str;
 	char *_id_c;
-	UNUSED (context); UNUSED(obj);
-
 	jsval _rval = INT_TO_JSVAL(0);
+
+	UNUSED (context); UNUSED(obj);
 	/* printf ("FreeWRL:javascript: "); */
 	for (count=0; count < argc; count++) {
 		if (JSVAL_IS_STRING(argv[count])) {
 			_str = JSVAL_TO_STRING(argv[count]);
 			_id_c = JS_GetStringBytes(_str);
-			printf (_id_c);
+			printf ("%s", _id_c);
 		} else {
 	/*		printf ("unknown arg type %d\n",count); */
 		}

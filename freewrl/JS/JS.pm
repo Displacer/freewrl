@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: JS.pm,v 1.36 2005/12/07 22:04:45 crc_canada Exp $
+# $Id: JS.pm,v 1.37 2006/02/27 20:55:49 crc_canada Exp $
 #
 #
 #
@@ -163,12 +163,14 @@ sub initSFNodeFields {
 			 	if $VRML::verbose::js;
 
 	for (@fields) {
+		(warn, next) if	$_ eq "";
 		next if $_ eq "url" or
 			$_ eq "directOutput" or
 			$_ eq "mustEvaluate";
 
 		$fkind = $nt->{FieldKinds}{$_};
 		$type = $nt->{FieldTypes}{$_};
+		warn "no FieldTypes{$_}\n" unless defined $type and length $type != 0;
 		$ftype = "VRML::Field::$type";
 
 		if ($fkind eq "eventIn") { ## correct???
@@ -209,7 +211,7 @@ sub initSFNodeFields {
 				}
 			}
 		} else {
-			warn("Invalid field $fkind $_ for $ntn in initSFNodeFields");
+			warn("Invalid field '$fkind' ('$ftype') '$_' for '$ntn' in initSFNodeFields");
 			return;
 		}
 	}

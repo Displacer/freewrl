@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.43 2005/12/29 20:19:13 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.44 2006/02/27 20:55:41 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -375,11 +375,10 @@ sub as_string {
     }
 
     for (keys %{$this->{Fields}}) {
-		$s .= " $_ ";
 		if (ref $this->{Fields}{$_} =~ /(IS|USE|DEF)$/) {
-			$s .= $this->{Fields}{$_}->as_string();
-		} else {
-			$s .= "VRML::Field::$this->{Type}{FieldTypes}{$_}"->as_string($this->{Fields}{$_});
+		    $s .= " $_ " . $this->{Fields}{$_}->as_string();
+		} elsif (exists $this->{Type}{FieldTypes}{$_}) {
+		    $s .= " $_ " . "VRML::Field::$this->{Type}{FieldTypes}{$_}"->as_string($this->{Fields}{$_});
 		}
     }
     $s .= " }";
