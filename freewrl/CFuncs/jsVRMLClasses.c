@@ -6,10 +6,10 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.c,v 1.29 2006/02/27 20:55:48 crc_canada Exp $
+ * $Id: jsVRMLClasses.c,v 1.30 2006/03/01 15:16:57 crc_canada Exp $
  *
  */
-
+#include "headers.h"
 #include "jsVRMLClasses.h"
 
 /* quick fix to get around some compiler warnings on 64 bit systems */

@@ -1,4 +1,4 @@
-/* $Id: LinearAlgebra.c,v 1.15 2005/03/22 15:15:54 crc_canada Exp $
+/* $Id: LinearAlgebra.c,v 1.16 2006/03/01 15:16:57 crc_canada Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * Copyright (C) 2003 John Stewart CRC Canada
@@ -7,6 +7,7 @@
  * See the GNU Library General Public License (file COPYING in the distribution)
  * for conditions of use and redistribution.
  */
+#include "headers.h"
 #include "LinearAlgebra.h"
 
 

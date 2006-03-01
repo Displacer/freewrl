@@ -10,14 +10,9 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.21 2005/12/16 13:49:23 crc_canada Exp $
+ * $Id: Viewer.h,v 1.22 2006/03/01 15:16:57 crc_canada Exp $
  *
  */
-
-
-#include "EXTERN.h"
-#include "perl.h"
-#include "XSUB.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -25,19 +20,10 @@
 #include <ctype.h>
 #include <math.h>
 
-#ifdef AQUA
-#include <gl.h>
-#include <glu.h>
-#include <glext.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glx.h>
-#endif
-
 #include "headers.h"
 #include "quaternion.h"
 #include "OpenGL_Utils.h"
+#include "LinearAlgebra.h"
 
 
 #define NONE 0

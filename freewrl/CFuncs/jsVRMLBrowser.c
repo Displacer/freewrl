@@ -6,12 +6,12 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.17 2006/02/27 20:55:48 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.18 2006/03/01 15:16:57 crc_canada Exp $
  *
  */
 
-#include "jsVRMLBrowser.h"
 #include "headers.h"
+#include "jsVRMLBrowser.h"
 
 char FPSstring[10];
 

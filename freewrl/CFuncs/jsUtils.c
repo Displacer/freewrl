@@ -6,13 +6,14 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.c,v 1.2 2005/03/21 13:39:07 crc_canada Exp $
+ * $Id: jsUtils.c,v 1.3 2006/03/01 15:16:57 crc_canada Exp $
  *
  * A substantial amount of code has been adapted from js/src/js.c,
  * which is the sample application included with the javascript engine.
  *
  */
 
+#include "headers.h"
 #include "jsUtils.h"
 
 void

@@ -7,12 +7,11 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.42 2006/02/27 20:55:48 crc_canada Exp $
+ * $Id: Viewer.c,v 1.43 2006/03/01 15:16:57 crc_canada Exp $
  *
  */
 
 #include "headers.h"
-#include "Structs.h"
 #include "Viewer.h"
 #ifdef AQUA
 #define KeyPress        2

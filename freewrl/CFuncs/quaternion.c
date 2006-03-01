@@ -5,8 +5,10 @@
  for conditions of use and redistribution.
  ******************************************************************************/
 
+#include "quaternion.h"
+#include "LinearAlgebra.h"
 /*
- * $Id: quaternion.c,v 1.13 2005/03/22 15:15:57 crc_canada Exp $
+ * $Id: quaternion.c,v 1.14 2006/03/01 15:16:57 crc_canada Exp $
  *
  * Quaternion math ported from Perl to C
  * (originally in Quaternion.pm)
@@ -54,7 +56,6 @@
  */
 
 
-#include "quaternion.h"
 
 /* change matrix rotation to/from a quaternion */
 void
