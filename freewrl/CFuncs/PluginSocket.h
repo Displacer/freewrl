@@ -1,5 +1,5 @@
 /*
- * $Id: PluginSocket.h,v 1.5 2005/03/21 13:39:07 crc_canada Exp $
+ * $Id: PluginSocket.h,v 1.6 2006/03/02 20:44:09 crc_canada Exp $
  */
 
 #ifndef __pluginSocket_h__
@@ -33,10 +33,10 @@ extern "C" {
 #define MAXNETSCAPENAMELEN 256
 extern char NetscapeName[MAXNETSCAPENAMELEN];
 
-char *requestUrlfromPlugin(int sockDesc, unsigned int plugin_instance, const char *url);
+char *requestUrlfromPlugin(int sockDesc, uintptr_t plugin_instance, const char *url);
 
 void requestNewWindowfromPlugin(int sockDesc,
-		                   unsigned int plugin_instance,
+		                   uintptr_t plugin_instance,
 				                      const char *url);
 
 int

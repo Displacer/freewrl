@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.38 2006/03/01 15:16:57 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.39 2006/03/02 20:44:08 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -454,6 +454,7 @@ void kill_MFVec3f (struct Multi_Vec3f *par) {
 }
 
 void kill_FreeWRLPTR (void * par) {
+	void *rv;
 	if (par==0) return;
 
 	#ifdef KILLVERBOSE
@@ -464,7 +465,7 @@ void kill_FreeWRLPTR (void * par) {
 	FREE_IF_NZ(par);
 	*/
 
-	realloc (par,0); /* just make it point to zero size */
+	rv=realloc (par,0); /* just make it point to zero size */
 }
 
 void kill_texture (int *tn, int cnt) {
