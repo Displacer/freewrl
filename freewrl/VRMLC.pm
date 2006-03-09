@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.207 2006/03/08 19:26:15 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.208 2006/03/09 20:43:33 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.208  2006/03/09 20:43:33  crc_canada
+# Initial Event Utilities Component work.
+#
 # Revision 1.207  2006/03/08 19:26:15  crc_canada
 # addRemove children in javascript and EAI changed.
 #
@@ -727,6 +730,27 @@ CODE:
 	} else if (strncmp("GeoPositionInterpolator",x,strlen("GeoPositionInterpolator"))==0) {
 		pt = (void *)do_GeoOint;
 		RETVAL = pt;
+
+
+	} else if (strncmp("BooleanFilter",x,strlen("BooleanFilter"))==0) {
+		pt = (void *)do_BooleanFilter;
+		RETVAL = pt;
+	} else if (strncmp("BooleanSequencer",x,strlen("BooleanSequencer"))==0) {
+		pt = (void *)do_BooleanSequencer;
+		RETVAL = pt;
+	} else if (strncmp("BooleanToggle",x,strlen("BooleanToggle"))==0) {
+		pt = (void *)do_BooleanToggle;
+		RETVAL = pt;
+	} else if (strncmp("BooleanTrigger",x,strlen("BooleanTrigger"))==0) {
+		pt = (void *)do_BooleanTrigger;
+		RETVAL = pt;
+	} else if (strncmp("IntegerTrigger",x,strlen("IntegerTrigger"))==0) {
+		pt = (void *)do_IntegerTrigger;
+		RETVAL = pt;
+	} else if (strncmp("TimeTrigger",x,strlen("TimeTrigger"))==0) {
+		pt = (void *)do_TimeTrigger;
+		RETVAL = pt;
+
 	} else {
 		RETVAL = 0;
 	}

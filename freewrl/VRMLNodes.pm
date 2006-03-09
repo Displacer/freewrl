@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.180 2006/02/24 16:08:12 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.181 2006/03/09 20:43:33 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -658,6 +658,14 @@ my $protono;
 	Viewpoint 		=>children,
 	VisibilitySensor 	=>children,
 	WorldInfo 		=>children,
+
+	BooleanFilter		=>children,
+	BooleanSequencer	=>children,
+	BooleanToggle		=>children,
+	BooleanTrigger		=>children,
+	IntegerSequencer	=>children,
+	IntegerTrigger		=>children,
+	TimeTrigger		=>children,
 );
 
 %VRML::Nodes = (
@@ -2096,6 +2104,65 @@ my $protono;
 	#		EventUtilities Component
 
 	###################################################################################
+
+	BooleanFilter => 
+	new VRML::NodeType("BooleanFilter", {
+			set_boolean =>[SFBool,undef,eventIn],
+			inputFalse => [SFBool, 0, eventOut],
+			inputNegate => [SFBool, 0, eventOut],
+			inputTrue => [SFBool, 0, eventOut],
+	}),
+
+
+	BooleanSequencer => 
+	new VRML::NodeType("BooleanSequencer", {
+			next =>[SFBool,undef,eventIn],
+			previous =>[SFBool,undef,eventIn],
+			set_fraction =>[SFFloat,undef,eventIn],
+			key => [MFFloat, [], exposedField],
+			keyValue => [MFBool, [], exposedField],
+			value_changed => [SFBool, 0, eventOut],
+	}),
+
+
+	BooleanToggle => 
+	new VRML::NodeType("BooleanToggle", {
+			set_boolean =>[SFBool,undef,eventIn],
+			toggle => [SFBool, 0, eventOut],
+	}),
+
+
+	BooleanTrigger => 
+	new VRML::NodeType("BooleanTrigger", {
+			set_triggerTime => [SFTime,undef ,eventIn],
+			triggerTrue => [SFBool, 0, eventOut],
+	}),
+
+
+	IntegerSequencer => 
+	new VRML::NodeType("IntegerSequencer", {
+			next =>[SFBool,undef,eventIn],
+			previous =>[SFBool,undef,eventIn],
+			set_fraction =>[SFFloat,undef,eventIn],
+			key => [MFFloat, [], exposedField],
+			keyValue => [MFInt32, [], exposedField],
+			value_changed => [SFInt32, 0, eventOut],
+	}),
+
+	IntegerTrigger => 
+	new VRML::NodeType("IntegerTrigger", {
+			set_triggerTime => [SFTime,undef ,eventIn],
+			integerKey => [SFInt32, [], exposedField],
+			triggerTrue => [SFInt32, 0, eventOut],
+	}),
+
+	TimeTrigger => 
+	new VRML::NodeType("TimeTrigger", {
+			set_boolean =>[SFBool,undef,eventIn],
+			triggerTime => [SFTime, 0, eventOut],
+	}),
+
+
 
 	###################################################################################
 
