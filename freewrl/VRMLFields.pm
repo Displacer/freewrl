@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.60 2006/03/09 20:43:33 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.61 2006/03/13 15:08:24 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,9 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.61  2006/03/13 15:08:24  crc_canada
+# Event Utilities should be complete.
+#
 # Revision 1.60  2006/03/09 20:43:33  crc_canada
 # Initial Event Utilities Component work.
 #
@@ -957,6 +960,8 @@ sub cfunc {
 	} elsif ($baseType eq "SFVec3f") {
 		$baseType = "struct SFColor";
 	} elsif ($baseType eq "SFInt32") {
+		$baseType = "int";
+	} elsif ($baseType eq "SFBool") {
 		$baseType = "int";
 	} elsif ($baseType eq "SFNode") {
 		$baseType = "void *";

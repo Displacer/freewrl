@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.181 2006/03/09 20:43:33 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.182 2006/03/13 15:08:24 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -2110,7 +2110,7 @@ my $protono;
 			set_boolean =>[SFBool,undef,eventIn],
 			inputFalse => [SFBool, 0, eventOut],
 			inputNegate => [SFBool, 0, eventOut],
-			inputTrue => [SFBool, 0, eventOut],
+			inputTrue => [SFBool, 1, eventOut],
 	}),
 
 
@@ -2153,7 +2153,7 @@ my $protono;
 	new VRML::NodeType("IntegerTrigger", {
 			set_triggerTime => [SFTime,undef ,eventIn],
 			integerKey => [SFInt32, [], exposedField],
-			triggerTrue => [SFInt32, 0, eventOut],
+			triggerValue => [SFInt32, 0, eventOut],
 	}),
 
 	TimeTrigger => 
