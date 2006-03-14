@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.39 2006/03/02 20:44:08 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.40 2006/03/14 16:31:11 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -464,8 +464,13 @@ void kill_FreeWRLPTR (void * par) {
 	/* cant do this because we might be DEF/USEd 
 	FREE_IF_NZ(par);
 	*/
-
-	rv=realloc (par,0); /* just make it point to zero size */
+/* cant even do this - just ignore for now, because reallocing to zero
+   twice fails... 
+	rv=realloc (par,1); 
+	#ifdef KILLVERBOSE
+	printf ("\treallocd to zero size\n");
+	#endif
+*/
 }
 
 void kill_texture (int *tn, int cnt) {
