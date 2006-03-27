@@ -9,7 +9,7 @@
 #define __OPENGL_UTILS_H_
 
 /*
- * $Id: OpenGL_Utils.h,v 1.15 2006/02/15 16:08:03 crc_canada Exp $
+ * $Id: OpenGL_Utils.h,v 1.16 2006/03/27 21:34:15 crc_canada Exp $
  *
  */
 
@@ -36,14 +36,6 @@
 void start_textureTransform (void *textureNode, int ttnum);
 void end_textureTransform (void *textureNode, int ttnum);
 
-int
-get_now_mapped(void);
-
-
-void
-set_now_mapped(int val);
-
-
 void
 glpOpenGLInitialize(void);
 
@@ -62,6 +54,7 @@ extern Display *Xdpy;
 extern GLXContext GLcx;
 extern XVisualInfo *Xvi;
 extern Window Xwin;
+extern Window GLwin;
 extern void resetGeometry();
 #endif
 extern void glpOpenGLInitialize(void);
