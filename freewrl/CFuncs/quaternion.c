@@ -8,7 +8,7 @@
 #include "quaternion.h"
 #include "LinearAlgebra.h"
 /*
- * $Id: quaternion.c,v 1.14 2006/03/01 15:16:57 crc_canada Exp $
+ * $Id: quaternion.c,v 1.15 2006/04/05 16:59:13 crc_canada Exp $
  *
  * Quaternion math ported from Perl to C
  * (originally in Quaternion.pm)
@@ -334,27 +334,6 @@ set(Quaternion *ret, const Quaternion *quat)
 	ret->y = quat->y;
 	ret->z = quat->z;
 }
-
-/* unused - JAS.
-double abssq(Quaternion *quat) {
-	return (quat->w * quat->w) +
-	       (quat->x * quat->x) +
-	       (quat->y * quat->y) +
-	       (quat->z * quat->z);
-}
-
-void
-quat_invert (Quaternion *quat) {
-	double absq;
-
-	absq = abssq(quat);
-
-	quat->w *=  1/absq;
-	quat->x *= -1/absq;
-	quat->y *= -1/absq;
-	quat->z *= -1/absq;
-}
-*/
 
 /*
  * Code from www.gamasutra.com/features/19980703/quaternions_01.htm,
