@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.45 2006/03/27 21:34:15 crc_canada Exp $
+ * $Id: Viewer.c,v 1.46 2006/04/07 13:25:14 crc_canada Exp $
  *
  */
 
@@ -167,12 +167,15 @@ void set_viewer_type(const int type) {
 	/* can the currently bound viewer type handle this */
 	/* if there is no bound viewer, just ignore (happens on initialization) */
 	if (navi_tos != -1)
-		if (Viewer.oktypes[type]==FALSE) return;
+		if (Viewer.oktypes[type]==FALSE) {
+			setMenuButton_navModes(viewer_type);
+			return;
+		}
 
 	viewer_init(&Viewer,type);
 
 	/* tell the window menu what we are */
-	setMenuButton_navModes(type);
+	setMenuButton_navModes(viewer_type);
 
 	switch(type) {
 	case NONE:
