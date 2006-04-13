@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.41 2006/03/27 21:34:15 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.42 2006/04/13 14:51:44 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -30,6 +30,9 @@ int fullscreen = 0;
 
 /* lights status. Light 0 is the headlight */
 static int lights[8];
+
+/* is this 24 bit depth? 16? 8?? Assume 24, unless set on opening */
+int displayDepth = 24;
 
 
 

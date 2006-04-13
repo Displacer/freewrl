@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.209 2006/04/05 17:49:40 sdumoulin Exp $
+# $Id: VRMLC.pm,v 1.210 2006/04/13 14:51:41 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.210  2006/04/13 14:51:41  crc_canada
+# EAI changes for SAI additions.
+#
 # Revision 1.209  2006/04/05 17:49:40  sdumoulin
 # Universal binary build
 #
@@ -881,6 +884,17 @@ SaveVersion(str)
 CODE:
 	BrowserVersion = (char *)malloc (strlen(str)+1);
 	strcpy (BrowserVersion,str);
+
+
+# EAI/SAI might want to know what kind of a file was just read in.
+# SAI spec - getSpecification tells us that this is a 3 (VRML) or
+# 4 (X3D)...
+void
+SaveFileType(c)
+	int c
+CODE:
+	currentFileVersion = c;
+
 
 SV *
 GetBrowserURL()
