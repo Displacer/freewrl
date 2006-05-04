@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.42 2006/04/13 14:51:44 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.43 2006/05/04 19:18:28 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -607,7 +607,8 @@ void kill_rendering(void *thisnode) {
 				kill_rendering (thisNode->color);
 				kill_rendering (thisNode->coord);
 				kill_MFInt32 (&thisNode->vertexCount);
-				kill_FreeWRLPTR (thisNode->__points);
+				kill_FreeWRLPTR (thisNode->__vertArr);
+				kill_FreeWRLPTR (thisNode->__vertIndx);
 				break; }
 
 			case NODE_Normal: {
