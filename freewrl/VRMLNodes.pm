@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.183 2006/05/04 19:18:28 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.184 2006/05/05 20:11:06 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -815,7 +815,11 @@ my $protono;
 						coord => [SFNode, NULL, exposedField],
 						colorIndex => [MFInt32, [], field],
 						colorPerVertex => [SFBool, 1, field],
-						coordIndex => [MFInt32, [], field]
+						coordIndex => [MFInt32, [], field],
+						__vertIndx  =>[FreeWRLPTR,0,field],
+						__colours  =>[FreeWRLPTR,0,field],
+						__segCount =>[SFInt32,0,field],
+						__vertexCount =>[FreeWRLPTR,0,field],
 					   }),
 
 	IndexedTriangleFanSet => new VRML::NodeType("IndexedTriangleFanSet", {
