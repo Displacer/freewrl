@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.210 2006/04/13 14:51:41 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.211 2006/05/15 14:05:59 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,10 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.211  2006/05/15 14:05:59  crc_canada
+# Various fixes; CVS was down for a week. Multithreading for shape compile
+# is the main one.
+#
 # Revision 1.210  2006/04/13 14:51:41  crc_canada
 # EAI changes for SAI additions.
 #
@@ -382,7 +386,7 @@ sub get_rendfunc {
 	my($n) = @_;
 	#JAS print "RENDF $n ";
 	# XXX
-	my @f = qw/Prep Rend Child Fin RendRay GenPolyRep Light Changed Proximity Collision/;
+	my @f = qw/Prep Rend Child Fin RendRay GenPolyRep Light Changed Proximity Collision Compile/;
 	my $f;
 	my $comma = "";
 	my $v = "\nstatic struct X3D_Virt virt_${n} = { ";
@@ -412,6 +416,8 @@ sub get_rendfunc {
 				$v .= $comma."(void *)make_".${n};
 			} elsif ($_ eq "RendRay") {
 				$v .= $comma."(void *)rendray_".${n};
+			} elsif ($_ eq "Compile") {
+				$v .= $comma."(void *)compile_".${n};
 			} else {
 				$v .= $comma."${n}_$_";
 			}	
@@ -552,6 +558,7 @@ struct X3D_Virt {
 	void (*changed)(void *);
 	void (*proximity)(void *);
 	void (*collision)(void *);
+	void (*compile)(void *);
 	/* char *name; */
 };
 
