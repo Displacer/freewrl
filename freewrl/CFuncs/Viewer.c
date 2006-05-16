@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.46 2006/04/07 13:25:14 crc_canada Exp $
+ * $Id: Viewer.c,v 1.47 2006/05/16 19:12:29 crc_canada Exp $
  *
  */
 
@@ -49,6 +49,8 @@ float getCurrentSpeed() {
 
 void viewer_default() {
 	Quaternion q_i;
+
+	fieldofview = 45.0;
 
 	VPvelocity.x = 0.0; VPvelocity.y = 0.0; VPvelocity.z = 0.0; 
 	(Viewer.Pos).x = 0;
