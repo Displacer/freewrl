@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.105 2006/03/02 18:09:58 crc_canada Exp $
+# $Id: Scene.pm,v 1.106 2006/05/23 14:03:04 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -46,6 +46,7 @@ package VRML::Scene;
 #
 #  - expand_usedef
 
+$VRML::verbose::scene = 0;
 
 sub dump {
 	my ($this, $level) = @_;
@@ -514,10 +515,14 @@ sub new_is {
 sub new_proto {
 	my ($this, $name, $pars) = @_;
 
-	print "VRML::Scene::new_proto: ", VRML::Debug::toString(\@_), "\n"
+	print "VRML::Scene::new_proto: $this, ", VRML::Debug::toString(\@_), "\n"
 		if $VRML::verbose::scene;
 
 	my $p = $this->{Protos}{$name} = (ref $this)->newp($pars, $this, $name);
+
+	# if SAI/EAI ever want to get this proto, we had better save a ref to it.
+	VRML::Handles::EAI_reserve($name, $p);
+
 	print "Scene:new_proto, returning $p \n" if $VRML::verbose::scene;
 	return $p;
 }
@@ -561,7 +566,7 @@ sub topnodes {
 
 sub get_proto {
 	my ($this, $name) = @_;
-	print "VRML::Scene::get_proto: ", VRML::Debug::toString(\@_), "\n"
+	print "VRML::Scene::get_proto: $this, ", VRML::Debug::toString(\@_), "\n"
 		if $VRML::verbose::scene;
 
 	return $this->{Protos}{$name}
@@ -569,6 +574,10 @@ sub get_proto {
 
 	return $this->{Parent}->get_proto($name)
 		if ($this->{Parent});
+
+	# see if this is reserved by EAI/SAI. If it is, return its ref
+	my $rv = VRML::Handles::return_EAI_name($name);
+	if ($rv ne $name) {return $rv;}
 
 	print "VRML::Scene::get_proto: $name is not defined\n" if $VRML::verbose::scene;
 	return undef;
