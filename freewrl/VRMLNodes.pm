@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.185 2006/05/15 14:05:59 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.186 2006/05/24 16:27:15 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1524,7 +1524,7 @@ my $protono;
 			set_fraction => [SFFloat, undef, eventIn],
 			key => [MFFloat, [], exposedField],
 			keyValue => [MFVec2f, [], exposedField],
-			value_changed => [MFVec2f, [], eventOut],
+			value_changed => [MFVec2f, [0,0], eventOut],
 		}),
 
 	PositionInterpolator2D => new VRML::NodeType("PositionInterpolator2D", {
@@ -1830,7 +1830,7 @@ my $protono;
 						key => [MFFloat,[],field],
 						keyValue => [MFString,[],field],
 						geovalue_changed => [SFString,"",eventOut],
-						value_changed => [SFVec3f,undef,eventOut],
+						value_changed => [SFVec3f,[0,0,0],eventOut],
 					}),
 
 
@@ -1906,7 +1906,7 @@ my $protono;
 						coordIndex => [MFInt32, [], exposedField],
 						displacements => [MFVec3f, [], exposedField],
 						name => [SFString, "", exposedField],
-						weight => [SFFloat, 0.0, expoeseField],
+						weight => [SFFloat, 0.0, exposedField],
 					}),
 
 	HAnimHumanoid => new VRML::NodeType("HAnimHumanoid", {
@@ -2062,7 +2062,7 @@ my $protono;
 						keyWeight => [MFFloat,[],exposedField],
 						knot => [MFFloat,[],exposedField],
 						order => [SFInt32,[],exposedField],
-						value_changed => [SFVec3f,undef,eventOut],
+						value_changed => [SFVec3f,[0,0,0],eventOut],
 					}
 					),
 
