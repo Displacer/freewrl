@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.187 2006/05/24 19:29:03 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.188 2006/05/26 15:53:00 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -323,7 +323,6 @@ my $protono;
 	PointLight
 	SpotLight
 	Script
-	TimeSensor
 	Collision
 	ProximitySensor
 	VisibilitySensor
