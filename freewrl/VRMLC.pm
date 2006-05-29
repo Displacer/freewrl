@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.216 2006/05/24 19:29:03 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.217 2006/05/29 17:54:12 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.217  2006/05/29 17:54:12  crc_canada
+# SAI changes - almost complete
+#
 # Revision 1.216  2006/05/24 19:29:03  crc_canada
 # More VRML C Parser code
 #
@@ -517,17 +520,14 @@ sub gen {
 		push @str, "#define NODE_".$_."	$nodeIntegerType\n";
 		$nodeIntegerType ++;
 
+
+		#{ use Devel::Peek 'Dump'; print "start of dump\n"; Dump $VRML::Nodes{$_}, 30; print "end of dump\n"; } 
+
  		#foreach my $field (keys %{$VRML::Nodes{$_}}) {print "field1 $field ". $VRML::Nodes{$_}{Fields}."\n";}
- 		foreach my $field (keys %{$VRML::Nodes{$_}{EventIns}}) {
+ 		foreach my $field (keys %{$VRML::Nodes{$_}{FieldTypes}}) {
 			$allFields{$field} = 1;
 			#print "field2 $field\n"
 		};
- 		foreach my $field (keys %{$VRML::Nodes{$_}{EventOuts}}) {
-			$allFields{$field} = 1;
-			#print "field3 $field\n"
-		};
-
-
 	}
 	push @str, "\n";
 
