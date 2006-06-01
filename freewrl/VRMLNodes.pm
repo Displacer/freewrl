@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.188 2006/05/26 15:53:00 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.189 2006/06/01 19:38:00 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1694,6 +1694,7 @@ my $protono;
 						bindTime => [SFTime, -1, eventOut],
 						isBound => [SFBool, 0, eventOut],
 						centerOfRotation =>[SFVec3f, [0,0,0], exposedField],
+						__BGNumber => [SFInt32,-1,field], # for ordering backgrounds for binding
 					   }),
 
 	NavigationInfo => new VRML::NodeType("NavigationInfo", {
@@ -1719,7 +1720,8 @@ my $protono;
 						color => [SFColor, [1, 1, 1], exposedField],
 						fogType => [SFString, "LINEAR", exposedField],
 						visibilityRange => [SFFloat, 0, exposedField],
-						isBound => [SFBool, 0, eventOut]
+						isBound => [SFBool, 0, eventOut],
+						__BGNumber => [SFInt32,-1,field], # for ordering backgrounds for binding
 					   }),
 
 	TextureBackground => new VRML::NodeType("TextureBackground", {
@@ -1863,6 +1865,7 @@ my $protono;
 						speedFactor => [SFFloat,1.0,field],
 						bindTime => [SFTime, -1, eventOut],
 						isBound => [SFBool, 0, eventOut],
+						__BGNumber => [SFInt32,-1,field], # for ordering backgrounds for binding
 
 						# "compiled" versions of strings above
 						__position => [SFVec3f,[0, 0, 100000], field],
