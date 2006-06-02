@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.44 2006/02/27 20:55:41 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.45 2006/06/02 17:19:14 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -344,7 +344,7 @@ sub do_defaults {
 			if (!defined $this->{Type}{Defaults}{$_} and
 					 $this->{Type}{FieldKinds}{$_} =~ /out/i) {
 				$ftype = "VRML::Field::".$this->{Type}{FieldTypes}{$_};
-				$init = $ftype->init();
+				$init = $ftype->VRMLFieldInit();
 				if (ref $init eq "ARRAY") {
 					push @{$this->{Fields}{$_}}, @{$init};
 				} else {

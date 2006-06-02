@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.189 2006/06/01 19:38:00 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.190 2006/06/02 17:19:15 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1707,6 +1707,7 @@ my $protono;
 						isBound => [SFBool, 0, eventOut],
 						transitionType => [MFString, [],exposedField],
 						bindTime => [SFTime, -1, eventOut],
+						__BGNumber => [SFInt32,-1,field], # for ordering backgrounds for binding
 					   }),
 
 	###################################################################################
