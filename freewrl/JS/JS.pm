@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: JS.pm,v 1.37 2006/02/27 20:55:49 crc_canada Exp $
+# $Id: JS.pm,v 1.38 2006/06/12 20:46:33 crc_canada Exp $
 #
 #
 #
@@ -170,8 +170,13 @@ sub initSFNodeFields {
 
 		$fkind = $nt->{FieldKinds}{$_};
 		$type = $nt->{FieldTypes}{$_};
+
 		warn "no FieldTypes{$_}\n" unless defined $type and length $type != 0;
 		$ftype = "VRML::Field::$type";
+
+		# skip internal FreeWRLPTRs
+		next if "VRML::Field::FreeWRLPTR" eq $ftype;
+
 
 		if ($fkind eq "eventIn") { ## correct???
 			if ($type !~ /$ECMAScriptNative/) {
