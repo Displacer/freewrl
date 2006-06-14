@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.190 2006/06/02 17:19:15 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.191 2006/06/14 16:53:07 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -508,18 +508,6 @@ my $protono;
 	fromField
 	fromNode
 	/;
-
-# initevents are used in event propagation as the "First" events to run.
-# check out add_first subroutine, and event propagation to see what happens.
-
-%VRML::Nodes::initevents = map {($_,1)} qw/
- TimeSensor
- ProximitySensor
- Collision
- MovieTexture
- AudioClip
- VisibilitySensor
-/;
 
 # What are the transformation-hierarchy child nodes?
 %VRML::Nodes::Transchildren = qw(

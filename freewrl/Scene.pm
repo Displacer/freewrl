@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.107 2006/06/02 17:19:14 crc_canada Exp $
+# $Id: Scene.pm,v 1.108 2006/06/14 16:53:07 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -1007,28 +1007,10 @@ sub setup_routing {
 		  if $VRML::verbose::scene;
 
 		 return unless "VRML::NodeIntern" eq ref $_[0];
-		 print "\t\tITNO: $_[0]->{TypeName} ($VRML::Nodes::initevents{$_[0]->{TypeName}})\n"
-			 if $VRML::verbose::scene;
-		 if ($VRML::Nodes::initevents{$_[0]->{TypeName}}) {
-			 print "\tITNO:is member of initevents\n"
-				if $VRML::verbose::scene;
 
-
-			# is this a proto expansion SFNode field?
-			# if so, the backnode->{CNode} will need to be created
-			if (!defined $_[0]->{BackNode}) {
-				#print "backnode not defined\n";
-
-				$_[0]->{BackNode} =
-					VRML::NodeIntern::make_backend($_[0], $be);
-			}
-
-			VRML::VRMLFunc::add_first($_[0]->{TypeName}, $_[0]->{BackNode}->{CNode});
-		 } else {
-			 if ($_[0]->{ProtoExp}) {
-				 #print "VRML::Scene::setup_routing, this $this is a proto, calling protoexp setup_routing\n";
-				 $_[0]->{ProtoExp}->setup_routing($eventmodel, $be);
-			 }
+		 if ($_[0]->{ProtoExp}) {
+			 #print "VRML::Scene::setup_routing, this $this is a proto, calling protoexp setup_routing\n";
+			 $_[0]->{ProtoExp}->setup_routing($eventmodel, $be);
 		 }
 		 # Look at child nodes
 		 my $c;

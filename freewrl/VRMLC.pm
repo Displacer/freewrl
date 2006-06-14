@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.226 2006/06/13 17:14:51 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.227 2006/06/14 16:53:07 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,10 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.227  2006/06/14 16:53:07  crc_canada
+# add_first routine changed; no longer requires string, and is called now in
+# routing code.
+#
 # Revision 1.226  2006/06/13 17:14:51  crc_canada
 # EAI routing in C.
 #
@@ -1161,16 +1165,6 @@ set_root(rn)
 CODE:
 	/* printf ("VRMLC; set_root to %d\n", rn); */
 	rootNode = (void *) rn;
-
-#********************************************************************************
-# Register a timesensitive node so that it gets "fired" every event loop
-
-void
-add_first(clocktype,node)
-	char *clocktype
-	void *node
-CODE:
-	add_first(clocktype,node);
 
 #********************************************************************************
 
