@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.232 2006/06/19 17:26:34 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.233 2006/06/19 20:37:14 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.233  2006/06/19 20:37:14  crc_canada
+# merge BrowserFullPath and BrowserURL
+#
 # Revision 1.232  2006/06/19 17:26:34  crc_canada
 # handles step1 of parenturls.
 #
@@ -1257,18 +1260,16 @@ SaveFileType(c)
 CODE:
 	currentFileVersion = c;
 
-
-SV *
-GetBrowserURL()
-CODE:
-	RETVAL = newSVpv(BrowserURL, strlen(BrowserURL));
-OUTPUT:
-	RETVAL
-
 SV *
 GetBrowserFullPath()
 CODE:
-	RETVAL = newSVpv(BrowserFullPath, strlen(BrowserFullPath));
+	if (BrowserFullPath == NULL) {
+		/* printf ("BFP null\n"); */
+		RETVAL = newSVpv("",0);
+	} else { 
+		/* printf ("BFP %s\n",BrowserFullPath); */
+		RETVAL = newSVpv(BrowserFullPath, strlen(BrowserFullPath));
+	}
 OUTPUT:
 	RETVAL
 

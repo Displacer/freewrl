@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.19 2006/04/26 19:54:08 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.20 2006/06/19 20:37:14 crc_canada Exp $
  *
  */
 
@@ -123,7 +123,7 @@ VrmlBrowserGetWorldURL(JSContext *context, JSObject *obj,
 	UNUSED(argc);
 	UNUSED(argv);
 
-	_str = JS_NewString(context,BrowserURL,strlen(BrowserURL)+1);
+	_str = JS_NewString(context,BrowserFullPath,strlen(BrowserFullPath)+1);
 	*rval = STRING_TO_JSVAL(_str);
 	return JS_TRUE;
 }
