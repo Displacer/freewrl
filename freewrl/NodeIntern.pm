@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.45 2006/06/02 17:19:14 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.46 2006/06/20 18:48:54 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -328,8 +328,6 @@ sub new {
 
 
 # Fill in nonexisting field values by the default values.
-# if the field name is "__parenturl", then we supply the current url to it.
-# this helps the C threads find relative files, as loading can be intermixed.
 
 sub do_defaults {
 	my ($this,$scene) = @_;
@@ -353,11 +351,7 @@ sub do_defaults {
 			} elsif (ref $this->{Type}{Defaults}{$_} eq "ARRAY") {
 				push @{$this->{Fields}{$_}}, @{$this->{Type}{Defaults}{$_}};
 			} else {
-				if ($_ eq "__parenturl") {
-					$this->{Fields}{$_} = $scene->get_url();
-				} else {
-					$this->{Fields}{$_} = $this->{Type}{Defaults}{$_};
-				}
+				$this->{Fields}{$_} = $this->{Type}{Defaults}{$_};
 			}
 		}
 	}

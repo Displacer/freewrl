@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.109 2006/06/15 19:39:42 crc_canada Exp $
+# $Id: Scene.pm,v 1.110 2006/06/20 18:48:54 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -583,12 +583,12 @@ sub get_proto {
 	return undef;
 }
 
-sub get_url {
-	my ($this) = @_;
-	return $this->{URL} if (defined $this->{URL});
-	return $this->{Parent}->get_url() if ($this->{Parent});
-	die("Undefined URL tree");
-}
+#sub get_url {
+#	my ($this) = @_;
+#	return $this->{URL} if (defined $this->{URL});
+#	return $this->{Parent}->get_url() if ($this->{Parent});
+#	die("Undefined URL tree");
+#}
 
 sub set_world_url {
 	my ($this, $url) = @_;
