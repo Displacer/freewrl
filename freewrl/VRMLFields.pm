@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.66 2006/06/19 16:40:46 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.67 2006/06/20 17:58:57 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,9 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.67  2006/06/20 17:58:57  crc_canada
+# adds BrowserFullPath to __parenturl fields.
+#
 # Revision 1.66  2006/06/19 16:40:46  crc_canada
 # PixelTextures using new parser.
 #
@@ -646,7 +649,12 @@ sub clength {1} #for C routes. Keep in sync with getClen in VRMLC.pm.
 
 sub cInitialize {
 	my ($this,$field,$val) = @_;
-	return "$field = EAI_newSVpv(\"$val\")";
+
+	if ($field eq "tmp2->__parenturl") {
+		return "$field = EAI_newSVpv(BrowserFullPath)";
+	} else {
+		return "$field = EAI_newSVpv(\"$val\")";
+	}
 }
 
 ###########################################################
