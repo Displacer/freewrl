@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.43 2006/05/04 19:18:28 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.44 2006/06/22 12:07:59 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -991,6 +991,9 @@ void kill_oldWorld(int kill_EAI, int kill_JavaScript, int kill_JavaClass) {
 
 	/* consoleMessage - ok, not exactly a kill, more of a reset */
 	consMsgCount = 0;
+
+	/* clock events - stop them from ticking */
+	kill_clockEvents();
 
 	/* kill DEFS, handles */
 	EAI_killBindables();
