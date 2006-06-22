@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.111 2006/06/21 18:57:56 crc_canada Exp $
+# $Id: Scene.pm,v 1.112 2006/06/22 14:05:44 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -125,8 +125,6 @@ sub new {
 					  EventModel => $eventmodel,
 					  URL => $url,
 					  SubScenes => undef,
-					  Bindable => undef,
-					  Bindables => undef,
 					  Routes => undef,
 					  DelRoutes => undef,
 					  Nodes => undef,
@@ -442,19 +440,6 @@ sub new_node {
 	# we keep track of nodes that can generate Occlusion queries.
 	if ($VRML::Nodes::occludeEvents{$type}) {VRML::Browser::NewOccludeNode($node);}
 
-	# Check if it is bindable and first -> bind to it later..
-	if ($VRML::Nodes::bindable{$type}) {
-		# print "Scene.pm - this is bindable\n";
-		VRML::Browser::reserve_bind_space($node);
-
-		if (!defined $this->{Bindable}{$type}) {
-			$this->{Bindable}{$type} = $node;
-		}
-
-		# GeoViewpoint and Viewpoint are handled the same, and on the same stack
-		if ($type eq "GeoViewpoint") {$type = "Viewpoint"};
-		push @{$this->{Bindables}{$type}}, $node;
-	}
 	VRML::Handles::reserve($node);
 	return $node;
 }

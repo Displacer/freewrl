@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: NodeIntern.pm,v 1.46 2006/06/20 18:48:54 crc_canada Exp $
+# $Id: NodeIntern.pm,v 1.47 2006/06/22 14:05:44 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -680,10 +680,6 @@ sub set_backend_fields {
 			$this->{BackNode} = $ben;
 			$this->set_backend_fields();
 
-			# is this a bindable node?
-			if ($VRML::Nodes::bindable{$this->{TypeName}}) {
-				VRML::Browser::register_bind($this);
-			}
 		}
 		print "\tVRML::NodeIntern::make_backend finished ",
 			dump_name($this),
