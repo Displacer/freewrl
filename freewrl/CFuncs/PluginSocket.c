@@ -1,5 +1,5 @@
 /*
- * $Id: PluginSocket.c,v 1.18 2006/06/30 21:02:18 crc_canada Exp $
+ * $Id: PluginSocket.c,v 1.19 2006/06/30 21:19:02 crc_canada Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
@@ -144,6 +144,8 @@ char * requestUrlfromPlugin(int to_plugin, uintptr_t plugin_instance, const char
 			#endif
 			return NULL;
 		}
+
+		ConsoleMessage ("failed to find URL %s\n",url);
 
 		return NULL;
 	}
