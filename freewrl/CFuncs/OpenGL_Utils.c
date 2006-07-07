@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.44 2006/06/22 12:07:59 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.45 2006/07/07 15:38:17 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -107,7 +107,6 @@ void lightState(GLint light, int status) {
 		lights[light]=status;
 	}
 }
-
 
 void glpOpenGLInitialize() {
 	int i;
@@ -991,6 +990,9 @@ void kill_oldWorld(int kill_EAI, int kill_JavaScript, int kill_JavaClass) {
 
 	/* consoleMessage - ok, not exactly a kill, more of a reset */
 	consMsgCount = 0;
+
+	/* occlusion testing - zero total count, but keep malloc'd memory around */
+	maxShapeFound = 0;
 
 	/* clock events - stop them from ticking */
 	kill_clockEvents();
