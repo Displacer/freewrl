@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.20 2006/06/19 20:37:14 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.21 2006/07/20 17:29:12 crc_canada Exp $
  *
  */
 
@@ -432,10 +432,10 @@ VrmlBrowserPrint(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsv
 			#ifdef AQUA
 			ConsoleMessage(_id_c);
 			#else
-				#ifdef HAVE_MOTIF 
-				ConsoleMessage(_id_c);
+				#ifdef HAVE_NOTOOLKIT 
+					printf ("%s", _id_c);
 				#else
-				printf ("%s", _id_c);
+					ConsoleMessage(_id_c);
 				#endif
 			#endif
 		} else {
@@ -445,10 +445,8 @@ VrmlBrowserPrint(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsv
 	#ifdef AQUA
 	ConsoleMessage("\n");
 	#else
-		#ifdef HAVE_MOTIF 
-		/* ConsoleMessage("\n"); */
-		#else
-		printf ("\n");
+		#ifdef HAVE_NOTOOLKIT
+			printf ("\n");
 		#endif
 	#endif
 	*rval = _rval;
