@@ -1,5 +1,5 @@
 /*
- * $Id: PluginSocket.c,v 1.20 2006/07/06 18:43:45 crc_canada Exp $
+ * $Id: PluginSocket.c,v 1.21 2006/07/25 20:03:55 crc_canada Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
@@ -53,12 +53,14 @@ int waitForData(int sock) {
 
 	retval = FALSE;
 	count = 0;
-	totalcount = 20000;
+	totalcount = 80000;
 
 	do {
+		/*
 		#ifdef PLUGINSOCKETVERBOSE
 		pluginprint ("waitForData on socket looping...%d\n",count);
 		#endif
+		*/
 
 		tv.tv_sec = 0;
 		tv.tv_usec = 100;
