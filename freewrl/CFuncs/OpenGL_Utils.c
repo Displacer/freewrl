@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.45 2006/07/07 15:38:17 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.46 2006/07/27 16:34:29 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -992,7 +992,9 @@ void kill_oldWorld(int kill_EAI, int kill_JavaScript, int kill_JavaClass) {
 	consMsgCount = 0;
 
 	/* occlusion testing - zero total count, but keep malloc'd memory around */
+	#ifdef OCCLUSION
 	maxShapeFound = 0;
+	#endif
 
 	/* clock events - stop them from ticking */
 	kill_clockEvents();
