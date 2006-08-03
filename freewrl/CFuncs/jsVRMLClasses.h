@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.h,v 1.11 2005/03/22 13:25:26 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.12 2006/08/03 19:36:34 crc_canada Exp $
  *
  * Complex VRML nodes as Javascript classes.
  *
@@ -83,6 +83,8 @@
 
 
 /* helper functions */
+
+void newJS_SFNode(char *_vrmlstr,char *_handle, JSContext *cx, JSObject *obj);
 
 static JSBool
 doMFToString(JSContext *cx,
