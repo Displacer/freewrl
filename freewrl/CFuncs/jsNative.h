@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsNative.h,v 1.2 2005/03/21 13:39:07 crc_canada Exp $
+ * $Id: jsNative.h,v 1.3 2006/08/03 15:32:51 crc_canada Exp $
  *
  *
  */
@@ -60,13 +60,6 @@ typedef struct _SFColorNative {
 	int touched;
 	struct SFColor v;
 } SFColorNative;
-
-
-extern void
-doPerlCallMethod(SV *sv, const char *methodName);
-
-extern void
-doPerlCallMethodVA(SV *sv, const char *methodName, const char *format, ...);
 
 
 /*

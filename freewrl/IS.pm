@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: IS.pm,v 1.7 2006/08/01 14:36:15 crc_canada Exp $
+# $Id: IS.pm,v 1.8 2006/08/03 15:32:51 crc_canada Exp $
 #
 # Package to handle IS statements in prototype definitions.
 #
@@ -27,7 +27,6 @@ sub new {
 					 }, $type;
 
 	return $this;
-print "new IS, name $name this $this\n";
 }
 
 sub copy {
@@ -37,7 +36,6 @@ sub copy {
 	$new->{Name} = $this->{Name};
 	$new->{ISField} = $this->{ISField};
 	$new->{Ref} = $this->{Ref}; ## correct???
-print "IS copy, copying name ".$this->{Name}." old $this new $new\n";
 
 	return $new;
 }
@@ -59,7 +57,6 @@ sub name {
 sub set_ref {
 	my ($this, $ref) = @_;
 	$this->{Ref} = $ref;
-print "IS set ref for ".$this->{Name}."\n";
 }
 
 sub get_ref {
