@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.h,v 1.8 2006/06/19 20:37:14 crc_canada Exp $
+ * $Id: jsVRMLBrowser.h,v 1.9 2006/08/04 19:50:57 crc_canada Exp $
  *
  */
 
@@ -24,6 +24,16 @@ extern char *BrowserName, *BrowserVersion; /* defined in VRMLC.pm */
 extern double BrowserFPS;				/* defined in VRMLC.pm */
 
 #define BROWMAGIC 12345
+
+#define FUNC_INIT  \
+	if ((brow = (BrowserNative *)JS_GetPrivate(context, obj)) == NULL) { \
+		printf("JS_GetPrivate failed in JavaScript Browser FUNC_INIT.\n"); \
+		return JS_FALSE; \
+	} \
+	if (brow->magic != BROWMAGIC) { \
+		printf("Wrong browser magic!\n"); \
+		return JS_FALSE; \
+	}
 
 static JSBool
 doVRMLRoute(JSContext *context,

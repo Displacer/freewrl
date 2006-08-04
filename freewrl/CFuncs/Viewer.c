@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.47 2006/05/16 19:12:29 crc_canada Exp $
+ * $Id: Viewer.c,v 1.48 2006/08/04 19:50:57 crc_canada Exp $
  *
  */
 
@@ -43,8 +43,9 @@ void handle_tick_exfly(void);
 void handle_tick(void);
 
 /* used for EAI calls to get the current speed. Not used for general calcs */
-float getCurrentSpeed() {
-	return (BrowserFPS * (fabs(VPvelocity.x) + fabs(VPvelocity.y) + fabs(VPvelocity.z)));
+/* we DO NOT return as a float, as some gccs have trouble with this causing segfaults */
+void getCurrentSpeed() {
+	BrowserSpeed = BrowserFPS * (fabs(VPvelocity.x) + fabs(VPvelocity.y) + fabs(VPvelocity.z));
 }
 
 void viewer_default() {
