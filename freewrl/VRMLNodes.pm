@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.194 2006/07/07 15:38:17 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.195 2006/08/04 08:41:22 domob Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -734,7 +734,7 @@ my $protono;
 						children => [MFNode, [], exposedField],
 						bboxCenter => [SFVec3f, [0, 0, 0], field],
 						bboxSize => [SFVec3f, [-1, -1, -1], field],
-						 __isProto => [SFInt32, 0, field], # tell renderer that this is a proto...
+						 __protoDef => [FreeWRLPTR, 0, field], # tell renderer that this is a proto...
 					   },"X3DGroupingNode"),
 
 	StaticGroup => new VRML::NodeType("StaticGroup", {
