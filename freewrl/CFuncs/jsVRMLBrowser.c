@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.25 2006/08/09 19:32:38 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.26 2006/08/09 19:43:22 crc_canada Exp $
  *
  */
 
@@ -224,8 +224,6 @@ VrmlBrowserReplaceWorld(JSContext *context, JSObject *obj,
 		}
 		_str = JS_ValueToString(context, _obj);
 		_costr = JS_GetStringBytes(_str);
-
-printf ("DPCVA replaceworld str %s \n",_costr);/*		doPerlCallMethodVA(brow->sv_js, "jspBrowserReplaceWorld", "s", _costr);*/
 
 		/* sanitize string, for the EAI_RW call (see EAI_RW code) */
 		tptr = _costr;
@@ -456,7 +454,7 @@ VrmlBrowserCreateVrmlFromURL(JSContext *context, JSObject *obj, uintN argc, jsva
 		ra = sscanf (_costr1,"%d",&myptr);
 
 		/* bounds checks */
-		if (sizeof (_costr) > (myFileSizeLimit-200)) {
+		if (sizeof (_costr0) > (myFileSizeLimit-200)) {
 			printf ("VrmlBrowserCreateVrmlFromURL, url too long...\n"); return;
 		}
 
