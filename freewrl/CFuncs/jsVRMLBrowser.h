@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.h,v 1.9 2006/08/04 19:50:57 crc_canada Exp $
+ * $Id: jsVRMLBrowser.h,v 1.10 2006/08/11 19:48:56 crc_canada Exp $
  *
  */
 
@@ -40,8 +40,6 @@ doVRMLRoute(JSContext *context,
 			JSObject *obj,
 			uintN argc,
 			jsval *argv,
-			const char *callingFunc,
-			const char *perlBrowserFunc,
 			const char *browserFunc);
 
 JSBool

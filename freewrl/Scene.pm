@@ -3,7 +3,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: Scene.pm,v 1.113 2006/07/07 15:38:16 crc_canada Exp $
+# $Id: Scene.pm,v 1.114 2006/08/11 19:48:55 crc_canada Exp $
 #
 # Implement a scene model, with the specified parser interface.
 # At some point, this file should be redone so that it uses softrefs
@@ -526,9 +526,9 @@ sub prototopnodes {
 	# encase the proto nodes in a Group
 	 my $ntn = ($this->new_node("Group",{children => $nodes}));
 
-	# tell the rendering engine that this is a PROTO - render only first child
-	$ntn->{Fields}{__isProto} = 1;
-	push (@{$this->{Nodes}}, $ntn);
+	#JAS # tell the rendering engine that this is a PROTO - render only first child
+	#JAS $ntn->{Fields}{__isProto} = 1;
+	#JAS push (@{$this->{Nodes}}, $ntn);
 }
 
 # topnodes for non-PROTO Scenes.
