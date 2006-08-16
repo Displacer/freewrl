@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.10 2006/08/03 19:36:33 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.11 2006/08/16 19:27:30 crc_canada Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -33,9 +33,7 @@
 #define FNAME_STUB "file"
 #define LINENO_STUB 0
 
-#define BROWSER_SFNODE "__node"
-#define BROWSER_RETVAL "__ret"
-
+extern jsval global_return_val;
 
 static JSBool reportWarnings = JS_TRUE;
 

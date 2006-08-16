@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.239 2006/08/11 19:48:55 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.240 2006/08/16 19:27:29 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.240  2006/08/16 19:27:29  crc_canada
+# rearrange files to logically put get and set of scenegraph functions together.
+#
 # Revision 1.239  2006/08/11 19:48:55  crc_canada
 # Use Experimental Parser as default; more Javascript work.
 #
@@ -1149,7 +1152,7 @@ set_field_be (ptr, field, value)
 	char *value
 CODE:
 
-	c_set_field_be(ptr,field,value,SENDER_PARSER);
+	setField_method1 (ptr,field,value);
 
 void
 release_struct(ptr)
