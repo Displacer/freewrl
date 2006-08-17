@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsNative.h,v 1.3 2006/08/03 15:32:51 crc_canada Exp $
+ * $Id: jsNative.h,v 1.4 2006/08/17 20:36:30 crc_canada Exp $
  *
  *
  */
@@ -19,13 +19,9 @@
 
 #include "Structs.h" /* FreeWRL C structs */
 
-/*
- * for now, could try setting magic to pid since we only need one browser
- * per process -- but is it really needed ???
- */
 typedef struct _BrowserNative {
-	int magic; /* does this really do anything ??? */
-	SV *sv_js;
+	/* int magic; does this really do anything ??? */
+	/* and, this really does nothing SV *sv_js; */
 } BrowserNative;
 
 typedef struct _SFNodeNative {
@@ -60,6 +56,11 @@ typedef struct _SFColorNative {
 	int touched;
 	struct SFColor v;
 } SFColorNative;
+
+typedef struct _SFColorRGBANative {
+	int touched;
+	struct SFColorRGBA v;
+} SFColorRGBANative;
 
 
 /*
