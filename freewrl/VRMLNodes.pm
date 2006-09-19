@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.195 2006/08/04 08:41:22 domob Exp $
+# $Id: VRMLNodes.pm,v 1.196 2006/09/19 16:37:03 domob Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -2093,6 +2093,7 @@ my $protono;
 						url => [MFString, [], exposedField],
 						directOutput => [SFBool, 0, field],
 						mustEvaluate => [SFBool, 0, field],
+						 __scriptObj => [FreeWRLPTR, 0, field],
 					   },"X3DScriptNode"
 					  ),
 
