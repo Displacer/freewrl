@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.245 2006/09/20 20:31:34 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.246 2006/09/21 08:24:54 domob Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.246  2006/09/21 08:24:54  domob
+# Script fields *should* be parsed correctly now.
+#
 # Revision 1.245  2006/09/20 20:31:34  crc_canada
 # screen sensitive nodes now work properly with Daniel Kraft's parser.
 #
@@ -757,6 +760,7 @@ sub gen {
 	"struct X3D_Node {\n". $interalNodeCommonFields .  "};\n".
 	"#define X3D_NODE(node) ((struct X3D_Node*)node)\n".
 	"#define X3D_GROUP(node) ((struct X3D_Group*)node)\n".
+	"#define X3D_SCRIPT(node) ((struct X3D_Script*)node)\n".
 	"\n/* now, generated structures for each VRML/X3D Node*/\n";
 
 
