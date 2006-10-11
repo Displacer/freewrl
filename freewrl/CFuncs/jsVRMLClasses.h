@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.h,v 1.13 2006/08/17 20:36:30 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.14 2006/10/11 16:47:27 crc_canada Exp $
  *
  * Complex VRML nodes as Javascript classes.
  *
@@ -1139,7 +1139,7 @@ static JSClass SFNodeClass = {
 
 static JSPropertySpec (SFNodeProperties)[] = {
 	{"__handle", 1, JSPROP_ENUMERATE},
-	{"__vrmlstring", 0, JSPROP_ENUMERATE},
+	{"__X3DString", 0, JSPROP_ENUMERATE},
 	{0}
 };
 

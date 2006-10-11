@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsNative.h,v 1.4 2006/08/17 20:36:30 crc_canada Exp $
+ * $Id: jsNative.h,v 1.5 2006/10/11 16:47:26 crc_canada Exp $
  *
  *
  */
@@ -26,8 +26,8 @@ typedef struct _BrowserNative {
 
 typedef struct _SFNodeNative {
 	int touched;
-	char *vrmlstring;
-	char *handle;
+	uintptr_t *handle;
+	char *X3DString;
 } SFNodeNative;
 
 typedef struct _SFRotationNative {
@@ -86,7 +86,7 @@ addSFNodeProperty(void *cx,
 				  char *str);
 
 extern void *
-SFNodeNativeNew(size_t vrmlstring_len, size_t handle_len);
+SFNodeNativeNew(void);
 
 extern void
 SFNodeNativeDelete(void *p);
