@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.h,v 1.14 2006/10/11 16:47:27 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.15 2006/10/12 15:31:02 crc_canada Exp $
  *
  * Complex VRML nodes as Javascript classes.
  *
@@ -1138,8 +1138,10 @@ static JSClass SFNodeClass = {
 };
 
 static JSPropertySpec (SFNodeProperties)[] = {
+	/*
 	{"__handle", 1, JSPROP_ENUMERATE},
 	{"__X3DString", 0, JSPROP_ENUMERATE},
+	*/
 	{0}
 };
 
@@ -1411,10 +1413,9 @@ static JSClass MFTimeClass = {
 	JS_FinalizeStub
 };
 
-/* static JSPropertySpec (MFTimeProperties)[] = { */
-/* 	{"length", 0, JSPROP_ENUMERATE|JSPROP_PERMANENT}, */
-/* 	{0} */
-/* }; */
+static JSPropertySpec (MFTimeProperties)[] = { 
+ 	{0} 
+};
 
 static JSFunctionSpec (MFTimeFunctions)[] = {
 	{"toString", MFTimeToString, 0},
