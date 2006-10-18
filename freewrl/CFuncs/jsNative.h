@@ -6,16 +6,13 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsNative.h,v 1.5 2006/10/11 16:47:26 crc_canada Exp $
+ * $Id: jsNative.h,v 1.6 2006/10/18 20:22:44 crc_canada Exp $
  *
  *
  */
 
 #ifndef __jsNative_h__
 #define __jsNative_h__
-
-#include <EXTERN.h>
-#include <perl.h>
 
 #include "Structs.h" /* FreeWRL C structs */
 
