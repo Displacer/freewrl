@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.46 2006/07/27 16:34:29 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.47 2006/10/19 18:28:47 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -341,14 +341,13 @@ void kill_MFNode (struct Multi_Node *par) {
 	}
 }
 
-void kill_SFString (SV *str) {
+void kill_SFString (struct Uni_String *str) {
 	/* ok - here we maybe could destroy strings with a SV_REFCNT_dec(str) call, but, it
 		would be better to get the Browser to destroy this string itself next time it
 		garbage collects (via perl) so lets just ignore this here for now */
 
 	#ifdef KILLVERBOSE
 	printf ("kill this string \n");
-	if (SvOK(str)) {printf ("str is an SV refcnt %d\n",SvREFCNT(str)); } else {printf ("str is NOT an SV!\n");}
 	#endif
 }
 
