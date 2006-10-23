@@ -1,5 +1,5 @@
 /*
- * $Id: PluginSocket.c,v 1.21 2006/07/25 20:03:55 crc_canada Exp $
+ * $Id: PluginSocket.c,v 1.22 2006/10/23 18:28:11 crc_canada Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
@@ -98,9 +98,6 @@ char * requestUrlfromPlugin(int to_plugin, uintptr_t plugin_instance, const char
 	int linelen;
 	char buf[2004];
 	char encodedUrl[2000];
-
-	char *retname; 	/* for getting browser name */
-
 
         URLencod(encodedUrl,url,2000);
 
@@ -209,10 +206,6 @@ void requestNewWindowfromPlugin(int sockDesc,
 {
 	size_t len = 0, ulen = 0, bytes = 0;
 	urlRequest request;
-	FILE  *infile;
-	int linecount;
-	int linelen;
-	char buf[2004];
 
 	#ifdef PLUGINSOCKETVERBOSE
 	pluginprint ("requestNewWindow fromPlugin, getting %s\n",url);

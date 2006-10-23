@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.47 2006/10/19 18:28:47 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.48 2006/10/23 18:28:11 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -443,7 +443,6 @@ void kill_MFVec3f (struct Multi_Vec3f *par) {
 }
 
 void kill_FreeWRLPTR (void * par) {
-	void *rv;
 	if (par==0) return;
 
 	#ifdef KILLVERBOSE
