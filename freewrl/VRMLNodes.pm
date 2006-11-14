@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.197 2006/11/14 13:50:23 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.198 2006/11/14 20:16:39 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -2194,10 +2194,20 @@ my $protono;
 						bus => [SFInt32,-1,exposedField],
 						deviceName => [SFString,"",exposedField],
 						channel => [SFString,"",exposedField],
+
+						# encoded bus,device,channel
+						_encodedName => [SFInt32,0,field],
+
+
+
 						minVal => [SFInt32, 0, field],
 						maxVal => [SFInt32, 0, field],
+
+						_oldintValue => [SFInt32, 0, field],
+						_oldfloatValue => [SFFloat, 0, field],
 						intValue => [SFInt32, 0, exposedField],
 						floatValue => [SFFloat, 0, exposedField],
+
 						highResolution => [SFBool, TRUE, exposedField],
 						controllerType => [SFString, "", exposedField],
 						intControllerType => [SFInt32,0, exposedField],
