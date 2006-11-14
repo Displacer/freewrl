@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.196 2006/09/19 16:37:03 domob Exp $
+# $Id: VRMLNodes.pm,v 1.197 2006/11/14 13:50:23 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -2182,7 +2182,28 @@ my $protono;
 					} ,"X3DChildNode"
 					),
 
+	###################################################################################
 
+	# testing...
+
+	###################################################################################
+
+	ReWireMidiControl =>
+	new VRML::NodeType("ReWireMidiControl",
+					{
+						bus => [SFInt32,-1,exposedField],
+						deviceName => [SFString,"",exposedField],
+						channel => [SFString,"",exposedField],
+						minVal => [SFInt32, 0, field],
+						maxVal => [SFInt32, 0, field],
+						intValue => [SFInt32, 0, exposedField],
+						floatValue => [SFFloat, 0, exposedField],
+						highResolution => [SFBool, TRUE, exposedField],
+						controllerType => [SFString, "", exposedField],
+						intControllerType => [SFInt32,0, exposedField],
+						devicePresent => [SFBool, FALSE, exposedField],
+					}, "X3DNetworkSensorNode"
+					),
 ); 
 
 
