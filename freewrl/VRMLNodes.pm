@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.199 2006/11/15 20:35:25 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.200 2006/11/17 20:09:19 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -2209,8 +2209,12 @@ my $protono;
 												# and >=minVal >= deviceMinVal
 
 						intValue => [SFInt32, 0, exposedField],		# integer value for i/o
+						_oldintValue => [SFInt32, -99, field],		# old integer value for i/o
 						floatValue => [SFFloat, 0, exposedField],	# float value for i/o
 						useIntValue => [SFBool, TRUE, exposedField],	# which value to use for input
+
+						continuousEvents => [SFBool, TRUE, exposedField],# do we send an event per event loop, or
+												# only when the intValue changes?
 
 						highResolution => [SFBool, TRUE, exposedField],	# high resolution controller
 						controllerType => [SFString, "", exposedField],	# "Continuous" "Step" "Bipolar" "Unknown"
