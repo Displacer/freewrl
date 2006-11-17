@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.49 2006/11/09 17:20:21 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.50 2006/11/17 15:05:34 sdumoulin Exp $
  *
  */
 #include "headers.h"
@@ -15,7 +15,9 @@
 #include "OpenGL_Utils.h"
 #ifdef AQUA
 #include <OpenGL.h>
-extern CGLContextObj aqglobalContext;
+extern CGLContextObj myglobalContext;
+extern Boolean isMacPlugin;
+extern AGLContext aqglobalContext;
 #else 
 Display *Xdpy;
 Window Xwin;
@@ -48,6 +50,10 @@ void setglClearColor (float *val) {
 	cc_red = *val; val++;
 	cc_green = *val; val++;
 	cc_blue = *val;
+#ifdef AQUA
+	val++;
+	cc_alpha = *val;
+#endif
 	cc_changed = TRUE;
 }        
 
@@ -134,7 +140,11 @@ void glpOpenGLInitialize() {
 	   we make it the current Context. */
 
         /* printf("OpenGL at start of glpOpenGLInitialize globalContext %p\n", aqglobalContext); */
-        CGLSetCurrentContext(aqglobalContext);
+        if (isMacPlugin) {
+                aglSetCurrentContext(aqglobalContext);
+        } else {
+                CGLSetCurrentContext(myglobalContext);
+        }
 
         /* already set aqglobalContext = CGLGetCurrentContext(); */
         /* printf("OpenGL globalContext %p\n", aqglobalContext); */
