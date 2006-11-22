@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.249 2006/10/19 18:28:46 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.250 2006/11/22 21:50:56 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.250  2006/11/22 21:50:56  crc_canada
+# Modified Texture registration
+#
 # Revision 1.249  2006/10/19 18:28:46  crc_canada
 # More changes for removing Perl from the runtime
 #
@@ -536,6 +539,8 @@ sub gen {
 	push @genFuncs2, "\t};\n";
 	push @genFuncs2,
 	"	\n".
+	"	/* is this a texture holding node? */\n".
+	"	registerTexture(tmp);\n".
 	"	/* is this a bindable node? */\n".
 	"	registerBindable(tmp);\n".
 	"	/* is this a time tick node? */\n".
