@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.201 2006/11/22 21:32:39 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.202 2006/11/23 21:08:02 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1370,7 +1370,6 @@ my $protono;
 						url => [MFString, [], exposedField],
 						repeatS => [SFBool, 1, field],
 						repeatT => [SFBool, 1, field],
-						__texture => [SFInt32, 0, field],
 						__textureTableIndex => [SFInt32, 0, field],
 						__parenturl =>[SFString,"",field],
 					   },"X3DTextureNode"),
@@ -1429,7 +1428,6 @@ my $protono;
 						image => [SFImage, "0, 0, 0", exposedField],
 						repeatS => [SFBool, 1, field],
 						repeatT => [SFBool, 1, field],
-						__texture => [SFInt32, 0, field],
 						__parenturl =>[SFString,"",field],
 						__textureTableIndex => [SFInt32, 0, field],
 					   },"X3DTextureNode"),
