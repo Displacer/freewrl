@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.51 2006/11/23 21:08:02 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.52 2006/11/23 22:18:40 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -1018,6 +1018,7 @@ void kill_oldWorld(int kill_EAI, int kill_JavaScript, int kill_JavaClass) {
 
 
 	/* free textures */
+	kill_openGLTextures();
 	
 	/* free scripts */
 	kill_javascript();
