@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.32 2006/11/08 15:52:08 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.33 2006/12/08 21:50:51 crc_canada Exp $
  *
  */
 
@@ -147,7 +147,7 @@ VrmlBrowserGetName(JSContext *context, JSObject *obj, uintN argc, jsval *argv, j
 }
 
 
-/* get the string stored in global BrowserVersion into a jsObject */
+/* get the string stored in FWVER into a jsObject */
 JSBool
 VrmlBrowserGetVersion(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
@@ -157,7 +157,7 @@ VrmlBrowserGetVersion(JSContext *context, JSObject *obj, uintN argc, jsval *argv
 	UNUSED(argc);
 	UNUSED(argv);
 
-	_str = JS_NewString(context,BrowserVersion,strlen(BrowserVersion)+1);
+	_str = JS_NewString(context,FWVER,strlen(FWVER)+1);
 	*rval = STRING_TO_JSVAL(_str);
 	return JS_TRUE;
 }

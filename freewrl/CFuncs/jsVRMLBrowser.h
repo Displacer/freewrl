@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.h,v 1.11 2006/08/17 20:36:30 crc_canada Exp $
+ * $Id: jsVRMLBrowser.h,v 1.12 2006/12/08 21:50:51 crc_canada Exp $
  *
  */
 
@@ -20,7 +20,7 @@
 #include "jsUtils.h"
 #include "jsNative.h"
 
-extern char *BrowserName, *BrowserVersion; /* defined in VRMLC.pm */
+extern char *BrowserName; /* defined in VRMLC.pm */
 extern double BrowserFPS;				/* defined in VRMLC.pm */
 
 #define BROWMAGIC 12345
