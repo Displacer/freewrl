@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.205 2007/01/09 22:58:39 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.206 2007/01/10 15:20:09 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -61,6 +61,67 @@ package VRML::NodeType;
     }
 }
 
+#######################################################################
+#
+# ExtraMem - extra members for the structures to hold
+# 	cached info
+#
+%VRML::ExtraMem = (
+	Group => 'int has_light; ',
+	Transform => 'int has_light; ',
+	Billboard => 'int has_light; ',
+	Anchor => 'int has_light; ',
+	Collision => 'int has_light; ',
+	GeoLocation => 'int has_light; ',
+	Inline => 'int has_light; ',
+	InlineLoadControl => 'int has_light; ',
+	StaticGroup => 'int has_light; ',
+	HAnimSite => 'int has_light; ',
+	HAnimHumanoid => 'int has_light; ',
+);
+
+
+#######################################################################
+
+#
+# Keywords
+# a listing of keywords for use in the C VRML parser.
+#
+# 
+
+%VRML::KeywordC = map {($_=>1)} qw/
+	DEF
+	EXTERNPROTO
+	FALSE
+	IS
+	NULL
+	PROTO
+	ROUTE
+	TO
+	TRUE
+	USE
+	exposedField
+	field
+	eventIn
+	eventOut
+/;
+
+#######################################################################
+#######################################################################
+#######################################################################
+
+#
+# PROTOKeywords
+# a listing of PROTO define keywords for use in the C VRML parser.
+#
+# 
+
+%VRML::PROTOKeywordC = map {($_=>1)} qw/
+	exposedField
+	field
+	eventIn
+	eventOut
+/;
 # used for the X3D Parser only. Return type of node.
 %VRML::defaultContainerType = (
 	Arc2D			=>geometry,
