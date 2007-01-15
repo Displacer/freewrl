@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.48 2006/08/04 19:50:57 crc_canada Exp $
+ * $Id: Viewer.c,v 1.49 2007/01/15 18:46:22 sdumoulin Exp $
  *
  */
 
@@ -512,6 +512,7 @@ handle_tick_exfly()
 
 		/* allow the user to continue in default Viewer mode */
 		viewer_type = EXAMINE;
+		setMenuButton_navModes(viewer_type);
 		return;
 	}
 	rv = fread(string, sizeof(char), IN_FILE_BYTES, exfly_in_file);
