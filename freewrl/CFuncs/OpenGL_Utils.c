@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.53 2006/12/19 19:05:01 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.54 2007/01/16 21:25:51 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -194,6 +194,7 @@ void glpOpenGLInitialize() {
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT,As);
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 	glPixelStorei(GL_PACK_ALIGNMENT,1);
 
