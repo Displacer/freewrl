@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.204 2007/01/12 17:55:27 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.205 2007/01/17 21:29:28 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description:
@@ -17,6 +17,9 @@
 #              e.g. for #define glTexCoord2f(a,b) glTexCoord2f(a,b) see gen() [VRMLC.pm]
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.205  2007/01/17 21:29:28  crc_canada
+# more X3D XML parsing work.
+#
 # Revision 1.204  2007/01/12 17:55:27  crc_canada
 # more 1.18.11 changes
 #
@@ -75,6 +78,12 @@
 # Revision 1.185  2005/12/13 17:00:29  crc_canada
 # Arc2D work.
 #.....
+
+%X3Daccessors  = map {($_=>1)} qw/
+	inputOnly
+	outputOnly
+	inputOutput
+/;
 
 
 # used for the X3D Parser only. Return type of node.
