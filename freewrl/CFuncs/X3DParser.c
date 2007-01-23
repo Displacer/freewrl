@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.8 2007/01/19 21:58:56 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.9 2007/01/23 14:02:53 crc_canada Exp $
  *
  */
 
@@ -315,6 +315,8 @@ void parseNormalX3D(char *name, char** atts) {
 	if (myNodeType != -1) {
 		thisNode = createNewX3DNode(myNodeType);
 		parentStack[parentIndex] = thisNode; 
+		add_parent((void *)thisNode, parentStack[parentIndex-1]);
+
 
 		if (thisNode->_nodeType == NODE_Script) {
 			#ifdef X3DPARSERVERBOSE
