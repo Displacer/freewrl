@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.9 2007/01/23 14:02:53 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.10 2007/01/23 14:54:57 crc_canada Exp $
  *
  */
 
@@ -94,8 +94,13 @@ static void registerX3DScriptField(int myScriptNumber,int type,int kind, int myF
 	ScriptFieldNames[ScriptFieldTableSize].offs = myFieldOffs;
 }
 
+/* "forget" the DEFs. Keep the table around, though, as the entries will simply be used again. */
+void kill_X3DDefs(void) {
+	DEFtableSize = -1;
+}
 
-
+/* return a node assoicated with this name. If the name exists, return the previous node. If not, return
+the new node */
 struct X3D_Node *DEFNameIndex (char *name, struct X3D_Node* node) {
 	unsigned len;
 	int ctr;
