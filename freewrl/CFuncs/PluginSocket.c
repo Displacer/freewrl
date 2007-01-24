@@ -1,5 +1,5 @@
 /*
- * $Id: PluginSocket.c,v 1.22 2006/10/23 18:28:11 crc_canada Exp $
+ * $Id: PluginSocket.c,v 1.23 2007/01/24 16:56:47 sdumoulin Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
@@ -15,6 +15,7 @@
 
 fd_set rfds;
 struct timeval tv;
+extern int isMacPlugin;
 
 char return_url[FILENAME_MAX]; /* used to be local, but was returned as a pointer */
 
@@ -99,7 +100,9 @@ char * requestUrlfromPlugin(int to_plugin, uintptr_t plugin_instance, const char
 	char buf[2004];
 	char encodedUrl[2000];
 
+	if (!isMacPlugin) {
         URLencod(encodedUrl,url,2000);
+	}
 
 	#ifdef PLUGINSOCKETVERBOSE
 	pluginprint ("requestURL fromPlugin, getting %s\n",url);
