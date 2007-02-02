@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.11 2007/02/02 18:26:10 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.12 2007/02/02 21:37:53 domob Exp $
  *
  */
 
@@ -21,6 +21,11 @@
 #define MYBUFSIZ 100000
 */
 #include "expat.h"
+
+/* If XMLCALL isn't defined, use empty one */
+#ifndef XMLCALL
+ #define XMLCALL
+#endif /* XMLCALL */
 
 /* this ifdef sequence is kept around, for a possible Microsoft Vista port */
 #ifdef XML_LARGE_SIZE
