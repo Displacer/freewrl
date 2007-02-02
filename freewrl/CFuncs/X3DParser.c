@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.10 2007/01/23 14:54:57 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.11 2007/02/02 18:26:10 crc_canada Exp $
  *
  */
 
@@ -182,7 +182,7 @@ static int getRouteField (struct X3D_Node *node, int *offs, int* type, char *nam
 	} else {
 
 		/* lets see if this node has a routed field  fromTo  = 0 = from node, anything else = to node */
-		fieldInt = findRoutedFieldInFIELDNAMES (name, dir);
+		fieldInt = findRoutedFieldInFIELDNAMES (node, name, dir);
 		if (fieldInt >=0) findFieldInOFFSETS(NODE_OFFSETS[node->_nodeType], 
 				fieldInt, offs, type, &ctmp);
 	}
