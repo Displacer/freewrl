@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.c,v 1.44 2007/01/08 20:12:18 crc_canada Exp $
+ * $Id: jsVRMLClasses.c,v 1.45 2007/02/08 16:30:33 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -1946,9 +1946,9 @@ JSBool SFNodeConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval
 			printf ("SFNodeConstr, cstring was NOT an object\n");
 			#endif
 
-			/* is this just an integer, eg, "0" - happens on initialization for NULL SFNodes */
+			/* is this just an integer, eg, "0" - happens on initialization for SFNodes */
 			if (JSVAL_IS_INT(argv[0])) {
-				newHandle = 0;
+				sscanf (cString,"%ld",&newHandle);
 				/* cString = strdup("empty node created in SFNodeConstr"); */
 			} else {
 
@@ -2002,9 +2002,6 @@ JSBool SFNodeConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval
 	*rval = OBJECT_TO_JSVAL(obj);
 
 	return JS_TRUE;
-
-#undef JSVRMLCLASSESVERBOSE
-
 }
 
 void
@@ -2109,7 +2106,6 @@ SFNodeSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 
 	return JS_TRUE;
 }
-
 
 /********************************************************************/
 
