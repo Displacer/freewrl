@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.262 2007/02/08 21:49:37 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.263 2007/02/09 20:43:51 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.263  2007/02/09 20:43:51  crc_canada
+# More ReWire work.
+#
 # Revision 1.262  2007/02/08 21:49:37  crc_canada
 # added Statusbar for OS X safari
 #
@@ -691,6 +694,8 @@ sub gen {
 	"	\n".
 	"	/* is this possibly the text node for the statusbar?? */ \n".
 	"	if (nt == NODE_Text) lastTextNode = (struct X3D_Text *) tmp; \n".
+	"	/* is this a ReWire node?? */ \n".
+	"	registerReWireNode(tmp); \n".
 	"	/* is this a texture holding node? */\n".
 	"	registerTexture(tmp);\n".
 	"	/* is this a bindable node? */\n".
