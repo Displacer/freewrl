@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.54 2007/01/16 21:25:51 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.55 2007/02/13 22:45:24 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -822,7 +822,6 @@ void kill_rendering(void *thisnode) {
 			case NODE_PixelTexture: {
 				struct X3D_PixelTexture *thisNode;
 				thisNode = (struct X3D_PixelTexture *) thisnode;
-				kill_SFString (thisNode->image);
 				kill_SFString (thisNode->__parenturl);
 				break; }
 
