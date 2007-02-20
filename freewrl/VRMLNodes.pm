@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.207 2007/01/11 21:07:46 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.208 2007/02/20 23:16:59 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1600,7 +1600,6 @@ package VRML::NodeType;
 	ReWireMidiControl =>
 	new VRML::NodeType("ReWireMidiControl",
 					{
-						bus => [SFInt32,-1,exposedField],		# bus 5, or -1 for "search any bus"
 						deviceName => [SFString,"",exposedField],	# "Subtractor 1"
 						channel => [SFString,"",exposedField],		# "Osc1 Wave"
 
