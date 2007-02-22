@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.208 2007/02/20 23:16:59 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.209 2007/02/22 13:41:09 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1604,9 +1604,9 @@ package VRML::NodeType;
 						channel => [SFString,"",exposedField],		# "Osc1 Wave"
 
 						# encoded bus,device,channel
-						_encodedName => [SFInt32,0,field],		# internal for efficiency
-
-
+						_bus => [SFInt32,0,field],		# internal for efficiency
+						_channel => [SFInt32,0,field],		# internal for efficiency
+						_controller => [SFInt32,0,field],		# internal for efficiency
 
 						deviceMinVal => [SFInt32, 0, field],		# what the device sets
 						deviceMaxVal => [SFInt32, 0, field],		# what the device sets
