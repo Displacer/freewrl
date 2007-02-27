@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.266 2007/02/22 13:41:09 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.267 2007/02/27 13:32:14 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.267  2007/02/27 13:32:14  crc_canada
+# initialize eventIn fields to a zero value.
+#
 # Revision 1.266  2007/02/22 13:41:09  crc_canada
 # more ReWire work
 #
@@ -673,7 +676,7 @@ sub gen {
 			#print "		fieldDefaults ". $VRML::Nodes{$node}{Defaults}{$field}."\n";
 			#print "		fieldKinds ". $VRML::Nodes{$node}{FieldKinds}{$field}."\n";
 			#print "		fieldTypes ". $VRML::Nodes{$node}{FieldTypes}{$field}."\n";
-			if ($fk ne "eventIn") {
+	#		if ($fk ne "eventIn") {
 				#print "		do thisfield\n";
 
 				# do we need to initialize the occlusion number for fields?
@@ -685,7 +688,7 @@ sub gen {
 				}
 
 				push @genFuncs2, "\t\t\t$cf;\n";
-			}
+	#		}
 		}
 
 	# rig in the default container for X3D parsing.
