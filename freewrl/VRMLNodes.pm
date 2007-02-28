@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.209 2007/02/22 13:41:09 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.210 2007/02/28 20:34:50 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1597,15 +1597,18 @@ package VRML::NodeType;
 
 	###################################################################################
 
-	ReWireMidiControl =>
-	new VRML::NodeType("ReWireMidiControl",
+	MidiControl =>
+	new VRML::NodeType("MidiControl",
 					{
 						deviceName => [SFString,"",exposedField],	# "Subtractor 1"
 						channel => [SFString,"",exposedField],		# "Osc1 Wave"
+						_deviceNameIndex => [SFInt32, -99, field],	#  name in name table index
+						_channelIndex => [SFInt32, -99, field],		#  name in name table index
+
 
 						# encoded bus,device,channel
-						_bus => [SFInt32,0,field],		# internal for efficiency
-						_channel => [SFInt32,0,field],		# internal for efficiency
+						_bus => [SFInt32,0,field],			# internal for efficiency
+						_channel => [SFInt32,0,field],			# internal for efficiency
 						_controller => [SFInt32,0,field],		# internal for efficiency
 
 						deviceMinVal => [SFInt32, 0, field],		# what the device sets
@@ -1627,7 +1630,7 @@ package VRML::NodeType;
 						highResolution => [SFBool, TRUE, exposedField],	# high resolution controller
 						controllerType => [SFString, "", exposedField],	# "Continuous" "Step" "Bipolar" "Unknown"
 						intControllerType => [SFInt32,0, exposedField], # use ReWire definitions
-						devicePresent => [SFBool, FALSE, exposedField],	# TRUE when ReWire is working
+						controllerPresent => [SFBool, FALSE, exposedField],	# TRUE when ReWire is working
 					}, "X3DNetworkSensorNode"
 					),
 ); 
