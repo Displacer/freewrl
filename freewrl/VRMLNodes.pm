@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.210 2007/02/28 20:34:50 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.211 2007/03/07 20:40:16 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1615,7 +1615,7 @@ package VRML::NodeType;
 						deviceMaxVal => [SFInt32, 0, field],		# what the device sets
 
 						minVal => [SFInt32, 0, exposedField],		# used to scale floats, and 
-						maxVal => [SFInt32, 0, exposedField],		# bounds check ints. The resulting
+						maxVal => [SFInt32, 10000, exposedField],		# bounds check ints. The resulting
 												# value will be <= maxVal <= deviceMaxVal
 												# and >=minVal >= deviceMinVal
 
