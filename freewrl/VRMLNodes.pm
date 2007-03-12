@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.211 2007/03/07 20:40:16 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.212 2007/03/12 20:54:00 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1596,6 +1596,26 @@ package VRML::NodeType;
 	# testing...
 
 	###################################################################################
+
+	MidiKey =>
+	new VRML::NodeType("MidiKey",
+					{
+						deviceName => [SFString,"",exposedField],	# "Subtractor 1"
+						_deviceNameIndex => [SFInt32, -99, field],	#  name in name table index
+
+
+						# encoded bus,device,channel
+						_bus => [SFInt32,0,field],			# internal for efficiency
+						_channel => [SFInt32,0,field],			# internal for efficiency
+
+						keyValue => [SFInt32, 0, exposedField],		#  
+						keyVelocity => [SFInt32, 100, exposedField],	# 
+						press => [SFBool,undef,eventIn],			# press event
+						isPressed =>[SFBool,FALSE,eventOut],		# press event
+
+						devicePresent => [SFBool, FALSE, exposedField],	# TRUE when ReWire is working
+					}, "X3DNetworkSensorNode"
+					),
 
 	MidiControl =>
 	new VRML::NodeType("MidiControl",
