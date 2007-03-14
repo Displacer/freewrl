@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.212 2007/03/12 20:54:00 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.213 2007/03/14 17:55:08 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1597,26 +1597,6 @@ package VRML::NodeType;
 
 	###################################################################################
 
-	MidiKey =>
-	new VRML::NodeType("MidiKey",
-					{
-						deviceName => [SFString,"",exposedField],	# "Subtractor 1"
-						_deviceNameIndex => [SFInt32, -99, field],	#  name in name table index
-
-
-						# encoded bus,device,channel
-						_bus => [SFInt32,0,field],			# internal for efficiency
-						_channel => [SFInt32,0,field],			# internal for efficiency
-
-						keyValue => [SFInt32, 0, exposedField],		#  
-						keyVelocity => [SFInt32, 100, exposedField],	# 
-						press => [SFBool,undef,eventIn],			# press event
-						isPressed =>[SFBool,FALSE,eventOut],		# press event
-
-						devicePresent => [SFBool, FALSE, exposedField],	# TRUE when ReWire is working
-					}, "X3DNetworkSensorNode"
-					),
-
 	MidiControl =>
 	new VRML::NodeType("MidiControl",
 					{
@@ -1634,8 +1614,11 @@ package VRML::NodeType;
 						deviceMinVal => [SFInt32, 0, field],		# what the device sets
 						deviceMaxVal => [SFInt32, 0, field],		# what the device sets
 
+						velocity => [SFInt32, 100, exposedField],	# velocity field for keyPress
+												# controller types.
+
 						minVal => [SFInt32, 0, exposedField],		# used to scale floats, and 
-						maxVal => [SFInt32, 10000, exposedField],		# bounds check ints. The resulting
+						maxVal => [SFInt32, 10000, exposedField],	# bounds check ints. The resulting
 												# value will be <= maxVal <= deviceMaxVal
 												# and >=minVal >= deviceMinVal
 
@@ -1644,13 +1627,12 @@ package VRML::NodeType;
 						floatValue => [SFFloat, 0, exposedField],	# float value for i/o
 						useIntValue => [SFBool, TRUE, exposedField],	# which value to use for input
 
-						continuousEvents => [SFBool, TRUE, exposedField],# do we send an event per event loop, or
-												# only when the intValue changes?
-
 						highResolution => [SFBool, TRUE, exposedField],	# high resolution controller
-						controllerType => [SFString, "", exposedField],	# "Continuous" "Step" "Bipolar" "Unknown"
-						intControllerType => [SFInt32,0, exposedField], # use ReWire definitions
+						controllerType => [SFString, "Fader", exposedField],	# "Fader" "KeyPress"
+						_intControllerType => [SFInt32,999, field], 	# use ReWire definitions
 						controllerPresent => [SFBool, FALSE, exposedField],	# TRUE when ReWire is working
+
+						keyPressed => [SFBool,FALSE,exposedField],	# is the key pressed when in "KeyPress" mode?"
 					}, "X3DNetworkSensorNode"
 					),
 ); 
