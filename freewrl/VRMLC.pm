@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.268 2007/03/20 20:36:10 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.269 2007/03/21 18:07:34 dtrembla Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.269  2007/03/21 18:07:34  dtrembla
+# Free memory on scene graph
+#
 # Revision 1.268  2007/03/20 20:36:10  crc_canada
 # MALLOC/REALLOC macros to check mallocs for errors.
 #
@@ -713,6 +716,8 @@ sub gen {
 	"	registerReWireNode(tmp); \n".
 	"	/* is this a texture holding node? */\n".
 	"	registerTexture(tmp);\n".
+	"	/* Node Tracking */\n".
+	"	registerX3DNode(tmp);\n".
 	"	/* is this a bindable node? */\n".
 	"	registerBindable(tmp);\n".
 	"	/* is this a time tick node? */\n".
