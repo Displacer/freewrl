@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.59 2007/03/22 14:11:07 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.60 2007/03/22 16:26:41 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -27,6 +27,8 @@ GLXContext GLcx;
 XVisualInfo *Xvi;
 int fullscreen = 0;
 #endif
+
+void kill_rendering(void);
 
 /* Node Tracking */
 void kill_X3DNodes(void);
@@ -345,6 +347,9 @@ void fwXformPop(struct X3D_Transform *me) {
 	glPopMatrix(); 
 	MODmatOk = FALSE;
 }
+
+/* for Sarah's front end - should be removed sometime... */
+void kill_rendering() {kill_X3DNodes();}
 
 
 /* if we have a ReplaceWorld style command, we have to remove the old world. */
