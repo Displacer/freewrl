@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.214 2007/03/19 19:33:28 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.215 2007/03/22 15:24:22 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1635,6 +1635,8 @@ package VRML::NodeType;
 						controllerPresent => [SFBool, FALSE, exposedField],	# TRUE when ReWire is working
 
 						buttonPress => [SFBool,FALSE,exposedField],	# is the key pressed when in "ButtonPress" mode?"
+						_butPr => [SFBool,FALSE,exposedField],		# used to determine toggle state for buttonPress
+
 						autoButtonPress => [SFBool,TRUE,exposedField],# send a NoteOn when the int/float 
 												# value changes. if False, send only
 												# when buttonPressed happens.
