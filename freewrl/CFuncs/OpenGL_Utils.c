@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.60 2007/03/22 16:26:41 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.61 2007/03/26 18:11:11 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -399,6 +399,8 @@ void kill_oldWorld(int kill_EAI, int kill_JavaScript, int kill_JavaClass) {
         Sound_toserver(mystring);
 	#endif
 
+	/* reset any VRML and X3D Parser data */
+	parser_destroyData();
 
         /* tell statusbar that we have none */
         viewer_default();
@@ -447,8 +449,8 @@ void kill_X3DNodes(void){
 	int d;
 	for (i=0; i<nextEntry; i++){		
 		structptr = (struct X3D_Node*)memoryTable[i];		
-		printf("\nNode pointer	= %d entry %d of %d\n",structptr,i,nextEntry);
-		/* printf("\nNode Type	= %s\n",stringNodeType(structptr->_nodeType)); */
+		/* printf("\nNode pointer	= %d entry %d of %d\n",structptr,i,nextEntry);
+		 printf("\nNode Type	= %s\n",stringNodeType(structptr->_nodeType)); */
 		fieldOffsetsPtr = NODE_OFFSETS[structptr->_nodeType];				
 		while (*fieldOffsetsPtr != -1) {
 				/*printf("type	= %d\n",*(fieldOffsetsPtr+2));*/
