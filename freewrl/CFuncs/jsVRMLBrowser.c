@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.38 2007/04/20 17:53:54 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.39 2007/04/24 16:20:08 crc_canada Exp $
  *
  */
 
@@ -259,7 +259,6 @@ VrmlBrowserReplaceWorld(JSContext *context, JSObject *obj,
 	return JS_TRUE;
 }
 
-
 JSBool
 VrmlBrowserLoadURL(JSContext *context, JSObject *obj,
 				   uintN argc, jsval *argv, jsval *rval)
@@ -333,7 +332,6 @@ VrmlBrowserSetDescription(JSContext *context, JSObject *obj,
 	return JS_TRUE;
 }
 
-
 JSBool
 VrmlBrowserCreateVrmlFromString(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
 {
@@ -396,8 +394,6 @@ VrmlBrowserCreateVrmlFromString(JSContext *context, JSObject *obj, uintN argc, j
 
 	return JS_TRUE;
 }
-
-#define JSVERBOSE
 
 JSBool
 VrmlBrowserCreateVrmlFromURL(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval) {
@@ -563,7 +559,6 @@ printf ("myptr points to a %s\n",stringNodeType(myNode->_nodeType));
 	}
 	return JS_TRUE;
 }
-#undef JSVERBOSE
 
 
 JSBool
