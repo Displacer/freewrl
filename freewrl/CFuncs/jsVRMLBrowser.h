@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.h,v 1.13 2007/04/18 16:07:52 crc_canada Exp $
+ * $Id: jsVRMLBrowser.h,v 1.14 2007/04/27 13:17:47 crc_canada Exp $
  *
  */
 
@@ -141,6 +141,20 @@ VrmlBrowserDeleteRoute(JSContext *cx,
 					   jsval *argv,
 					   jsval *rval);
 
+JSBool
+VrmlBrowserGetMidiDeviceList(JSContext *cx,
+					   JSObject *obj,
+					   uintN argc,
+					   jsval *argv,
+					   jsval *rval);
+
+JSBool
+VrmlBrowserGetMidiDeviceInfo(JSContext *cx,
+					   JSObject *obj,
+					   uintN argc,
+					   jsval *argv,
+					   jsval *rval);
+
 
 
 static JSClass Browser = {
@@ -171,6 +185,8 @@ static JSFunctionSpec (BrowserFunctions)[] = {
 	{"addRoute", VrmlBrowserAddRoute, 0},
 	{"deleteRoute", VrmlBrowserDeleteRoute, 0},
 	{"print", VrmlBrowserPrint, 0},
+	{"getMidiDeviceList", VrmlBrowserGetMidiDeviceList, 0},
+	{"getMidiDeviceInfo", VrmlBrowserGetMidiDeviceInfo, 0},
 	{0}
 };
 

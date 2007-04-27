@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.40 2007/04/25 21:02:34 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.41 2007/04/27 13:17:47 crc_canada Exp $
  *
  */
 
@@ -709,6 +709,30 @@ VrmlBrowserDeleteRoute(JSContext *context, JSObject *obj, uintN argc, jsval *arg
 	*rval = _rval;
 	return JS_TRUE;
 }
+
+/* return an MFString containing all of the devices CURRENTLY defined on the MIDI interface list */
+JSBool
+VrmlBrowserGetMidiDeviceList(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
+{
+	if (argc != 0) {
+		printf ("getMidiDeviceList does not take parameters\n");
+		return JS_FALSE;
+	}
+	return JS_TRUE;
+}
+
+/* find a MIDI device, (parameter input is a SFString) and return MFString of controller names */
+JSBool
+VrmlBrowserGetMidiDeviceInfo(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsval *rval)
+{
+	if (argc != 1) {
+		printf ("getMidiDeviceInfo expects 1 parameter\n");
+		return JS_FALSE;
+	}
+	return JS_TRUE;
+}
+
+/****************************************************************************************************/
 
 /* internal to add/remove a ROUTE */
 static JSBool doVRMLRoute(JSContext *context, JSObject *obj, uintN argc, jsval *argv, const char *callingFunc) {
