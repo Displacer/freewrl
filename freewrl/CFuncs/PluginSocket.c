@@ -1,10 +1,11 @@
 /*
- * $Id: PluginSocket.c,v 1.26 2007/02/09 21:46:02 sdumoulin Exp $
+ * $Id: PluginSocket.c,v 1.27 2007/05/07 14:48:19 crc_canada Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
  */
 
+#include "headers.h"
 #include "PluginSocket.h"
 #ifdef F_SETSIG
 #define FSIGOK
@@ -15,7 +16,6 @@
 
 fd_set rfds;
 struct timeval tv;
-extern int isMacPlugin;
 
 char return_url[FILENAME_MAX]; /* used to be local, but was returned as a pointer */
 
