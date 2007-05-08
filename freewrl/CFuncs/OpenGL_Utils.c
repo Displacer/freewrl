@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.65 2007/04/24 16:20:07 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.66 2007/05/08 18:03:49 sdumoulin Exp $
  *
  */
 #include "headers.h"
@@ -376,6 +376,7 @@ void kill_oldWorld(int kill_EAI, int kill_JavaScript, int loadedFromURL) {
 
 		/* kill DEFS, handles */
 		EAI_killBindables();
+		kill_bindables();
 
 		/* stop routing */
 		kill_routing();
