@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.c,v 1.56 2007/05/09 15:56:23 crc_canada Exp $
+ * $Id: jsVRMLClasses.c,v 1.57 2007/05/09 20:06:43 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -533,8 +533,9 @@ doMFSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp,char *name)
 
 
 	if (JSVAL_IS_INT(id)) {
-		_index = JSVAL_TO_INT(id);
-
+		#ifdef JSVRMLCLASSESVERBOSE
+		printf ("setting __touched_flag\n");
+		#endif
 		myv = INT_TO_JSVAL(1);
 
 		if (!JS_SetProperty(cx, obj, "__touched_flag", &myv)) {
@@ -544,7 +545,6 @@ doMFSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp,char *name)
 	}
 	return JS_TRUE;
 }
-
 
 static JSBool
 doMFStringUnquote(JSContext *cx, jsval *vp)
@@ -4119,13 +4119,24 @@ MFInt32Constr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 		printf ("value at %d is %d\n",i,_i);
 		#endif
 
-		if (!JS_DefineElement(cx, obj, (jsint) i, _i,
+		if (!JS_DefineElement(cx, obj, (jsint) i, argv[i],
 			  JS_PropertyStub, JS_PropertyStub, JSPROP_ENUMERATE)) {
 			printf( "JS_DefineElement failed for arg %u in MFInt32Constr.\n", i);
 			return JS_FALSE;
 		}
 	}
+	#ifdef JSVRMLCLASSESVERBOSE
+	printf ("setting __touched_flag\n");
+	#endif
+	v = INT_TO_JSVAL(1);
+
+	if (!JS_SetProperty(cx, obj, "__touched_flag", &v)) {
+		printf( "JS_SetProperty failed for \"__touched_flag\" in doMFSetProperty.\n");
+		return JS_FALSE;
+	}
+
 	*rval = OBJECT_TO_JSVAL(obj);
+
 	return JS_TRUE;
 }
 
@@ -4156,6 +4167,7 @@ MFInt32SetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp) {
 
 	return doMFSetProperty(cx, obj, id, vp,"MFInt32SetProperty");
 }
+
 
 JSBool
 MFNodeToString(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval) {
