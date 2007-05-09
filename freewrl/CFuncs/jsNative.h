@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsNative.h,v 1.7 2006/10/19 18:28:47 crc_canada Exp $
+ * $Id: jsNative.h,v 1.8 2007/05/09 15:56:23 crc_canada Exp $
  *
  *
  */
@@ -44,9 +44,6 @@ typedef struct _SFVec3fNative {
 
 typedef struct _SFImageNative {
 	int touched;
-#if FALSE
-	/* struct SFImage v; */
-#endif
 } SFImageNative;
 
 typedef struct _SFColorNative {
@@ -129,9 +126,6 @@ SFVec2fNativeSet(void *p, struct Uni_String *sv);
 
 extern void *
 SFImageNativeNew(void);
-
-extern void
-SFImageNativeDelete(void *p);
 
 extern void
 SFImageNativeAssign(void *top, void *fromp);

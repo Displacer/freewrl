@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.h,v 1.15 2006/10/12 15:31:02 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.16 2007/05/09 15:56:23 crc_canada Exp $
  *
  * Complex VRML nodes as Javascript classes.
  *
@@ -237,10 +237,6 @@ SFImageConstr(JSContext *cx,
 			  uintN argc,
 			  jsval *argv,
 			  jsval *rval);
-
-void
-SFImageFinalize(JSContext *cx,
-				JSObject *obj);
 
 JSBool
 SFImageGetProperty(JSContext *cx,
@@ -1103,7 +1099,7 @@ static JSClass SFImageClass = {
 	JS_EnumerateStub,
 	JS_ResolveStub,
 	JS_ConvertStub,
-	SFImageFinalize
+	JS_FinalizeStub
 };
 
 static JSPropertySpec (SFImageProperties)[] = {
