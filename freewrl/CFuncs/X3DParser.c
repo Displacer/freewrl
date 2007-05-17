@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.17 2007/05/17 19:45:19 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.18 2007/05/17 19:56:39 crc_canada Exp $
  *
  */
 
@@ -519,16 +519,16 @@ printf ("i %d ch %c %d\n",i,myText[i],myText[i]);
 
 	/* peel off the ecmascript etc */
 	startingIndex = strstr(myText,"ecmascript:");
-	if (startingIndex != NULL) {
-		startingIndex += strlen ("ecmascript:");
+	if (startingIndex != NULL) { startingIndex += strlen ("ecmascript:");
 	} else if (startingIndex == NULL) {
 		startingIndex = strstr(myText,"vrmlscript:");
-		if (startingIndex != NULL)
-			startingIndex += strlen ("vrmlscript:");
+		if (startingIndex != NULL) startingIndex += strlen ("vrmlscript:");
 	} else if (startingIndex == NULL) {
 		startingIndex = strstr(myText,"javascript:");
-		if (startingIndex != NULL)
-			startingIndex += strlen ("javacript:");
+		if (startingIndex != NULL) startingIndex += strlen ("javacript:");
+	} else {
+		/* text is from a file in the URL field */
+		startingIndex = myText;
 	}
 
 	if (startingIndex == NULL) {
@@ -536,7 +536,7 @@ printf ("i %d ch %c %d\n",i,myText[i],myText[i]);
 		return;
 	}
 
-	if (!ActualrunScript (myScriptNumber, myText, &rval)) {
+	if (!ActualrunScript (myScriptNumber, startingIndex, &rval)) {
 		ConsoleMessage ("X3DParser, script initialization error at line %d",LINE);
 		return;
 	}
