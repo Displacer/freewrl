@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.16 2007/05/17 19:39:41 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.17 2007/05/17 19:45:19 crc_canada Exp $
  *
  */
 
@@ -14,6 +14,7 @@
 #include "jsapi.h"
 #include "jsUtils.h"
 #include "headers.h"
+
 
 /*
 #include <stdio.h>
@@ -484,14 +485,6 @@ void initScriptWithScript() {
 	char *myText = NULL;
 	int i;
 	struct Uni_String *myUni;
-/*
-	struct Uni_String {
-        int len;
-        char * strptr;
-        int touched;
-};
-*/
-
 
 	/* sanity checking... */
 	me = (struct X3D_Script *)parentStack[parentIndex-1];
@@ -510,10 +503,10 @@ void initScriptWithScript() {
 	if (myText == NULL) {
 		for (i = 0; i < me->url.n; i++) {
 			myUni = me->url.p[i];
-/*
+
 printf ("nistring len %d\n",myUni->len);
 printf ("nistring strptr %s\n",myUni->strptr);
-*/
+
 			myText = myUni->strptr;
 		}
 	}
@@ -650,10 +643,12 @@ static void XMLCALL endElement(void *unused, const char *name) {
 	if (strcmp(name,"Script") == 0) {
 		#ifdef X3DPARSERVERBOSE
 		printf ("scriptText is %s\n",scriptText);
+		#endif
 		initScriptWithScript();
 
 		FREE_IF_NZ(scriptText);
 		scriptTextMallocSize = 0;
+		#ifdef X3DPARSERVERBOSE
 		printf ("got END of script - script should be registered\n");
 		#endif
 
