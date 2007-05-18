@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.215 2007/03/22 15:24:22 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.216 2007/05/18 19:59:13 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1503,6 +1503,7 @@ package VRML::NodeType;
 						directOutput => [SFBool, 0, field],
 						mustEvaluate => [SFBool, 0, field],
 						 __scriptObj => [FreeWRLPTR, 0, field],
+						__parenturl =>[SFString,"",field],
 					   },"X3DScriptNode"
 					  ),
 
