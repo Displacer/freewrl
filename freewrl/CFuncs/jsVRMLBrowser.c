@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.47 2007/05/18 19:59:14 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.48 2007/05/24 13:08:56 crc_canada Exp $
  *
  */
 
@@ -534,7 +534,7 @@ VrmlBrowserCreateVrmlFromURL(JSContext *context, JSObject *obj, uintN argc, jsva
 
 
         	        /* we work in absolute filenames... */
-                	makeAbsoluteFileName(filename,bfp,tfilename,RUNNINGASPLUGIN || isMacPlugin);
+                	makeAbsoluteFileName(filename,bfp,tfilename);
 
                 	if (fileExists(filename,firstBytes,TRUE)) {
 			/* printf ("file exists, break\n"); */

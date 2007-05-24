@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.19 2007/05/18 19:59:14 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.20 2007/05/24 13:08:56 crc_canada Exp $
  *
  */
 
@@ -532,7 +532,7 @@ void initScriptWithScript() {
 				if ((strlen(thisurl)+strlen(mypath)) > 900) return FALSE;
 
 				/* we work in absolute filenames... */
-				makeAbsoluteFileName(filename,mypath,thisurl,RUNNINGASPLUGIN || isMacPlugin);
+				makeAbsoluteFileName(filename,mypath,thisurl);
 
 				if (fileExists(filename,firstBytes,TRUE)) {
 					myText = readInputString(filename,"");
