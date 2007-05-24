@@ -8,7 +8,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.c,v 1.58 2007/05/11 12:49:09 crc_canada Exp $
+ * $Id: jsVRMLClasses.c,v 1.59 2007/05/24 15:32:06 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -626,9 +626,9 @@ _standardMFGetProperty(JSContext *cx,
 	jsval newEle;
 
 	#ifdef JSVRMLCLASSESVERBOSE
-	printf ("_standardMFGetProperty starting\n");
+	printf ("_standardMFGetProperty starting for type %s\n",name);
+	printJSNodeType (cx,obj);
 	#endif
-
 
 	if (!JS_GetProperty(cx, obj, "length", &_length_val)) {
 		printf( "JS_GetProperty failed for \"length\" in %s.\n",name);
@@ -689,7 +689,7 @@ _standardMFGetProperty(JSContext *cx,
 		if (*vp == JSVAL_VOID) {
 			printf( "warning: %s: obj = %u, jsval = %d does not exist!\n",name,
 				VERBOSE_OBJ obj, (int) _index);
-			/* return JS_FALSE;*/
+			return JS_FALSE;
 		}
 	}
 	#ifdef JSVRMLCLASSESVERBOSE
