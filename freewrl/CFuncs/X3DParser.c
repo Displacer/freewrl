@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.20 2007/05/24 13:08:56 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.21 2007/05/24 18:52:49 crc_canada Exp $
  *
  */
 
@@ -510,7 +510,7 @@ void initScriptWithScript() {
 	if (myText == NULL) {
 	        /* lets make up the path and save it, and make it the global path */
 	        /* copy the parent path over */
-	        mypath = strdup(me->__parenturl->strptr);
+	        mypath = STRDUP(me->__parenturl->strptr);
 	        removeFilenameFromPath (mypath);
 
 		/* try the first url, up to the last, until we find a valid one */

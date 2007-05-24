@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.48 2007/05/24 13:08:56 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.49 2007/05/24 18:52:49 crc_canada Exp $
  *
  */
 
@@ -503,7 +503,7 @@ VrmlBrowserCreateVrmlFromURL(JSContext *context, JSObject *obj, uintN argc, jsva
 	*/
 
 	/* find a file name that exists. If not, return JS_FALSE */
-	bfp = strdup(BrowserFullPath);
+	bfp = STRDUP(BrowserFullPath);
 	/* and strip off the file name, leaving any path */
 	removeFilenameFromPath (bfp);
 
