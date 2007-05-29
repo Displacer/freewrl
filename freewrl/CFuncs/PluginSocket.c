@@ -1,5 +1,5 @@
 /*
- * $Id: PluginSocket.c,v 1.28 2007/05/23 19:49:39 crc_canada Exp $
+ * $Id: PluginSocket.c,v 1.29 2007/05/29 17:10:58 crc_canada Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)
@@ -12,7 +12,6 @@
 #endif
 
 /*  CHECK DIRECTORY IN PLUGINPRINT*/
-#define PLUGINSOCKETVERBOSE
 
 fd_set rfds;
 struct timeval tv;
