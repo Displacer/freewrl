@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.216 2007/05/18 19:59:13 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.217 2007/06/20 14:20:40 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1626,7 +1626,7 @@ package VRML::NodeType;
 												# and >=minVal >= deviceMinVal
 
 						intValue => [SFInt32, 0, exposedField],		# integer value for i/o
-						_oldintValue => [SFInt32, -99, field],		# old integer value for i/o
+						_oldintValue => [SFInt32, 0, field],		# old integer value for i/o
 						floatValue => [SFFloat, 0, exposedField],	# float value for i/o
 						useIntValue => [SFBool, TRUE, exposedField],	# which value to use for input
 
