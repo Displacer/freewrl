@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsNative.h,v 1.8 2007/05/09 15:56:23 crc_canada Exp $
+ * $Id: jsNative.h,v 1.9 2007/06/25 20:17:08 crc_canada Exp $
  *
  *
  */
@@ -82,17 +82,11 @@ addSFNodeProperty(void *cx,
 extern void *
 SFNodeNativeNew(void);
 
-extern void
-SFNodeNativeDelete(void *p);
-
 extern JSBool
 SFNodeNativeAssign(void *top, void *fromp);
 
 extern void *
 SFRotationNativeNew(void);
-
-extern void
-SFRotationNativeDelete(void *p);
 
 extern void
 SFRotationNativeAssign(void *top, void *fromp);
@@ -104,9 +98,6 @@ extern void *
 SFVec3fNativeNew(void);
 
 extern void
-SFVec3fNativeDelete(void *p);
-
-extern void
 SFVec3fNativeAssign(void *top, void *fromp);
 
 extern void
@@ -114,9 +105,6 @@ SFVec3fNativeSet(void *p, struct Uni_String *sv);
 
 extern void *
 SFVec2fNativeNew(void);
-
-extern void
-SFVec2fNativeDelete(void *p);
 
 extern void
 SFVec2fNativeAssign(void *top, void *fromp);
@@ -135,9 +123,6 @@ SFImageNativeSet(void *p, struct Uni_String *sv);
 
 extern void *
 SFColorNativeNew(void);
-
-extern void
-SFColorNativeDelete(void *p);
 
 extern void
 SFColorNativeAssign(void *top, void *fromp);
