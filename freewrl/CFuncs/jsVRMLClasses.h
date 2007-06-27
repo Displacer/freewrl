@@ -1,16 +1,12 @@
-
-
-
-
 /*
- * Copyright (C) 1998 Tuomas J. Lukka, 2002 John Stewart, Ayla Khan CRC Canada
+ * Copyright (C) 1998 Tuomas J. Lukka, 2002, 2007  John Stewart, Ayla Khan CRC Canada
  * DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
  * See the GNU Library General Public License
  * (file COPYING in the distribution) for conditions of use and
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.h,v 1.18 2007/06/25 20:17:09 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.19 2007/06/27 17:20:35 crc_canada Exp $
  *
  * Complex VRML nodes as Javascript classes.
  *
@@ -45,15 +41,15 @@
 #define VERBOSE_OBJ 
 
 #define ADD_ROOT(a,b) \
-	/* printf ("adding root %x\n",b); */ \
-        if (JS_AddRoot(a,b) != JS_TRUE) { \
+	/* printf ("adding root  cx %x pointer %x value %x\n",a,&b,b); */ \
+        if (JS_AddRoot(a,&b) != JS_TRUE) { \
                 printf ("JA_AddRoot failed at %s:%d\n",__FILE__,__LINE__); \
                 return JS_FALSE; \
         }
 
 #define REMOVE_ROOT(a,b) \
 	/* printf ("removing root %x\n",b); */ \
-        JS_RemoveRoot(a,b); 
+        JS_RemoveRoot(a,&b); 
 
 /*
  * The following VRML field types don't need JS classes:
