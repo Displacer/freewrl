@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.14 2007/06/29 18:55:11 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.15 2007/07/05 19:59:15 crc_canada Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -33,7 +33,19 @@
 #define FNAME_STUB "file"
 #define LINENO_STUB 0
 
-extern jsval global_return_val;
+/* for keeping track of the ECMA values */
+struct ECMAValueStruct {
+	jsval	JS_address;
+	int	valueChanged;
+	char 	*name;
+};
+
+extern struct ECMAValueStruct ECMAValues[];
+extern int maxECMAVal;
+int findInECMATable(jsval toFind);
+int findNameInECMATable(char *toFind);
+void resetNameInECMATable(char *toFind);
+
 extern jsval JSglobal_return_val;
 extern uintptr_t *JSSFpointer;
 

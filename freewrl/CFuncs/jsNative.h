@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsNative.h,v 1.9 2007/06/25 20:17:08 crc_canada Exp $
+ * $Id: jsNative.h,v 1.10 2007/07/05 19:59:15 crc_canada Exp $
  *
  *
  */
@@ -22,37 +22,37 @@ typedef struct _BrowserNative {
 } BrowserNative;
 
 typedef struct _SFNodeNative {
-	int touched;
+	int valueChanged;
 	uintptr_t *handle;
 	char *X3DString;
 } SFNodeNative;
 
 typedef struct _SFRotationNative {
-	int touched;
+	int valueChanged;
 	struct SFRotation v;
 } SFRotationNative;
 
 typedef struct _SFVec2fNative {
-	int touched;
+	int valueChanged;
 	struct SFVec2f v;
 } SFVec2fNative;
 
 typedef struct _SFVec3fNative {
-	int touched;
+	int valueChanged;
 	struct SFColor v;
 } SFVec3fNative;
 
 typedef struct _SFImageNative {
-	int touched;
+	int valueChanged;
 } SFImageNative;
 
 typedef struct _SFColorNative {
-	int touched;
+	int valueChanged;
 	struct SFColor v;
 } SFColorNative;
 
 typedef struct _SFColorRGBANative {
-	int touched;
+	int valueChanged;
 	struct SFColorRGBA v;
 } SFColorRGBANative;
 
