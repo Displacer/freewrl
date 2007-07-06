@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.h,v 1.20 2007/07/05 19:59:15 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.21 2007/07/06 16:14:02 crc_canada Exp $
  *
  * Complex VRML nodes as Javascript classes.
  *
@@ -66,6 +66,27 @@
 		printf( "JS_DefineProperty failed for \"MF_ECMA_has_changed\" at %s:%d.\n",__FILE__,__LINE__); \
 		return JS_FALSE; \
 	}}
+
+
+#define SET_JS_TICKTIME { jsval zimbo; \
+        zimbo = DOUBLE_TO_JSVAL(JS_NewDouble(cx, TickTime));  \
+        if (!JS_DefineProperty(cx,obj, "__eventInTickTime", zimbo, JS_PropertyStub, JS_PropertyStub, JSPROP_PERMANENT)) {  \
+                printf( "JS_DefineProperty failed for \"__eventInTickTime\" at %s:%d.\n",__FILE__,__LINE__); \
+                return; \
+        }}
+
+#define COMPILE_FUNCTION_IF_NEEDED(tnfield) \
+	if (JSparamnames[tnfield].eventInFunction == 0) { \
+		sprintf (scriptline,"%s(__eventIn_Value_%s,__eventInTickTime)", JSparamnames[tnfield].name,JSparamnames[tnfield].name); \
+		/* printf ("compiling function %s\n",scriptline); */ \
+		JSparamnames[tnfield].eventInFunction = (uintptr_t) JS_CompileScript( \
+			cx, obj, scriptline, strlen(scriptline), "compile eventIn",1); \
+	}
+#define RUN_FUNCTION(tnfield) \
+	{jsval zimbo; \
+	if (!JS_ExecuteScript(cx, obj, JSparamnames[tnfield].eventInFunction, &zimbo)) { \
+		printf ("failed to set parameter for eventIne %s\n",JSparamnames[tnfield].name); \
+	}} 
 
 
 /*
