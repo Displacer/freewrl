@@ -8,7 +8,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRML_SFClasses.c,v 1.6 2007/07/05 19:59:15 crc_canada Exp $
+ * $Id: jsVRML_SFClasses.c,v 1.7 2007/07/10 17:20:15 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -712,7 +712,7 @@ SFImageConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 				return JS_FALSE;
 			}
 		}
-		DEFINE_LENGTH(4)
+		DEFINE_LENGTH(4,obj)
 
 		return JS_TRUE; 
 	}
@@ -723,7 +723,7 @@ SFImageConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rval
 		return JS_FALSE;
 	}
 
-	DEFINE_LENGTH(argc)
+	DEFINE_LENGTH(argc,obj)
 
 	/* expect arguments to be number, number, number, mfint32 */
 	for (i=0; i<3; i++) {
