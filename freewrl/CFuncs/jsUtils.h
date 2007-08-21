@@ -6,14 +6,13 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.15 2007/07/05 19:59:15 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.16 2007/08/21 18:48:16 crc_canada Exp $
  */
 
 #ifndef __jsUtils_h__
 #define __jsUtils_h__
 
 #include <stdlib.h>
-#include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
 

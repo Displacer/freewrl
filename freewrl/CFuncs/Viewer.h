@@ -10,13 +10,12 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.23 2006/08/04 19:50:57 crc_canada Exp $
+ * $Id: Viewer.h,v 1.24 2007/08/21 18:48:16 crc_canada Exp $
  *
  */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 #include <ctype.h>
 #include <math.h>
 
