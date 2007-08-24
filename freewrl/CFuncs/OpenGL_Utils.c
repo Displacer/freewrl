@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.69 2007/08/24 15:13:42 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.70 2007/08/24 16:23:05 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -434,7 +434,7 @@ void registerX3DNode(void * tmp){
 		increaseMemoryTable();
 	}
 	/*adding node in table*/	
-	memoryTable[nextEntry]=tmp;
+	memoryTable[nextEntry] = (uintptr_t) tmp;
 	nextEntry+=1;
 }
 

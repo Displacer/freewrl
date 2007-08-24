@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.49 2007/05/24 18:52:49 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.50 2007/08/24 16:23:05 crc_canada Exp $
  *
  */
 
@@ -429,7 +429,7 @@ VrmlBrowserCreateVrmlFromURL(JSContext *context, JSObject *obj, uintN argc, jsva
 
 	/* first parameter - expect a MFString Object here */
 	if (JSVAL_IS_OBJECT(argv[0])) {
-                if ((_cls[0] = JS_GetClass(argv[0])) == NULL) {
+                if ((_cls[0] = JS_GetClass((JSObject *)argv[0])) == NULL) {
                         printf( "JS_GetClass failed for arg 0 in VrmlBrowserLoadURL.\n");
                         return JS_FALSE;
                 }
@@ -440,7 +440,7 @@ VrmlBrowserCreateVrmlFromURL(JSContext *context, JSObject *obj, uintN argc, jsva
 
 	/* second parameter - expect a SFNode Object here */
 	if (JSVAL_IS_OBJECT(argv[1])) {
-                if ((_cls[1] = JS_GetClass(argv[1])) == NULL) {
+                if ((_cls[1] = JS_GetClass((JSObject *)argv[1])) == NULL) {
                         printf( "JS_GetClass failed for arg 1 in VrmlBrowserLoadURL.\n");
                         return JS_FALSE;
                 }
