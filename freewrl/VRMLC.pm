@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.274 2007/08/24 15:13:42 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.275 2007/09/21 17:55:55 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.275  2007/09/21 17:55:55  crc_canada
+# Routing changes - fixing a bug with MF* nodes (was fixed recently, but changes removed by accident)
+#
 # Revision 1.274  2007/08/24 15:13:42  crc_canada
 # Sensitive nodes now are dynamically pruned, and, if disabled, do not
 # change cursor shape
@@ -840,7 +843,6 @@ sub gen {
 	# 	-1, -1, -1, -1];
 	# NOTES:
 	# 1) we skip any field starting with an "_" (underscore)
-	# 2) addChildren, removeChildren, map to children.
 	# 
 	for my $node (@sortedNodeList) {
 		#print "node $_ is tagged as $nodeIntegerType\n";
