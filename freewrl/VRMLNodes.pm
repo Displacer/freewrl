@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.220 2007/08/23 14:46:12 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.221 2007/10/15 12:12:14 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1629,15 +1629,16 @@ package VRML::NodeType;
 	new VRML::NodeType("MidiControl",
 					{
 						deviceName => [SFString,"",exposedField],	# "Subtractor 1"
-						channel => [SFString,"",exposedField],		# "Osc1 Wave"
+						channel => [SFInt32,0,exposedField],		# channel in range 0-16, on MIDI bus
+						controller => [SFString,"",exposedField],	# "Osc1 Wave"
 						_deviceNameIndex => [SFInt32, -99, field],	#  name in name table index
-						_channelIndex => [SFInt32, -99, field],		#  name in name table index
+						_controllerIndex => [SFInt32, -99, field],		#  name in name table index
 
 
-						# encoded bus,device,channel
-						_bus => [SFInt32,0,field],			# internal for efficiency
-						_channel => [SFInt32,0,field],			# internal for efficiency
-						_controller => [SFInt32,0,field],		# internal for efficiency
+						# encoded bus,channel,controller
+						_bus => [SFInt32,-99,field],			# internal for efficiency
+						_channel => [SFInt32,-99,field],			# internal for efficiency
+						_controller => [SFInt32,-99,field],		# internal for efficiency
 
 						deviceMinVal => [SFInt32, 0, field],		# what the device sets
 						deviceMaxVal => [SFInt32, 0, field],		# what the device sets
