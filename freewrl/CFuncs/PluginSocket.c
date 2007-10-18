@@ -1,5 +1,14 @@
+/*******************************************************************
+  Copyright (C) 2007 John Stewart, CRC Canada.
+  DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
+  See the GNU Library General Public License (file COPYING in the distribution)
+  for conditions of use and redistribution.
+ *********************************************************************/
+
+
+
 /*
- * $Id: PluginSocket.c,v 1.29 2007/05/29 17:10:58 crc_canada Exp $
+ * $Id: PluginSocket.c,v 1.30 2007/10/18 20:10:04 crc_canada Exp $
  *
  * Common functions used by Mozilla and Netscape plugins...(maybe
  * PluginGlue too?)

@@ -8,7 +8,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.c,v 1.65 2007/08/24 16:23:05 crc_canada Exp $
+ * $Id: jsVRMLClasses.c,v 1.66 2007/10/18 20:10:13 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -1129,7 +1129,7 @@ int findNameInECMATable(char *toFind) {
 		#endif
 
 		
-		if (strcmp(ECMAValues[i].name,toFind)==NULL) {
+		if (strcmp(ECMAValues[i].name,toFind)==0) {
 			#ifdef JSVRMLCLASSESVERBOSE
 			printf ("fineInECMATable: found value at %d\n",i);
 			#endif
@@ -1161,7 +1161,7 @@ void resetNameInECMATable(char *toFind) {
 		#endif
 
 		
-		if (strcmp(ECMAValues[i].name,toFind)==NULL) {
+		if (strcmp(ECMAValues[i].name,toFind)==0) {
 			#ifdef JSVRMLCLASSESVERBOSE
 			printf ("fineInECMATable: found value at %d\n",i);
 			#endif
@@ -1187,7 +1187,7 @@ void setInECMATable(char *toFind) {
 		#endif
 
 		
-		if (strcmp(ECMAValues[i].name,toFind) == NULL) {
+		if (strcmp(ECMAValues[i].name,toFind) == 0) {
 			#ifdef JSVRMLCLASSESVERBOSE
 			printf ("setInECMATable: found value at %d\n",i);
 			#endif
@@ -1221,7 +1221,7 @@ setECMANative(JSContext *context, JSObject *obj, jsval id, jsval *vp)
 	jsval v;
 	char *_id_c;
 
-	char * *_vp_c, *_new_vp_c, *_buff;
+	char *_vp_c, *_new_vp_c, *_buff;
 	const size_t touched_len = 10;
 	size_t len = 0;
 
