@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.78 2007/10/26 18:39:11 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.79 2007/10/26 20:40:18 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -406,9 +406,11 @@ void kill_oldWorld(int kill_EAI, int kill_JavaScript, int loadedFromURL) {
 	        Sound_toserver(mystring);
 		#endif
 
-		/* reset any VRML and X3D Parser data */
-		parser_destroyData(globalParser);
-		globalParser = NULL;
+		/* reset any VRML Parser data */
+		if (globalParser != NULL) {
+			parser_destroyData(globalParser);
+			globalParser = NULL;
+		}
 
 
 	        /* tell statusbar that we have none */
