@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.80 2007/10/29 19:45:26 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.81 2007/11/01 18:41:47 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -963,7 +963,7 @@ void kill_X3DNodes(void){
 	}
 	FREE_IF_NZ(memoryTable);
 	memoryTable=NULL;
-	tableIndexSize=0;
+	tableIndexSize=ID_UNDEFINED;
 	nextEntry=0;
 	UNLOCK_MEMORYTABLE
 }
