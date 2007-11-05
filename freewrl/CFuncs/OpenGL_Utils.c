@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.81 2007/11/01 18:41:47 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.82 2007/11/05 20:40:11 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -583,7 +583,7 @@ void zeroVisibilityFlag(void) {
 #endif
 
 #define VIEWPOINT(thistype) \
-			setBindPtr = (unsigned int *)(node+ offsetof (struct X3D_##thistype, set_bind));
+			setBindPtr = (uintptr_t *) ((uintptr_t)(node) + offsetof (struct X3D_##thistype, set_bind));
 
 #define CHILDREN_NODE(thistype) \
 			addChildren = NULL; removeChildren = NULL; \
@@ -635,7 +635,7 @@ void startOfLoopNodeUpdates(void) {
 	void **pp;
 	int nParents;
 	int i,j;
-	unsigned int *setBindPtr;
+	uintptr_t *setBindPtr;
 
 	struct Multi_Node *addChildren;
 	struct Multi_Node *removeChildren;

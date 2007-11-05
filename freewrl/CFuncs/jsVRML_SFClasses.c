@@ -8,7 +8,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRML_SFClasses.c,v 1.11 2007/10/18 20:10:13 crc_canada Exp $
+ * $Id: jsVRML_SFClasses.c,v 1.12 2007/11/05 20:40:12 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -916,7 +916,6 @@ JSBool SFNodeConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval
 
 	struct X3D_Group *myGroup;
 
-
 	ADD_ROOT(cx,obj)
 	newHandle = 0;
 	cString = NULL;
@@ -1048,6 +1047,8 @@ JSBool SFNodeConstr(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval
 
 	return JS_TRUE;
 }
+
+
 
 void
 SFNodeFinalize(JSContext *cx, JSObject *obj)

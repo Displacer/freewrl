@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.16 2007/08/21 18:48:16 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.17 2007/11/05 20:40:12 crc_canada Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -51,10 +51,8 @@ extern uintptr_t *JSSFpointer;
 static JSBool reportWarnings = JS_TRUE;
 
 int jsrrunScript(JSContext *_context, JSObject *_globalObj, char *script, jsval *rval);
-int
-ActualrunScript(uintptr_t num,
-				char *script,
-				jsval *rval);
+#define ACTUALRUNSCRIPT(a,b,c) ActualrunScript(a,b,c,__FILE__,__LINE__)
+int ActualrunScript(uintptr_t num, char *script, jsval *rval, char *file, int line);
 
 int
 JSrunScript(uintptr_t num,
