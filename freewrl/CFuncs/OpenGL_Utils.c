@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.84 2007/11/16 14:21:11 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.85 2007/11/22 17:43:10 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -447,11 +447,15 @@ int checkNode(struct X3D_Node *node, char *fn, int line) {
 
 	LOCK_MEMORYTABLE
 	for (tc = 0; tc< nextEntry; tc++)
-		if (memoryTable[tc] == node) return TRUE;
-	UNLOCK_MEMORYTABLE
+		if (memoryTable[tc] == node) {
+			UNLOCK_MEMORYTABLE
+			return TRUE;
+	}
+
 
 	printf ("checkNode: did not find %d in memory table at i%s %d\n",node,fn,line);
 
+	UNLOCK_MEMORYTABLE
 	return FALSE;
 }
 
