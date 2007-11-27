@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.85 2007/11/22 17:43:10 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.86 2007/11/27 21:42:07 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -391,6 +391,9 @@ void kill_oldWorld(int kill_EAI, int kill_JavaScript, int loadedFromURL) {
 
 		/* stop rendering */
 		((struct X3D_Group*)rootNode)->children.n = 0;
+
+		/* tell the statusbar that it needs to reinitialize */
+		kill_status();
 
 		/* free textures */
 		kill_openGLTextures();
