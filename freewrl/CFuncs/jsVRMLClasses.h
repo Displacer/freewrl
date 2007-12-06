@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.h,v 1.23 2007/08/24 16:23:05 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.24 2007/12/06 15:57:37 crc_canada Exp $
  *
  * Complex VRML nodes as Javascript classes.
  *
@@ -40,16 +40,18 @@
 #define VERBOSE_OBJX (unsigned long)
 #define VERBOSE_OBJ 
 
+/* tie a node into the root. Currently not required, as we do a better job
+of garbage collection */
 #define ADD_ROOT(a,b) \
-	/* printf ("adding root  cx %x pointer %x value %x\n",a,&b,b); */ \
+	/* printf ("adding root  cx %u pointer %u value %u\n",a,&b,b); \
         if (JS_AddRoot(a,&b) != JS_TRUE) { \
                 printf ("JA_AddRoot failed at %s:%d\n",__FILE__,__LINE__); \
                 return JS_FALSE; \
-        }
+        } */
 
 #define REMOVE_ROOT(a,b) \
-	/* printf ("removing root %x\n",b); */ \
-        JS_RemoveRoot(a,&b); 
+	/* printf ("removing root %u\n",b); \
+        JS_RemoveRoot(a,&b);  */
 
 
 #define DEFINE_LENGTH(thislength,thisobject) \

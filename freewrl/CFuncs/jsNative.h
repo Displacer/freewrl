@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsNative.h,v 1.10 2007/07/05 19:59:15 crc_canada Exp $
+ * $Id: jsNative.h,v 1.11 2007/12/06 15:57:37 crc_canada Exp $
  *
  *
  */
@@ -19,6 +19,7 @@
 typedef struct _BrowserNative {
 	/* int magic; does this really do anything ??? */
 	/* and, this really does nothing SV *sv_js; */
+	int dummyEntry;
 } BrowserNative;
 
 typedef struct _SFNodeNative {

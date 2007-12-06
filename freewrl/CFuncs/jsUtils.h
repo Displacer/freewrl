@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.18 2007/11/22 17:43:10 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.19 2007/12/06 15:57:37 crc_canada Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -24,6 +24,10 @@
 #ifndef FALSE
 #define FALSE 0
 #endif /* FALSE */
+
+#define CLEANUP_JAVASCRIPT(cx) \
+	/* printf ("calling JS_GC at %s:%d cx %u\n",__FILE__,__LINE__,cx); */ \
+	JS_GC(cx);
 
 #define LARGESTRING 2048
 #define STRING 512
