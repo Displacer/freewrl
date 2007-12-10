@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.53 2007/11/21 22:54:48 couannette Exp $
+ * $Id: jsVRMLBrowser.c,v 1.54 2007/12/10 19:13:56 crc_canada Exp $
  *
  */
 
@@ -969,7 +969,7 @@ static JSBool doVRMLRoute(JSContext *context, JSObject *obj, uintN argc, jsval *
 		/* From field */
 		if ((strcmp (fromFieldString,"addChildren") == 0) || 
 		(strcmp (fromFieldString,"removeChildren") == 0)) {
-			myField = findFieldInALLFIELDNAMES("children");
+			myField = findFieldInFIELDNAMES("children");
 		} else {
 			/* try finding it, maybe with a "set_" or "changed" removed */
 			myField = findRoutedFieldInFIELDNAMES(fromNode,fromFieldString,0);
@@ -983,7 +983,7 @@ static JSBool doVRMLRoute(JSContext *context, JSObject *obj, uintN argc, jsval *
 		/* To field */
 		if ((strcmp (toFieldString,"addChildren") == 0) || 
 		(strcmp (toFieldString,"removeChildren") == 0)) {
-			myField = findFieldInALLFIELDNAMES("children");
+			myField = findFieldInFIELDNAMES("children");
 		} else {
 			/* try finding it, maybe with a "set_" or "changed" removed */
 			myField = findRoutedFieldInFIELDNAMES(toNode,toFieldString,0);
