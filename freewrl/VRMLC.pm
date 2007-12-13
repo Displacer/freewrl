@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.282 2007/12/13 14:54:13 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.283 2007/12/13 20:12:52 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.283  2007/12/13 20:12:52  crc_canada
+# KeySensor and StringSensor
+#
 # Revision 1.282  2007/12/13 14:54:13  crc_canada
 # code cleanup and change to inputOnly, outputOnly, initializeOnly, inputOutput
 # ----------------------------------------------------------------------
@@ -835,7 +838,10 @@ sub gen {
 	"	/* is this a bindable node? */\n".
 	"	registerBindable(tmp);\n".
 	"	/* is this a time tick node? */\n".
-	"	add_first(tmp);\n";
+	"       add_first(tmp);\n".
+	"       /* possibly a KeySensor node? */\n".
+	"       addNodeToKeySensorList(X3D_NODE(tmp));\n";
+
 
 
 	push @genFuncs2, "\treturn tmp;\n}\n";
