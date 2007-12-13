@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.h,v 1.14 2007/04/27 13:17:47 crc_canada Exp $
+ * $Id: jsVRMLBrowser.h,v 1.15 2007/12/13 21:52:42 crc_canada Exp $
  *
  */
 
@@ -185,6 +185,7 @@ static JSFunctionSpec (BrowserFunctions)[] = {
 	{"addRoute", VrmlBrowserAddRoute, 0},
 	{"deleteRoute", VrmlBrowserDeleteRoute, 0},
 	{"print", VrmlBrowserPrint, 0},
+	{"println", VrmlBrowserPrint, 0},
 	{"getMidiDeviceList", VrmlBrowserGetMidiDeviceList, 0},
 	{"getMidiDeviceInfo", VrmlBrowserGetMidiDeviceInfo, 0},
 	{0}
