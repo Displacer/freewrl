@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.h,v 1.24 2007/12/06 15:57:37 crc_canada Exp $
+ * $Id: jsVRMLClasses.h,v 1.25 2007/12/19 21:05:33 crc_canada Exp $
  *
  * Complex VRML nodes as Javascript classes.
  *
@@ -96,7 +96,7 @@ of garbage collection */
 #define RUN_FUNCTION(tnfield) \
 	{jsval zimbo; \
 	if (!JS_ExecuteScript(cx, obj, (JSScript *) JSparamnames[tnfield].eventInFunction, &zimbo)) { \
-		printf ("failed to set parameter for eventIne %s\n",JSparamnames[tnfield].name); \
+		printf ("failed to set parameter for eventIn %s in FreeWRL code %s:%d\n",JSparamnames[tnfield].name,__FILE__,__LINE__); \
 	}} 
 
 
