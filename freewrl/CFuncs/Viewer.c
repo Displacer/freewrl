@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.49 2007/01/15 18:46:22 sdumoulin Exp $
+ * $Id: Viewer.c,v 1.50 2007/12/21 15:14:44 crc_canada Exp $
  *
  */
 
@@ -817,6 +817,9 @@ bind_geoviewpoint (struct X3D_GeoViewpoint *vp) {
 	Quaternion q_i;
 
 	/* set Viewer position and orientation */
+
+        /* remember to POSSIBLE_PROTO_EXPANSION(node->geoOrigin, tmpN) */
+
 
 	/*printf ("bind_geoviewpoint, setting Viewer to %f %f %f orient %f %f %f %f\n",vp->position.c[0],vp->position.c[1],
 	vp->position.c[2],vp->orientation.r[0],vp->orientation.r[1],vp->orientation.r[2],
