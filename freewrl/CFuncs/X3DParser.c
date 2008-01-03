@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.27 2007/12/14 19:16:14 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.28 2008/01/03 14:56:19 crc_canada Exp $
  *
  */
 
@@ -290,7 +290,7 @@ static void parseNormalX3D(int myNodeType, const char *name, const char** atts) 
 		printf ("going to add_parent %u and %u\n",thisNode,parentStack[parentIndex-1]);
 		#endif
 
-		add_parent((void *)thisNode, parentStack[parentIndex-1]);
+		ADD_PARENT((void *)thisNode, parentStack[parentIndex-1]);
 	}
 
 	/* go through the fields, and link them in. SFNode and MFNodes will be handled 
