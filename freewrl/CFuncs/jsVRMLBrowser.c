@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.55 2007/12/13 21:52:42 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.56 2008/01/03 20:31:56 crc_canada Exp $
  *
  */
 
@@ -609,12 +609,14 @@ VrmlBrowserPrint(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsv
 			_id_c = JS_GetStringBytes(_str);
 			#ifdef AQUA
 			ConsoleMessage(_id_c);
+			consMsgCount = 0; /* reset the "Maximum" count */
 			#else
 				#ifdef HAVE_NOTOOLKIT 
 					printf ("%s", _id_c);
 				#else
 					printf ("%s\n", _id_c);
 					ConsoleMessage(_id_c);
+					consMsgCount = 0; /* reset the "Maximum" count */
 				#endif
 			#endif
 		} else {
@@ -623,6 +625,7 @@ VrmlBrowserPrint(JSContext *context, JSObject *obj, uintN argc, jsval *argv, jsv
 	}
 	#ifdef AQUA
 	ConsoleMessage("\n");
+	consMsgCount = 0; /* reset the "Maximum" count */
 	#else
 		#ifdef HAVE_NOTOOLKIT
 			printf ("\n");
