@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.87 2007/12/13 20:12:52 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.88 2008/01/03 20:46:35 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -372,8 +372,8 @@ void kill_rendering() {kill_X3DNodes();}
 void kill_oldWorld(int kill_EAI, int kill_JavaScript, int loadedFromURL) {
         char mystring[20];
 
-	/* consoleMessage - ok, not exactly a kill, more of a reset */
-	consMsgCount = 0;
+	/* close the Console Message system, if required. */
+	closeConsoleMessage();
 
 	if (loadedFromURL) {
 		/* occlusion testing - zero total count, but keep MALLOC'd memory around */
