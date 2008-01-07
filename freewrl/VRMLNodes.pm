@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.225 2008/01/03 14:56:18 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.226 2008/01/07 18:16:27 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1643,7 +1643,7 @@ package VRML::NodeType;
 	new VRML::NodeType("MidiControl",
 					{
 						deviceName => [SFString,"",inputOutput],	# "Subtractor 1"
-						channel => [SFInt32,0,inputOutput],		# channel in range 0-16, on MIDI bus
+						channel => [SFInt32,-1,inputOutput],		# channel in range 0-16, on MIDI bus
 						controller => [SFString,"",inputOutput],	# "Osc1 Wave"
 						_deviceNameIndex => [SFInt32, -99, initializeOnly],	#  name in name table index
 						_controllerIndex => [SFInt32, -99, initializeOnly],		#  name in name table index
