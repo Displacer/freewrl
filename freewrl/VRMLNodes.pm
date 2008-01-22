@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.226 2008/01/07 18:16:27 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.227 2008/01/22 14:23:46 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -850,6 +850,7 @@ package VRML::NodeType;
 	TextureCoordinate => new VRML::NodeType("TextureCoordinate", { 
 						point => [MFVec2f, [], inputOutput],
 						__compiledpoint => [MFVec2f, [], initializeOnly],
+						__lastParent => [FreeWRLPTR, 0, initializeOnly],
 					 },"X3DTextureCoordinateNode"),
 
 	TextureCoordinateGenerator => new VRML::NodeType("TextureCoordinateGenerator", { 
