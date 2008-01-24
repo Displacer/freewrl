@@ -1,4 +1,4 @@
-/* $Id: Collision.h,v 1.11 2005/12/16 13:49:23 crc_canada Exp $
+/* $Id: Collision.h,v 1.12 2008/01/24 18:33:13 crc_canada Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -197,6 +197,11 @@ struct pt box_disp(double y1, double y2, double ystep, double r,struct pt p0, st
 /*fast test to see if a box intersects a y-cylinder.
  * gives false positives */
 int fast_ycylinder_box_intersect(double y1, double y2, double r,struct pt pcenter, double xs, double ys, double zs);
+
+
+/*fast test to see if the min/max of a polyrep structure (IndexedFaceSet, eg)  intersects a y-cylinder.
+ * gives false positives */
+int fast_ycylinder_polyrep_intersect(double y1, double y2, double r,struct pt pcenter, double scale, struct X3D_PolyRep *pr);
 
 /*fast test to see if a cone intersects a y-cylinder. */
 /*gives false positives. */
