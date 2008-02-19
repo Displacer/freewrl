@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.227 2008/01/22 14:23:46 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.228 2008/02/19 15:54:45 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1146,6 +1146,7 @@ package VRML::NodeType;
 						fogType => [SFString, "LINEAR", inputOutput],
 						visibilityRange => [SFFloat, 0, inputOutput],
 						isBound => [SFBool, 0, outputOnly],
+						bindTime => [SFTime, -1, outputOnly],
 						__BGNumber => [SFInt32,-1,initializeOnly], # for ordering backgrounds for binding
 					   },"X3DBindableNode"),
 
