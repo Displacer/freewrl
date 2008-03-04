@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.20 2008/01/11 18:49:34 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.21 2008/03/04 21:34:34 crc_canada Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -56,6 +56,7 @@ extern uintptr_t *JSSFpointer;
 static JSBool reportWarnings = JS_TRUE;
 
 int jsrrunScript(JSContext *_context, JSObject *_globalObj, char *script, jsval *rval);
+int JS_DefineSFNodeSpecificProperties (JSContext *context, JSObject *object, struct X3D_Node * ptr);
 
 #ifdef JAVASCRIPTVERBOSE
 #define ACTUALRUNSCRIPT(a,b,c) ActualrunScript(a,b,c,__FILE__,__LINE__)
@@ -99,5 +100,8 @@ errorReporter(JSContext *cx,
 
 int JSGetProperty(uintptr_t num, char *script, struct Uni_String *rstr);
 void JSInit(uintptr_t num);
+
+void X3D_ECMA_TO_JS(JSContext *cx, void *Data, unsigned datalen, int dataType, jsval *ret);
+JSBool setSFNodeField (JSContext *context, JSObject *obj, jsval id, jsval *vp);
 
 #endif /* __jsUtils_h__ */
