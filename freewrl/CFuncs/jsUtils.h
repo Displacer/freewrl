@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.21 2008/03/04 21:34:34 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.22 2008/03/05 17:52:48 crc_canada Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -43,6 +43,7 @@ struct ECMAValueStruct {
 	int	valueChanged;
 	char 	*name;
 };
+
 
 extern struct ECMAValueStruct ECMAValues[];
 extern int maxECMAVal;
