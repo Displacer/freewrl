@@ -8,7 +8,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.c,v 1.68 2008/03/04 21:34:34 crc_canada Exp $
+ * $Id: jsVRMLClasses.c,v 1.69 2008/03/05 18:21:28 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -1060,7 +1060,10 @@ doMFSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp, int type)
 
 	if (JSVAL_IS_INT(id)) {
 		/* save this element into the parent at index */
-printf ("saving element %d\n",JSVAL_TO_INT(id));
+
+		#ifdef JSVRMLCLASSESVERBOSE
+		printf ("saving element %d\n",JSVAL_TO_INT(id));
+		#endif
 
 		if (!JS_DefineElement(cx, obj, JSVAL_TO_INT(id), *vp,
 			JS_GET_PROPERTY_STUB, JS_SET_PROPERTY_STUB5,
