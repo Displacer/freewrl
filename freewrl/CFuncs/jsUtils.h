@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.22 2008/03/05 17:52:48 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.23 2008/03/07 18:34:09 crc_canada Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -51,6 +51,8 @@ int findInECMATable(JSContext *context, jsval toFind);
 int findNameInECMATable(JSContext *context, char *toFind);
 void resetNameInECMATable(JSContext *context, char *toFind);
 
+/* We keep around the results of script routing, or just script running... */
+extern jsval JSCreate_global_return_val;
 extern jsval JSglobal_return_val;
 extern uintptr_t *JSSFpointer;
 
