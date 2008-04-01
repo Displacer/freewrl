@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.91 2008/03/31 20:10:18 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.92 2008/04/01 18:19:15 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -855,6 +855,13 @@ void startOfLoopNodeUpdates(void) {
 				BEGIN_NODE(ImageTexture) CHECK_IMAGETEXTURE_TRANSPARENCY END_NODE
 				BEGIN_NODE(PixelTexture) CHECK_PIXELTEXTURE_TRANSPARENCY END_NODE
 				BEGIN_NODE(MovieTexture) CHECK_MOVIETEXTURE_TRANSPARENCY END_NODE
+
+				/* ProximitySensor needs its own flag sent up the chain */
+				BEGIN_NODE (ProximitySensor)
+                		update_renderFlag(node,VF_Proximity);
+				END_NODE
+
+
 	
 			}
 		}
