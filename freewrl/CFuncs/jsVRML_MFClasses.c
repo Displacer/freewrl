@@ -9,7 +9,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRML_MFClasses.c,v 1.8 2008/03/04 21:34:34 crc_canada Exp $
+ * $Id: jsVRML_MFClasses.c,v 1.9 2008/04/17 20:42:44 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -1196,7 +1196,6 @@ MFStringAssign(JSContext *cx, JSObject *obj, uintN argc, jsval *argv, jsval *rva
 	#ifdef JSVRMLCLASSESVERBOSE
 	printf("MFStringAssign: obj = %u, %u args %d... ", VERBOSE_OBJ obj, argc);
 	#endif
-	printf("MFStringAssign: obj = %u, %u args %d... ", VERBOSE_OBJ obj, argc);
 	SET_MF_ECMA_HAS_CHANGED
 
 	return _standardMFAssign (cx, obj, argc, argv, rval, &MFStringClass,FIELDTYPE_SFString);
