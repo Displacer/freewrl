@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.93 2008/04/22 19:04:04 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.94 2008/04/24 15:55:28 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -624,11 +624,13 @@ void zeroVisibilityFlag(void) {
 			addChildren = NULL; removeChildren = NULL; \
 			if (((struct X3D_##thistype *)node)->addChildren.n > 0) { \
 				addChildren = &((struct X3D_##thistype *)node)->addChildren; \
-				childrenPtr = &((struct X3D_##thistype *)node)->level; \
+				if (((struct X3D_##thistype *)node)->level.n > 0) childrenPtr = &((struct X3D_##thistype *)node)->level; \
+				else childrenPtr = &((struct X3D_##thistype *)node)->children; \
 			} \
 			if (((struct X3D_##thistype *)node)->removeChildren.n > 0) { \
 				removeChildren = &((struct X3D_##thistype *)node)->removeChildren; \
-				childrenPtr = &((struct X3D_##thistype *)node)->level; \
+				if (((struct X3D_##thistype *)node)->level.n > 0) childrenPtr = &((struct X3D_##thistype *)node)->level; \
+				else childrenPtr = &((struct X3D_##thistype *)node)->children; \
 			}
 
 #define EVIN_AND_FIELD_SAME(thisfield, thistype) \

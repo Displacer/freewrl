@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.229 2008/03/06 17:28:37 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.230 2008/04/24 15:55:28 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1087,10 +1087,11 @@ package VRML::NodeType;
 	LOD => new VRML::NodeType("LOD", {
 						 addChildren => [MFNode, undef, inputOnly],
 						 removeChildren => [MFNode, undef, inputOnly],
-						level => [MFNode, [], inputOutput],
+						level => [MFNode, [], inputOutput], 		# for VRML spec
+						children => [MFNode, [], inputOutput],		# for X3D spec
 						center => [SFVec3f, [0, 0, 0],  initializeOnly],
 						range => [MFFloat, [], initializeOnly],
-						_selected =>[SFInt32,0,initializeOnly],
+						_selected =>[FreeWRLPTR,0,initializeOnly],
 					   },"X3DGroupingNode"),
 
 	Billboard => new VRML::NodeType("Billboard", {
