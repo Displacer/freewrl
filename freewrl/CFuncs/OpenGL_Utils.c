@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.94 2008/04/24 15:55:28 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.95 2008/05/01 17:09:25 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -1041,7 +1041,9 @@ void kill_X3DNodes(void){
 					   SKIP this, because, this parent will be freed' elsewhere */
 					/* Yes, Virginia, this will miss the __compiled.. field, but this is a 
 					   relatively small problem */
-					if (structptr->_nodeType != NODE_TextureCoordinate) {
+					/* if this is a LOD, do not do the "_selected" node, as it is a dup pointer */
+					if ((structptr->_nodeType != NODE_TextureCoordinate) &&
+					   (structptr->_nodeType != NODE_LOD)) {
 						VPtr = (uintptr_t *) fieldPtr;
 						FREE_IF_NZ(*VPtr);
 					}
