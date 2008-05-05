@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.c,v 1.7 2008/03/05 18:18:35 crc_canada Exp $
+ * $Id: jsUtils.c,v 1.8 2008/05/05 20:29:20 crc_canada Exp $
  *
  * A substantial amount of code has been adapted from js/src/js.c,
  * which is the sample application included with the javascript engine.
@@ -563,7 +563,7 @@ printf ("X3D_MF_TO_JS - is this already expanded? \n");
 
 			MCptr = (struct Multi_Rotation*) Data;
 			for (i=0; i<MCptr->n; i++) {
-				sprintf (newline,"new SFRotation(%f, %f, %f)", MCptr->p[i].r[0], MCptr->p[i].r[1], MCptr->p[i].r[2], MCptr->p[i].r[3]);	
+				sprintf (newline,"new SFRotation(%f, %f, %f, %f)", MCptr->p[i].r[0], MCptr->p[i].r[1], MCptr->p[i].r[2], MCptr->p[i].r[3]);	
 				if (!JS_EvaluateScript(cx, *newval, newline, strlen(newline), FNAME_STUB, LINENO_STUB, &xf)) {
 					printf ("error creating the new object in X3D_MF_TO_JS\n");
 					return;
