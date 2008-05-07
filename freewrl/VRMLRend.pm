@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.215 2008/03/31 20:10:17 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.216 2008/05/07 15:22:41 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description:
@@ -17,6 +17,9 @@
 #              e.g. for #define glTexCoord2f(a,b) glTexCoord2f(a,b) see gen() [VRMLC.pm]
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.216  2008/05/07 15:22:41  crc_canada
+# input function modified to better handle files without clear end of line on last line.
+#
 # Revision 1.215  2008/03/31 20:10:17  crc_canada
 # Review texture transparency, use node table to update scenegraph to allow for
 # node updating.
@@ -337,10 +340,7 @@
 %PrepC = map {($_=>1)} qw/
 	HAnimJoint
 	HAnimSite
-	GeoOrigin
 	Viewpoint
-	GeoViewpoint
-	GeoLocation
 	Transform
 	Billboard
 	Group
