@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.230 2008/04/24 15:55:28 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.231 2008/05/21 20:16:50 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1007,6 +1007,7 @@ package VRML::NodeType;
 						# where we are at a press...
 						_origPoint => [SFVec3f, [0, 0, 0], initializeOnly],
 						_radius => [SFFloat, 0, initializeOnly],
+						_dlchange => [SFInt32, 0, initializeOnly],
 					   },"X3DPointingDeviceSensorNode"),
 
 
