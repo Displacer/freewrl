@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.231 2008/05/21 20:16:50 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.232 2008/05/22 18:34:39 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -160,6 +160,7 @@ package VRML::NodeType;
 						 __do_rotation => [SFInt32, 0, initializeOnly],
 						 __do_scaleO => [SFInt32, 0, initializeOnly],
 						 __do_scale => [SFInt32, 0, initializeOnly],
+						 __verify_transforms => [SFInt32, 0, initializeOnly],
 						},"X3DGroupingNode"),
 
 	WorldInfo => new VRML::NodeType("WorldInfo", {
