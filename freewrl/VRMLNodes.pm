@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.232 2008/05/22 18:34:39 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.233 2008/06/04 19:50:41 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -122,7 +122,7 @@ package VRML::NodeType;
 						children => [MFNode, [], inputOutput],
 						bboxCenter => [SFVec3f, [0, 0, 0], initializeOnly],
 						bboxSize => [SFVec3f, [-1, -1, -1], initializeOnly],
-						 __protoDef => [FreeWRLPTR, 0, initializeOnly], # tell renderer that this is a proto...
+						 FreeWRL__protoDef => [SFInt32, 0, initializeOnly], # tell renderer that this is a proto...
 					   },"X3DGroupingNode"),
 
 	StaticGroup => new VRML::NodeType("StaticGroup", {
