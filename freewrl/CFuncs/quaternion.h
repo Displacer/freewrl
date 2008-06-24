@@ -6,7 +6,7 @@
 *******************************************************************************/
 
 /*
- * $Id: quaternion.h,v 1.6 2004/05/28 20:07:40 crc_canada Exp $
+ * $Id: quaternion.h,v 1.7 2008/06/24 19:37:52 crc_canada Exp $
  *
  */
 
@@ -97,9 +97,9 @@ scalar_multiply(Quaternion *quat,
 				const double s);
 
 void
-rotation(struct pt *ret,
+rotation(struct point_XYZ *ret,
 		 const Quaternion *quat,
-		 const struct pt *v);
+		 const struct point_XYZ *v);
 
 void
 togl(Quaternion *quat);

@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.235 2008/06/17 19:00:26 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.236 2008/06/24 19:37:48 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1357,6 +1357,8 @@ package VRML::NodeType;
 						# "compiled" versions of strings above
 						__geoSystem => [MFInt32,[],initializeOnly],
 						__movedCoords => [SFVec3d, [0, 0, 0], inputOutput],
+						__localOrient => [DFRotation, [0, 0, 1, 0], inputOutput],
+
 
 					},"X3DGroupingNode"),
 
