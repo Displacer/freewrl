@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.30 2008/06/24 19:37:51 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.31 2008/06/25 20:15:22 crc_canada Exp $
  *
  */
 
@@ -673,7 +673,7 @@ static void XMLCALL startElement(void *unused, const char *name, const char **at
 			case X3DSP_import: parseImport(atts); break;
 			
 			/* should never do this: */
-			default: printf ("huh? X3DSPECIAL, but not handled?? %s\n",X3DSPECIAL[myNodeIndex]);
+			default: printf ("huh? startElement, X3DSPECIAL, but not handled?? %d, :%s:\n",myNodeIndex,X3DSPECIAL[myNodeIndex]);
 		}
 		return;
 	}
@@ -732,11 +732,12 @@ static void XMLCALL endElement(void *unused, const char *name) {
 			case X3DSP_Header:
 			case X3DSP_field:
 			case X3DSP_fieldValue:
+			case X3DSP_component:
 			case X3DSP_X3D: break;
 			
 			/* should never do this: */
 			default: 
-			printf ("huh? X3DSPECIAL, but not handled?? %s\n",X3DSPECIAL[myNodeIndex]);
+			printf ("endElement: huh? X3DSPECIAL, but not handled?? %s\n",X3DSPECIAL[myNodeIndex]);
 		}
 		/* DECREMENT_PARENTINDEX */
 		return;
