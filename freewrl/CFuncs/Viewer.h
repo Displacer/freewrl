@@ -10,7 +10,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.25 2008/06/24 19:37:51 crc_canada Exp $
+ * $Id: Viewer.h,v 1.26 2008/06/27 20:51:33 crc_canada Exp $
  *
  */
 
@@ -138,6 +138,8 @@ typedef struct viewer {
 	X3D_Viewer_Walk *walk;
 	X3D_Viewer_Examine *examine;
 	X3D_Viewer_Fly *fly;
+
+	struct X3D_GeoViewpoint *GeoSpatialNode; /* NULL, unless we are a GeoViewpoint */
 } X3D_Viewer;
 
 
@@ -231,6 +233,8 @@ bind_viewpoint(struct X3D_Viewpoint *node);
 
 void
 bind_geoviewpoint(struct X3D_GeoViewpoint *node);
+
+float viewer_calculate_speed(void);
 
 extern X3D_Viewer Viewer; /* in VRMLC.pm */
 
