@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.238 2008/06/26 16:01:57 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.239 2008/07/02 20:08:41 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1226,16 +1226,19 @@ package VRML::NodeType;
 
 
 	GeoCoordinate => new VRML::NodeType("GeoCoordinate", {
+						metadata => [SFNode, NULL, inputOutput],
+						point => [MFVec3d,[],initializeOnly],
 						geoOrigin => [SFNode, NULL, initializeOnly],
 						geoSystem => [MFString,["GD","WE"],initializeOnly],
-						point => [MFString,[],initializeOnly],
 						__geoSystem => [MFInt32,[],initializeOnly],
+						__movedCoords => [MFVec3d, [], inputOutput],
 					},"X3DCoordinateNode"),
 
 	GeoElevationGrid => new VRML::NodeType("GeoElevationGrid", {
 						set_height => [MFFloat, undef, inputOnly],
 						set_YScale => [MFFloat, undef, inputOnly],
 						color => [SFNode, NULL, inputOutput],
+						metadata => [SFNode, NULL, inputOutput],
 						normal => [SFNode, NULL, inputOutput],
 						texCoord => [SFNode, NULL, inputOutput],
 						ccw => [SFBool,1,initializeOnly],
@@ -1256,6 +1259,7 @@ package VRML::NodeType;
 					},"X3DGeometryNode"),
 
 	GeoLOD => new VRML::NodeType("GeoLOD", {
+						metadata => [SFNode, NULL, inputOutput],
 						center => [SFString,"",initializeOnly],
 						child1Url =>[MFString,[],initializeOnly],
 						child2Url =>[MFString,[],initializeOnly],
@@ -1278,6 +1282,7 @@ package VRML::NodeType;
 					},"X3DChildNode"),
 
 	GeoPositionInterpolator=> new VRML::NodeType("GeoPositionInterpolator", {
+						metadata => [SFNode, NULL, inputOutput],
 						set_fraction => [SFFloat,undef,inputOnly],
 						geoOrigin => [SFNode, NULL, initializeOnly],
 						geoSystem => [MFString,["GD","WE"],initializeOnly],
@@ -1290,6 +1295,7 @@ package VRML::NodeType;
 
 
 	GeoTouchSensor=> new VRML::NodeType("GeoTouchSensor", {
+						metadata => [SFNode, NULL, inputOutput],
 						enabled => [SFBool,1,inputOutput],
 						geoOrigin => [SFNode, NULL, initializeOnly],
 						geoSystem => [MFString,["GD","WE"],initializeOnly],
