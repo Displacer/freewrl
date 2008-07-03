@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.239 2008/07/02 20:08:41 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.240 2008/07/03 20:01:30 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1231,7 +1231,7 @@ package VRML::NodeType;
 						geoOrigin => [SFNode, NULL, initializeOnly],
 						geoSystem => [MFString,["GD","WE"],initializeOnly],
 						__geoSystem => [MFInt32,[],initializeOnly],
-						__movedCoords => [MFVec3d, [], inputOutput],
+						__movedCoords => [MFVec3f, [], inputOutput],
 					},"X3DCoordinateNode"),
 
 	GeoElevationGrid => new VRML::NodeType("GeoElevationGrid", {
