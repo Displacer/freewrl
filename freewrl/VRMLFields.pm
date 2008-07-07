@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.81 2008/07/04 18:19:44 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.82 2008/07/07 15:43:04 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,9 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.82  2008/07/07 15:43:04  crc_canada
+# SFDouble, MFDouble, some compiler warnings reduced.
+#
 # Revision 1.81  2008/07/04 18:19:44  crc_canada
 # GeoPositionInterpolator, and start on GeoElevationGrid
 #
@@ -79,9 +82,9 @@
 	FreeWRLPTR
 	SFVec3d
 	MFVec3d
-	DFRotation
-	MFDouble
 	SFDouble
+	MFDouble
+	DFRotation
 /;
 
 ###########################################################
