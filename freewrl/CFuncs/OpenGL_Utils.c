@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.101 2008/07/08 16:30:25 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.102 2008/07/08 18:47:13 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -982,6 +982,18 @@ void kill_X3DNodes(void){
 		
 			if (*fieldOffsetsPtr == FIELDNAMES__selected) 
 				break; /* can be a duplicate SFNode pointer - field only in NODE_LOD and NODE_GeoLOD */
+
+			/* GeoElevationGrids pass a lot of info down to an attached ElevationGrid */
+			if (structptr->_nodeType == NODE_GeoElevationGrid) {
+				if (*fieldOffsetsPtr == FIELDNAMES_color) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_normal) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_texCoord) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_ccw) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_colorPerVertex) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_creaseAngle) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_normalPerVertex) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_solid) break;
+			}
 		
 			/* nope, not a special field, lets just get rid of it as best we can */
 			switch(*(fieldOffsetsPtr+2)){
