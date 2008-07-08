@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.100 2008/07/04 18:19:44 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.101 2008/07/08 16:30:25 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -789,6 +789,9 @@ void startOfLoopNodeUpdates(void) {
 					EVIN_AND_FIELD_SAME(texCoordIndex,TriangleSet) 
 					EVIN_AND_FIELD_SAME(height,TriangleSet) 
 				END_NODE
+				BEGIN_NODE(GeoElevationGrid)
+					EVIN_AND_FIELD_SAME(height,GeoElevationGrid)
+				END_NODE
 				BEGIN_NODE(ElevationGrid)
 					EVIN_AND_FIELD_SAME(colorIndex,ElevationGrid)
 					EVIN_AND_FIELD_SAME(coordIndex,ElevationGrid)
@@ -809,17 +812,12 @@ void startOfLoopNodeUpdates(void) {
 					EVIN_AND_FIELD_SAME(texCoordIndex,IndexedFaceSet)
 					EVIN_AND_FIELD_SAME(height,IndexedFaceSet)
 				END_NODE
-				/*
-				BEGIN_NODE(GeoElevationGrid)
-					EVIN_AND_FIELD_SAME(height,GeoElevationGrid)
-				*/
-				END_NODE
-				/* these are actually compiled in by the GeoViewpoint code 
+/* GeoViewpoint works differently than other nodes
 				BEGIN_NODE(GeoViewpoint)
 					EVIN_AND_FIELD_SAME(orientation,GeoViewpoint) 
 					EVIN_AND_FIELD_SAME(position,GeoViewpoint)
 				END_NODE
-				*/
+*/
 	
 				/* get ready to mark these nodes as Mouse Sensitive */
 				BEGIN_NODE(PlaneSensor) SIBLING_SENSITIVE(PlaneSensor) END_NODE

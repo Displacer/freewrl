@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.242 2008/07/07 15:43:05 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.243 2008/07/08 16:30:24 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1260,6 +1260,7 @@ package VRML::NodeType;
 						__geoSystem => [MFInt32,[],initializeOnly],
 						__oldmetadata => [FreeWRLPTR, 0, inputOutput], # see MARK_META_EVENT macro
 						__realElevationGrid => [SFNode, NULL, initializeOnly],
+		
 					},"X3DGeometryNode"),
 
 	GeoLOD => new VRML::NodeType("GeoLOD", {
