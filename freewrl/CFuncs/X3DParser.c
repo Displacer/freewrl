@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.31 2008/06/25 20:15:22 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.32 2008/07/11 19:28:45 crc_canada Exp $
  *
  */
 
@@ -604,7 +604,7 @@ void linkNodeIn() {
 	}
 
 	if ((ctype != FIELDTYPE_MFNode) && (ctype != FIELDTYPE_SFNode)) {
-		ConsoleMessage ("X3DParser, line %d trouble linking to field %s, node type %s (this nodeType %s)", LINE,
+		ConsoleMessage ("X3DParser: warning, line %d: trouble linking to containerField %s of parent node type %s (in a %s node)", LINE,
 			stringFieldType(parentStack[parentIndex]->_defaultContainer),
 			stringNodeType(parentStack[parentIndex-1]->_nodeType),
 			stringNodeType(parentStack[parentIndex]->_nodeType));

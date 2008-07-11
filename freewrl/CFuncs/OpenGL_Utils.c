@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.102 2008/07/08 18:47:13 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.103 2008/07/11 19:28:44 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -707,6 +707,9 @@ void startOfLoopNodeUpdates(void) {
 	for (i=0; i<nextEntry; i++){		
 		node = memoryTable[i];	
 		if (node != NULL) {
+			/* reset distance, for distance calculations */
+			node->_dist=-1000.0;
+
 			/* turn OFF these flags */
 			node->_renderFlags = node->_renderFlags & (0xFFFF^VF_Sensitive);
 			node->_renderFlags = node->_renderFlags & (0xFFFF^VF_Viewpoint);
