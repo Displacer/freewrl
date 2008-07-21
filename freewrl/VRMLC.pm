@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.293 2008/07/11 19:28:44 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.294 2008/07/21 16:19:59 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.294  2008/07/21 16:19:59  crc_canada
+# July 19 2008 Geospatial updates
+#
 # Revision 1.293  2008/07/11 19:28:44  crc_canada
 # GeoElevationGrid node changes.
 #
@@ -807,7 +810,7 @@ sub gen {
 	"	struct X3D_Box *node;\n".
 	"\n".
 	"	tmp = NULL;\n".
-	"\n".
+	"printf ("createNewX3DNode, type %s\n",stringNodeType(nt));\n".
 	"	switch (nt) {\n";
 
 	for (@sortedNodeList) {
