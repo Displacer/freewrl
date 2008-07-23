@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.23 2008/03/07 18:34:09 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.24 2008/07/23 16:40:33 crc_canada Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -26,7 +26,7 @@
 #endif /* FALSE */
 
 #define CLEANUP_JAVASCRIPT(cx) \
-	/* printf ("calling JS_GC at %s:%d cx %u thread %d\n",__FILE__,__LINE__,cx,pthread_self()); */ \
+	/* printf ("calling JS_GC at %s:%d cx %u thread %u\n",__FILE__,__LINE__,cx,pthread_self()); */ \
 	JS_GC(cx);
 
 #define LARGESTRING 2048
