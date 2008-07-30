@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.218 2008/06/17 19:00:27 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.219 2008/07/30 18:08:34 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description:
@@ -17,6 +17,9 @@
 #              e.g. for #define glTexCoord2f(a,b) glTexCoord2f(a,b) see gen() [VRMLC.pm]
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.219  2008/07/30 18:08:34  crc_canada
+# GeoLOD, July 30 changes.
+#
 # Revision 1.218  2008/06/17 19:00:27  crc_canada
 # Geospatial work - June 17 2008
 #
@@ -183,7 +186,6 @@
 	IndexedTriangleSet 	=>geometry,
 	IndexedTriangleStripSet	=>geometry,
 	Inline 			=>children,
-	InlineLoadControl 	=>children,
 	KeySensor		=>children,
 	LineSet 		=>geometry,
 	LineProperties		=>lineProperties,
@@ -399,7 +401,6 @@
 	Anchor
 	GeoLocation
 	Inline
-	InlineLoadControl
 	Switch
 	GeoLOD
 	LOD
@@ -458,7 +459,6 @@
 	Anchor
 	Collision
 	GeoCollision
-	InlineLoadControl
 	HAnimSite
 /;
 

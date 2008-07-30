@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.244 2008/07/14 19:47:25 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.245 2008/07/30 18:08:34 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1284,6 +1284,15 @@ package VRML::NodeType;
 						__geoSystem => [MFInt32,[],initializeOnly],
 						__oldmetadata => [FreeWRLPTR, 0, inputOutput], # see MARK_META_EVENT macro
 						__movedCoords => [SFVec3d, [0, 0, 0], inputOutput],
+						__outOfRange =>[SFBool, 0, inputOutput],
+						__child1Node => [SFNode, NULL, inputOutput],
+						__child2Node => [SFNode, NULL, inputOutput],
+						__child3Node => [SFNode, NULL, inputOutput],
+						__child4Node => [SFNode, NULL, inputOutput],
+						__rootUrl => [SFNode, NULL, inputOutput],
+						__childloadstatus => [SFInt32,0,inputOutput],
+						#__parenturl =>[SFString,"",initializeOnly],
+
 					},"X3DGroupingNode"),
 
 
@@ -1664,27 +1673,6 @@ package VRML::NodeType;
 			triggerTime => [SFTime, 0, outputOnly],
 	},"X3DTriggerNode"),
 
-
-
-	###################################################################################
-
-	#		Old VRML nodes.
-
-	###################################################################################
-	# Internal structures, to store def and use in the right way
-
-	InlineLoadControl =>
-	new VRML::NodeType("InlineLoadControl",
-					{
-						load =>[SFBool,TRUE,inputOutput],
-						url => [MFString,[],inputOutput],
-						bboxCenter => [SFVec3f, [0, 0, 0], initializeOnly],
-						bboxSize => [SFVec3f, [-1, -1, -1], initializeOnly],
-						children => [MFNode, [], outputOnly],
-						__loadstatus =>[SFInt32,0,initializeOnly],
-						__parenturl =>[SFString,"",initializeOnly],
-					} ,"X3DChildNode"
-					),
 
 	###################################################################################
 
