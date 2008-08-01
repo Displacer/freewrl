@@ -8,12 +8,13 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.105 2008/08/01 16:19:38 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.106 2008/08/01 17:10:33 crc_canada Exp $
  *
  */
 #include "headers.h"
 #include "Bindable.h"
 #include "CParse.h"
+#include <float.h>
 
 #include "OpenGL_Utils.h"
 #ifdef AQUA
