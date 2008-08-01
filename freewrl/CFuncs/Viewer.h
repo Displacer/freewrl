@@ -10,7 +10,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.26 2008/06/27 20:51:33 crc_canada Exp $
+ * $Id: Viewer.h,v 1.27 2008/08/01 16:19:38 crc_canada Exp $
  *
  */
 
@@ -174,6 +174,7 @@ set_viewer_type(const int type);
 
 void
 resolve_pos(X3D_Viewer *viewer);
+void getViewpointExamineDistance(void);
 
 void
 xy2qua(Quaternion *ret,
@@ -242,7 +243,6 @@ void viewer_default(void);
 
 extern float eyedist;
 extern float screendist;
-
 
 void XEventStereo(void);
 
