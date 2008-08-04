@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.245 2008/07/30 18:08:34 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.246 2008/08/04 19:14:36 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1284,15 +1284,18 @@ package VRML::NodeType;
 						__geoSystem => [MFInt32,[],initializeOnly],
 						__oldmetadata => [FreeWRLPTR, 0, inputOutput], # see MARK_META_EVENT macro
 						__movedCoords => [SFVec3d, [0, 0, 0], inputOutput],
-						__outOfRange =>[SFBool, 0, inputOutput],
+						__inRange =>[SFBool, 0, inputOutput],
 						__child1Node => [SFNode, NULL, inputOutput],
 						__child2Node => [SFNode, NULL, inputOutput],
 						__child3Node => [SFNode, NULL, inputOutput],
 						__child4Node => [SFNode, NULL, inputOutput],
 						__rootUrl => [SFNode, NULL, inputOutput],
 						__childloadstatus => [SFInt32,0,inputOutput],
-						#__parenturl =>[SFString,"",initializeOnly],
+						__rooturlloadstatus => [SFInt32,0,inputOutput],
 
+						# ProximitySensor copies.
+						__inRange => [SFInt32, 0, inputOutput],
+						__t1 => [SFVec3d, [10000000, 0, 0], inputOutput],
 					},"X3DGroupingNode"),
 
 

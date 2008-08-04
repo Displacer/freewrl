@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.106 2008/08/01 17:10:33 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.107 2008/08/04 19:14:37 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -883,6 +883,11 @@ void startOfLoopNodeUpdates(void) {
 
 				/* ProximitySensor needs its own flag sent up the chain */
 				BEGIN_NODE (ProximitySensor)
+                		update_renderFlag(node,VF_Proximity);
+				END_NODE
+
+				/* GeoLOD needs its own flag sent up the chain */
+				BEGIN_NODE (GeoLOD)
                 		update_renderFlag(node,VF_Proximity);
 				END_NODE
 
