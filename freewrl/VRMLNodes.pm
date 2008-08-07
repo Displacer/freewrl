@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.246 2008/08/04 19:14:36 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.247 2008/08/07 14:01:48 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1296,6 +1296,9 @@ package VRML::NodeType;
 						# ProximitySensor copies.
 						__inRange => [SFInt32, 0, inputOutput],
 						__t1 => [SFVec3d, [10000000, 0, 0], inputOutput],
+
+						__level => [SFInt32,-1,inputOutput], # only for debugging purposes
+
 					},"X3DGroupingNode"),
 
 
