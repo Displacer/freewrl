@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.247 2008/08/07 14:01:48 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.248 2008/08/12 00:23:04 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -137,10 +137,12 @@ package VRML::NodeType;
 	Switch => new VRML::NodeType("Switch", {
 					 	addChildren => [MFNode, undef, inputOnly],
 						removeChildren => [MFNode, undef, inputOnly],
-						choice => [MFNode, [], inputOutput],
+						choice => [MFNode, [], inputOutput],		# VRML nodes....
+						children => [MFNode, [], inputOutput],		# X3D nodes....
 						whichChoice => [SFInt32, -1, inputOutput],
 						 bboxCenter => [SFVec3f, [0, 0, 0], initializeOnly],
 						 bboxSize => [SFVec3f, [-1, -1, -1], initializeOnly],
+						__isX3D => [SFInt32, 0, initializeOnly], # 0 = VRML,  1 = X3D
 					   },"X3DGroupingNode"),
 
 	Transform => new VRML::NodeType ("Transform", {
