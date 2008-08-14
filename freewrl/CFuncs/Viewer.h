@@ -10,7 +10,7 @@
 #define __VIEWER_H_
 
 /*
- * $Id: Viewer.h,v 1.27 2008/08/01 16:19:38 crc_canada Exp $
+ * $Id: Viewer.h,v 1.28 2008/08/14 05:02:33 crc_canada Exp $
  *
  */
 
@@ -173,7 +173,7 @@ void
 set_viewer_type(const int type);
 
 void
-resolve_pos(X3D_Viewer *viewer);
+resolve_pos(void);
 void getViewpointExamineDistance(void);
 
 void
