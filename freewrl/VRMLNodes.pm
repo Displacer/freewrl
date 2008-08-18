@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.250 2008/08/16 03:17:23 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.251 2008/08/18 14:45:38 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1109,6 +1109,7 @@ package VRML::NodeType;
 						children => [MFNode, [], inputOutput],
 						bboxCenter => [SFVec3f, [0, 0, 0], initializeOnly],
 						bboxSize => [SFVec3f, [-1, -1, -1], initializeOnly],
+						_rotationAngle =>[SFDouble, 0, initializeOnly],
 					   },"X3DGroupingNode"),
 
 	Collision => new VRML::NodeType("Collision", {
