@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.251 2008/08/18 14:45:38 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.252 2008/08/27 19:24:45 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -449,7 +449,8 @@ package VRML::NodeType;
 						 geometry => [SFNode, NULL, inputOutput],
 						 bboxCenter => [SFVec3f, [0, 0, 0], initializeOnly],
 						 bboxSize => [SFVec3f, [-1, -1, -1], initializeOnly],
-						 __OccludeNumber =>[SFInt32,-1,initializeOnly], # for Occlusion tests.
+						 __visible =>[SFInt32,0,initializeOnly], # for Occlusion tests.
+						 __occludeCheckCount =>[SFInt32,-1,initializeOnly], # for Occlusion tests.
 						},"X3DBoundedObject"),
 
 
@@ -1076,7 +1077,8 @@ package VRML::NodeType;
 						enterTime => [SFTime, -1, outputOnly],
 						exitTime => [SFTime, -1, outputOnly],
 						isActive => [SFBool, 0, outputOnly],
-						 __OccludeNumber =>[SFInt32,-1,initializeOnly], 	# for Occlusion tests.
+						 __visible =>[SFInt32,0,initializeOnly], # for Occlusion tests.
+						 __occludeCheckCount =>[SFInt32,-1,initializeOnly], # for Occlusion tests.
 						__points  =>[FreeWRLPTR,0,initializeOnly],	# for Occlude Box.
 						__Samples =>[SFInt32,0,initializeOnly],		# Occlude samples from last pass
 					   },"X3DEnvironmentalSensorNode"),
