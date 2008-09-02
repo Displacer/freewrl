@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.112 2008/08/29 18:50:16 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.113 2008/09/02 16:08:12 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -187,6 +187,9 @@ void glpOpenGLInitialize() {
 
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
 	glEnable (GL_RESCALE_NORMAL);
+
+	/* do Mipmapping on hardware */
+	/* not working all the time glTexParameteri(GL_TEXTURE_2D,GL_GENERATE_MIPMAP, GL_TRUE); */
 
 	/*
      * JAS - ALPHA testing for textures - right now we just use 0/1 alpha

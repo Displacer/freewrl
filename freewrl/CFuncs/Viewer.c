@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.64 2008/09/02 14:17:16 crc_canada Exp $
+ * $Id: Viewer.c,v 1.65 2008/09/02 16:08:12 crc_canada Exp $
  *
  */
 
@@ -827,7 +827,7 @@ void bind_viewpoint (struct X3D_Viewpoint *vp) {
 	zd = vp->position.c[2]-vp->centerOfRotation.c[2];
 	Viewer.Dist = sqrt (xd*xd+yd*yd+zd*zd);
 
-printf ("viewpoint rotate distance %f\n",Viewer.Dist);
+	/* printf ("viewpoint rotate distance %f\n",Viewer.Dist); */
 
 	/* since this is not a bind to a GeoViewpoint node... */
 	Viewer.GeoSpatialNode = NULL;
