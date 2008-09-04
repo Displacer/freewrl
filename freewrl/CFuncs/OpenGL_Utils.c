@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.114 2008/09/03 12:43:00 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.115 2008/09/04 16:00:45 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -740,7 +740,7 @@ void startOfLoopNodeUpdates(void) {
 						/* printf ("shape occludecounter, pushing visiblechildren flags\n"); */
 
 					}
-					X3D_SHAPE(node)->__occludeCheckCount--;
+					if (OccResultsAvailable) X3D_SHAPE(node)->__occludeCheckCount--;
 					/* printf ("shape occludecounter %d\n",X3D_SHAPE(node)->__occludeCheckCount); */
 				END_NODE
 
@@ -951,7 +951,7 @@ printf ("%lf\n",X3D_BILLBOARD(node)->bboxSize.c[1]);
 						/* printf ("vis occludecounter, pushing visiblechildren flags\n"); */
 
 					}
-					X3D_VISIBILITYSENSOR(node)->__occludeCheckCount--;
+					if (OccResultsAvailable) X3D_VISIBILITYSENSOR(node)->__occludeCheckCount--;
 					/* printf ("vis occludecounter %d\n",X3D_VISIBILITYSENSOR(node)->__occludeCheckCount); */
 
 					/* VisibilitySensors have a transparent bounding box we have to render */

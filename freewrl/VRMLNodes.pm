@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.252 2008/08/27 19:24:45 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.253 2008/09/04 16:00:44 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -451,6 +451,7 @@ package VRML::NodeType;
 						 bboxSize => [SFVec3f, [-1, -1, -1], initializeOnly],
 						 __visible =>[SFInt32,0,initializeOnly], # for Occlusion tests.
 						 __occludeCheckCount =>[SFInt32,-1,initializeOnly], # for Occlusion tests.
+						__Samples =>[SFInt32,-1,initializeOnly],		# Occlude samples from last pass
 						},"X3DBoundedObject"),
 
 
