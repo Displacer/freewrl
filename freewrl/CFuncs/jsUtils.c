@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.c,v 1.9 2008/07/08 16:30:25 crc_canada Exp $
+ * $Id: jsUtils.c,v 1.10 2008/09/05 17:46:49 crc_canada Exp $
  *
  * A substantial amount of code has been adapted from js/src/js.c,
  * which is the sample application included with the javascript engine.
@@ -27,6 +27,8 @@
 
 
 static int insetSFStr = FALSE;
+static JSBool reportWarnings = JS_TRUE;
+
 JSBool setSF_in_MF (JSContext *cx, JSObject *obj, jsval id, jsval *vp) {
 	int num;
 	jsval pf;

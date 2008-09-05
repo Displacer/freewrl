@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.h,v 1.15 2007/12/13 21:52:42 crc_canada Exp $
+ * $Id: jsVRMLBrowser.h,v 1.16 2008/09/05 17:46:49 crc_canada Exp $
  *
  */
 
@@ -25,18 +25,7 @@ extern double BrowserFPS;				/* defined in VRMLC.pm */
 
 #define BROWMAGIC 12345
 
-static JSBool
-doVRMLRoute(JSContext *context,
-			JSObject *obj,
-			uintN argc,
-			jsval *argv,
-			const char *browserFunc);
-
-JSBool
-VrmlBrowserInit(JSContext *context,
-				JSObject *globalObj,	BrowserNative *brow
-				
-				);
+JSBool VrmlBrowserInit(JSContext *context, JSObject *globalObj,	BrowserNative *brow );
 
 
 JSBool
@@ -170,26 +159,6 @@ static JSClass Browser = {
 	JS_FinalizeStub
 };
 
-
-static JSFunctionSpec (BrowserFunctions)[] = {
-	{"getName", VrmlBrowserGetName, 0},
-	{"getVersion", VrmlBrowserGetVersion, 0},
-	{"getCurrentSpeed", VrmlBrowserGetCurrentSpeed, 0},
-	{"getCurrentFrameRate", VrmlBrowserGetCurrentFrameRate, 0},
-	{"getWorldURL", VrmlBrowserGetWorldURL, 0},
-	{"replaceWorld", VrmlBrowserReplaceWorld, 0},
-	{"loadURL", VrmlBrowserLoadURL, 0},
-	{"setDescription", VrmlBrowserSetDescription, 0},
-	{"createVrmlFromString", VrmlBrowserCreateVrmlFromString, 0},
-	{"createVrmlFromURL", VrmlBrowserCreateVrmlFromURL, 0},
-	{"addRoute", VrmlBrowserAddRoute, 0},
-	{"deleteRoute", VrmlBrowserDeleteRoute, 0},
-	{"print", VrmlBrowserPrint, 0},
-	{"println", VrmlBrowserPrint, 0},
-	{"getMidiDeviceList", VrmlBrowserGetMidiDeviceList, 0},
-	{"getMidiDeviceInfo", VrmlBrowserGetMidiDeviceInfo, 0},
-	{0}
-};
 
 
 #endif /* __jsVRMLBrowser_h__ */

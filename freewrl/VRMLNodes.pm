@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.253 2008/09/04 16:00:44 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.254 2008/09/05 17:46:49 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1331,6 +1331,34 @@ package VRML::NodeType;
 						__oldmetadata => [FreeWRLPTR, 0, inputOutput], # see MARK_META_EVENT macro
 					},"X3DInterpolatorNode"),
 
+
+	GeoProximitySensor => new VRML::NodeType("ProximitySensor", {
+						enabled => [SFBool, 1, inputOutput],
+						geoCenter => [SFVec3d, [0, 0, 0], inputOutput],
+						metadata => [SFNode, NULL, inputOutput],
+						size => [SFVec3f, [0, 0, 0], inputOutput],
+						centerOfRotation_changed =>[SFVec3f, [0,0,0], outputOnly],
+						enterTime => [SFTime, -1, outputOnly],
+						exitTime => [SFTime, -1, outputOnly],
+						geoCoord_changed => [SFVec3d,[0,0,0],outputOnly],
+						isActive => [SFBool, 0, outputOnly],
+						orientation_changed => [SFRotation, [0, 0, 1, 0], outputOnly],
+						position_changed => [SFVec3f, [0, 0, 0], outputOnly],
+						geoOrigin => [SFNode, NULL, initializeOnly],
+						geoSystem => [MFString,["GD","WE"],initializeOnly],
+
+
+						# These fields are used for the info.
+						__hit => [SFInt32, 0, inputOutput],
+						__t1 => [SFVec3f, [10000000, 0, 0], inputOutput],
+						__t2 => [SFRotation, [0, 1, 0, 0], inputOutput],
+
+						# "compiled" versions of strings above
+						__geoSystem => [MFInt32,[],initializeOnly],
+						__movedCoords => [SFVec3d, [0, 0, 0], inputOutput],
+						__localOrient => [DFRotation, [0, 0, 1, 0], inputOutput],
+						__oldmetadata => [FreeWRLPTR, 0, inputOutput], # see MARK_META_EVENT macro
+					   },"X3DEnvironmentalSensorNode"),
 
 	GeoTouchSensor=> new VRML::NodeType("GeoTouchSensor", {
 						metadata => [SFNode, NULL, inputOutput],

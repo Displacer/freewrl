@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLBrowser.c,v 1.59 2008/04/21 16:12:25 crc_canada Exp $
+ * $Id: jsVRMLBrowser.c,v 1.60 2008/09/05 17:46:49 crc_canada Exp $
  *
  */
 
@@ -17,6 +17,28 @@
 #include "jsUtils.h"
 #include "jsNative.h"
 #include "CParse.h"
+
+static JSBool doVRMLRoute(JSContext *context, JSObject *obj, uintN argc, jsval *argv, const char *browserFunc); 
+
+static JSFunctionSpec (BrowserFunctions)[] = {
+	{"getName", VrmlBrowserGetName, 0},
+	{"getVersion", VrmlBrowserGetVersion, 0},
+	{"getCurrentSpeed", VrmlBrowserGetCurrentSpeed, 0},
+	{"getCurrentFrameRate", VrmlBrowserGetCurrentFrameRate, 0},
+	{"getWorldURL", VrmlBrowserGetWorldURL, 0},
+	{"replaceWorld", VrmlBrowserReplaceWorld, 0},
+	{"loadURL", VrmlBrowserLoadURL, 0},
+	{"setDescription", VrmlBrowserSetDescription, 0},
+	{"createVrmlFromString", VrmlBrowserCreateVrmlFromString, 0},
+	{"createVrmlFromURL", VrmlBrowserCreateVrmlFromURL, 0},
+	{"addRoute", VrmlBrowserAddRoute, 0},
+	{"deleteRoute", VrmlBrowserDeleteRoute, 0},
+	{"print", VrmlBrowserPrint, 0},
+	{"println", VrmlBrowserPrint, 0},
+	{"getMidiDeviceList", VrmlBrowserGetMidiDeviceList, 0},
+	{"getMidiDeviceInfo", VrmlBrowserGetMidiDeviceInfo, 0},
+	{0}
+};
 
 
 /* make up a new parser for parsing from createVrmlFromURL and createVrmlFromString */

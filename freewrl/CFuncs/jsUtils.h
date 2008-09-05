@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsUtils.h,v 1.24 2008/07/23 16:40:33 crc_canada Exp $
+ * $Id: jsUtils.h,v 1.25 2008/09/05 17:46:49 crc_canada Exp $
  */
 
 #ifndef __jsUtils_h__
@@ -55,8 +55,6 @@ void resetNameInECMATable(JSContext *context, char *toFind);
 extern jsval JSCreate_global_return_val;
 extern jsval JSglobal_return_val;
 extern uintptr_t *JSSFpointer;
-
-static JSBool reportWarnings = JS_TRUE;
 
 int jsrrunScript(JSContext *_context, JSObject *_globalObj, char *script, jsval *rval);
 int JS_DefineSFNodeSpecificProperties (JSContext *context, JSObject *object, struct X3D_Node * ptr);

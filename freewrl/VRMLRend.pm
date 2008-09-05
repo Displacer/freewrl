@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.222 2008/08/18 14:45:38 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.223 2008/09/05 17:46:49 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description:
@@ -17,6 +17,9 @@
 #              e.g. for #define glTexCoord2f(a,b) glTexCoord2f(a,b) see gen() [VRMLC.pm]
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.223  2008/09/05 17:46:49  crc_canada
+# reduce warnings counts when compiled with warnings=all
+#
 # Revision 1.222  2008/08/18 14:45:38  crc_canada
 # Billboard node Scene Graph changes.
 #
@@ -180,6 +183,7 @@
 	GeoMetadata		=>children,
 	GeoOrigin 		=>geoOrigin,
 	GeoPositionInterpolator	=>children,
+	GeoProximitySensor 	=>children,
 	GeoTouchSensor		=>children,
 	GeoViewpoint 		=>children,
 	Group 			=>children,
@@ -449,6 +453,7 @@
 	GeoPositionInterpolator
 	GeoTouchSensor
 	GeoViewpoint	
+	GeoProximitySensor
 /;
 
 
@@ -481,6 +486,7 @@
 
 %ProximityC = map {($_=>1)} qw/
 	ProximitySensor
+	GeoProximitySensor
 	GeoLOD
 	LOD
 	Billboard
