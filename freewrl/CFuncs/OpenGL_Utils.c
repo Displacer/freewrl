@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.116 2008/09/05 17:46:49 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.117 2008/09/08 15:47:35 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -965,7 +965,7 @@ printf ("%lf\n",X3D_BILLBOARD(node)->bboxSize.c[1]);
 
 				/* GeoProximitySensor needs its own flag sent up the chain */
 				BEGIN_NODE (GeoProximitySensor)
-                			update_renderFlag(node,VF_Proximity);
+                			if (X3D_GEOPROXIMITYSENSOR(node)->enabled) update_renderFlag(node,VF_Proximity);
 				END_NODE
 
 				/* GeoLOD needs its own flag sent up the chain */
