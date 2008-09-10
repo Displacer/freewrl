@@ -7,7 +7,7 @@
 *********************************************************************/
 
 /*
- * $Id: Viewer.c,v 1.65 2008/09/02 16:08:12 crc_canada Exp $
+ * $Id: Viewer.c,v 1.66 2008/09/10 19:57:03 crc_canada Exp $
  *
  */
 
@@ -269,6 +269,11 @@ void viewer_togl(double fieldofview) {
 	}
 
 	togl(&(Viewer.Quat));
+	/* printf ("viewer togl first trans %lf %lf %lf\n", -(Viewer.Pos).x, -(Viewer.Pos).y, -(Viewer.Pos).z);
+	printf ("       togl secnd trans %lf %lf %lf\n",(Viewer.AntiPos).x, (Viewer.AntiPos).y, (Viewer.AntiPos).z);
+	*/
+
+
 	glTranslated(-(Viewer.Pos).x, -(Viewer.Pos).y, -(Viewer.Pos).z);
 	glTranslated((Viewer.AntiPos).x, (Viewer.AntiPos).y, (Viewer.AntiPos).z);
 	togl(&(Viewer.AntiQuat));
