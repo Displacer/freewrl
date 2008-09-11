@@ -6,7 +6,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsNative.h,v 1.12 2008/03/04 21:34:34 crc_canada Exp $
+ * $Id: jsNative.h,v 1.13 2008/09/11 16:18:43 crc_canada Exp $
  *
  *
  */
@@ -43,6 +43,11 @@ typedef struct _SFVec3fNative {
 	int valueChanged;
 	struct SFColor v;
 } SFVec3fNative;
+
+typedef struct _SFVec3dNative {
+	int valueChanged;
+	struct SFVec3d v;
+} SFVec3dNative;
 
 typedef struct _SFImageNative {
 	int valueChanged;
