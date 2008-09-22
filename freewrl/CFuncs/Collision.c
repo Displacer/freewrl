@@ -1,4 +1,4 @@
-/* $Id: Collision.c,v 1.34 2008/07/15 19:32:40 crc_canada Exp $
+/* $Id: Collision.c,v 1.35 2008/09/22 20:14:19 crc_canada Exp $
  *
  * Copyright (C) 2002 Nicolas Coderre CRC Canada
  * Copyright (C) 2003 John Stewart CRC Canada
@@ -1578,7 +1578,6 @@ struct point_XYZ planar_polyrep_disp_rec(double y1, double y2, double ystep, dou
 
 
 struct point_XYZ planar_polyrep_disp(double y1, double y2, double ystep, double r, struct X3D_PolyRep pr, GLdouble* mat, prflags flags, struct point_XYZ n) {
-    float* newc;
     int i;
     int maxc;
 
