@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.255 2008/09/22 16:06:48 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.256 2008/09/23 16:45:01 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1376,6 +1376,37 @@ package VRML::NodeType;
 						__geoSystem => [MFInt32,[],initializeOnly],
 						__oldmetadata => [FreeWRLPTR, 0, inputOutput], # see MARK_META_EVENT macro
 					},"X3DPointingDeviceSensorNode"),
+
+
+	GeoTransform => new VRML::NodeType ("GeoTransform", {
+						addChildren => [MFNode, undef, inputOnly],
+						removeChildren => [MFNode, undef, inputOnly],
+						children => [MFNode, [], inputOutput],
+						geoCenter => [SFVec3d, [0, 0, 0], inputOutput],
+						metadata => [SFNode, NULL, inputOutput],
+						rotation => [SFRotation, [0, 0, 1, 0], inputOutput],
+						scale => [SFVec3f, [1, 1, 1], inputOutput],
+						scaleOrientation => [SFRotation, [0, 0, 1, 0], inputOutput],
+						translation => [SFVec3f, [0, 0, 0], inputOutput],
+						bboxCenter => [SFVec3f, [0, 0, 0], initializeOnly],
+						bboxSize => [SFVec3f, [-1, -1, -1], initializeOnly],
+						geoOrigin => [SFNode, NULL, initializeOnly],
+						geoSystem => [MFString,["GD","WE"],initializeOnly],
+
+						# fields for reducing redundant calls
+						__do_center => [SFInt32, 0, initializeOnly],
+						__do_trans => [SFInt32, 0, initializeOnly],
+						__do_rotation => [SFInt32, 0, initializeOnly],
+						__do_scaleO => [SFInt32, 0, initializeOnly],
+						__do_scale => [SFInt32, 0, initializeOnly],
+						__verify_transforms => [SFInt32, 0, initializeOnly],
+
+						# "compiled" versions of strings above
+						__geoSystem => [MFInt32,[],initializeOnly],
+						__movedCoords => [SFVec3d, [0, 0, 0], inputOutput],
+						__localOrient => [SFVec4d, [0, 0, 1, 0], inputOutput],
+						__oldmetadata => [FreeWRLPTR, 0, inputOutput], # see MARK_META_EVENT macro
+					},"X3DGroupingNode"),
 
 	GeoViewpoint => new VRML::NodeType("GeoViewpoint", {
 						set_bind => [SFBool, undef, inputOnly],
