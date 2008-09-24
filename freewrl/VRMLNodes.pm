@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.256 2008/09/23 16:45:01 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.257 2008/09/24 19:23:01 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1361,20 +1361,23 @@ package VRML::NodeType;
 					   },"X3DEnvironmentalSensorNode"),
 
 	GeoTouchSensor=> new VRML::NodeType("GeoTouchSensor", {
-						metadata => [SFNode, NULL, inputOutput],
+						description => [SFString, "", initializeOnly],
 						enabled => [SFBool,1,inputOutput],
-						geoOrigin => [SFNode, NULL, initializeOnly],
-						geoSystem => [MFString,["GD","WE"],initializeOnly],
+						metadata => [SFNode, NULL, inputOutput],
 						hitNormal_changed => [SFVec3f, [0, 0, 0], outputOnly],
 						hitPoint_changed => [SFVec3f, [0, 0, 0], outputOnly],
 						hitTexCoord_changed => [SFVec2f, [0, 0], outputOnly],
-						hitGeoCoord_changed => [SFString,"",outputOnly],
+						hitGeoCoord_changed => [SFVec3d, [0, 0, 0] ,outputOnly],
 						isActive => [SFBool, 0, outputOnly],
 						isOver => [SFBool, 0, outputOnly],
-						description => [SFString, "", initializeOnly],
 						touchTime => [SFTime, -1, outputOnly],
+						geoOrigin => [SFNode, NULL, initializeOnly],
+						geoSystem => [MFString,["GD","WE"],initializeOnly],
 						__geoSystem => [MFInt32,[],initializeOnly],
 						__oldmetadata => [FreeWRLPTR, 0, inputOutput], # see MARK_META_EVENT macro
+						_oldhitNormal => [SFVec3f, [0, 0, 0], outputOnly], 	# send event only if changed
+						_oldhitPoint => [SFVec3f, [0, 0, 0], outputOnly], 	# send event only if changed
+						_oldhitTexCoord => [SFVec2f, [0, 0], outputOnly], 	# send event only if changed
 					},"X3DPointingDeviceSensorNode"),
 
 
