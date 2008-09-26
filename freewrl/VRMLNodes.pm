@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.258 2008/09/25 20:05:51 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.259 2008/09/26 20:07:07 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1371,6 +1371,8 @@ package VRML::NodeType;
 						__localOrient => [SFVec4d, [0, 0, 1, 0], inputOutput],
 						__oldmetadata => [FreeWRLPTR, 0, inputOutput], # see MARK_META_EVENT macro
 						__oldEnabled => [SFBool, 1, inputOutput],
+						__oldGeoCenter => [SFVec3d, [0, 0, 0], inputOutput],
+						__oldSize => [SFVec3f, [0, 0, 0], inputOutput],
 					   },"X3DEnvironmentalSensorNode"),
 
 	GeoTouchSensor=> new VRML::NodeType("GeoTouchSensor", {
@@ -1422,6 +1424,7 @@ package VRML::NodeType;
 						__movedCoords => [SFVec3d, [0, 0, 0], inputOutput],
 						__localOrient => [SFVec4d, [0, 0, 1, 0], inputOutput],
 						__oldmetadata => [FreeWRLPTR, 0, inputOutput], # see MARK_META_EVENT macro
+						__oldGeoCenter => [SFVec3d, [0, 0, 0], inputOutput],
 					},"X3DGroupingNode"),
 
 	GeoViewpoint => new VRML::NodeType("GeoViewpoint", {
