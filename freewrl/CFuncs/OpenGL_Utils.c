@@ -8,7 +8,7 @@
 *********************************************************************/
 
 /*
- * $Id: OpenGL_Utils.c,v 1.120 2008/09/25 20:05:52 crc_canada Exp $
+ * $Id: OpenGL_Utils.c,v 1.121 2008/10/01 12:33:07 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -1075,6 +1075,10 @@ printf ("%lf\n",X3D_BILLBOARD(node)->bboxSize.c[1]);
 		nearPlane = DEFAULT_NEARPLANE;
 		farPlane = DEFAULT_FARPLANE;
 	}
+	#ifdef VERBOSE
+	printf ("np %lf fp %lf\n",nearPlane,farPlane);
+	#endif
+
 }
 
 
