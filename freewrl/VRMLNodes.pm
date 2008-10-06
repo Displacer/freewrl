@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.261 2008/10/02 15:38:42 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.262 2008/10/06 18:14:16 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1131,6 +1131,7 @@ package VRML::NodeType;
 						addChildren => [MFNode, undef, inputOnly],
 						removeChildren => [MFNode, undef, inputOnly],
 						children => [MFNode, [], inputOutput],
+						enabled => [SFBool, 1, inputOutput],
 						collide => [SFBool, 1, inputOutput],
 						bboxCenter => [SFVec3f, [0, 0, 0], initializeOnly],
 						bboxSize => [SFVec3f, [-1, -1, -1], initializeOnly],
