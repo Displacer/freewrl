@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.263 2008/10/08 14:37:18 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.264 2008/10/09 18:10:27 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1448,8 +1448,8 @@ package VRML::NodeType;
 
 	GeoViewpoint => new VRML::NodeType("GeoViewpoint", {
 						set_bind => [SFBool, undef, inputOnly],
-						set_orientation => [SFRotation, [0, 0, 1, 0], inputOnly],
-						set_position => [SFVec3d, [0, 0, 0], inputOnly],
+						set_orientation => [SFRotation, [IO_FLOAT, IO_FLOAT, IO_FLOAT, IO_FLOAT], inputOnly],
+						set_position => [SFVec3d, [IO_FLOAT, IO_FLOAT, IO_FLOAT], inputOnly],
 						description => [SFString, "", inputOutput],
 						fieldOfView => [SFFloat, 0.785398, inputOutput],
 						headlight => [SFBool, 1, inputOutput],
