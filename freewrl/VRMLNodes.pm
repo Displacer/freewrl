@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.264 2008/10/09 18:10:27 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.265 2008/10/23 19:18:53 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -876,6 +876,37 @@ package VRML::NodeType;
 						 scale => [SFVec2f, [1, 1], inputOutput],
 						 translation => [SFVec2f, [0, 0], inputOutput]
 						},"X3DTextureTransformNode"),
+
+	###################################################################################
+
+	#		Cubemap Texturing Component
+
+	###################################################################################
+
+
+	ComposedCubeMapTexture => new VRML::NodeType("ComposedCubeMapTexture", {
+		metadata => [SFNode, NULL, inputOutput],
+		back =>[SFNode,NULL,inputOutput],
+		bottom =>[SFNode,NULL,inputOutput],
+		front =>[SFNode,NULL,inputOutput],
+		left =>[SFNode,NULL,inputOutput],
+		top =>[SFNode,NULL,inputOutput],
+		right =>[SFNode,NULL,inputOutput],
+	},"X3DEnvironmentTextureNode"),
+
+	GeneratedCubeMapTexture => new VRML::NodeType("GeneratedCubeMapTexture", {
+		metadata => [SFNode, NULL, inputOutput],
+		update => [SFString,"NONE",inputOutput],
+		size => [SFInt32,128,initializeOnly],
+		textureProperties => [SFNode, NULL, initializeOnly],
+	},"X3DEnvironmentTextureNode"),
+
+	ImageCubeMapTexture => new VRML::NodeType("ImageCubeMapTexture", {
+		metadata => [SFNode, NULL, inputOutput],
+		url => [MFString,[],inputOutput],
+		textureProperties => [SFNode, NULL, initializeOnly],
+		__parenturl =>[SFString,"",initializeOnly],
+	},"X3DEnvironmentTextureNode"),
 
 
 	###################################################################################

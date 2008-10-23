@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.227 2008/10/02 15:38:42 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.228 2008/10/23 19:18:53 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description:
@@ -17,6 +17,9 @@
 #              e.g. for #define glTexCoord2f(a,b) glTexCoord2f(a,b) see gen() [VRMLC.pm]
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.228  2008/10/23 19:18:53  crc_canada
+# CubeMap texturing - start.
+#
 # Revision 1.227  2008/10/02 15:38:42  crc_canada
 # Shader support started; Geospatial eventOut verification.
 #
@@ -207,6 +210,9 @@
 	HAnimSegment		=>segments,
 	HAnimSite		=>sites,
 	ImageTexture 		=>texture,
+	ImageCubeMapTexture 	=>texture,
+	GeneratedCubeMapTexture	=>texture, 
+	ComposedCubeMapTexture	=>texture,
 	IndexedFaceSet 		=>geometry,
 	IndexedLineSet 		=>geometry,
 	IndexedTriangleFanSet 	=>geometry,
@@ -343,6 +349,9 @@
 	ImageTexture 
 	MultiTexture 
 	MovieTexture 
+	ComposedCubeMapTexture
+	GeneratedCubeMapTexture
+	ImageCubeMapTexture
 	Sound 
 	AudioControl
 	AudioClip 
