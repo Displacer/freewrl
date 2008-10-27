@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.305 2008/10/23 16:19:29 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.306 2008/10/27 20:29:22 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,6 +8,9 @@
 
 #
 # $Log: VRMLC.pm,v $
+# Revision 1.306  2008/10/27 20:29:22  crc_canada
+# FaceSets with color field, and node transparency being worked on.
+#
 # Revision 1.305  2008/10/23 16:19:29  crc_canada
 # More shader work.
 #
@@ -1263,6 +1266,8 @@ struct X3D_PolyRep { /* Currently a bit wasteful, because copying */
 	int tcoordtype; /* type of texture coord node - is this a NODE_TextureCoordGenerator... */
 	GLfloat minVals[3];		/* for collision and default texture coord generation */
 	GLfloat maxVals[3];		/* for collision and default texture coord generation */
+	GLfloat transparency;		/* what the transparency value was during compile, put in color array if RGBA colors */
+	int isRGBAcolorNode;		/* color was originally an RGBA, DO NOT re-write if transparency changes */
 };
 
 /* viewer dimentions (for collision detection) */
