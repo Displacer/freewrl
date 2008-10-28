@@ -8,7 +8,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRMLClasses.c,v 1.71 2008/09/22 20:14:26 crc_canada Exp $
+ * $Id: jsVRMLClasses.c,v 1.72 2008/10/28 19:58:06 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -1013,8 +1013,8 @@ doMFSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp, int type)
 	char * _cc;
 
 	#ifdef JSVRMLCLASSESVERBOSE
-	char *_cc;
 	JSString *_str;
+	char * _c;
 		printf ("doMFSetProperty, for object %u, vp %u\n", obj,*vp);
 		_str = JS_ValueToString(cx, id);
 		_c = JS_GetStringBytes(_str);
