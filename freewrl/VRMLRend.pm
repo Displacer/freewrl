@@ -4,7 +4,7 @@
 # See the GNU Library General Public License (file COPYING in the distribution)
 # for conditions of use and redistribution.
 #
-# $Id: VRMLRend.pm,v 1.228 2008/10/23 19:18:53 crc_canada Exp $
+# $Id: VRMLRend.pm,v 1.229 2008/10/29 18:32:07 crc_canada Exp $
 #
 # Name:        VRMLRend.c
 # Description:
@@ -17,6 +17,9 @@
 #              e.g. for #define glTexCoord2f(a,b) glTexCoord2f(a,b) see gen() [VRMLC.pm]
 #
 # $Log: VRMLRend.pm,v $
+# Revision 1.229  2008/10/29 18:32:07  crc_canada
+# Add code to confirm Profiles and Components.
+#
 # Revision 1.228  2008/10/23 19:18:53  crc_canada
 # CubeMap texturing - start.
 #
@@ -517,6 +520,7 @@
 	GeoCollision
 	GeoTransform
 	HAnimSite
+	Switch
 /;
 
 #######################################################################

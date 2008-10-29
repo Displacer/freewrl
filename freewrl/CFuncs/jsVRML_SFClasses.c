@@ -8,7 +8,7 @@
  * redistribution, EXCEPT on the files which belong under the
  * Mozilla public license.
  *
- * $Id: jsVRML_SFClasses.c,v 1.16 2008/09/22 20:14:27 crc_canada Exp $
+ * $Id: jsVRML_SFClasses.c,v 1.17 2008/10/29 18:32:07 crc_canada Exp $
  *
  */
 #include "headers.h"
@@ -1206,7 +1206,6 @@ SFNodeSetProperty(JSContext *cx, JSObject *obj, jsval id, jsval *vp)
 
 	return JS_TRUE;
 }
-
 
 /********************************************************************/
 
