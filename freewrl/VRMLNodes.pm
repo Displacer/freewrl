@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.267 2008/10/29 21:07:05 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.268 2008/11/12 19:13:27 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1930,6 +1930,7 @@ package VRML::NodeType;
 			isSelected => [SFBool, TRUE,outputOnly],
 			isValid => [SFBool, TRUE,outputOnly],
 			language => [SFString,"",initializeOnly],
+			__shaderIDS => [MFNode, [], initializeOnly], 
 	}, "X3DProgrammableShaderObject"),
 
 	ShaderPart => new VRML::NodeType("ShaderPart", {
@@ -1943,6 +1944,7 @@ package VRML::NodeType;
 			metadata => [SFNode, NULL, inputOutput],
 			url => [MFString, [], inputOutput],
 			type => [SFString,"",initializeOnly],
+			__parenturl =>[SFString,"",initializeOnly],
 	}, "X3DUrlObject"),
 
 
