@@ -6,7 +6,7 @@
 *********************************************************************/
 
 /*
- * $Id: X3DParser.c,v 1.41 2008/11/14 19:32:22 crc_canada Exp $
+ * $Id: X3DParser.c,v 1.42 2008/11/14 21:13:48 crc_canada Exp $
  *
  */
 
@@ -1024,6 +1024,7 @@ static void shutdownX3DParser () {
 
 int X3DParse (struct X3D_Group* myParent, char *inputstring) {
 	currentX3DParser = initializeX3DParser();
+#undef TIMING
 
 	#ifdef TIMING
 	double startt, endt;
