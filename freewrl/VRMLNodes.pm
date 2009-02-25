@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.269 2009/01/29 16:01:21 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.270 2009/02/25 20:57:04 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -1142,7 +1142,7 @@ package VRML::NodeType;
 						enteredText => [SFString,"",outputOnly],
 						finalText => [SFString,"",outputOnly],
 						isActive =>[SFBool, TRUE,outputOnly],
-						_initialized =>[SFBool, TRUE,initializeOnly],
+						_initialized =>[SFBool, FALSE,initializeOnly],
 						__oldEnabled => [SFBool, TRUE, inputOutput],
 					   },"X3DKeyDeviceSensorNode"),
 
