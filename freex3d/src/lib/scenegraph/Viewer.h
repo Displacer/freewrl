@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Viewer.h,v 1.12 2009/06/01 15:21:56 crc_canada Exp $
+$Id: Viewer.h,v 1.12.2.1 2009/07/08 21:55:04 couannette Exp $
 
 Viewer ???
 
@@ -59,7 +59,11 @@ Viewer ???
 
 #define STRING_SIZE 256
 
+#ifdef WIN32
+#define IN_FILE "C:/tmp/inpdev"
+#else
 #define IN_FILE "/tmp/inpdev"
+#endif
 #define IN_FILE_BYTES 100
 #define INPUT_LEN 9
 #define INPUT_LEN_Z 8

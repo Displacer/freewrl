@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: readpng.h,v 1.3 2009/02/11 15:12:55 istakenv Exp $
+$Id: readpng.h,v 1.3.2.1 2009/07/08 21:55:04 couannette Exp $
 
 Read PNG images.
 
@@ -51,7 +51,7 @@ Read PNG images.
 #  define MIN(a,b)  ((a) < (b)? (a) : (b))
 #endif
 
-#ifdef DEBUG
+#if defined(FW_PNG_DEBUG)
 #  define Trace(x)  {fprintf x ; fflush(stderr); fflush(stdout);}
 #else
 #  define Trace(x)  ;

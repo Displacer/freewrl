@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: pluginUtils.c,v 1.6 2009/07/06 20:13:28 crc_canada Exp $
+$Id: pluginUtils.c,v 1.5.2.1 2009/07/08 21:55:04 couannette Exp $
 
 ???
 
@@ -17,7 +17,6 @@ $Id: pluginUtils.c,v 1.6 2009/07/06 20:13:28 crc_canada Exp $
 #include "../vrml_parser/Structs.h"
 #include "../main/headers.h"
 #include "../input/EAIheaders.h"
-#include "../input/InputFunctions.h"
 
 /* #include <float.h> */
 
@@ -37,19 +36,24 @@ int lastchildProcess = 0;
 int childProcessListInit = FALSE;
 
 void killErrantChildren(void) {
+#ifndef WIN32
 	int count;
 	
 	for (count = 0; count < MAXPROCESSLIST; count++) {
 		if (childProcess[count] != 0) {
 			/* printf ("trying to kill %d\n",childProcess[count]); */
+			/* http://www.opengroup.org/onlinepubs/000095399/functions/kill.html */
 			kill (childProcess[count],SIGINT);
 		}
 	}
+#endif
 }
 
 /* FIXME: what are the possible return codes for this function ??? */
 int freewrlSystem (const char *sysline) {
-
+#ifdef WIN32
+	return 0;
+#else
 #define MAXEXECPARAMS 10
 #define EXECBUFSIZE	2000
 	char *paramline[MAXEXECPARAMS];
@@ -172,6 +176,7 @@ int freewrlSystem (const char *sysline) {
 		printf ("System call failed :%s:\n",sysline);
 	}
 	return -1; /* should we return FALSE or -1 ??? */
+#endif
 }
 
 /* implement Anchor/Browser actions */
@@ -186,6 +191,7 @@ void doBrowserAction () {
 	char *mypath;
 	char *thisurl;
 	int flen;
+	int removeIt = FALSE;
 
 #define LINELEN 2000
 	char sysline[LINELEN];
@@ -257,7 +263,7 @@ void doBrowserAction () {
 		if (!checkIfX3DVRMLFile(filename)) { break; }
 
 		/* ok, it might be a file we load into our world. */
-		if (fileExists(filename,NULL,FALSE)) { break; }
+		if (fileExists(filename,NULL,FALSE,&removeIt)) { break; }
 		count ++;
 	}
 
@@ -364,6 +370,7 @@ void Anchor_ReplaceWorld (char *name)
 	int tmp;
 	void *tt;
 	char filename[1000];
+	int removeIt = FALSE;
 
 	/* sanity check - are we actually going to do something with a name? */
 	if (name != NULL)
@@ -374,7 +381,7 @@ void Anchor_ReplaceWorld (char *name)
 			   network. BUT - plugin code might pass us a networked file name for loading,
 			   (eg, check out current OSX plugin; hopefully still valid) */
 
-	                if (fileExists(filename,NULL,TRUE)) {
+	                if (fileExists(filename,NULL,TRUE,&removeIt)) {
 				/* kill off the old world, but keep EAI open, if it is... */
 				kill_oldWorld(FALSE,TRUE,TRUE,__FILE__,__LINE__);
 
@@ -385,6 +392,7 @@ void Anchor_ReplaceWorld (char *name)
 				tt = BrowserFullPath;
 				BrowserFullPath = STRDUP(filename);
 				FREE_IF_NZ(tt);
+				if (removeIt) UNLINK (filename);
 				EAI_Anchor_Response (TRUE);
 				return;
 			} else {
@@ -499,7 +507,7 @@ void URLencod (char *dest, const char *src, int maxlen) {
 }
 
 /* this is for Unix only */
-#ifndef AQUA 
+#if !defined(AQUA) && !defined(WIN32)
 void sendXwinToPlugin() {
 	XWindowAttributes mywin;
 

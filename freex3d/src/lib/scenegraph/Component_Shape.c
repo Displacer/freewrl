@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Shape.c,v 1.8 2009/06/24 13:03:53 crc_canada Exp $
+$Id: Component_Shape.c,v 1.7.2.1 2009/07/08 21:55:04 couannette Exp $
 
 X3D Shape Component
 
@@ -20,14 +20,11 @@ X3D Shape Component
 
 static int     linePropertySet;  /* line properties -width, etc                  */
 
+
 float global_transparency = 1.0;
 
 /* this is for the FillProperties node */
 static GLuint fillpropCurrentShader = 0;
-
-/* pointer for a TextureTransform type of node */
-struct X3D_Node *  this_textureTransform;  /* do we have some kind of textureTransform? */
-
  
 #define SET_SHADER_SELECTED_FALSE(x3dNode) \
 	switch (X3D_NODE(x3dNode)->_nodeType) { \
@@ -406,6 +403,9 @@ void render_Material (struct X3D_Material *node) {
 
 void child_Shape (struct X3D_Shape *node) {
 	void *tmpN;
+#ifdef WIN32
+	extern GLuint globalCurrentShader;  
+#endif
 
 	if(!(node->geometry)) { return; }
 
@@ -419,7 +419,7 @@ void child_Shape (struct X3D_Shape *node) {
 	}
 
 	/* reset textureTransform pointer */
-	this_textureTransform = NULL;
+	this_textureTransform = 0;
 	linePropertySet=FALSE;
 	global_transparency = 0.0;
 
@@ -485,15 +485,23 @@ void child_Shape (struct X3D_Shape *node) {
 	}
 
 	/* any shader turned on? if so, turn it off */
-	extern GLuint globalCurrentShader;
+#ifndef WIN32
+	extern GLuint globalCurrentShader;  /* win32 C doesn't like a declaration in the middle of a C function - put at top of function */
+#endif
 	TURN_APPEARANCE_SHADER_OFF
 }
 
 
 void child_Appearance (struct X3D_Appearance *node) {
-	last_texture_type = NOTEXTURE;
+#ifdef WIN32
 	void *tmpN;
 	struct X3D_Node *localShaderNode = NULL;
+	last_texture_type = NOTEXTURE;  /* WIN32 C likes executable statements to follow declarations in a function */
+#else
+	last_texture_type = NOTEXTURE;  
+	void *tmpN;
+	struct X3D_Node *localShaderNode = NULL;
+#endif
 
 	/* printf ("in Appearance, this %d, nodeType %d\n",node, node->_nodeType);
 	 printf (" vp %d geom %d light %d sens %d blend %d prox %d col %d\n",
@@ -548,6 +556,7 @@ void child_Appearance (struct X3D_Appearance *node) {
 
 		/* is there a TextureTransform? if no texture, fugutaboutit */
 		POSSIBLE_PROTO_EXPANSION(node->textureTransform,this_textureTransform)
+		/* this_textureTransform = node->textureTransform; */
 
 		/* now, render the texture */
 		POSSIBLE_PROTO_EXPANSION(node->texture,tmpN)

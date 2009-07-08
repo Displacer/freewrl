@@ -6,7 +6,7 @@
  *
  * Program system dependencies.
  *
- * $Id: system.h,v 1.6 2009/02/11 15:12:54 istakenv Exp $
+ * $Id: system.h,v 1.6.2.1 2009/07/08 21:55:04 couannette Exp $
  *
  *******************************************************************/
 
@@ -58,30 +58,8 @@ typedef unsigned char _Bool;
 # include <unistd.h>
 #endif
 
-#if HAVE_SYS_WAIT_H
-# include <sys/wait.h>
-#endif
-#ifndef WEXITSTATUS
-# define WEXITSTATUS(stat_val) ((unsigned)(stat_val) >> 8)
-#endif
-#ifndef WIFEXITED
-# define WIFEXITED(stat_val) (((stat_val) & 255) == 0)
-#endif
-
-#if HAVE_PTHREAD
-# include <pthread.h>
-#endif
-
-#if HAVE_SYS_IPC_H
-# include <sys/ipc.h>
-#endif
-
-#if HAVE_SYS_MSG_H
-# include <sys/msg.h>
-#endif
-
-#if !defined(assert)
-# include <assert.h>
+#if defined(HAVE_SIGNAL_H)
+# include <signal.h>
 #endif
 
 

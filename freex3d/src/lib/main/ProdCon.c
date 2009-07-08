@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: ProdCon.c,v 1.21 2009/07/06 20:13:28 crc_canada Exp $
+$Id: ProdCon.c,v 1.19.2.1 2009/07/08 21:55:04 couannette Exp $
 
 CProto ???
 
@@ -164,7 +164,7 @@ int totviewpointnodes = 0;
 int currboundvpno=0;
 
 /* keep track of the producer thread made */
-pthread_t PCthread = NULL;
+DEF_THREAD(PCthread);
 
 /* is the inputParse thread created? */
 int inputParseInitialized=FALSE;
@@ -181,13 +181,14 @@ struct PSStruct psp;
 static int haveParsedCParsed = FALSE; 	/* used to tell when we need to call destroyCParserData 
 				   as destroyCParserData can segfault otherwise */
 
-void initializeInputParseThread(void) {
-	int iret;
+void initializeInputParseThread()
+{
+    int iret;
 
-	if (PCthread == NULL) {
-		/* create consumer thread and set the "read only" flag indicating this */
-		iret = pthread_create(&PCthread, NULL, (void *(*)(void *))&_inputParseThread, NULL);
-	}
+    if (TEST_NULL_THREAD(PCthread)) {
+	/* create consumer thread and set the "read only" flag indicating this */
+	iret = pthread_create(&PCthread, NULL, (void *(*)(void *))&_inputParseThread, NULL);
+    }
 }
 
 /* is a parser running? this is a function, because if we need to mutex lock, we
@@ -200,18 +201,20 @@ int isinputThreadParsing() {return(inputThreadParsing);}
 /* is the initial URL loaded? Robert Sim */
 int isURLLoaded() {return(URLLoaded&&!inputThreadParsing);}
 
-
 #define SLASHDOTDOTSLASH "/../"
 void removeFilenameFromPath (char *path) {
 	char *slashindex;
 	char *slashDotDotSlash;
 
 	/* and strip off the file name from the current path, leaving any path */
-	slashindex = (char *) rindex(path, ((int) '/'));
+	slashindex = (char *) strrchr(path, ((int) '/'));
+
 	if (slashindex != NULL) {
 		slashindex ++; /* leave the slash there */
 		*slashindex = 0;
-	} else {path[0] = 0;}
+	} else {
+	    path[0] = 0;
+	}
 	/* printf ("removeFielnameFromPath, parenturl is %s\n",path); */
 
 	/* are there any "/../" bits in the path? if so, lets clean them up */
@@ -223,7 +226,8 @@ void removeFilenameFromPath (char *path) {
 		*slashDotDotSlash = '\0';
 		/* printf ("have slashdotdot, path now :%s:\n",path); */
 
-		slashindex = (char *)rindex(path, ((int) '/'));
+		slashindex = (char *)strrchr(path, ((int) '/'));
+
 		if (slashindex != NULL) {
 			
 			slashindex ++;
@@ -244,7 +248,8 @@ void removeFilenameFromPath (char *path) {
 
 
 /* given a URL, find the first valid file, and return it */
-int getValidFileFromUrl (char *filename, char *path, struct Multi_String *inurl, char *firstBytes) {
+/* WARNING - MAKE SURE THE FIRST PARAMETER IS LARGE, LIKE 1000 BYTES */
+int getValidFileFromUrl (char *filename, char *path, struct Multi_String *inurl, char *firstBytes, int *removeIt) {
 	char *thisurl;
 	int count;
 
@@ -268,7 +273,7 @@ int getValidFileFromUrl (char *filename, char *path, struct Multi_String *inurl,
 		makeAbsoluteFileName(filename,path,thisurl);
 		/* printf ("getValidFile, thread %u filename %s\n",pthread_self(),filename); */
 
-		if (fileExists(filename,firstBytes,TRUE)) {
+		if (fileExists(filename,firstBytes,TRUE,removeIt)) {
 			return TRUE;
 		}
 		count ++;
@@ -329,77 +334,16 @@ char* freewrl_mktemp()
 }
 #endif
 
-#if HAVE_LIBCURL
-# include <curl/curl.h>
-
-static CURL *curl_h = NULL;
-
-int with_libcurl = FALSE;
-
-void init_curl()
+int do_file_exists(const char *filename)
 {
-    CURLcode c;
-
-    if ( (c=curl_global_init(CURL_GLOBAL_ALL)) != 0 ) {
-	ERROR_MSG("Curl init failed: %d\n", (int)c);
-	exit(1);
+    if (access(filename, R_OK) == 0) {
+	return TRUE;
     }
-
-    ASSERT(curl_h == NULL);
-
-    curl_h = curl_easy_init( );
-
-    if (!curl_h) {
-	ERROR_MSG("Curl easy_init failed\n");
-	exit(1);
-    }
+    return FALSE;
 }
-
-const char* do_get_url_curl(const char *url)
-{
-    CURLcode success;
-    char *temp;
-    FILE *file;
-
-    temp = freewrl_mktemp();
-    if (!temp) {
-	ERROR_MSG("Cannot create temp file (mktemp)\n");
-	return NULL;	
-    }
-
-    file = fopen(temp, "w");
-    if (!file) {
-	free(temp);
-	ERROR_MSG("Cannot create temp file (fopen)\n");
-	return NULL;	
-    }
-
-    if (!curl_h) {
-	init_curl();
-    }
-
-    curl_easy_setopt(curl_h, CURLOPT_URL, url);
-
-    curl_easy_setopt(curl_h, CURLOPT_WRITEDATA, file);
-
-    success = curl_easy_perform(curl_h); 
-
-    if (success == 0) {
-	printf("Waaou !\n");
-	fclose(file);
-	return temp;
-    } else {
-	free(temp);
-	fclose(file);
-	ERROR_MSG("Download failed for url %s (%d)\n", url, (int) success);
-	return NULL;
-    }
-}
-
-#endif
 
 /* return the temp file where we got the contents of the URL requested */
-const char* do_get_url(const char *filename)
+const char* do_get_file_url(const char *filename)
 {
     char *temp, *wgetcmd;
 
@@ -427,26 +371,19 @@ const char* do_get_url(const char *filename)
     return temp;
 }
 
-int do_file_exists(const char *filename)
-{
-    if (access(filename, R_OK) == 0) {
-	return TRUE;
-    }
-    return FALSE;
-}
-
-int fileExists(char *fname, char *firstBytes, int GetIt) {
+int fileExists(char *fname, char *firstBytes, int GetIt, int *removeIt) {
 	FILE *fp;
 	int ok;
 
 	char tempname[1000];
 	char sysline[1000];
 
-	int hasLocalShadowFile = FALSE;
-
 	#ifdef VERBOSE
 	printf ("fileExists: checking for filename here %s\n",fname);
 	#endif
+
+	/* assume that this file stays around, unless we know that it is a temp file */
+	*removeIt = FALSE;
 
 	if (checkNetworkFile(fname)) {
 		/* if we are running as a plugin, ask the HTML browser for ALL files, as it'll know proxies, etc. */
@@ -465,8 +402,8 @@ int fileExists(char *fname, char *firstBytes, int GetIt) {
 			if (!retName) return (FALSE);
 			/* printf ("requesting URL - retname is %s\n",retName); */
 
-			strcpy (tempname,retName);
-			hasLocalShadowFile = TRUE;
+			// FIXME: need to free fname before overwritting it ?
+			strcpy (fname,retName);
 		} else {
 			/*  Is this an Anchor? if so, lets just assume we can*/
 			/*  get it*/
@@ -474,22 +411,7 @@ int fileExists(char *fname, char *firstBytes, int GetIt) {
 				/* printf ("Assuming Anchor mode, returning TRUE\n");*/
 				return (TRUE);
 			}
-
-#if HAVE_LIBCURL
-
-			if (with_libcurl) {
-
-			    char *tmp;
-			    tmp = do_get_url_curl(fname);
-			    if (tmp) {
-				strcpy(tempname, tmp);
-				free(tmp);
-				hasLocalShadowFile = TRUE;
-			    }
-
-			} else {
-
-#endif
+	
 			sprintf (tempname, "%s",tempnam("/tmp","freewrl_tmp"));
 	
 			/* string length checking */
@@ -506,23 +428,17 @@ int fileExists(char *fname, char *firstBytes, int GetIt) {
 			    printf ("\nFreeWRL will try to use %s to get %s\n",WGET,fname);
 
 			    freewrlSystem (sysline);
-		   	    hasLocalShadowFile = TRUE;
+			    // FIXME: need to free fname before overwritting it ?
+			    strcpy (fname,tempname);
+			    *removeIt = TRUE;
 			} else {
 			    printf ("Internal FreeWRL problem - strings too long for wget\n");
 			}
-
-#if HAVE_LIBCURL
-			}
-#endif
-
 		}
 	}
 
-	if (hasLocalShadowFile) {
-		addShadowFile(fname,tempname);
-	} 
-	fp= openLocalFile (fname,"r");
-
+	/* printf ("fileExists, opening %s\n",fname);  */
+	fp= fopen (fname,"r");
 	ok = (fp != NULL);
 
 	/* try reading the first 4 bytes into the firstBytes array */
@@ -1058,6 +974,7 @@ void __pt_doInline() {
 	char *filename;
 	struct Multi_String *inurl;
 	struct X3D_Inline *inl;
+	int removeIt = FALSE;
 	inl = (struct X3D_Inline *)psp.ptr;
 	inurl = &(inl->url);
 	filename = (char *)MALLOC(1000);
@@ -1068,7 +985,7 @@ void __pt_doInline() {
 
 	/* printf ("doInline, checking for file from path %s\n",psp.path); */
 
-	if (getValidFileFromUrl (filename, psp.path, inurl,NULL)) {
+	if (getValidFileFromUrl (filename, psp.path, inurl,NULL,&removeIt)) {
 		/* were we successful at locating one of these? if so, make it into a FROMURL */
 		/* printf ("doInline, we were successful at locating %s\n",filename);  */
 		psp.type=FROMURL;

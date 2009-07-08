@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: headers.h,v 1.60 2009/07/06 20:13:28 crc_canada Exp $
+$Id: headers.h,v 1.54.2.1 2009/07/08 21:55:04 couannette Exp $
 
 Global includes.
 
@@ -21,6 +21,14 @@ Global includes.
  */
 extern char *BrowserName;
 const char* freewrl_get_browser_program();
+
+/**
+ * in InputFunctions.c
+ */
+int dirExists(const char *dir);
+char* makeFontDirectory();
+char *readInputString(char *fn);
+
 
 /* see if an inputOnly "set_" field has changed */
 #define IO_FLOAT -2335549.0
@@ -78,16 +86,6 @@ const char* freewrl_get_browser_program();
 #define JS_SET_PROPERTY_CHECK js_SetPropertyCheck
 
 #define INT_ID_UNDEFINED -1
-
-/* stop the display thread. Used (when this comment was made) by the OSX Safari plugin; keeps
-most things around, just stops display thread, when the user exits a world. */
-#define STOP_DISPLAY_THREAD \
-        if (DispThrd != NULL) { \
-                quitThread = TRUE; \
-                pthread_join(DispThrd,NULL); \
-                DispThrd = NULL; \
-        }
-
 
 typedef struct _CRnodeStruct {
         struct X3D_Node *routeToNode;
@@ -213,6 +211,19 @@ void compile_polyrep(void *node, void *coord, void *color, void *normal, void *t
 		} \
 		if (node->_ichange == 0) return; \
 	}
+
+/* same as COMPILE_IF_REQUIRED, but passes in node name */
+#define COMPILE_IF_REQUIRED2(node) { struct X3D_Virt *v; \
+	if (node->_ichange != node->_change) { \
+	/* printf ("COMP %d %d\n",node->_ichange, node->_change); */ \
+		v = *(struct X3D_Virt **)node; \
+		if (v->compile) { \
+			compileNode (v->compile, (void *)node, NULL, NULL, NULL, NULL); \
+		} else {printf ("huh - have COMPIFREQD, but v->compile null for %s\n",stringNodeType(node->_nodeType));} \
+		} \
+		if (node->_ichange == 0) return; \
+	}
+
 
 /* convert a PROTO node (which will be a Group node) into a node. eg, for Materials  - this is a possible child
 node for ANY node that takes something other than a Group */
@@ -362,7 +373,10 @@ extern char *GL_VEN;
 extern char *GL_VER;
 extern char *GL_REN;
 
+#if 0 /* This is handled by Glew */
+
 /* do we have GL Occlusion Culling? */
+#ifndef GLEW
 #ifdef AQUA
 	#define OCCLUSION
         #define VISIBILITYOCCLUSION
@@ -392,6 +406,10 @@ extern char *GL_REN;
 #define glGetQueryiv(a,b,c) glGetQueryivARB(a,b,c)
 #define glGetQueryObjectiv(a,b,c) glGetQueryObjectivARB(a,b,c)
 #define glGetQueryObjectuiv(a,b,c) glGetQueryObjectuivARB(a,b,c)
+
+#endif /* ifndef GLEW */
+
+#endif
 
 extern GLuint OccQuerySize;
 extern GLint OccResultsAvailable;
@@ -425,7 +443,6 @@ extern void* *occluderNodePointer;
 #define BEGINOCCLUSIONQUERY \
 	if (render_geom) { \
 		if (potentialOccluderCount < OccQuerySize) { \
-/* printf ("beginOcclusionQuery, potoc %d occQ %d\n",potentialOccluderCount, OccQuerySize, node->__occludeCheckCount); */ \
 			if (node->__occludeCheckCount < 0) { \
 				/* printf ("beginOcclusionQuery, query %u, node %s\n",potentialOccluderCount, stringNodeType(node->_nodeType)); */ \
 				glBeginQuery(GL_SAMPLES_PASSED, OccQueries[potentialOccluderCount]); \
@@ -506,7 +523,7 @@ extern void* *occluderNodePointer;
 #define PI 3.141592653589793
 #endif
 /* return TRUE if numbers are very close */
-#define APPROX(a,b) (fabs(a-b)<0.00000001)
+#define APPROX(a,b) (fabs((a)-(b))<0.00000001)
 /* defines for raycasting: */
 
 #define NORMAL_VECTOR_LENGTH_TOLERANCE 0.00001
@@ -605,6 +622,7 @@ extern int global_IFS_Coord_count;
 
 /* texture stuff - see code. Need array because of MultiTextures */
 extern GLuint bound_textures[MAX_MULTITEXTURE];
+extern int bound_texture_alphas[MAX_MULTITEXTURE];
 extern GLint maxTexelUnits;
 extern int texture_count; 
 extern int     *global_tcin;
@@ -614,7 +632,7 @@ extern void 	*global_tcin_lastParent;
 extern void textureDraw_start(struct X3D_Node *texC, GLfloat *tex);
 extern void textureDraw_end(void);
 
-extern struct X3D_Node *this_textureTransform;  /* do we have some kind of textureTransform? */
+extern void * this_textureTransform;  /* do we have some kind of textureTransform? */
 
 extern int isTextureLoaded(int texno);
 extern int isTextureAlpha(int n);
@@ -927,12 +945,12 @@ extern void xs_init(void);
 extern int navi_tos;
 extern void initializeTextureThread(void);
 extern int isTextureinitialized(void);
-extern int fileExists(char *fname, char *firstBytes, int GetIt);
+extern int fileExists(char *fname, char *firstBytes, int GetIt, int *isTemp);
 extern void checkAndAllocMemTables(int *texture_num, int increment);
 extern void   storeMPGFrameData(int latest_texture_number, int h_size, int v_size,
         int mt_repeatS, int mt_repeatT, char *Image);
 void mpg_main(char *filename, int *x,int *y,int *depth,int *frameCount,void **ptr);
-int getValidFileFromUrl (char *filename, char *path, struct Multi_String *inurl, char *firstBytes);
+int getValidFileFromUrl (char *filename, char *path, struct Multi_String *inurl, char *firstBytes, int* removeIt);
 void removeFilenameFromPath (char *path);
 
 int EAI_CreateVrml(const char *tp, const char *inputstring, uintptr_t *retarr, int retarrsize);
@@ -945,21 +963,16 @@ void handle_MIDIEAI(void);
 void handle_aqua(const int mev, const unsigned int button, int x, int y);
 
 #define overMark        23425
-/* mimic X11 events in AQUA */
-#ifdef AQUA
+
+/* mimic X11 events in AQUA and/or WIN32 ; FIXME: establish a cleaner interface for this */
+#if defined(AQUA) || defined(WIN32)
 #define KeyPress        2
 #define KeyRelease      3
 #define ButtonPress     4
 #define ButtonRelease   5
 #define MotionNotify    6
 #define MapNotify       19
-
 #endif
-
-/* /\* Unix front end height/width *\/ */
-/* #ifndef AQUA */
-/* extern int feWidth, feHeight; */
-/* #endif */
 
 extern void setSnapSeq();
 extern void setEAIport(int pnum);
@@ -1015,14 +1028,14 @@ void remove_parent(struct X3D_Node *child, struct X3D_Node *parent);
 void EAI_readNewWorld(char *inputstring);
 void make_genericfaceset(struct X3D_IndexedFaceSet *this_);
 
-void render_LoadSensor(struct X3D_LoadSensor *this);
+void render_LoadSensor(struct X3D_LoadSensor *this_);
 
 void render_Text (struct X3D_Text * this_);
 #define rendray_Text render_ray_polyrep
 void make_Text (struct X3D_Text * this_);
 void collide_Text (struct X3D_Text * this_);
-void render_TextureCoordinateGenerator(struct X3D_TextureCoordinateGenerator *this);
-void render_TextureCoordinate(struct X3D_TextureCoordinate *this);
+void render_TextureCoordinateGenerator(struct X3D_TextureCoordinateGenerator *this_);
+void render_TextureCoordinate(struct X3D_TextureCoordinate *this_);
 
 /* VRML1 nodes */
 void prep_VRML1_Separator (struct X3D_VRML1_Separator *this_);
@@ -1100,8 +1113,8 @@ void changed_Collision (struct X3D_Collision *this_);
 
 
 /* HAnim Component */
-void prep_HAnimJoint (struct X3D_HAnimJoint *this);
-void prep_HAnimSite (struct X3D_HAnimSite *this);
+void prep_HAnimJoint (struct X3D_HAnimJoint *this_);
+void prep_HAnimSite (struct X3D_HAnimSite *this_);
 
 void child_HAnimHumanoid(struct X3D_HAnimHumanoid *this_); 
 void child_HAnimJoint(struct X3D_HAnimJoint *this_); 
@@ -1218,7 +1231,6 @@ void render_PointSet (struct X3D_PointSet *this_);
 #define make_TriangleFanSet  make_genericfaceset
 #define make_TriangleSet  make_genericfaceset
 #define make_TriangleStripSet  make_genericfaceset
-void compile_PointSet (struct X3D_PointSet *this_); 
 void compile_LineSet (struct X3D_LineSet *this_); 
 void compile_IndexedLineSet (struct X3D_IndexedLineSet *this_); 
 
@@ -1231,11 +1243,11 @@ void prep_DirectionalLight (struct X3D_DirectionalLight *this_);
 void prep_PointLight (struct X3D_PointLight *this_);
 
 /* Geospatial nodes */
-int checkX3DGeoElevationGridFields (struct X3D_GeoElevationGrid *node, float **points, int *npoints);
+int checkX3DGeoElevationGridFields (struct X3D_ElevationGrid *node, float **points, int *npoints);
 void render_GeoElevationGrid (struct X3D_GeoElevationGrid *this_);
-#define rendray_GeoElevationGrid  render_ray_polyrep
-#define collide_GeoElevationGrid collide_genericfaceset
-#define make_GeoElevationGrid make_genericfaceset
+void rendray_GeoElevationGrid (struct X3D_GeoElevationGrid *this_);
+void collide_GeoElevationGrid (struct X3D_GeoElevationGrid *this_);
+void make_GeoElevationGrid (struct X3D_GeoElevationGrid *this_);
 void prep_GeoLocation (struct X3D_GeoLocation *this_);
 void prep_GeoViewpoint (struct X3D_GeoViewpoint *this_);
 void fin_GeoLocation (struct X3D_GeoLocation *this_);
@@ -1244,18 +1256,18 @@ void child_GeoLOD (struct X3D_GeoLOD *this_);
 void changed_GeoLOD (struct X3D_GeoLOD *this_);
 void proximity_GeoLOD (struct X3D_GeoLOD *this_);
 void child_GeoLocation (struct X3D_GeoLocation *this_);
-void compile_GeoCoordinate (struct X3D_GeoCoordinate * this);
-void compile_GeoElevationGrid (struct X3D_GeoElevationGrid * this);
-void compile_GeoLocation (struct X3D_GeoLocation * this);
-void compile_GeoLOD (struct X3D_GeoLOD * this);
-void compile_GeoMetadata (struct X3D_GeoMetadata * this);
-void compile_GeoOrigin (struct X3D_GeoOrigin * this);
-void compile_GeoPositionInterpolator (struct X3D_GeoPositionInterpolator * this);
-void compile_GeoTouchSensor (struct X3D_GeoTouchSensor * this);
-void compile_GeoViewpoint (struct X3D_GeoViewpoint * this);
-void compile_GeoProximitySensor (struct X3D_GeoProximitySensor *this);
+void compile_GeoCoordinate (struct X3D_GeoCoordinate * this_);
+void compile_GeoElevationGrid (struct X3D_GeoElevationGrid * this_);
+void compile_GeoLocation (struct X3D_GeoLocation * this_);
+void compile_GeoLOD (struct X3D_GeoLOD * this_);
+void compile_GeoMetadata (struct X3D_GeoMetadata * this_);
+void compile_GeoOrigin (struct X3D_GeoOrigin * this_);
+void compile_GeoPositionInterpolator (struct X3D_GeoPositionInterpolator * this_);
+void compile_GeoTouchSensor (struct X3D_GeoTouchSensor * this_);
+void compile_GeoViewpoint (struct X3D_GeoViewpoint * this_);
+void compile_GeoProximitySensor (struct X3D_GeoProximitySensor *this_);
 void compile_GeoTransform (struct X3D_GeoTransform * node);
-void proximity_GeoProximitySensor (struct X3D_GeoProximitySensor *this);
+void proximity_GeoProximitySensor (struct X3D_GeoProximitySensor *this_);
 void prep_GeoTransform (struct X3D_GeoTransform *);
 void child_GeoTransform (struct X3D_GeoTransform *);
 void fin_GeoTransform (struct X3D_GeoTransform *);
@@ -1409,6 +1421,7 @@ struct ReWireNamenameStruct {
 
 extern struct ReWireNamenameStruct *ReWireNamenames;
 extern int ReWireNametableSize;
+extern int MAXReWireNameNames;
 extern struct ReWireDeviceStruct *ReWireDevices;
 extern int ReWireDevicetableSize;
 extern int MAXReWireDevices;
@@ -1460,9 +1473,6 @@ void compileNode (void (*nodefn)(void *, void *, void *, void *, void *), void *
 void destroyCParserData();
 
 void getMovieTextureOpenGLFrames(int *highest, int *lowest,int myIndex);
-
-
-int ConsoleMessage(const char *fmt, ...);
 
 void closeConsoleMessage(void);
 extern int consMsgCount;
@@ -1521,11 +1531,6 @@ void replaceWorldNeeded(char* str);
 /* X3D C parser */
 int X3DParse (struct X3D_Group *parent, char *inputstring);
 void *createNewX3DNode (int nt);
-
-/* threading stuff */
-extern pthread_t PCthread;
-extern pthread_t shapeThread;
-extern pthread_t loadThread;
 
 /* node binding */
 extern void *setViewpointBindInRender;

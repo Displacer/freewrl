@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: RenderFuncs.c,v 1.23 2009/07/03 20:15:12 crc_canada Exp $
+$Id: RenderFuncs.c,v 1.19.2.1 2009/07/08 21:55:04 couannette Exp $
 
 Scenegraph rendering.
 
@@ -60,7 +60,9 @@ int sound_from_audioclip = 0;
 /* if this is zero, first time a texture call is made, this is set to the OpenGL implementations max */
 GLint global_texSize = 0;
 int textures_take_priority = TRUE;
+#ifdef DO_MULTI_OPENGL_THREADS
 int useShapeThreadIfPossible = TRUE;
+#endif
 
 /* for printing warnings about Sound node problems - only print once per invocation */
 int soundWarned = FALSE;
@@ -77,9 +79,11 @@ int be_collision = 0;	/* do collision detection? */
 
 /* texture stuff - see code. Need array because of MultiTextures */
 GLuint bound_textures[MAX_MULTITEXTURE];
+int bound_texture_alphas[MAX_MULTITEXTURE];
 int texture_count;
 
 int	have_transparency=FALSE;/* did any Shape have transparent material? */
+void *	this_textureTransform;  /* do we have some kind of textureTransform? */
 int	lightingOn;		/* do we need to restore lighting in Shape? */
 int	cullFace;		/* is GL_CULL_FACE enabled or disabled?		*/
 
@@ -148,7 +152,9 @@ float AC_LastDuration[50]  = {-1.0,-1.0,-1.0,-1.0,-1.0,
 int SoundEngineStarted = FALSE;
 
 /* stored FreeWRL version, pointers to initialize data */
+#ifdef DO_MULTI_OPENGL_THREADS
 pthread_t shapeThread = -1;
+#endif
 
 void *rootNode=NULL;	/* scene graph root node */
 void *empty_group=0;
@@ -593,7 +599,11 @@ render_hier(struct X3D_Node *p, int rwhat) {
 
 	if (!p) {
 		/* we have no geometry yet, sleep for a tiny bit */
+#ifdef WIN32
+		Sleep(1);
+#else
 		usleep(1000);
+#endif
 		return;
 	}
 
@@ -785,7 +795,7 @@ void *returnInterpolatorPointer (const char *x) {
 	} else if (strcmp("ColorInterpolator",x)==0) { return (void *)do_ColorInterpolator;
 	} else if (strcmp("PositionInterpolator",x)==0) { return (void *)do_PositionInterpolator;
 	} else if (strcmp("CoordinateInterpolator",x)==0) { return (void *)do_OintCoord;
-	} else if (strcmp("NormalInterpolator",x)==0) { return (void *)do_OintNormal;
+	} else if (strcmp("NormalInterpolator",x)==0) { return (void *)do_OintCoord;
 	} else if (strcmp("GeoPositionInterpolator",x)==0) { return (void *)do_GeoPositionInterpolator;
 	} else if (strcmp("BooleanFilter",x)==0) { return (void *)do_BooleanFilter;
 	} else if (strcmp("BooleanSequencer",x)==0) { return (void *)do_BooleanSequencer;

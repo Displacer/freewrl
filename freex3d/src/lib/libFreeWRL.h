@@ -4,7 +4,7 @@
  *
  * public API - libFreeWRL.h
  *
- * $Id: libFreeWRL.h,v 1.3 2009/06/25 22:09:54 couannette Exp $
+ * $Id: libFreeWRL.h,v 1.2.2.1 2009/07/08 21:55:04 couannette Exp $
  *
  *******************************************************************/
 
@@ -19,15 +19,21 @@ const char *libFreeWRL_get_version();
 /**
  * Initialization
  */
-void initFreewrl();
+void initFreewrl(); /* FIXME: clean up those scatered entry points... */
 void closeFreewrl();
 int initFreeWRL();
 void closeFreeWRL();
+void startFreeWRL();
 
 /**
  * General functions
  */
+#if defined(WIN32)
+# define ConsoleMessage printf
+#else
 int ConsoleMessage(const char *fmt, ...);
+#endif
+
 int checkNetworkFile(char *fn);
 void setFullPath(const char* file);
 void makeAbsoluteFileName(char *filename, char *pspath,char *thisurl);
@@ -58,17 +64,13 @@ extern int win_height;
 extern int win_width;
 extern int fullscreen;
 extern char *BrowserFullPath;
-extern pthread_t DispThrd;
+
 extern int _fw_pipe, _fw_FD;
 extern int _fw_browser_plugin;
 extern int isBrowserPlugin;
 extern uintptr_t _fw_instance;
 extern int be_collision;
 extern char *keypress_string;
-
-#if HAVE_LIBCURL
-extern int with_libcurl;
-#endif
 
 
 #endif /* __LIBFREEWRL_MAIN_H__ */

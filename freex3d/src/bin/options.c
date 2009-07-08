@@ -1,7 +1,7 @@
 /*
   =INSERT_TEMPLATE_HERE=
 
-  $Id: options.c,v 1.12 2009/06/25 22:09:54 couannette Exp $
+  $Id: options.c,v 1.11.2.1 2009/07/08 21:55:04 couannette Exp $
 
   FreeWRL command line arguments.
 
@@ -70,9 +70,6 @@ void usage()
 	    "  -i|--plugin <string>    Called from plugin.\n"
 	    "  -j|--fd <number>        Pipe to command the program.\n"
 	    "  -k|--instance <number>  Instance of plugin.\n"
-#if HAVE_LIBCURL
-	    "  -C|--curl               Use libcurl instead of wget.\n"
-#endif
 	    ""
 	);
 }
@@ -91,9 +88,9 @@ int parseCommandLine (int argc, char **argv)
     const char *real_option_name;
 
 #if defined(DOSNAPSEQUENCE)
-    static const char optstring[] = "efg:hi:j:k:vVlpq:m:n:o:bsQW:K:Xcr:y:utC";
+    static const char optstring[] = "efg:hi:j:k:vVlpq:m:n:o:bsQW:K:Xcr:y:ut";
 #else
-    static const char optstring[] = "efg:hi:j:k:vVpn:o:bsQW:K:Xcr:y:utC";
+    static const char optstring[] = "efg:hi:j:k:vVpn:o:bsQW:K:Xcr:y:ut";
 #endif
 
     static struct option long_options[] = {
@@ -132,8 +129,6 @@ int parseCommandLine (int argc, char **argv)
 	{"plugin", required_argument, 0, 'i'},
 	{"fd", required_argument, 0, 'j'},
 	{"instance", required_argument, 0, 'k'},
-
-	{"curl", no_argument, 0, 'C'},
 
 	{0, 0, 0, 0}
     };
@@ -185,7 +180,7 @@ int parseCommandLine (int argc, char **argv)
 	    /* Error handling */
 
 	case '?': /* getopt error: unknown option or missing argument */
-	    FW_ERROR("ERROR: unknown option or missing argument to option: %c (%s)\n", 
+	    ERROR_MSG("ERROR: unknown option or missing argument to option: %c (%s)\n", 
 		     c, real_option_name);
 	    exit(1);
 	    break;
@@ -219,7 +214,7 @@ int parseCommandLine (int argc, char **argv)
 
 	case 'g': /* --geometry, required argument: string "WxH" */
 	    if (!optarg) {
-		FW_ERROR("Argument missing for option -g/--geometry\n");
+		ERROR_MSG("Argument missing for option -g/--geometry\n");
 		exit(1);
 	    } else {
 		setGeometry_from_cmdline(optarg);
@@ -324,12 +319,9 @@ int parseCommandLine (int argc, char **argv)
 	    sscanf(optarg,"%u",(unsigned int *)&_fw_instance);
 	    break;
 
-	case 'C': /* --curl, no argument */
-	    with_libcurl = TRUE;
-	    break;
 
 	default:
-	    FW_ERROR("ERROR: getopt returned character code 0%o, unknown error.\n", c);
+	    ERROR_MSG("ERROR: getopt returned character code 0%o, unknown error.\n", c);
 	    exit(1);
 	    break;
 	}
@@ -337,7 +329,7 @@ int parseCommandLine (int argc, char **argv)
 
     if (optind < argc) {
 	if (optind != (argc-1)) {
-	    FW_WARN("WARNING: expect only 1 file on command line; running file: %s\n",
+	    WARN_MSG("WARNING: expect only 1 file on command line; running file: %s\n",
 		    argv[optind]);
 	}
 

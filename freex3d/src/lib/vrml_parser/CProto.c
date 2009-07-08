@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CProto.c,v 1.28 2009/05/26 19:56:32 crc_canada Exp $
+$Id: CProto.c,v 1.28.2.1 2009/07/08 21:55:04 couannette Exp $
 
 CProto ???
 
@@ -580,9 +580,9 @@ struct ProtoFieldDecl* protoFieldDecl_copy(struct VRMLLexer* lex, struct ProtoFi
 
   /* Copy scriptfield dests */
   for (i=0; i!=vector_size(me->scriptDests); ++i) {
-	vector_pushBack(struct ScriptFieldInstanceInfo*, ret->scriptDests, scriptFieldInstanceInfo_copy(vector_get(struct ScriptFieldInstanceInfo*, me->scriptDests, i)));
    	struct ScriptFieldInstanceInfo* temp;
    	struct ScriptFieldInstanceInfo* temp2;
+	vector_pushBack(struct ScriptFieldInstanceInfo*, ret->scriptDests, scriptFieldInstanceInfo_copy(vector_get(struct ScriptFieldInstanceInfo*, me->scriptDests, i)));
    	temp = vector_get(struct ScriptFieldInstanceInfo*, me->scriptDests, i);
    	temp2 = vector_get(struct ScriptFieldInstanceInfo*, ret->scriptDests, i);
   }

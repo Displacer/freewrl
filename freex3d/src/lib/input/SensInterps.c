@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: SensInterps.c,v 1.14 2009/07/06 20:13:28 crc_canada Exp $
+$Id: SensInterps.c,v 1.12.2.1 2009/07/08 21:55:04 couannette Exp $
 
 Do Sensors and Interpolators in C, not in perl.
 
@@ -214,160 +214,6 @@ void do_OintScalar (void *node) {
 }
 
 
-void do_OintNormal(void *node) {
-	struct X3D_NormalInterpolator *px;
-	int kin, kvin/* , counter */;
-	struct SFColor *kVs;
-	struct SFColor *valchanged;
-
-	int thisone, prevone;	/* which keyValues we are interpolating between */
-	int tmp;
-	float interval;		/* where we are between 2 values */
-	struct point_XYZ normalval;	/* different structures for normalization calls */
-	int kpkv; /* keys per key value */
-	int indx;
-	int myKey;
-
-	if (!node) return;
-	px = (struct X3D_NormalInterpolator *) node;
-
-
-	#ifdef SEVERBOSE
-		printf ("debugging OintCoord keys %d kv %d vc %d\n",px->keyValue.n, px->key.n,px->value_changed.n);
-	#endif
-
-	MARK_EVENT (node, offsetof (struct X3D_NormalInterpolator, value_changed));
-
-	kin = px->key.n;
-	kvin = px->keyValue.n;
-	kVs = px->keyValue.p;
-	kpkv = kvin/kin;
-
-	/* do we need to (re)allocate the value changed array? */
-	if (kpkv != px->value_changed.n) {
-		#ifdef SEVERBOSE
-		    printf ("refactor valuechanged array. n %d sizeof p %d\n",
-			kpkv,sizeof (struct SFColor) * kpkv);
-		#endif
-		if (px->value_changed.n != 0) {
-			FREE_IF_NZ (px->value_changed.p);
-		}
-		px->value_changed.n = kpkv;
-		px->value_changed.p =(struct SFColor*) MALLOC (sizeof (struct SFColor) * kpkv);
-	}
-
-	/* shortcut valchanged; have to put it here because might be reMALLOC'd */
-	valchanged = px->value_changed.p;
-
-
-	/* make sure we have the keys and keyValues */
-	if ((kvin == 0) || (kin == 0)) {
-		#ifdef SEVERBOSE
-		printf ("no keys or keyValues yet\n");
-		#endif
-
-		for (indx = 0; indx < kpkv; indx++) {
-			valchanged[indx].c[0] = 0.0;
-			valchanged[indx].c[1] = 0.0;
-			valchanged[indx].c[2] = 0.0;
-		}
-		return;
-	}
-	if (kin>kvin) kin=kvin; /* means we don't use whole of keyValue, but... */
-
-
-	#ifdef SEVERBOSE
-		printf ("debugging, kpkv %d, px->value_changed.n %d\n", kpkv, px->value_changed.n);
-		printf ("NormalInterpolator, kpkv %d\n",kpkv);
-	#endif
-	
-
-	/* set_fraction less than or greater than keys */
-	if (px->set_fraction <= px->key.p[0]) {
-		#ifdef SEVERBOSE
-		printf ("COINT out1\n");
-		#endif
-
-		for (indx = 0; indx < kpkv; indx++) {
-			memcpy ((void *)&valchanged[indx],
-				(void *)&kVs[indx], sizeof (struct SFColor));
-		}
-		#ifdef SEVERBOSE
-		printf ("COINT out1 copied\n");
-		#endif
-	} else if (px->set_fraction >= px->key.p[kin-1]) {
-		#ifdef SEVERBOSE
-		printf ("COINT out2\n");
-		#endif
-
-		for (indx = 0; indx < kpkv; indx++) {
-			memcpy ((void *)&valchanged[indx],
-				(void *)&kVs[kvin-kpkv+indx],
-				sizeof (struct SFColor));
-		}
-		#ifdef SEVERBOSE
-		printf ("COINT out2 finished\n");
-		#endif
-	} else {
-		#ifdef SEVERBOSE
-		printf ("COINT out3\n");
-		#endif
-
-		/* have to go through and find the key before */
-		#ifdef SEVERBOSE
-		printf ("indx=0, kin %d frac %f\n",kin,px->set_fraction);
-		#endif
-
-		myKey=find_key(kin,(float)(px->set_fraction),px->key.p);
-		#ifdef SEVERBOSE
-		printf ("working on key %d\n",myKey);
-		#endif
-
-		/* find the fraction between the 2 values */
-		interval = (px->set_fraction - px->key.p[myKey-1]) /
-				(px->key.p[myKey] - px->key.p[myKey-1]);
-
-		for (indx = 0; indx < kpkv; indx++) {
-			thisone = myKey * kpkv + indx;
-			prevone = (myKey-1) * kpkv + indx;
-
-			#ifdef SEVERBOSE
-			if (thisone >= kvin) {
-				printf ("CoordinateInterpolator error: thisone %d prevone %d indx %d kpkv %d kin %d kvin %d\n",thisone,prevone,
-				indx,kpkv,kin,kvin);
-			}
-			#endif
-
-			for (tmp=0; tmp<3; tmp++) {
-				valchanged[indx].c[tmp] = kVs[prevone].c[tmp]  +
-						interval * (kVs[thisone].c[tmp] -
-							kVs[prevone].c[tmp]);
-			}
-			#ifdef SEVERBOSE
-			printf ("	1 %d interval %f prev %f this %f final %f\n",1,interval,kVs[prevone].c[1],kVs[thisone].c[1],valchanged[indx].c[1]);
-			#endif
-		}
-		#ifdef SEVERBOSE
-		printf ("COINT out3 finished\n");
-		#endif
-
-	}
-
-	/* if this is a NormalInterpolator... */
-	for (indx = 0; indx < kpkv; indx++) {
-		normalval.x = valchanged[indx].c[0];
-		normalval.y = valchanged[indx].c[1];
-		normalval.z = valchanged[indx].c[2];
-		normalize_vector(&normalval);
-		valchanged[indx].c[0] = normalval.x;
-		valchanged[indx].c[1] = normalval.y;
-		valchanged[indx].c[2] = normalval.z;
-	}
-	#ifdef SEVERBOSE
-	printf ("Done CoordinateInterpolator\n");
-	#endif
-}
-
 void do_OintCoord(void *node) {
 	struct X3D_CoordinateInterpolator *px;
 	int kin, kvin/* , counter */;
@@ -510,11 +356,23 @@ void do_OintCoord(void *node) {
 
 	}
 
+	/* if this is a NormalInterpolator... */
+        if (px->_type==1) {
+		for (indx = 0; indx < kpkv; indx++) {
+			normalval.x = valchanged[indx].c[0];
+			normalval.y = valchanged[indx].c[1];
+			normalval.z = valchanged[indx].c[2];
+			normalize_vector(&normalval);
+			valchanged[indx].c[0] = normalval.x;
+			valchanged[indx].c[1] = normalval.y;
+			valchanged[indx].c[2] = normalval.z;
+		}
+        }
 	#ifdef SEVERBOSE
 	printf ("Done CoordinateInterpolator\n");
 	#endif
-}
 
+}
 void do_OintCoord2D(void *node) {
 	struct X3D_CoordinateInterpolator2D *px;
 	int kin, kvin/* , counter */;
@@ -1273,12 +1131,14 @@ void do_PlaneSensor ( void *ptr, int ev, int but1, int over) {
 		node->_oldtrackPoint.c[0] = nx;
 		node->_oldtrackPoint.c[1] = ny;
 		node->_oldtrackPoint.c[2] = node->_origPoint.c[2];
+		/*printf(">%f %f %f\n",nx,ny,node->_oldtrackPoint.c[2]); */
 		if ((APPROX(node->_oldtrackPoint.c[0],node->trackPoint_changed.c[0])!= TRUE) ||
 			(APPROX(node->_oldtrackPoint.c[1],node->trackPoint_changed.c[1])!= TRUE) ||
 			(APPROX(node->_oldtrackPoint.c[2],node->trackPoint_changed.c[2])!= TRUE)) {
-
+			
 			memcpy ((void *) &node->trackPoint_changed, (void *) &node->_oldtrackPoint, sizeof(struct SFColor));
 			MARK_EVENT(ptr, offsetof (struct X3D_PlaneSensor, trackPoint_changed));
+
 		}
 
 		/* clamp translation to max/min position */
@@ -1641,6 +1501,7 @@ void do_SphereSensor ( void *ptr, int ev, int but1, int over) {
 void locateAudioSource (struct X3D_AudioClip *node) {
 	char *filename;
 	char *mypath;
+	int removeIt = FALSE;
 
 	node->__sourceNumber = SoundSourceNumber;
 	SoundSourceNumber++;
@@ -1652,7 +1513,7 @@ void locateAudioSource (struct X3D_AudioClip *node) {
 	/* copy the parent path over */
 	mypath = STRDUP(node->__parenturl->strptr);
 
-	if (getValidFileFromUrl (filename,mypath, &(node->url), NULL)) {
+	if (getValidFileFromUrl (filename,mypath, &(node->url), NULL, &removeIt)) {
 		/* save local file in the structure, so that it can
 		   be initialized later */
 		node->__localFileName = STRDUP(filename);

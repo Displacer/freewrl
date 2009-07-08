@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CParseLexer.c,v 1.19 2009/07/06 20:13:28 crc_canada Exp $
+$Id: CParseLexer.c,v 1.18.2.1 2009/07/08 21:55:04 couannette Exp $
 
 ???
 
@@ -564,6 +564,8 @@ BOOL lexer_event(struct VRMLLexer* me,
  struct Vector* uarr;
  const char** arr;
  size_t arrCnt;
+ const char** userArr;
+ size_t userCnt;
 
  if(routedToFrom==ROUTED_FIELD_EVENT_IN)
  {
@@ -592,8 +594,8 @@ BOOL lexer_event(struct VRMLLexer* me,
 #endif
 
  /* Get a pointer to the data in the vector of user defined event names */
- const char** userArr=&vector_get(const char*, uarr, 0);
- size_t userCnt=vector_size(uarr);
+ userArr=&vector_get(const char*, uarr, 0);
+ userCnt=vector_size(uarr);
 
  /* Strip off set_ or _changed from current token.  Then look through the EVENT_IN/EVENT_OUT array for the eventname (current token).  
     If it is found, return the index of the eventname. Also looks through fields of the routedNode to check if fieldname is valid for that node 
@@ -665,6 +667,9 @@ BOOL lexer_event(struct VRMLLexer* me,
 BOOL lexer_field(struct VRMLLexer* me,
  indexT* retBO, indexT* retBE, indexT* retUO, indexT* retUE)
 {
+ const char** userArr;
+ size_t userCnt;
+
  BOOL found=FALSE;
 
   /* Get next token */
@@ -673,8 +678,8 @@ BOOL lexer_field(struct VRMLLexer* me,
  ASSERT(me->curID);
 
   /* Get a pointer to the entries in the user_initializeOnly vector */
- const char** userArr=&vector_get(const char*, me->user_initializeOnly, 0);
- size_t userCnt=vector_size(me->user_initializeOnly);
+ userArr=&vector_get(const char*, me->user_initializeOnly, 0);
+ userCnt=vector_size(me->user_initializeOnly);
 
 #ifdef CPARSERVERBOSE
  printf("lexer_field: looking for %s\n", me->curID);
@@ -808,8 +813,14 @@ void lexer_skip(struct VRMLLexer* me)
    } \
   } \
  }
+/* win 32 complains not enough parameters for _general but what should go for int? && true / && 1*/
+#ifdef WIN32
+#define NUMBER_PROCESS_SIGN_INT \
+ NUMBER_PROCESS_SIGN_GENERAL(&& TRUE)
+#else
 #define NUMBER_PROCESS_SIGN_INT \
  NUMBER_PROCESS_SIGN_GENERAL()
+#endif
 #define NUMBER_PROCESS_SIGN_FLOAT \
  NUMBER_PROCESS_SIGN_GENERAL(&& c!='.')
 
@@ -1357,6 +1368,7 @@ void lexer_handle_EXTERNPROTO(struct VRMLLexer *me) {
         }
 
         for (i=0; i< url.n; i++) {
+		int removeIt = FALSE;
                 /* printf ("trying url %s\n",(url.p[i])->strptr); */
                 pound = strchr((url.p[i])->strptr,'#');
                 if (pound != NULL) {
@@ -1365,10 +1377,11 @@ void lexer_handle_EXTERNPROTO(struct VRMLLexer *me) {
                 }
 
 
-                if (getValidFileFromUrl (testname ,getInputURL(), &url, emptyString)) {
+                if (getValidFileFromUrl (testname ,getInputURL(), &url, emptyString, &removeIt)) {
 
 
                         buffer = readInputString(testname);
+			if (removeIt) UNLINK (testname);
                         FREE_IF_NZ(testname);
                         embedEXTERNPROTO(me,myName,buffer,pound);
 

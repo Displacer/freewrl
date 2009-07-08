@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Textures.c,v 1.12 2009/07/06 20:13:28 crc_canada Exp $
+$Id: Textures.c,v 1.9.2.1 2009/07/08 21:55:04 couannette Exp $
 
 General Texture objects.
 
@@ -19,20 +19,22 @@ General Texture objects.
 #include "../main/headers.h"
 
 #include "../scenegraph/readpng.h"
-#include "../input/InputFunctions.h"
 #include "Textures.h"
-
 
 #ifdef AQUA
 # include <Carbon/Carbon.h>
 # include <QuickTime/QuickTime.h>
 #else
 # if HAVE_JPEGLIB_H
+#undef HAVE_STDLIB_H
+#undef FAR
+#undef HAVE_BOOLEAN
 #  include <jpeglib.h>
 #  include <setjmp.h>
 # endif
 #endif
 
+#define TEXVERBOSE 1
 
 #define DO_POSSIBLE_TEXTURE_SEQUENCE if (myTableIndex->status == TEX_NEEDSBINDING) { \
                 do_possible_textureSequence(myTableIndex); \
@@ -112,7 +114,8 @@ static struct Multi_Int32 invalidFilePixelDataNode;
 static int	invalidFilePixelData[] = {1,1,3,0x707070};
 
 /* threading variables for loading textures in threads */
-pthread_t loadThread = 0;
+DEF_THREAD(loadThread);
+
 static pthread_mutex_t texmutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t texcond   = PTHREAD_COND_INITIALIZER;
 static pthread_mutex_t genmutex = PTHREAD_MUTEX_INITIALIZER;
@@ -145,7 +148,7 @@ int	*global_tcin;
 int	global_tcin_count;
 void 	*global_tcin_lastParent;
 
-#ifdef AQUA /* for AQUA OS X sharing of OpenGL Contexts */
+#if defined(AQUA) /* for AQUA OS X sharing of OpenGL Contexts */
 
 /* # include "CGDirectDisplay.h" */
 
@@ -157,6 +160,8 @@ CGLPixelFormatAttribute attribs[] = { kCGLPFADisplayMask, 0,
 CGLPixelFormatObj pixelFormat = NULL;
 long numPixelFormats = 0;
 CGLContextObj aqtextureContext = NULL;
+
+#elif defined(WIN32)
 
 #else
 
@@ -187,10 +192,11 @@ void readpng_cleanup(int free_image_data);
 
 /************************************************************************/
 /* start up the texture thread */
-void initializeTextureThread() {
-	if (loadThread == 0) {
-		pthread_create (&loadThread, NULL, (void*(*)(void *))&_textureThread, NULL);
-	}
+void initializeTextureThread()
+{
+    if (TEST_NULL_THREAD(loadThread)) {
+	pthread_create (&loadThread, NULL, (void*(*)(void *))&_textureThread, NULL);
+    }
 }
 
 /* does a texture have alpha?  - pass in a __tableIndex from a MovieTexture, ImageTexture or PixelTexture. */
@@ -892,8 +898,8 @@ void do_possible_textureSequence(struct textureTableIndexStruct* me) {
 			Src = mt->repeatS; Trc = mt->repeatT;
 		} else if (me->nodeType == NODE_VRML1_Texture2) {
 			v1t = (struct X3D_VRML1_Texture2 *) me->scenegraphNode;
-			Src = v1t->_wrapS==VRML1MOD_REPEAT;
-			Trc = v1t->_wrapT==VRML1MOD_REPEAT;
+			Src = strcmp("REPEAT",v1t->wrapS) == NULL;
+			Trc = strcmp("REPEAT",v1t->wrapT) == NULL;
 		}
 		/* save texture params */
 		me->Src = Src ? GL_REPEAT : GL_CLAMP;
@@ -1086,6 +1092,7 @@ void new_bind_image(struct X3D_Node *node, void *param) {
 	GET_THIS_TEXTURE;
 
 	bound_textures[texture_count] = 0;
+	bound_texture_alphas[texture_count] = FALSE;
 
 	/* what is the status of this texture? */
 #ifdef TEXVERBOSE
@@ -1138,6 +1145,7 @@ void new_bind_image(struct X3D_Node *node, void *param) {
 			bound_textures[texture_count] = 
 				((struct X3D_MovieTexture *)myTableIndex->scenegraphNode)->__ctex;
 		}
+		bound_texture_alphas[texture_count] = myTableIndex->hasAlpha;
 
 		/* save the texture params for when we go through the MultiTexture stack. Non
 		   MultiTextures should have this texture_count as 0 */
@@ -1275,11 +1283,14 @@ int findTextureFile (int cwo, int *istemp) {
 		/* Dangerous, better alloc this string in function getValidFileFromUrl ... */
 		filename = (char *)MALLOC(4096);
 
-		if (getValidFileFromUrl (filename,mypath, &thisUrl, firstBytes)) {
+		if (getValidFileFromUrl (filename,mypath, &thisUrl, firstBytes, &removeIt)) {
 #ifdef TEXVERBOSE 
 		    printf ("textureThread: we were successful at locating %s\n",filename); 
 #endif
 		} else {
+/* #ifdef WIN32 */
+/* 			count = 1; */
+/* #endif */
 			if (count > 0) {
 #ifndef ARCH_PPC
 			    ConsoleMessage ("Could not locate URL for texture %d (last choice was %s)\n",cwo,filename);
@@ -1330,25 +1341,30 @@ int findTextureFile (int cwo, int *istemp) {
 		    printf ("textureThread: trying to convert on %s\n", filename);
 #endif
 		    if (!filename) {
-			printf("textureThread: error: trying to load null file\n");
-			return FALSE;
+				printf("textureThread: error: trying to load null file\n");
+				return FALSE;
 		    }
-		    sysline = (char *)MALLOC(sizeof(char)*(strlen(filename)+100));
-		    sprintf(sysline,"%s %s /tmp/freewrl%d.png",
-			    IMAGECONVERT, filename, getpid());
+/* #ifdef WIN32 */
+/* 			if( IMAGECONVERT == NULL ) */
+/* 			{ */
+/* 				return FALSE; */
+/* 			} */
+/* #endif */
+			sysline = (char *)MALLOC(sizeof(char)*(strlen(filename)+100));
+			sprintf(sysline,"%s %s /tmp/freewrl%d.png", IMAGECONVERT, filename, getpid());
 #ifdef TEXVERBOSE 
-		    printf ("textureThread: running convert on %s\n",sysline);
+			printf ("textureThread: running convert on %s\n",sysline);
 #endif
 
-		    if (freewrlSystem (sysline) != TRUE) {
-			printf ("Freewrl: error running convert line %s\n",sysline);
-		    } else {
-			FREE_IF_NZ(filename);
-			filename = (char *)MALLOC(4096);
-			sprintf (filename,"/tmp/freewrl%d.png",getpid());
-			*istemp=TRUE;
-		    }
-		    FREE_IF_NZ (sysline);
+			if (freewrlSystem (sysline) != TRUE) {
+				printf ("Freewrl: error running convert line %s\n",sysline);
+			} else {
+				FREE_IF_NZ(filename);
+				filename = (char *)MALLOC(4096);
+				sprintf (filename,"/tmp/freewrl%d.png",getpid());
+				*istemp=TRUE;
+			}
+			FREE_IF_NZ (sysline);
 		}
 	}
 #endif /* AQUA */
@@ -1489,7 +1505,7 @@ void _textureThread(void)
 
 	    /* is this a temporary file? */
 	    if (remove) { 
-		unlinkShadowFile (loadThisTexture->filename); 
+		UNLINK (loadThisTexture->filename); 
 		FREE_IF_NZ(loadThisTexture->filename); 
 	    } 
 	} else {
@@ -1698,9 +1714,9 @@ static void __reallyloadImageTexture() {
 	CGImageSourceRef 	sourceRef;
 
 
-	/* printf ("loading %s imageType %d\n",getShadowFileNamePtr(loadThisTexture->filename), loadThisTexture->imageType);  */
+	/* printf ("loading %s imageType %d\n",loadThisTexture->filename, loadThisTexture->imageType);  */
 
-	path = CFStringCreateWithCString(NULL, getShadowFileNamePtr(loadThisTexture->filename), kCFStringEncodingUTF8);
+	path = CFStringCreateWithCString(NULL, loadThisTexture->filename, kCFStringEncodingUTF8);
 	url = CFURLCreateWithFileSystemPath (NULL, path, kCFURLPOSIXPathStyle, NULL);
 
 	/* ok, we can define USE_CG_DATA_PROVIDERS or TRY_QUICKTIME...*/
@@ -1891,7 +1907,11 @@ static void __reallyloadImageTexture() {
 
 
 	filename = loadThisTexture->filename;
-	infile = openLocalFile(filename,"r");
+/* #ifdef WIN32 */
+/* 	infile = fopen(filename,"rb"); */
+/* #else */
+	infile = fopen(filename,"r");
+/* #endif */
 
 
 	/* printf ("reallyLoad on linux, texture type %d\n",loadThisTexture->imageType); */

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Snapshot.c,v 1.4 2009/04/28 13:14:13 couannette Exp $
+$Id: Snapshot.c,v 1.4.2.1 2009/07/08 21:55:04 couannette Exp $
 
 CProto ???
 
@@ -53,6 +53,16 @@ int doSnapshot = FALSE;		/* are we doing a snapshot?			*/
 /* need to re-implement this for OSX generating QTVR */
 void saveSnapSequence();
 #endif
+
+#ifdef WIN32
+/* stubbs for now */
+void setSnapshot() {}
+void Snapshot () {}
+void setSnapGif(){}
+void saveSnapSequence() {}
+
+
+#else /*ifdef win32*/
 
 void setSnapGif()
 {
@@ -340,3 +350,4 @@ void Snapshot () {
 #endif
 	#endif
 }
+#endif /*ifdef win32*/

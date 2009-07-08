@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: OpenGL_Utils.c,v 1.43 2009/07/07 15:12:02 crc_canada Exp $
+$Id: OpenGL_Utils.c,v 1.39.2.1 2009/07/08 21:55:04 couannette Exp $
 
 ???
 
@@ -40,8 +40,8 @@ void kill_rendering(void);
 
 /* Node Tracking */
 void kill_X3DNodes(void);
-static void createdMemoryTable();
-static void increaseMemoryTable();
+void createdMemoryTable();
+void increaseMemoryTable();
 static struct X3D_Node ** memoryTable = NULL;
 static int nodeNumber = 0;
 static int tableIndexSize = INT_ID_UNDEFINED;
@@ -56,17 +56,16 @@ static int lights[8];
 int displayDepth = 24;
 
 
-static float cc_red = 0.0f, cc_green = 0.0f, cc_blue = 0.0f, cc_alpha = 1.0f;
+float cc_red = 0.0f, cc_green = 0.0f, cc_blue = 0.0f, cc_alpha = 1.0f;
 int cc_changed = FALSE;
 
-static pthread_mutex_t  memtablelock = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t  memtablelock = PTHREAD_MUTEX_INITIALIZER;
 /*
 #define LOCK_MEMORYTABLE
 #define UNLOCK_MEMORYTABLE
 */
 #define LOCK_MEMORYTABLE 		pthread_mutex_lock(&memtablelock);
 #define UNLOCK_MEMORYTABLE		pthread_mutex_unlock(&memtablelock);
-
 
 /******************************************************************/
 /* textureTransforms of all kinds */
@@ -233,8 +232,12 @@ void glPrintError(char *str) {
 
 
 /* did we have a TextureTransform in the Appearance node? */
-void start_textureTransform (struct X3D_Node *textureNode, int ttnum) {
+void start_textureTransform (void *textureNode, int ttnum) {
+	struct X3D_TextureTransform  *ttt;
+	struct X3D_MultiTextureTransform *mtt;
 	
+	/* first, is this a textureTransform, or a MultiTextureTransform? */
+	ttt = (struct X3D_TextureTransform *) textureNode;
 
 	/* stuff common to all textureTransforms - gets undone at end_textureTransform */
 	FW_GL_MATRIX_MODE(GL_TEXTURE);
@@ -242,8 +245,7 @@ void start_textureTransform (struct X3D_Node *textureNode, int ttnum) {
 	FW_GL_LOAD_IDENTITY();
 
 	/* is this a simple TextureTransform? */
-	if (textureNode->_nodeType == NODE_TextureTransform) {
-		struct X3D_TextureTransform  *ttt = (struct X3D_TextureTransform *) textureNode;
+	if (ttt->_nodeType == NODE_TextureTransform) {
 		/*  Render transformations according to spec.*/
         	FW_GL_TRANSLATE_F(-((ttt->center).c[0]),-((ttt->center).c[1]), 0);		/*  5*/
         	FW_GL_SCALE_F(((ttt->scale).c[0]),((ttt->scale).c[1]),1);			/*  4*/
@@ -252,10 +254,10 @@ void start_textureTransform (struct X3D_Node *textureNode, int ttnum) {
         	FW_GL_TRANSLATE_F(((ttt->translation).c[0]), ((ttt->translation).c[1]), 0);	/*  1*/
 
 	/* is this a MultiTextureTransform? */
-	} else  if (textureNode->_nodeType == NODE_MultiTextureTransform) {
-		struct X3D_MultiTextureTransform *mtt = (struct X3D_MultiTextureTransform *) textureNode;
+	} else  if (ttt->_nodeType == NODE_MultiTextureTransform) {
+		mtt = (struct X3D_MultiTextureTransform *) textureNode;
 		if (ttnum < mtt->textureTransform.n) {
-			struct X3D_TextureTransform *ttt = (struct X3D_TextureTransform *) mtt->textureTransform.p[ttnum];
+			ttt = (struct X3D_TextureTransform *) mtt->textureTransform.p[ttnum];
 			/* is this a simple TextureTransform? */
 			if (ttt->_nodeType == NODE_TextureTransform) {
 				/*  Render transformations according to spec.*/
@@ -272,22 +274,14 @@ void start_textureTransform (struct X3D_Node *textureNode, int ttnum) {
 			printf ("not enough textures in MultiTextureTransform....\n");
 		}
 
-	} else if (textureNode->_nodeType == NODE_VRML1_Texture2Transform) {
-		struct X3D_VRML1_Texture2Transform  *ttt = (struct X3D_VRML1_Texture2Transform *) textureNode;
-		/*  Render transformations according to spec.*/
-        	FW_GL_TRANSLATE_F(-((ttt->center).c[0]),-((ttt->center).c[1]), 0);		/*  5*/
-        	FW_GL_SCALE_F(((ttt->scaleFactor).c[0]),((ttt->scaleFactor).c[1]),1);			/*  4*/
-        	FW_GL_ROTATE_F((ttt->rotation) /3.1415926536*180,0,0,1);			/*  3*/
-        	FW_GL_TRANSLATE_F(((ttt->center).c[0]),((ttt->center).c[1]), 0);		/*  2*/
-        	FW_GL_TRANSLATE_F(((ttt->translation).c[0]), ((ttt->translation).c[1]), 0);	/*  1*/
 	} else {
-		printf ("expected a textureTransform node, got %d\n",textureNode->_nodeType);
+		printf ("expected a textureTransform node, got %d\n",ttt->_nodeType);
 	}
 	FW_GL_MATRIX_MODE(GL_MODELVIEW);
 }
 
 /* did we have a TextureTransform in the Appearance node? */
-void end_textureTransform (void) {
+void end_textureTransform (void *textureNode, int ttnum) {
 	FW_GL_MATRIX_MODE(GL_TEXTURE);
 	FW_GL_LOAD_IDENTITY();
 	FW_GL_MATRIX_MODE(GL_MODELVIEW);
@@ -345,7 +339,6 @@ void glpOpenGLInitialize() {
         #endif
 
 	/* Configure OpenGL for our uses. */
-
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_NORMAL_ARRAY);
 	glClearColor(cc_red, cc_green, cc_blue, cc_alpha);
@@ -428,7 +421,9 @@ void invalidateCurMat() {
 
 	if (myMat == GL_PROJECTION) PROJmatOk=FALSE;
 	else if (myMat == GL_MODELVIEW) MODmatOk=FALSE;
-	else {printf ("fwLoad, unknown %d\n",myMat);}
+	else {
+		printf ("fwLoad, unknown %d\n",myMat);
+	}
 }
 
 void fwLoadIdentity () {
@@ -532,6 +527,20 @@ void fwGetDoublev (int ty, double *mat) {
 	}
 }
 
+#ifdef WIN32
+/* FIXME: why use a C++ compiler ??? */
+/* inline is cpp, ms has __inline for C */
+__inline void fwXformPush(void) {
+	FW_GL_PUSH_MATRIX(); 
+	MODmatOk = FALSE;
+}
+
+__inline void fwXformPop(void) {
+	FW_GL_POP_MATRIX(); 
+	MODmatOk = FALSE;
+}
+
+#else
 inline void fwXformPush(void) {
 	FW_GL_PUSH_MATRIX(); 
 	MODmatOk = FALSE;
@@ -541,7 +550,7 @@ inline void fwXformPop(void) {
 	FW_GL_POP_MATRIX(); 
 	MODmatOk = FALSE;
 }
-
+#endif
 /* for Sarah's front end - should be removed sometime... */
 void kill_rendering() {kill_X3DNodes();}
 
@@ -595,8 +604,6 @@ void kill_oldWorld(int kill_EAI, int kill_JavaScript, int loadedFromURL, char *f
 	/* free memory */
 	kill_X3DNodes();
 
-	/* kill the shadowFileTable, if it exists */
-	kill_shadowFileTable();
 
 	#ifndef AQUA
 		sprintf (mystring, "QUIT");
@@ -963,6 +970,7 @@ void startOfLoopNodeUpdates(void) {
 	childrenPtr = NULL;
 	anchorPtr = NULL;
 
+
 	for (i=0; i<nextEntry; i++){		
 		node = memoryTable[i];	
 		if (node != NULL) {
@@ -975,7 +983,7 @@ void startOfLoopNodeUpdates(void) {
 						/* printf ("shape occludecounter, pushing visiblechildren flags\n");  */
 
 					}
-					X3D_SHAPE(node)->__occludeCheckCount--;
+					if (OccResultsAvailable) X3D_SHAPE(node)->__occludeCheckCount--;
 					/* printf ("shape occludecounter %d\n",X3D_SHAPE(node)->__occludeCheckCount); */
 				END_NODE
 
@@ -1029,6 +1037,10 @@ void startOfLoopNodeUpdates(void) {
 					EVIN_AND_FIELD_SAME(height,GeoElevationGrid)
 				END_NODE
 				BEGIN_NODE(ElevationGrid)
+					EVIN_AND_FIELD_SAME(colorIndex,ElevationGrid)
+					EVIN_AND_FIELD_SAME(coordIndex,ElevationGrid)
+					EVIN_AND_FIELD_SAME(normalIndex,ElevationGrid)
+					EVIN_AND_FIELD_SAME(texCoordIndex,ElevationGrid)
 					EVIN_AND_FIELD_SAME(height,ElevationGrid)
 				END_NODE
 				BEGIN_NODE(Extrusion)
@@ -1042,6 +1054,7 @@ void startOfLoopNodeUpdates(void) {
 					EVIN_AND_FIELD_SAME(coordIndex,IndexedFaceSet)
 					EVIN_AND_FIELD_SAME(normalIndex,IndexedFaceSet)
 					EVIN_AND_FIELD_SAME(texCoordIndex,IndexedFaceSet)
+					EVIN_AND_FIELD_SAME(height,IndexedFaceSet)
 				END_NODE
 /* GeoViewpoint works differently than other nodes - see compile_GeoViewpoint for manipulation of these fields
 				BEGIN_NODE(GeoViewpoint)
@@ -1155,7 +1168,9 @@ void startOfLoopNodeUpdates(void) {
 						/* printf ("vis occludecounter, pushing visiblechildren flags\n"); */
 
 					}
-					X3D_VISIBILITYSENSOR(node)->__occludeCheckCount--;
+					if (OccResultsAvailable) X3D_VISIBILITYSENSOR(node)->__occludeCheckCount--;
+					/* printf ("vis occludecounter %d\n",X3D_VISIBILITYSENSOR(node)->__occludeCheckCount); */
+
 					/* VisibilitySensors have a transparent bounding box we have to render */
                 			update_renderFlag(node,VF_Blend);
 				END_NODE
@@ -1397,6 +1412,18 @@ void kill_X3DNodes(void){
 				}
 			}
 
+			/* GeoElevationGrids pass a lot of info down to an attached ElevationGrid */
+			if (structptr->_nodeType == NODE_GeoElevationGrid) {
+				if (*fieldOffsetsPtr == FIELDNAMES_color) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_normal) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_texCoord) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_ccw) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_colorPerVertex) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_creaseAngle) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_normalPerVertex) break;
+				if (*fieldOffsetsPtr == FIELDNAMES_solid) break;
+			}
+
 			/* GeoLOD nodes, the children field exports either the rootNode, or the list of child nodes */
 			if (structptr->_nodeType == NODE_GeoLOD) {
 				if (*fieldOffsetsPtr == FIELDNAMES_children) break;
@@ -1464,6 +1491,7 @@ void kill_X3DNodes(void){
 					break;
 				case FIELDTYPE_MFString: 
 					MString=(struct Multi_String *)fieldPtr;
+					{
 					struct Uni_String* ustr;
 					for (j=0; j<MString->n; j++) {
 						ustr=MString->p[j];
@@ -1473,6 +1501,7 @@ void kill_X3DNodes(void){
 					}
 					MString->n=0;
 					FREE_IF_NZ(MString->p);
+					}
 					break;
 				case FIELDTYPE_MFVec2f:
 					MVec2f=(struct Multi_Vec2f *)fieldPtr;
