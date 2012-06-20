@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLView.java,v 1.7 2012/06/19 15:08:05 crc_canada Exp $
+  $Id: FreeWRLView.java,v 1.8 2012/06/20 17:25:57 crc_canada Exp $
 
 */
 
@@ -208,7 +208,8 @@ class FreeWRLView extends GLSurfaceView {
 		// did we have a new file name here?
 		if (possibleNewX3DFile != null) {
 			myNewX3DFile = possibleNewX3DFile;
-			FreeWRLLib.replaceWorldNeeded(possibleNewX3DFile);
+			FreeWRLLib.replaceWorldNeeded(myNewX3DFile);
+			possibleNewX3DFile = null;
 		}
 		loadNewX3DFile = true;
 	}

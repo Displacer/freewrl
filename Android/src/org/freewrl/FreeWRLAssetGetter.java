@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLAssetGetter.java,v 1.6 2012/06/15 16:51:50 crc_canada Exp $
+  $Id: FreeWRLAssetGetter.java,v 1.7 2012/06/20 17:25:57 crc_canada Exp $
 
 */
 
@@ -69,8 +69,8 @@ FreeWRLAssetData myAssetSize;
 		int off = (int) myAssetSize.offset;
 		int len = (int) myAssetSize.length;
 		int res = FreeWRLLib.resourceFile(fd, off, len);
-		Log.w(TAG,"-------------and, the getStartOffset, getLength is " + off + "  " + len);
-		Log.w (TAG,"------------resourceFile NDK call returns " + res);
+		//Log.w(TAG,"-------------and, the getStartOffset, getLength is " + off + "  " + len);
+		//Log.w (TAG,"------------resourceFile NDK call returns " + res);
 
 		return myName;
 	}
