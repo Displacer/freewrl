@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLActivity.java,v 1.16 2012/06/25 22:26:31 crc_canada Exp $
+  $Id: FreeWRLActivity.java,v 1.17 2012/06/26 18:33:15 crc_canada Exp $
 
 */
 
@@ -144,9 +144,14 @@ private Process mLogcatProc = null;
 private BufferedReader reader = null;
 private final int BUFFER_SIZE = 1024;
 
-private String getLastConsoleMessage() {
-	String retString = FreeWRLLib.androidGetLastMessage();
-Log.w(TAG,"getLastConsoleMessage returns: " + retString);
+// get the last so many console messages. Message 0 is most recent, 1 is prev, 2, prev
+// to that, etc. etc.
+
+private String getLastConsoleMessages() {
+	String retString = FreeWRLLib.androidGetLastMessage(0) + 
+			"\n(prev):\n" + FreeWRLLib.androidGetLastMessage(1) +
+			"\n(prev):\n" + FreeWRLLib.androidGetLastMessage(2);
+	//Log.w(TAG,"getLastConsoleMessages returns: " + retString);
 	return retString;
 }
 
@@ -206,7 +211,7 @@ public boolean onOptionsItemSelected (MenuItem item){
 			myConsole = new ConsoleLayout(getApplication(),null);
 
 			Log.w(TAG, "3 going to findViewById");
-			myConsole.setConsoleListing(FreeWRLVersion.version,FreeWRLVersion.compileDate,getLastConsoleMessage());
+			myConsole.setConsoleListing(FreeWRLVersion.version,FreeWRLVersion.compileDate,getLastConsoleMessages());
 
 			// set the background colour - let FreeWRL show through sometimes.
 			myConsole.setBackgroundColor(0xAF000000 );
