@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLVersion.java,v 1.8 2012/06/26 20:43:37 crc_canada Exp $
+  $Id: FreeWRLVersion.java,v 1.9 2012/06/26 21:02:33 crc_canada Exp $
 
 */
 
@@ -26,5 +26,5 @@ package org.freewrl;
 
 public class FreeWRLVersion {
 	public static String version = "1.22.13";
-	public static String compileDate = "2012-06-26:14:50:02";
+	public static String compileDate = "2012-06-26:16:59:25";
 }
