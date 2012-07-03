@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLLib.java,v 1.7 2012/06/26 18:33:15 crc_canada Exp $
+  $Id: FreeWRLLib.java,v 1.8 2012/07/03 20:49:36 crc_canada Exp $
 
 */
 
@@ -49,4 +49,5 @@ public class FreeWRLLib {
 	public static native void setTmpDir(String tmpDirectory);
 
 	public static native String androidGetLastMessage(int whichone);
+	public static native int androidGetUnreadMessageCount();
 }

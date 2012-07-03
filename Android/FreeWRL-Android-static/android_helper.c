@@ -1,5 +1,5 @@
 /*
-  $Id: android_helper.c,v 1.16 2012/07/03 19:14:12 crc_canada Exp $
+  $Id: android_helper.c,v 1.17 2012/07/03 20:49:36 crc_canada Exp $
 
 */
 
@@ -304,6 +304,13 @@ JNIEXPORT void JNICALL Java_org_freewrl_FreeWRLLib_handleAqua(JNIEnv *env, jobje
         fwl_handle_aqua(but,state,x,y);
 }
 
+// how many console messages do we have?
+JNIEXPORT jint JNICALL Java_org_freewrl_FreeWRLLib_androidGetUnreadMessageCount(JNIEnv *env, jobject obj) {
+	DROIDDEBUG("------------------RESOURCE NAME WANTED CALLED----------------------");
+	return android_get_unread_message_count();
+}
+
+// get the console message, indicated by the parameter.
 JNIEXPORT jstring JNICALL Java_org_freewrl_FreeWRLLib_androidGetLastMessage(JNIEnv *env, jobject obj, int whichone) {
 	DROIDDEBUG("------------------RESOURCE NAME WANTED CALLED----------------------");
 	return (*env)->NewStringUTF(env,android_get_last_message(whichone));
