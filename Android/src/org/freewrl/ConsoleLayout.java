@@ -1,5 +1,5 @@
 /*
-  $Id: ConsoleLayout.java,v 1.4 2012/06/25 14:33:14 crc_canada Exp $
+  $Id: ConsoleLayout.java,v 1.5 2012/07/03 19:14:12 crc_canada Exp $
 
 */
 
@@ -75,10 +75,6 @@ import android.widget.Button;
 		newConsoleView.setVisibility(View.GONE);
              }
          });
-
-        Log.w(TAG, "Constructed");
-        //setList(root, lstView);
-
     }
 
     //Set Directory for view at anytime

@@ -1,5 +1,5 @@
 /*
-  $Id: android_helper.c,v 1.15 2012/06/26 18:33:15 crc_canada Exp $
+  $Id: android_helper.c,v 1.16 2012/07/03 19:14:12 crc_canada Exp $
 
 */
 
@@ -103,6 +103,7 @@ void fileLoadThread(void* param) {
 
 void DROIDDEBUG( const char*pFmtStr, ...)
 {
+#ifdef DEBUG
 	static char zLog[500];
 	
 	va_list mrk;
@@ -110,6 +111,7 @@ void DROIDDEBUG( const char*pFmtStr, ...)
 	vsprintf(zLog,pFmtStr, mrk);
 	va_end(mrk);
 	__android_log_print(ANDROID_LOG_INFO,LOG_TAG,zLog);
+#endif //DEBUG
 }
 
 JNIEXPORT jint JNICALL JNI_OnLoad( JavaVM* vm, void* reserved )

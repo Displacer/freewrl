@@ -1,5 +1,5 @@
 /*
-  $Id: FolderLayout.java,v 1.3 2012/06/15 16:51:50 crc_canada Exp $
+  $Id: FolderLayout.java,v 1.4 2012/07/03 19:14:12 crc_canada Exp $
 
 */
 
@@ -84,7 +84,6 @@ import android.widget.Button;
              }
          });
 
-        Log.w(TAG, "Constructed");
         getDir(root, lstView);
 
     }

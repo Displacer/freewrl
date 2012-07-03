@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLAssetGetter.java,v 1.8 2012/06/25 14:33:14 crc_canada Exp $
+  $Id: FreeWRLAssetGetter.java,v 1.9 2012/07/03 19:14:12 crc_canada Exp $
 
 */
 
@@ -57,7 +57,7 @@ FreeWRLAssetData myAssetSize;
 
 		myAsset = new FreeWRLAssets();
 
-		Log.w(TAG,"now, RESOURCE Wanted name is " + myName);
+		//Log.w(TAG,"now, RESOURCE Wanted name is " + myName);
 
 		myAssetSize = myAsset.openAsset(myContext,myName);
 
@@ -75,7 +75,7 @@ FreeWRLAssetData myAssetSize;
 
 	@Override
 	protected void onPostExecute(String result) {
-		Log.w(TAG, "FreeWRLAssetGetter onPostExecute done - string "+ result);
+		//Log.w(TAG, "FreeWRLAssetGetter onPostExecute done - string "+ result);
 		FreeWRLActivity.currentlyGettingResource=false;
 
 	}
