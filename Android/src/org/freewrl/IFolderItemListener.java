@@ -1,5 +1,5 @@
 /*
-  $Id: IFolderItemListener.java,v 1.2 2012/06/15 16:51:50 crc_canada Exp $
+  $Id: IFolderItemListener.java,v 1.3 2012/07/31 15:47:54 crc_canada Exp $
 
 */
 
@@ -31,4 +31,5 @@ public interface IFolderItemListener {
 
     void OnCannotFileRead(File file);//implement what to do folder is Unreadable
     void OnFileClicked(File file);//What to do When a file is clicked
+    void OnDirectoryClicked(File file);//What to do When a directory is clicked
 }
