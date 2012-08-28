@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLLib.java,v 1.8 2012/07/03 20:49:36 crc_canada Exp $
+  $Id: FreeWRLLib.java,v 1.9 2012/08/28 15:34:52 crc_canada Exp $
 
 */
 
@@ -45,7 +45,7 @@ public class FreeWRLLib {
 	public static native void nextViewpoint();
 	public static native void doQuitInstance();
 	public static native void createInstance();
-	public static native void replaceWorldNeeded(String newFile);
+	public static native void replaceWorldNeeded();
 	public static native void setTmpDir(String tmpDirectory);
 
 	public static native String androidGetLastMessage(int whichone);

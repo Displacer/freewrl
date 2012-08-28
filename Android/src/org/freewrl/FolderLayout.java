@@ -1,5 +1,5 @@
 /*
-  $Id: FolderLayout.java,v 1.5 2012/07/31 15:47:54 crc_canada Exp $
+  $Id: FolderLayout.java,v 1.6 2012/08/28 15:34:52 crc_canada Exp $
 
 */
 
@@ -61,7 +61,7 @@ import android.widget.Button;
 
     private View newFileView;
 
-    private static String TAG = "FreeWRLView";
+    private static String TAG = "FreeWRLFolderLayout";
 
     public FolderLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -78,8 +78,8 @@ import android.widget.Button;
 	CancelButton = (Button) findViewById(R.id.CancelButton);
 	CancelButton.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
-                 // Perform action on click
-		newFileView.setVisibility(View.GONE);
+		// pop back to main window on dismiss
+		FreeWRLActivity.popBackToMainView();
              }
          });
 

@@ -1,5 +1,5 @@
 /*
-  $Id: ConsoleLayout.java,v 1.5 2012/07/03 19:14:12 crc_canada Exp $
+  $Id: ConsoleLayout.java,v 1.6 2012/08/28 15:34:52 crc_canada Exp $
 
 */
 
@@ -53,7 +53,7 @@ import android.widget.Button;
 
     private View newConsoleView;
 
-    private static String TAG = "FreeWRLView";
+    private static String TAG = "FreeWRLConsoleLayout";
 
     public ConsoleLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -71,8 +71,8 @@ import android.widget.Button;
 	CancelButton = (Button) findViewById(R.id.CancelButton);
 	CancelButton.setOnClickListener(new View.OnClickListener() {
              public void onClick(View v) {
-                 // Perform action on click
-		newConsoleView.setVisibility(View.GONE);
+                 // clicked dismiss; back to main window.
+		FreeWRLActivity.popBackToMainView();
              }
          });
     }
