@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CRoutes.c,v 1.87 2012/08/29 19:56:17 crc_canada Exp $
+$Id: CRoutes.c,v 1.88 2012/08/30 16:18:29 crc_canada Exp $
 
 ???
 
@@ -2017,6 +2017,8 @@ Stop routing, remove structure. Used for ReplaceWorld style calls.
 
 void kill_routing (void) {
 	ppCRoutes p = (ppCRoutes)gglobal()->CRoutes.prv;
+
+ConsoleMessage ("kill_routing called\n");
 
         if (p->CRoutes_Initiated) {
                 p->CRoutes_Initiated = FALSE;
