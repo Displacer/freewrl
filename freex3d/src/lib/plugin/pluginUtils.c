@@ -1,5 +1,5 @@
 /*
-  $Id: pluginUtils.c,v 1.59 2012/08/28 15:33:52 crc_canada Exp $
+  $Id: pluginUtils.c,v 1.60 2012/08/31 16:24:22 crc_canada Exp $
 
   FreeWRL support library.
   Plugin interaction.
@@ -400,7 +400,7 @@ bool Anchor_ReplaceWorld(const char *name)
 {
 	resource_item_t *AR_res;
 
-ConsoleMessage ("Anchor_ReplaceWorld called\n");
+	//ConsoleMessage ("Anchor_ReplaceWorld called\n");
 
 	AR_res = resource_create_single(name);
 	AR_res->new_root = TRUE;

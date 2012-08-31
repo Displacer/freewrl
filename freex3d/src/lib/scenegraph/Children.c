@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Children.c,v 1.21 2012/08/30 16:18:29 crc_canada Exp $
+$Id: Children.c,v 1.22 2012/08/31 16:24:22 crc_canada Exp $
 
 Render the children of nodes.
 
@@ -119,11 +119,13 @@ void  UPDATE_RENDERFLAG (struct X3D_Node *p, int flag, char *fi, int li) {
 
 		if (me==NULL) {
 			ConsoleMessage ("update_renderFlag, me  NULL for child %d",i);
+			markForDispose(p, TRUE);
 			return;
 		}
 
 		if (me->_parentVector == NULL) {
-			ConsoleMessage ("warning, for node %p, pv %d, child has null parentVector\n",p,i);
+			ConsoleMessage ("warning, for node %p (%s), pv %d, child has null parentVector\n",p,stringNodeType(p->_nodeType),i);
+			markForDispose(p, TRUE);
 			return;
 		}
 

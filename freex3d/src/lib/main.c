@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.81 2012/08/28 15:33:52 crc_canada Exp $
+  $Id: main.c,v 1.82 2012/08/31 16:24:22 crc_canada Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -247,7 +247,7 @@ static ttglobal fwl_instance_parameters = NULL;
 
 void* fwl_init_instance()
 {
-	ConsoleMessage ("called fwl_init_instance");
+	//ConsoleMessage ("called fwl_init_instance");
 	fwl_instance_parameters = iglobal_constructor();
 	return (void *)fwl_instance_parameters;
 }
@@ -339,7 +339,7 @@ bool fwl_initFreeWRL(freewrl_params_t *params)
 void fwl_startFreeWRL(const char *url)
 {
 
-printf ("yes, really, FWL_STARTFREEWRL called is called\n");
+	//ConsoleMessage ("yes, really, FWL_STARTFREEWRL called is called\n");
 
 	/* Give the main argument to the resource handler */
 	if (url != NULL) {
