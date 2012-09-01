@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLActivity.java,v 1.22 2012/08/28 15:34:52 crc_canada Exp $
+  $Id: FreeWRLActivity.java,v 1.23 2012/09/01 13:18:27 crc_canada Exp $
 
 */
 
@@ -24,7 +24,18 @@
 
 package org.freewrl;
 
-import android.view.MenuInflater;
+/***** ActionBarSherlock ****/
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuInflater;
+
+//import android.view.MenuInflater;
+//import android.view.Menu;
+//import android.view.MenuItem;
+/***** END ActionBarSherlock ****/
+
 
 import java.util.Stack;
 
@@ -37,8 +48,6 @@ import java.util.List;
 import android.content.IntentFilter;
 import android.content.Context;
 
-import android.view.Menu;
-import android.view.MenuItem;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -66,7 +75,8 @@ import java.io.InputStreamReader;
 // for removing local file and console Views
 import android.view.View;
 
-public class FreeWRLActivity extends Activity implements IFolderItemListener {
+//ActionBarSherlock... public class FreeWRLActivity extends Activity implements IFolderItemListener {
+public class FreeWRLActivity extends SherlockActivity implements IFolderItemListener {
 	static FreeWRLView glView;
 	static LinearLayout mainView;
 
@@ -262,7 +272,11 @@ public void onBackPressed() {
 
 @Override
 public boolean onCreateOptionsMenu(Menu menu) {
-	MenuInflater inflater = getMenuInflater();
+
+	// ActionBarSherlock...MenuInflater inflater = getMenuInflater();
+	MenuInflater inflater = getSupportMenuInflater(); //ActionBarSherlock
+
+
 	inflater.inflate(R.menu.main_activity, menu);
 	//Log.w(TAG,"onCreateOptionsMenu called");
 	return true;
