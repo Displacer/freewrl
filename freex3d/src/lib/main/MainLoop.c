@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.269 2012/08/30 16:18:29 crc_canada Exp $
+  $Id: MainLoop.c,v 1.270 2012/09/03 16:42:12 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -376,7 +376,7 @@ static void stopLoadThread()
 			int status; 
 			char me[200]; 
 			sprintf(me,"faking pthread cancel on thread %x",tg->threads.loadThread); 
-			ConsoleMessage(me); 
+			//ConsoleMessage(me); 
 			if ((status = pthread_kill(tg->threads.loadThread, SIGUSR2)) != 0) {
 				ConsoleMessage("issue stopping thread");
 			}
@@ -405,7 +405,7 @@ static void stopPCThread()
 			int status; 
 			char me[200]; 
 			sprintf(me,"faking pthread cancel on thread %x",tg->threads.PCthread); 
-			ConsoleMessage(me); 
+			//ConsoleMessage(me); 
 			if ((status = pthread_kill(tg->threads.PCthread, SIGUSR2)) != 0) {
 				ConsoleMessage("issue stopping thread");
 			}
