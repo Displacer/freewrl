@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLView.java,v 1.10 2012/08/28 15:34:52 crc_canada Exp $
+  $Id: FreeWRLView.java,v 1.11 2012/09/04 02:56:47 crc_canada Exp $
 
 */
 
@@ -541,9 +541,9 @@ private static class ConfigChooser implements GLSurfaceView.EGLConfigChooser {
                 int attribute = attributes[i];
                 String name = names[i];
                 if ( egl.eglGetConfigAttrib(display, config, attribute, value)) {
-                    //Log.w(TAG, String.format("  %s: %d\n", name, value[0]));
+                    Log.w(TAG, String.format("  %s: %d\n", name, value[0]));
                 } else {
-                    // Log.w(TAG, String.format("  %s: failed\n", name));
+                    Log.w(TAG, String.format("  %s: failed\n", name));
                     while (egl.eglGetError() != EGL10.EGL_SUCCESS);
                 }
             }
@@ -574,6 +574,7 @@ private static class Renderer implements GLSurfaceView.Renderer {
 		// do the draw
 		if (loadNewX3DFile) {
 			//Log.w(TAG,"onDrawFrame, new file");
+			//Log.w(TAG,myNewX3DFile);
 			loadNewX3DFile = false;
 			FreeWRLLib.initialFile(myNewX3DFile);
 		}
