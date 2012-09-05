@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLAssetData.java,v 1.7 2012/09/05 13:13:03 crc_canada Exp $
+  $Id: FreeWRLAssetData.java,v 1.8 2012/09/05 15:06:52 crc_canada Exp $
 
 */
 
@@ -181,7 +181,7 @@ public class FreeWRLAssetData {
 
 				myStream.reset();
 			} catch (IOException e) {
-				Log.w(TAG,"io exception caught");
+				Log.w(TAG,"io exception caught - mybitmap is " + mybitmap);
 			}
 			
 			// do we have a valid input stream, that is NOT a bitmap?

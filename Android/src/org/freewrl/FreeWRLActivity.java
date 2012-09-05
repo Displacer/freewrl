@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLActivity.java,v 1.24 2012/09/03 16:20:52 crc_canada Exp $
+  $Id: FreeWRLActivity.java,v 1.25 2012/09/05 15:06:52 crc_canada Exp $
 
 */
 
@@ -172,8 +172,8 @@ private static String lastDirectoryBrowsed = null;
 
 private String getLastConsoleMessages() {
 	String retString = FreeWRLLib.androidGetLastMessage(0) + 
-			"\n(prev):\n" + FreeWRLLib.androidGetLastMessage(1) +
-			"\n(prev):\n" + FreeWRLLib.androidGetLastMessage(2);
+			"\n(previous):\n" + FreeWRLLib.androidGetLastMessage(1) +
+			"\n(previous):\n" + FreeWRLLib.androidGetLastMessage(2);
 	//Log.w(TAG,"getLastConsoleMessages returns: " + retString);
 	return retString;
 }

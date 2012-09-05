@@ -1,5 +1,5 @@
 /*
-  $Id: FreeWRLView.java,v 1.11 2012/09/04 02:56:47 crc_canada Exp $
+  $Id: FreeWRLView.java,v 1.12 2012/09/05 15:06:52 crc_canada Exp $
 
 */
 
@@ -401,7 +401,10 @@ private static class ConfigChooser implements GLSurfaceView.EGLConfigChooser {
             int numConfigs = num_config[0];
 
             if (numConfigs <= 0) {
-                throw new IllegalArgumentException("No configs match configSpec");
+                //throw new IllegalArgumentException("No configs match configSpec");
+		Log.e(TAG,"Need OpenGL ES 2.0 - not found");
+		
+		return null;
             }
 
             /* Allocate then read the array of minimally matching EGL configs
