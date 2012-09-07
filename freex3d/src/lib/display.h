@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.161 2012/08/09 17:14:30 crc_canada Exp $
+  $Id: display.h,v 1.162 2012/09/07 19:30:52 crc_canada Exp $
 
   FreeWRL support library.
 
@@ -417,6 +417,9 @@ typedef struct s_shader_capabilities{
 	GLint filledBool;
 	GLint hatchedBool;
 	GLint algorithm;
+    
+    /* TextureCoordinateGenerator type */
+    GLint texCoordGenType;
 
 	
 } s_shader_capabilities_t;

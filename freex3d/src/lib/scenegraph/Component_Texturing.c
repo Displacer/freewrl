@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Texturing.c,v 1.27 2012/07/18 01:15:17 crc_canada Exp $
+$Id: Component_Texturing.c,v 1.28 2012/09/07 19:30:52 crc_canada Exp $
 
 X3D Texturing Component
 
@@ -42,47 +42,6 @@ X3D Texturing Component
 #include "../opengl/OpenGL_Utils.h"
 #include "../scenegraph/Component_Shape.h"
 #include "../scenegraph/RenderFuncs.h"
-
-
-/* verify the TextureCoordinateGenerator node - if the params are ok, then the internal
-   __compiledmode is NOT zero. If there are problems, the __compiledmode IS zero */
-
-void render_TextureCoordinateGenerator(struct X3D_TextureCoordinateGenerator *node) {
-	char *modeptr;
-
-	if NODE_NEEDS_COMPILING {
-		MARK_NODE_COMPILED
-
-		modeptr = node->mode->strptr;
-
-		/* make the __compiledmode reflect actual OpenGL parameters */
-		if(strcmp("SPHERE-REFLECT-LOCAL",modeptr)==0) {
-			node->__compiledmode = GL_SPHERE_MAP;
-		} else if(strcmp("SPHERE-REFLECT",modeptr)==0) {
-			node->__compiledmode = GL_SPHERE_MAP;
-		} else if(strcmp("SPHERE-LOCAL",modeptr)==0) {
-			node->__compiledmode = GL_SPHERE_MAP;
-		} else if(strcmp("SPHERE",modeptr)==0) {
-			node->__compiledmode = GL_SPHERE_MAP;
-		} else if(strcmp("CAMERASPACENORMAL",modeptr)==0) {
-			node->__compiledmode = GL_NORMAL_MAP;
-		} else if(strcmp("CAMERASPACEPOSITION",modeptr)==0) {
-			node->__compiledmode = GL_OBJECT_LINEAR;
-		} else if(strcmp("CAMERASPACEREFLECTION",modeptr)==0) {
-			node->__compiledmode = GL_REFLECTION_MAP;
-		} else if(strcmp("COORD-EYE",modeptr)==0) {
-			node->__compiledmode = GL_EYE_LINEAR;
-		} else if(strcmp("COORD",modeptr)==0) {
-			node->__compiledmode = GL_EYE_LINEAR;
-		} else if(strcmp("NOISE-EYE",modeptr)==0) {
-			node->__compiledmode = GL_EYE_LINEAR;
-		} else if(strcmp("NOISE",modeptr)==0) {
-			node->__compiledmode = GL_EYE_LINEAR;
-		} else {
-			printf ("TextureCoordinateGenerator - error - %s invalid as a mode\n",modeptr);
-		}
-	}
-}
 
 
 void render_PixelTexture (struct X3D_PixelTexture *node) {

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Polyrep.c,v 1.67 2012/08/09 17:14:30 crc_canada Exp $
+$Id: Polyrep.c,v 1.68 2012/09/07 19:30:52 crc_canada Exp $
 
 ???
 
@@ -811,8 +811,7 @@ void render_polyrep(void *node) {
 		printf ("render_polyrep, not streamed, returning\n");
 		return;
 	}
-
-
+    
 	/* save these values for streaming the texture coordinates later */
 	tg->Textures.global_tcin = pr->tcindex;
 	tg->Textures.global_tcin_count = pr->ntri*3;
