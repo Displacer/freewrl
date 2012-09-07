@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.286 2012/09/07 19:30:52 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.287 2012/09/07 19:50:44 crc_canada Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -2325,7 +2325,7 @@ void fwl_Android_reloadAssets(void) {
 					break;
 				}
 				default: {
-					struct X3D_PolyRep *pr = (struct X3D_PolyRep *)node->_intern;
+					struct X3D_PolyRep *pr = node->_intern;
 					int i;
 	
 					//ConsoleMessage ("node Type %s, intern %p",stringNodeType(node->_nodeType),pr);

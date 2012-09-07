@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Geospatial.c,v 1.63 2012/08/28 15:33:52 crc_canada Exp $
+$Id: Component_Geospatial.c,v 1.64 2012/09/07 19:50:44 crc_canada Exp $
 
 X3D Geospatial Component
 
@@ -1408,7 +1408,7 @@ int checkX3DGeoElevationGridFields (struct X3D_GeoElevationGrid *node, float **p
 		*/
 	}
 
-	rep = (struct X3D_PolyRep *)node->_intern;
+	rep = node->_intern;
 
 	/* work out how many triangles/quads we will have */
 	ntri = (nx && nz ? 2 * (nx-1) * (nz-1) : 0);
