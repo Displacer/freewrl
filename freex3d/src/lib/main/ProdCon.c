@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.110 2012/08/31 16:24:22 crc_canada Exp $
+  $Id: ProdCon.c,v 1.111 2012/09/08 14:16:56 dug9 Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -408,7 +408,8 @@ int EAI_CreateVrml(const char *tp, const char *inputstring, struct X3D_Group *wh
 
 void send_resource_to_parser(resource_item_t *res,char *fi, int li)
 {
-
+	int i;
+	ppProdCon p;
 	// ConsoleMessage ("send_resource_to_parser from %s:%d",fi,li);
 
 	if (res->new_root) {
@@ -481,7 +482,6 @@ void send_resource_to_parser(resource_item_t *res,char *fi, int li)
 
 		//ConsoleMessage("send_resource_to_parser, new_root\n");
         	/* mark all rootNode children for Dispose */
-		int i;
         	for (i=0; i<rootNode()->children.n; i++) {
                 	markForDispose(rootNode()->children.p[i], TRUE);
         	}
@@ -501,7 +501,7 @@ void send_resource_to_parser(resource_item_t *res,char *fi, int li)
 
 	   We send it to parser.
 	*/
-	ppProdCon p = gglobal()->ProdCon.prv;
+	p = gglobal()->ProdCon.prv;
 
 	/* Wait for display thread to be fully initialized */
 	while (IS_DISPLAY_INITIALIZED == FALSE) {
