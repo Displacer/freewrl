@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.271 2012/09/11 18:44:56 dug9 Exp $
+  $Id: MainLoop.c,v 1.272 2012/09/11 20:24:20 dug9 Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -1451,9 +1451,9 @@ static void setup_viewpoint() {
 extern void dump_scene (FILE *fp, int level, struct X3D_Node* node); // in GeneratedCode.c
 void dump_scenegraph()
 {
-#ifdef FW_DEBUG
-	dump_scene(stdout, 0, (struct X3D_Node*) rootNode);
-#endif
+//#ifdef FW_DEBUG
+	dump_scene(stdout, 0, (struct X3D_Node*) rootNode());
+//#endif
 }
 
 void sendKeyToKeySensor(const char key, int upDown);
