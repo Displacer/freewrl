@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CParse.c,v 1.32 2012/05/31 19:06:42 crc_canada Exp $
+$Id: CParse.c,v 1.33 2012/09/11 21:37:14 dug9 Exp $
 
 ???
 
@@ -180,7 +180,7 @@ char* parser_getNameFromNode(struct X3D_Node *node)
 	/* for (ind=0; ind < vectorSize(curNameStackTop); ind ++) {
 		printf ("DEBUG: userNodeNames index %d is %s\n",ind, vector_get (const char*, curNameStackTop,ind));
 	} */
-
+	if(globalParser->DEFedNodes == NULL) return NULL;
 	for (ind=0; ind < vectorSize(stack_top(struct Vector*, globalParser->DEFedNodes)); ind++) {
 		/* did we find this index? */
 		if (vector_get(struct X3D_Node*, stack_top(struct Vector*, globalParser->DEFedNodes), ind) == node) {
