@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_CubeMapTexturing.c,v 1.33 2012/07/07 12:27:39 crc_canada Exp $
+$Id: Component_CubeMapTexturing.c,v 1.34 2012/09/12 19:05:10 crc_canada Exp $
 
 X3D Cubemap Texturing Component
 
@@ -79,7 +79,7 @@ void render_ComposedCubeMapTexture (struct X3D_ComposedCubeMapTexture *node) {
 	int count;
 	struct X3D_Node *thistex = 0;
 
-        /* printf ("render_ComposedCubeMapTexture, global Transparency %f\n",globalappearanceProperties.transparency); */
+        printf ("render_ComposedCubeMapTexture\n");
 	for (count=0; count<6; count++) {
 
 		/* set up the appearanceProperties to indicate a CubeMap */

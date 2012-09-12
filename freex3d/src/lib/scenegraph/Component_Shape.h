@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Shape.h,v 1.19 2012/09/07 19:30:52 crc_canada Exp $
+$Id: Component_Shape.h,v 1.20 2012/09/12 19:05:10 crc_canada Exp $
 
 Proximity sensor macro.
 
@@ -52,6 +52,10 @@ Proximity sensor macro.
 
 /* TextureCoordinateGenerator */
 #define HAVE_TEXTURECOORDINATEGENERATOR 0x00200
+
+/* CubeMapTexturing */
+#define HAVE_CUBEMAP_TEXTURE 0x00400
+
 
 /*******************************************************/
 
