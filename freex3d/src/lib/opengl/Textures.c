@@ -1,5 +1,5 @@
 /*
-  $Id: Textures.c,v 1.132 2012/08/29 20:26:09 crc_canada Exp $
+  $Id: Textures.c,v 1.133 2012/09/14 02:26:38 crc_canada Exp $
 
   FreeWRL support library.
   Texture handling code.
@@ -1181,7 +1181,7 @@ static void move_texture_to_opengl(textureTableIndexStruct_s* me) {
 				printf ("mytexdata is null, texture failed, put something here\n");
 			}
 
-			FW_GL_BINDTEXTURE (GL_TEXTURE_2D, me->OpenGLTexture);
+			glBindTexture (GL_TEXTURE_2D, me->OpenGLTexture);
 			
 			/* save this to determine whether we need to do material node
 			  within appearance or not */

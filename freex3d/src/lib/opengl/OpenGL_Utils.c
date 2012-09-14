@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.288 2012/09/12 19:05:10 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.289 2012/09/14 02:26:38 crc_canada Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -1789,7 +1789,7 @@ bool fwl_initialize_GL()
 
         /* create an empty texture, defaultBlankTexture, to be used when a texture is loading, or if it fails */
         FW_GL_GENTEXTURES (1,&tg->Textures.defaultBlankTexture);
-        FW_GL_BINDTEXTURE (GL_TEXTURE_2D, tg->Textures.defaultBlankTexture);
+        glBindTexture (GL_TEXTURE_2D, tg->Textures.defaultBlankTexture);
         FW_GL_TEXPARAMETERI( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         FW_GL_TEXPARAMETERI( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         FW_GL_TEXIMAGE2D(GL_TEXTURE_2D, 0, GL_RGBA,  1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, blankTexture);
