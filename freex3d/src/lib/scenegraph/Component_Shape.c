@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Shape.c,v 1.124 2012/09/12 19:05:10 crc_canada Exp $
+$Id: Component_Shape.c,v 1.125 2012/09/14 19:07:48 crc_canada Exp $
 
 X3D Shape Component
 
@@ -477,8 +477,6 @@ void render_LineProperties (struct X3D_LineProperties *node) {
 				case 13: pat = 0x0000; break; /* optional */
 				default: {}
 			}
-			//FW_GL_LINE_STIPPLE(factor,pat);
-			//FW_GL_ENABLE(GL_LINE_STIPPLE);
 		}
 	}
 }
