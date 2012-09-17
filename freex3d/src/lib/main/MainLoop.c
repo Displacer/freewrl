@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.272 2012/09/11 20:24:20 dug9 Exp $
+  $Id: MainLoop.c,v 1.273 2012/09/17 18:27:42 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -2049,8 +2049,7 @@ void updateButtonStatus()
 	setMenuButton_headlight(headlight);
 	setMenuButton_collision(collision);
 }
-int android_get_unread_message_count();
-char *android_get_last_message(int whichOne); 
+
 void hudSetConsoleMessage(char *buffer);
 #if defined(STATUSBAR_HUD)
 void updateConsoleStatus()
@@ -2058,10 +2057,10 @@ void updateConsoleStatus()
 	//polls ConsoleMessage.c for accumulated messages and updates statusbarHud.c via hudSetConsoleMessage
 	int nlines,i;
 	char *buffer;
-	nlines = android_get_unread_message_count(); //poll model
+	nlines = fwg_get_unread_message_count(); //poll model
 	for(i=0;i<nlines;i++)
 	{
-		buffer = android_get_last_message(nlines-i-1); //poll model
+		buffer = fwg_get_last_message(nlines-i-1); //poll model
 		hudSetConsoleMessage(buffer); //update UI(view)
 		free(buffer);
 	}

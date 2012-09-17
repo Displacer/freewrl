@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_CubeMapTexturing.c,v 1.36 2012/09/17 16:11:03 crc_canada Exp $
+$Id: Component_CubeMapTexturing.c,v 1.37 2012/09/17 18:27:42 crc_canada Exp $
 
 X3D Cubemap Texturing Component
 
@@ -403,6 +403,10 @@ void render_GeneratedCubeMapTexture (struct X3D_GeneratedCubeMapTexture *node) {
         /* printf ("render_ImageTexture, global Transparency %f\n",getAppearanceProperties()->transparency); */
         loadTextureNode(X3D_NODE(node),NULL);
         gglobal()->RenderFuncs.textureStackTop=1; /* not multitexture - should have saved to boundTextureStack[0] */
+    
+    /* set this back for "normal" textures. */
+    getAppearanceProperties()->cubeFace = 0;
+
 }
 
 
@@ -460,9 +464,10 @@ void render_ImageCubeMapTexture (struct X3D_ImageCubeMapTexture *node) {
 			/* go through these, back, front, top, bottom, right left */
 			render_node(node->__subTextures.p[count]);
 		}
-        /* Finished rendering CubeMap, set it back for normal textures */
-        getAppearanceProperties()->cubeFace = 0; 
 	}
+    /* Finished rendering CubeMap, set it back for normal textures */
+    getAppearanceProperties()->cubeFace = 0; 
+
 }
 
 

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIServ.c,v 1.29 2012/07/08 15:17:45 dug9 Exp $
+$Id: EAIServ.c,v 1.30 2012/09/17 18:27:42 crc_canada Exp $
 
 Implement Socket server functionality for FreeWRL.
 This is currently (Jun 2012) used by the EAI and the MIDI routines
@@ -29,6 +29,10 @@ This is currently (Jun 2012) used by the EAI and the MIDI routines
 
 #include <config.h>
 #if !defined(EXCLUDE_EAI)
+	#if defined(_ANDROID)
+		#include <sys/socket.h>
+		#include <asm-generic/fcntl.h>
+	#endif
 #include <system.h>
 #include <system_net.h>
 

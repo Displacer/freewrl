@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: ConsoleMessage.c,v 1.35 2012/08/21 23:02:19 dug9 Exp $
+$Id: ConsoleMessage.c,v 1.36 2012/09/17 18:27:42 crc_canada Exp $
 
 When running in a plugin, there is no way
 any longer to get the console messages to come up - eg, no
@@ -444,7 +444,7 @@ static void android_save_log(char *thislog) {
 }
 
 // tell the UI how many unread console messages we have.
-int android_get_unread_message_count() {
+int fwg_get_unread_message_count() {
 	ppConsoleMessage p;
 	ttglobal tg = gglobal();
 	if (!tg) return 0;
@@ -454,7 +454,7 @@ int android_get_unread_message_count() {
 
 }
 
-char *android_get_last_message(int whichOne) {
+char *fwg_get_last_message(int whichOne) {
 	ppConsoleMessage p;
 	ttglobal tg = gglobal();
 	int whm;
