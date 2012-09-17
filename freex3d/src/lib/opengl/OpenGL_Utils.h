@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: OpenGL_Utils.h,v 1.58 2012/08/07 16:01:34 crc_canada Exp $
+$Id: OpenGL_Utils.h,v 1.59 2012/09/17 16:11:03 crc_canada Exp $
 
 Screen snapshot.
 
@@ -56,9 +56,10 @@ typedef enum vertexShaderResources {
     
     vertexPointSizeAssign,
 	vertexPositionCalculation,
-    vertexSingleTextureCalculation,
+
     vertexOneMaterialCalculation,
     vertexNormPosCalculation,
+        vertexSingleTextureCalculation,
     vertexADSLCalculation,
 	vertexSimpleColourCalculation,
     vertexHatchPositionCalculation,

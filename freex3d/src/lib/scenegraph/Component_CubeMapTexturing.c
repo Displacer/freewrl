@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_CubeMapTexturing.c,v 1.35 2012/09/14 19:07:48 crc_canada Exp $
+$Id: Component_CubeMapTexturing.c,v 1.36 2012/09/17 16:11:03 crc_canada Exp $
 
 X3D Cubemap Texturing Component
 
@@ -113,6 +113,9 @@ void render_ComposedCubeMapTexture (struct X3D_ComposedCubeMapTexture *node) {
 			} 
 		}
 	}
+    
+    /* set this back for "normal" textures. */
+     getAppearanceProperties()->cubeFace = 0;
 }
 
 /****************************************************************************
@@ -457,6 +460,8 @@ void render_ImageCubeMapTexture (struct X3D_ImageCubeMapTexture *node) {
 			/* go through these, back, front, top, bottom, right left */
 			render_node(node->__subTextures.p[count]);
 		}
+        /* Finished rendering CubeMap, set it back for normal textures */
+        getAppearanceProperties()->cubeFace = 0; 
 	}
 }
 
