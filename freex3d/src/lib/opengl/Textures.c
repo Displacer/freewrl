@@ -1,5 +1,5 @@
 /*
-  $Id: Textures.c,v 1.135 2012/09/17 16:11:03 crc_canada Exp $
+  $Id: Textures.c,v 1.136 2012/09/18 15:09:32 crc_canada Exp $
 
   FreeWRL support library.
   Texture handling code.
@@ -448,10 +448,9 @@ void registerTexture(struct X3D_Node *tmp) {
 		// for the index, stored in the X3D node.
 		int textureNumber;
 		ppTextures p;
-		// new texture table entry 
+		// new texture table entry. Zero all data
 		textureTableIndexStruct_s * newTexture = MALLOC (textureTableIndexStruct_s *,sizeof (textureTableIndexStruct_s));
-		/* zero the filename so we don't attempt to read dirty data */
-		newTexture->filename = NULL;
+		memset(newTexture,0,sizeof(textureTableIndexStruct_s));
 
 		p = (ppTextures)gglobal()->Textures.prv;
 
