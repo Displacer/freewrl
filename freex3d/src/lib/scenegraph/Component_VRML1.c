@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_VRML1.c,v 1.37 2012/09/07 19:50:44 crc_canada Exp $
+$Id: Component_VRML1.c,v 1.38 2012/09/19 13:41:01 crc_canada Exp $
 
 X3D VRML1 Component
 
@@ -63,6 +63,8 @@ Have fun! John A. Stewart, June 2009
 #include <system.h>
 #include <display.h>
 #include <internal.h>
+
+#if defined (DO_VRML1)
 
 #include <libFreeWRL.h>
 
@@ -945,3 +947,5 @@ void render_VRML1_LOD (struct X3D_VRML1_LOD  *node) {}
 void render_VRML1_OrthographicCamera (struct X3D_VRML1_OrthographicCamera  *node) {}
 void render_VRML1_PerspectiveCamera (struct X3D_VRML1_PerspectiveCamera  *node) {}
 void render_VRML1_WWWInline (struct X3D_VRML1_WWWInline  *node) {}
+
+#endif //DO_VRML1

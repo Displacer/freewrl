@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: StreamPoly.c,v 1.46 2012/09/07 19:50:44 crc_canada Exp $
+$Id: StreamPoly.c,v 1.47 2012/09/19 13:41:01 crc_canada Exp $
 
 ???
 
@@ -688,7 +688,13 @@ static void defaultTextureMap(struct X3D_Node *p, struct X3D_PolyRep * r) { //, 
 	printf ("have to gen default textures\n");
 	#endif
 
-	if ((p->_nodeType == NODE_IndexedFaceSet) ||(p->_nodeType == NODE_ElevationGrid) || (p->_nodeType == NODE_VRML1_IndexedFaceSet)) {
+	if ((p->_nodeType == NODE_IndexedFaceSet) ||(p->_nodeType == NODE_ElevationGrid) 
+        
+#if defined (DO_VRML1)        
+        || (p->_nodeType == NODE_VRML1_IndexedFaceSet)
+#endif //DO_VRML1
+        
+        ) {
 
 		/* find the S,T mapping. */
 		Xsize = r->maxVals[0]-psp->minVals[0];

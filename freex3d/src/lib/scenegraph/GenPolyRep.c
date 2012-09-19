@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: GenPolyRep.c,v 1.38 2012/09/07 19:50:44 crc_canada Exp $
+$Id: GenPolyRep.c,v 1.39 2012/09/19 13:41:01 crc_canada Exp $
 
 ???
 
@@ -789,6 +789,8 @@ void make_genericfaceset(struct X3D_IndexedFaceSet *node) {
 			MARK_EVENT (X3D_NODE(node), offsetof (struct X3D_TriangleStripSet, normal));
 			MARK_EVENT (X3D_NODE(node), offsetof (struct X3D_TriangleStripSet, texCoord));
 			break;
+            
+#if defined (DO_VRML1)            
 		case NODE_VRML1_IndexedFaceSet:
 			orig_coordIndex= &VRML1_INDEXEDFACESET(node)->coordIndex;
 			cpv = VRML1_INDEXEDFACESET(node)->_cpv;
@@ -804,6 +806,8 @@ void make_genericfaceset(struct X3D_IndexedFaceSet *node) {
 			MARK_EVENT (X3D_NODE(node), offsetof (struct X3D_VRML1_IndexedFaceSet, normalIndex));
 			MARK_EVENT (X3D_NODE(node), offsetof (struct X3D_VRML1_IndexedFaceSet, textureCoordIndex));
 			break;
+#endif //DO_VRML1
+            
 		default:
 			ConsoleMessage ("unknown type for make_genericfaceset, %d\n",node->_nodeType);
 			rep_->ntri=0;

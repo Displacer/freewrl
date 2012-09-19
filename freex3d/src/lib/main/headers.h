@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: headers.h,v 1.180 2012/09/07 19:50:44 crc_canada Exp $
+$Id: headers.h,v 1.181 2012/09/19 13:41:01 crc_canada Exp $
 
 Global includes.
 
@@ -876,7 +876,11 @@ void replaceWorldNeeded(char* str);
 int X3DParse(struct X3D_Group *parent, const char *inputstring);
 void *createNewX3DNode (int nt);
 
+#if defined (DO_VRML1)
 char* convert1To2(const char *inp);
+#endif //DO_VRML1
+
+
 
 //updateStatusBar(void);
 
