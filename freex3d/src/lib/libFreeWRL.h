@@ -1,5 +1,5 @@
 /*
-  $Id: libFreeWRL.h,v 1.57 2012/09/17 18:27:42 crc_canada Exp $
+  $Id: libFreeWRL.h,v 1.58 2012/10/10 13:36:26 crc_canada Exp $
 
   FreeWRL library API (public)
 
@@ -345,5 +345,6 @@ char* fwl_getNavModeStr();
 int fwl_getNavMode();
 int	fwl_getCollision();
 void fwl_setCollision(int state);
+int fwl_getAnaglyphSide(int whichSide);
 
 #endif /* __LIBFREEWRL_API_H__ */

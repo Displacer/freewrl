@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Navigation.c,v 1.53 2012/08/28 15:33:52 crc_canada Exp $
+$Id: Component_Navigation.c,v 1.54 2012/10/10 13:36:26 crc_canada Exp $
 
 X3D Navigation Component
 
@@ -48,7 +48,7 @@ X3D Navigation Component
 #include "Children.h"
 #include "../opengl/OpenGL_Utils.h"
 
-//extern struct sCollisionInfo OldCollisionInfo;
+
 
 void prep_Viewpoint (struct X3D_Viewpoint *node) {
 	double a1;
