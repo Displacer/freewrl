@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.164 2012/09/14 19:07:48 crc_canada Exp $
+  $Id: display.h,v 1.165 2012/10/25 15:02:30 crc_canada Exp $
 
   FreeWRL support library.
 
@@ -146,13 +146,6 @@ GLEWContext * glewGetContext();
 
 
 /* face culling */
-#ifdef XXXGL_ES_VERSION_2_0
-#define CULL_FACE(v) /* printf ("nodeSolid %d getAppearanceProperties()->cullFace %d GL_FALSE %d FALSE %d\n",v,getAppearanceProperties()->cullFace,GL_FALSE,FALSE); */ \
-                if (v != getAppearanceProperties()->cullFace) {    \
-                        getAppearanceProperties()->cullFace = v; \
-                }
-	#define CULL_FACE_INITIALIZE getAppearanceProperties()->cullFace=FALSE; 
-#else
 #define CULL_FACE(v) /* printf ("nodeSolid %d getAppearanceProperties()->cullFace %d GL_FALSE %d FALSE %d\n",v,getAppearanceProperties()->cullFace,GL_FALSE,FALSE); */ \
                 if (v != getAppearanceProperties()->cullFace) {    \
                         getAppearanceProperties()->cullFace = v; \
@@ -160,7 +153,6 @@ GLEWContext * glewGetContext();
                         else { FW_GL_DISABLE(GL_CULL_FACE);} \
                 }
 	#define CULL_FACE_INITIALIZE getAppearanceProperties()->cullFace=FALSE; FW_GL_DISABLE(GL_CULL_FACE);
-#endif
 
 #define DISABLE_CULL_FACE CULL_FACE(FALSE)
 #define ENABLE_CULL_FACE CULL_FACE(TRUE)

@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.294 2012/09/19 13:41:01 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.295 2012/10/25 15:02:30 crc_canada Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -201,6 +201,9 @@ void OpenGL_Utils_init(struct tOpenGL_Utils *t)
         // usePhongShaders set to false for now. Can be changed
         // during runtime, then re-build shaders.
         p->usePhongShaders = false;
+        
+        ConsoleMessage ("phong shaders now set to true");
+        p->usePhongShaders = true;
 	}
 }
 #ifdef GLEW_MX
@@ -240,6 +243,22 @@ void setglClearColor (float *val) {
 #endif
 	tg->OpenGL_Utils.cc_changed = TRUE;
 }        
+
+// use phong shading - better light reflectivity if set to true
+void fwl_set_phongShading (int val) {
+	ppOpenGL_Utils p;
+	ttglobal tg = gglobal();
+	p = (ppOpenGL_Utils)tg->OpenGL_Utils.prv;
+	p->usePhongShaders = val;
+}
+
+int fwl_get_phongShading () {
+	ppOpenGL_Utils p;
+	ttglobal tg = gglobal();
+	p = (ppOpenGL_Utils)tg->OpenGL_Utils.prv;
+	return p->usePhongShaders;
+}
+
 
 
 /**************************************************************************************
@@ -593,7 +612,7 @@ for (i=0; i<8; i++) { \
 		\
 		if (backFacing) { \
 			/* diffuse light computation */ \
-			diffuse += max (0.0, dot(lightv, norm))*fw_BackMaterial.diffuse*myLightDiffuse; \
+            diffuse+=max(dot(vec4(norm,0.),myLightPosition),0.0) *fw_BackMaterial.diffuse*myLightDiffuse;\
 			\
 			/* ambient light computation */ \
 			ambient += fw_BackMaterial.ambient*myLightAmbient; \
@@ -606,9 +625,8 @@ for (i=0; i<8; i++) { \
 		} else { \
 			\
 			/* diffuse light computation */ \
-			diffuse += max (0.0, dot(lightv, norm))*fw_FrontMaterial.diffuse*myLightDiffuse; \
 			\
-			\
+            diffuse+=max(dot(vec4(norm,0.),myLightPosition),0.0) *fw_FrontMaterial.diffuse*myLightDiffuse;\
 			/* ambient light computation */ \
 			ambient += fw_FrontMaterial.ambient*myLightAmbient; \
 			\
