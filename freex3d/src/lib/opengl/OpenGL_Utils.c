@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.295 2012/10/25 15:02:30 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.296 2012/10/26 19:45:44 crc_canada Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -201,9 +201,6 @@ void OpenGL_Utils_init(struct tOpenGL_Utils *t)
         // usePhongShaders set to false for now. Can be changed
         // during runtime, then re-build shaders.
         p->usePhongShaders = false;
-        
-        ConsoleMessage ("phong shaders now set to true");
-        p->usePhongShaders = true;
 	}
 }
 #ifdef GLEW_MX
