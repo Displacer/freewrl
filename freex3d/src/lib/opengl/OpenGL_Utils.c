@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.296 2012/10/26 19:45:44 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.297 2012/11/01 18:56:31 crc_canada Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -1452,7 +1452,7 @@ void drawBBOX(struct X3D_Node *node) {
 
 static void calculateNearFarplanes(struct X3D_Node *vpnode) {
 	struct point_XYZ bboxPoints[8];
-	GLDOUBLE cfp = DBL_MIN;
+	GLDOUBLE cfp = -DBL_MAX;
 	GLDOUBLE cnp = DBL_MAX;
 	GLDOUBLE MM[16];
 

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Frustum.c,v 1.52 2012/10/19 14:01:07 crc_canada Exp $
+$Id: Frustum.c,v 1.53 2012/11/01 18:56:31 crc_canada Exp $
 
 ???
 
@@ -288,7 +288,7 @@ void endOcclusionQuery(struct X3D_VisibilitySensor* node, int render_geometry)
 			/* work changes into extent */ \
             /* because we have materially moved this Transform, the WHOLE Bounding Box has moved, too, \
                 thus we do not bother to test against OLD max/min values */ \
-            maxx = FLT_MIN; maxy = FLT_MIN; maxz = FLT_MIN; \
+            maxx = -FLT_MAX; maxy = -FLT_MAX; maxz = -FLT_MAX; \
             minx = FLT_MAX; miny = FLT_MAX; minz = FLT_MAX; \
 			for (i=0; i<8; i++) { \
 				if (inxyz[i].x > maxx) maxx =  (float)inxyz[i].x; \
@@ -344,7 +344,7 @@ void endOcclusionQuery(struct X3D_VisibilitySensor* node, int render_geometry)
 		/* work changes into extent */ \
             /* because we have materially moved this Transform, the WHOLE Bounding Box has moved, too, \
                 thus we do not bother to test against OLD max/min values */ \
-            maxx = FLT_MIN; maxy = FLT_MIN; maxz = FLT_MIN; \
+            maxx = -FLT_MAX; maxy = -FLT_MAX; maxz = -FLT_MAX; \
             minx = FLT_MAX; miny = FLT_MAX; minz = FLT_MAX; \
 		for (i=0; i<8; i++) { \
 			if (inxyz[i].x > maxx) maxx = (float) inxyz[i].x; \
@@ -432,7 +432,7 @@ void endOcclusionQuery(struct X3D_VisibilitySensor* node, int render_geometry)
 			/* work changes into extent */ \
             		/* because we have materially moved this Transform, the WHOLE Bounding Box has moved, too, \
             		    thus we do not bother to test against OLD max/min values */ \
-            		maxx = FLT_MIN; maxy = FLT_MIN; maxz = FLT_MIN; \
+            		maxx = -FLT_MAX; maxy = -FLT_MAX; maxz = -FLT_MAX; \
             		minx = FLT_MAX; miny = FLT_MAX; minz = FLT_MAX; \
 			for (i=0; i<8; i++) { \
 				if (inxyz[i].x > maxx) maxx = (float) inxyz[i].x; \
