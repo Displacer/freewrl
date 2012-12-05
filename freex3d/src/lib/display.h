@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.165 2012/10/25 15:02:30 crc_canada Exp $
+  $Id: display.h,v 1.166 2012/12/05 18:39:32 crc_canada Exp $
 
   FreeWRL support library.
 
@@ -426,7 +426,8 @@ typedef struct {
 	bool av_occlusion_q;  /* Occlusion query available ? */
 	
 	int texture_units;
-	int max_texture_size;
+	int runtime_max_texture_size;
+	int system_max_texture_size;
 	float anisotropicDegree;
     
     GLboolean quadBuffer;        /* does platform support quadbuffer? */
