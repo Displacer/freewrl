@@ -1,7 +1,7 @@
 /*
   =INSERT_TEMPLATE_HERE=
 
-  $Id: CParseParser.c,v 1.77 2012/05/31 19:06:42 crc_canada Exp $
+  $Id: CParseParser.c,v 1.78 2012/12/06 22:35:30 dug9 Exp $
 
   ???
 
@@ -823,7 +823,7 @@ static BOOL parser_interfaceDeclaration(struct VRMLParser* me, struct ProtoDefin
 			curStrPtr += sz;
 
 			/* trailing null */
-			curStrPtr ++;
+			//curStrPtr ++; dug9 dec6,2012 I found this was letting 1 char of junk into the string
 			*curStrPtr = '\0';
 	    }
         }

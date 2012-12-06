@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Frustum.c,v 1.53 2012/11/01 18:56:31 crc_canada Exp $
+$Id: Frustum.c,v 1.54 2012/12/06 22:35:30 dug9 Exp $
 
 ???
 
@@ -46,6 +46,7 @@ $Id: Frustum.c,v 1.53 2012/11/01 18:56:31 crc_canada Exp $
 
 
 #include "Textures.h"
+#include <float.h>
 
 
 static void quaternion_multi_rotation(struct point_XYZ *ret, const Quaternion *quat, const struct point_XYZ * v, int count);
