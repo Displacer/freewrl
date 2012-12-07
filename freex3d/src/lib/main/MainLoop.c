@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.274 2012/10/10 13:36:26 crc_canada Exp $
+  $Id: MainLoop.c,v 1.275 2012/12/07 13:37:03 couannette Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -657,7 +657,10 @@ to have the Identity matrix loaded, which caused near/far plane calculations to 
 			render_pre(); 
 			slerp_viewpoint();
 		}
-		
+
+#ifdef RENDERVERBOSE		
+    printf("RENDER STEP----------\n");
+#endif
 
         /* first events (clock ticks, etc) if we have other things to do, yield */
         if (p->doEvents) do_first (); else sched_yield();

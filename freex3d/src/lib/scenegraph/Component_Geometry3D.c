@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Geometry3D.c,v 1.92 2012/09/07 19:50:44 crc_canada Exp $
+$Id: Component_Geometry3D.c,v 1.93 2012/12/07 13:37:03 couannette Exp $
 
 X3D Geometry 3D Component
 
@@ -596,8 +596,9 @@ void render_Cone (struct X3D_Cone *node) {
 		mtf.TC_stride = (GLfloat) sizeof(struct MyVertex);
 		mtf.TC_pointer = BUFFER_OFFSET(24);
 		textureDraw_start(&mtf);
+PRINT_GL_ERROR_IF_ANY("END1 render_geom");
 		FW_GL_DRAWARRAYS(GL_TRIANGLES,0,node->__coneTriangles);
-
+PRINT_GL_ERROR_IF_ANY("END2 render_geom");
 		/* turn off */
 		FW_GL_BINDBUFFER(GL_ARRAY_BUFFER, 0);
 		FW_GL_BINDBUFFER(GL_ELEMENT_ARRAY_BUFFER, 0);
