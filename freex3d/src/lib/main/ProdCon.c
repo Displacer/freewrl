@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.112 2012/09/19 13:41:01 crc_canada Exp $
+  $Id: ProdCon.c,v 1.113 2012/12/17 19:36:34 crc_canada Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -504,6 +504,11 @@ void send_resource_to_parser(resource_item_t *res,char *fi, int li)
 		// force rootNode to have 0 children, compile_Group will make
 		// the _sortedChildren field mimic the children field.
 		rootNode()->children.n = 0; rootNode()->_change ++;
+
+		// set the extents back to initial
+		{ struct X3D_Group *node = rootNode();
+			INITIALIZE_EXTENT;
+		}
 
 		//printf ("send_resource_to_parser, rootnode children count set to 0\n");
 
