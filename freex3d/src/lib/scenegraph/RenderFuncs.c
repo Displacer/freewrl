@@ -1,5 +1,5 @@
 /*
-  $Id: RenderFuncs.c,v 1.137 2012/12/18 20:21:54 crc_canada Exp $
+  $Id: RenderFuncs.c,v 1.138 2012/12/18 21:13:35 crc_canada Exp $
 
   FreeWRL support library.
   Scenegraph rendering.
@@ -313,7 +313,8 @@ void sendLightInfo (s_shader_capabilities_t *me) {
             if (p->light_pos[j][3] > 0.5) {
                 transformf(translated_light_pos[j],p->light_pos[j],modelMatrix);
                 translated_light_pos[j][3] = p->light_pos[j][3];
-                ConsoleMessage ("light %d orig %f %f %f %f now %f %f %f %f",j,p->light_pos[j][0],
+                
+                /*ConsoleMessage ("light %d orig %f %f %f %f now %f %f %f %f",j,p->light_pos[j][0],
                             p->light_pos[j][1],
                             p->light_pos[j][2],
                             p->light_pos[j][3],
@@ -321,6 +322,7 @@ void sendLightInfo (s_shader_capabilities_t *me) {
                             translated_light_pos[j][1],
                             translated_light_pos[j][2],
                             translated_light_pos[j][3]);
+                 */
             } else {
                 memcpy(translated_light_pos[j],p->light_pos[j],sizeof (shaderVec4));
             }
