@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Lighting.c,v 1.20 2012/12/17 19:36:34 crc_canada Exp $
+$Id: Component_Lighting.c,v 1.21 2012/12/18 20:21:54 crc_canada Exp $
 
 X3D Lighting Component
 
@@ -100,6 +100,8 @@ void render_DirectionalLight (struct X3D_DirectionalLight *node) {
 			FW_GL_LIGHTFV(light, GL_DIFFUSE, node->_col.c);
 			FW_GL_LIGHTFV(light, GL_SPECULAR, node->_col.c);
 			FW_GL_LIGHTFV(light, GL_AMBIENT, node->_amb.c);
+            /* used to test if a PointLight, SpotLight or DirectionalLight in shader  */
+			FW_GL_LIGHTF(light, GL_SPOT_CUTOFF, 0);
 		}
 	}
 }
@@ -162,8 +164,8 @@ void render_PointLight (struct X3D_PointLight *node) {
 			FW_GL_LIGHTFV(light, GL_SPECULAR, node->_col.c);
 			FW_GL_LIGHTFV(light, GL_AMBIENT, node->_amb.c);
 
-			/* XXX */
-			FW_GL_LIGHTF(light, GL_SPOT_CUTOFF, 180);
+			/* used to test if a PointLight, SpotLight or DirectionalLight in shader  */
+			FW_GL_LIGHTF(light, GL_SPOT_CUTOFF, 0);
 		}
 	}
 }
