@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: RenderFuncs.h,v 1.32 2012/07/25 18:45:27 crc_canada Exp $
+$Id: RenderFuncs.h,v 1.33 2012/12/19 20:47:06 crc_canada Exp $
 
 Proximity sensor macro.
 
@@ -35,6 +35,15 @@ Proximity sensor macro.
 void enableGlobalShader(s_shader_capabilities_t *);
 
 void turnGlobalShaderOff(void);
+
+#ifdef GL_ES_VERSION_2_0
+	#define MAX_LIGHTS 2
+	#define HEADLIGHT_LIGHT (MAX_LIGHTS-1)
+#else
+	#define MAX_LIGHTS 8
+	#define HEADLIGHT_LIGHT (MAX_LIGHTS-1)
+#endif
+
 
 #ifdef GL_VERSION_2_0
 	#define TURN_GLOBAL_SHADER_OFF \

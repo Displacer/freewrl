@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: headers.h,v 1.181 2012/09/19 13:41:01 crc_canada Exp $
+$Id: headers.h,v 1.182 2012/12/19 20:47:05 crc_canada Exp $
 
 Global includes.
 
@@ -86,10 +86,6 @@ void Multi_String_print(struct Multi_String *url);
                 if ((node->_renderFlags & VF_globalLight) != VF_globalLight)  { \
                         return; \
                 } \
-
-/* which GL_LIGHT is the headlight? */
-#define HEADLIGHT_LIGHT 7
-
 
 #define INT_ID_UNDEFINED -1
 

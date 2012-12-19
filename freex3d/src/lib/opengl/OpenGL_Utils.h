@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: OpenGL_Utils.h,v 1.59 2012/09/17 16:11:03 crc_canada Exp $
+$Id: OpenGL_Utils.h,v 1.60 2012/12/19 20:47:05 crc_canada Exp $
 
 Screen snapshot.
 
@@ -32,6 +32,7 @@ Screen snapshot.
 
 typedef enum vertexShaderResources {
     vertexPrecisionDeclare,
+	vertMaxLightsDeclare,
     
     vertexLightDefines,
     
@@ -70,6 +71,7 @@ typedef enum vertexShaderResources {
 
 typedef enum fragmenShaderResources {
 	fragmentPrecisionDeclare,
+	fragMaxLightsDeclare,
     
     fragmentMultiTexDefines,
     fragmentLightDefines,
