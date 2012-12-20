@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.113 2012/12/17 19:36:34 crc_canada Exp $
+  $Id: ProdCon.c,v 1.114 2012/12/20 19:14:19 crc_canada Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -55,6 +55,8 @@
 #include "../world_script/jsUtils.h"
 #include "Snapshot.h"
 #include "../scenegraph/Collision.h"
+#include "../scenegraph/Component_KeyDevice.h"
+#include "../opengl/Frustum.h"
 
 #if defined(INCLUDE_NON_WEB3D_FORMATS)
 #include "../non_web3d_formats/ColladaParser.h"

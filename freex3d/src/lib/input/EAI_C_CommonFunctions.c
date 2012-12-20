@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAI_C_CommonFunctions.c,v 1.44 2012/07/21 18:51:03 dug9 Exp $
+$Id: EAI_C_CommonFunctions.c,v 1.45 2012/12/20 19:14:19 crc_canada Exp $
 
 ???
 
@@ -466,7 +466,7 @@ MF_TYPE(MFNode, mfnode, Node)
 			PST_SF_SIMPLE_ELEMENT(Image,image,sizeof(struct Multi_Int32))
 
 			case FIELDTYPE_SFString: {
-					struct Uni_String *mptr;
+					//struct Uni_String *mptr;
 					memcpy(nst, &myVal.sfstring, sizeof(struct Uni_String*));
 					//mptr = * (struct Uni_String **)nst;
 					//if (!mptr) {

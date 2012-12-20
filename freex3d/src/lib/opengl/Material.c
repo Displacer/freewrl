@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Material.c,v 1.31 2012/08/05 20:52:25 dug9 Exp $
+$Id: Material.c,v 1.32 2012/12/20 19:14:19 crc_canada Exp $
 
 Only do material settings that "matter" and bounds check all values.
 
@@ -38,14 +38,6 @@ Only do material settings that "matter" and bounds check all values.
 #include <libFreeWRL.h>
 
 /* #include "LinearAlgebra.h" */
-
-
-/* default material properties */
-static GLfloat default_diffuse[]  = {0.8f,0.8f,0.8f,1.0f};
-static GLfloat default_ambient[]  = {0.2f,0.2f,0.2f,1.0f};
-static GLfloat default_specular[] = {0.0f,0.0f,0.0f,1.0f};
-static GLfloat default_emission[] = {0.0f,0.0f,0.0f,1.0f};
-
 
 int verify_rotate(GLfloat *params) {
 	/* angle very close to zero? */

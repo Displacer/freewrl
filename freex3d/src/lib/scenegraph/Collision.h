@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Collision.h,v 1.18 2011/09/20 14:38:47 crc_canada Exp $
+$Id: Collision.h,v 1.19 2012/12/20 19:14:19 crc_canada Exp $
 
 Collision ???
 
@@ -179,6 +179,8 @@ struct sCollisionGPU* GPUCollisionInfo();
 struct point_XYZ run_non_walk_collide_program(GLuint vertex_vbo, GLuint index_vbo, float *modelMat,int ntri,
                 int face_ccw, int face_flags, float avatar_radius);
 bool init_GPU_collide(struct sCollisionGPU*);
+void collision_initGPUCollide();
+
 #endif
 
 

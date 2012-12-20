@@ -1,5 +1,5 @@
 /*
-  $Id: io_http.c,v 1.22 2012/12/05 18:39:32 crc_canada Exp $
+  $Id: io_http.c,v 1.23 2012/12/20 19:14:19 crc_canada Exp $
 
   FreeWRL support library.
   IO with HTTP protocol.
@@ -78,7 +78,10 @@ void io_http_init(struct tio_http* t)
  *   checkNetworkFile:
  */
 bool checkNetworkFile(const char *fn)
-{int i; char *pt = fn; i=0;
+{int i; 
+    //char *pt = fn; 
+    
+    i=0;
     
     if (fn == NULL) {
         ConsoleMessage ("checkNetworkFile, got a NULL here");

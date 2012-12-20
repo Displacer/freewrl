@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: X3DParser.c,v 1.102 2012/08/04 21:44:31 dug9 Exp $
+$Id: X3DParser.c,v 1.103 2012/12/20 19:14:19 crc_canada Exp $
 
 ???
 
@@ -1690,7 +1690,7 @@ static void parseAttributes(void) {
 							else if( ctype == FIELDTYPE_SFNode)
 							{
 								/* down-convert first node in MFNode to SFNode and forget the rest */
-								memcpy(nst,mv->p[0],sizeof(struct X3D_Node*));
+								memcpy(nst,mv->p[0],sizeof(&nst));
 								/* could free the rest of the unused MFnodes here if there are some and we were ambitious */
 							}
 							else

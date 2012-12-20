@@ -1,6 +1,6 @@
 //[s release];
 /*
-  $Id: io_files.c,v 1.59 2012/07/20 21:11:02 dug9 Exp $
+  $Id: io_files.c,v 1.60 2012/12/20 19:14:19 crc_canada Exp $
 
   FreeWRL support library.
   IO with files.
@@ -217,7 +217,7 @@ bool do_dir_exists(const char *dir)
  */
 void of_dump(openned_file_t *of)
 {
-	static unsigned char first_ten[11];
+	static char first_ten[11];
 	if (of->fileData) {
         int len = of->fileDataSize;
         if (len>10)len=10;
@@ -442,8 +442,10 @@ void fwg_frontEndReturningData(unsigned char* fileData,int length,int width,int 
  */
 openned_file_t* load_file(const char *filename)
 {
+#ifndef FRONTEND_GETS_FILES
     openned_file_t *of = NULL;
-
+#endif
+    
 	DEBUG_RES("loading file: %s\n", filename);
 
 #ifdef FRONTEND_GETS_FILES

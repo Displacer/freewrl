@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Networking.c,v 1.47 2012/08/29 20:26:09 crc_canada Exp $
+$Id: Component_Networking.c,v 1.48 2012/12/20 19:14:19 crc_canada Exp $
 
 X3D Networking Component
 
@@ -597,7 +597,9 @@ static void loadInline(struct X3D_Inline *me)
 
 /* note that we get the resources in a couple of steps; this tries to keep the scenegraph running */
 void load_Inline (struct X3D_Inline *node) {
+#ifndef FRONTEND_GETS_FILES
 	resource_item_t *res;
+#endif
 	// printf ("load_Inline %u, loadStatus %d loadResource %u\n",node, node->__loadstatus, node->__loadResource);
 
 	if (node->load) {

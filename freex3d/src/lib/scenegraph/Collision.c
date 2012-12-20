@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Collision.c,v 1.41 2012/07/10 13:14:57 crc_canada Exp $
+$Id: Collision.c,v 1.42 2012/12/20 19:14:19 crc_canada Exp $
 
 Render the children of nodes.
 
@@ -182,11 +182,11 @@ struct sCollisionGPU* GPUCollisionInfo()
         ppcollision p = (ppcollision)gglobal()->collision.prv;
         return &p->CollisionGPU;
 }
-int collision_initGPUCollide()
+void collision_initGPUCollide()
 {
 	ppcollision p = (ppcollision)gglobal()->collision.prv;
 	p->openCL_initialized = init_GPU_collide(&p->CollisionGPU);
-	return p->openCL_initialized ? 1 : 0;
+	//return p->openCL_initialized ? 1 : 0;
 }
 #endif // DO_COLLISION_GPU
 
