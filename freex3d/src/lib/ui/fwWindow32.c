@@ -1,5 +1,5 @@
 /*
-  $Id: fwWindow32.c,v 1.42 2012/08/05 20:52:25 dug9 Exp $
+  $Id: fwWindow32.c,v 1.43 2012/12/21 14:41:06 dug9 Exp $
 
   FreeWRL support library.
   FreeWRL main window : win32 code.
@@ -423,6 +423,7 @@ static int shiftState = 0;
 	break; 
 
     case WM_CLOSE: 
+	ghRC = wglGetCurrentContext();
 	if (ghRC) 
 	    wglDeleteContext(ghRC); 
 	ghDC = GetDC(hWnd); 
@@ -472,6 +473,7 @@ static int shiftState = 0;
 \**************************************************************/
 
     case WM_DESTROY: 
+	ghRC = wglGetCurrentContext();
 	if (ghRC) 
 	    wglDeleteContext(ghRC); 
 	ghDC = GetDC(hWnd); 
