@@ -1,5 +1,5 @@
 /*
-  $Id: RenderFuncs.c,v 1.143 2013/01/04 13:56:37 crc_canada Exp $
+  $Id: RenderFuncs.c,v 1.144 2013/01/07 21:24:16 crc_canada Exp $
 
   FreeWRL support library.
   Scenegraph rendering.
@@ -322,20 +322,21 @@ void sendLightInfo (s_shader_capabilities_t *me) {
     for(j=0;j<MAX_LIGHTS;j++) {
         //ConsoleMessage ("sendLightInfo, light %d lightOnOff %d",j,p->lightOnOff[j]);
         if (p->lightOnOff[j] == 1) {
-            /* DirectionalLight? */
+            /* DirectionalLight?  PointLight, SpotLight? */
             if (p->light_pos[j][3] > 0.5) { 
+                /* this is a PointLight or SpotLight */
                 transformf(translated_light_pos[j],p->light_pos[j],modelMatrix);
                 translated_light_pos[j][3] = p->light_pos[j][3];
                 
-                /*ConsoleMessage ("light %d orig %f %f %f %f now %f %f %f %f",j,p->light_pos[j][0],
+               /* ConsoleMessage ("light %d orig %f %f %f %f now %f %f %f %f",j,p->light_pos[j][0],
                             p->light_pos[j][1],
                             p->light_pos[j][2],
                             p->light_pos[j][3],
                             translated_light_pos[j][0],
                             translated_light_pos[j][1],
                             translated_light_pos[j][2],
-                            translated_light_pos[j][3]);*/
-                 
+                            translated_light_pos[j][3]);
+                 */
              } else {
                  /* what to do about directional lights. Should they transform along with
                   the models? Headlight (MAX_LIGHT-1) should not transform, as it works.
