@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CRoutes.c,v 1.90 2013/02/03 22:18:01 dug9 Exp $
+$Id: CRoutes.c,v 1.91 2013/02/03 22:26:27 dug9 Exp $
 
 ???
 
@@ -766,7 +766,9 @@ void AddRemoveChildren (
 			unsigned long po2 = upper_power_of_two(new_len);
 			/* first, set children to 0, in case render thread comes through here */
 			tn->n = 0;
+			#ifdef CRVERBOSE
 			printf("[%d]{%u}",oldlen,upper_power_of_two(old_len));
+			#endif
 			//newmal = MALLOC (void *, (oldlen+len)*sizeof(struct X3D_Node *));
 			newmal = MALLOC (void *, (po2)*sizeof(struct X3D_Node *));
 
