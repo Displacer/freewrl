@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIEventsIn.c,v 1.88 2012/12/20 19:14:19 crc_canada Exp $
+$Id: EAIEventsIn.c,v 1.89 2013/02/11 21:45:58 dug9 Exp $
 
 Handle incoming EAI (and java class) events with panache.
 
@@ -1050,7 +1050,8 @@ static void handleGETEAINODETYPE (char *bufptr, int repno) {
 		
 	/* so, this is a valid node, lets find out if it is DEFined or whatever... */
 	/* Get the Node type. If it is a PROTO, get the proto def name, if not, just get the X3D node name */
-	if ((myNode->_nodeType == NODE_Group) &&  (X3D_GROUP(myNode)->FreeWRL__protoDef != INT_ID_UNDEFINED)) {
+	//if ((myNode->_nodeType == NODE_Group) &&  (X3D_GROUP(myNode)->FreeWRL__protoDef != INT_ID_UNDEFINED)) {
+	if (isProto(myNode)) {
 		myNT = parser_getPROTONameFromNode(myNode);
 		if (myNT == NULL) {
 			myNT = "XML_PROTO"; /* add this if we need to parse XML proto getTypes */

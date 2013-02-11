@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: X3DProtoScript.c,v 1.82 2012/06/25 22:26:32 crc_canada Exp $
+$Id: X3DProtoScript.c,v 1.83 2013/02/11 21:46:08 dug9 Exp $
 
 ???
 
@@ -769,7 +769,7 @@ void endProtoInstanceFieldTypeNode(const char *name)
 			{
 				/*struct Multi_Node { int n; void * *p; };*/
 				((struct Multi_Node *)&v)->n=n;
-				((struct Multi_Node *)&v)->p=MALLOC(struct X3D_Node **, n*sizeof(struct X3D_Node*));
+				((struct Multi_Node *)&v)->p=MALLOC(struct X3D_Node **, upper_power_of_two(n)*sizeof(struct X3D_Node*));
 				for(j=0;j<n;j++)
 				{
 					((struct Multi_Node *)&v)->p[j] = kids->p[j];

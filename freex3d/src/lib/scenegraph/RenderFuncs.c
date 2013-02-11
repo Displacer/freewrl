@@ -1,5 +1,5 @@
 /*
-  $Id: RenderFuncs.c,v 1.144 2013/01/07 21:24:16 crc_canada Exp $
+  $Id: RenderFuncs.c,v 1.145 2013/02/11 21:45:58 dug9 Exp $
 
   FreeWRL support library.
   Scenegraph rendering.
@@ -1140,9 +1140,10 @@ void render_node(struct X3D_Node *node) {
 struct X3D_Node* getTypeNode(struct X3D_Node *node);
 
 void add_parent(struct X3D_Node *node, struct X3D_Node *parent, char *file, int line) {
-
+	struct X3D_Node* itype;
 	if(!node) return;
-
+	//if(node->_nodeType == NODE_PlaneSensor)
+	//	printf("hi from add_parent, have a Planesensor");
 #ifdef CHILDVERBOSE
 	printf ("add_parent; adding node %u ,to parent %u at %s:%d\n",node,  parent,file,line);
 	printf ("add_parent; adding node %x ,to parent %x (hex) at %s:%d\n",node,  parent,file,line);
@@ -1159,7 +1160,9 @@ void add_parent(struct X3D_Node *node, struct X3D_Node *parent, char *file, int 
 	vector_pushBack (struct X3D_Node*,node->_parentVector, parent);
 
 	/* tie in sensitive nodes */
-	setSensitive (parent, getTypeNode(node));
+	itype = getTypeNode(node);
+	if(itype)
+		setSensitive (parent, itype );
 }
 
 void remove_parent(struct X3D_Node *child, struct X3D_Node *parent) {

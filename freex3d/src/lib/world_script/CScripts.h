@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CScripts.h,v 1.25 2011/07/21 20:43:21 istakenv Exp $
+$Id: CScripts.h,v 1.26 2013/02/11 21:45:59 dug9 Exp $
 
 Class to wrap a java script for CParser
 
@@ -152,6 +152,8 @@ struct Shader_Script
 /* ************************** */
 
 struct Shader_Script* new_Shader_Script(struct X3D_Node *);
+struct Shader_Script* new_Shader_ScriptB(struct X3D_Node *);
+
 void deleteScript();
 
 /* Other members */
