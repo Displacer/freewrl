@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.317 2013/02/17 17:15:08 dug9 Exp $
+  $Id: OpenGL_Utils.c,v 1.318 2013/02/17 20:56:54 dug9 Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -3675,10 +3675,10 @@ static void killNode (int index) {
 				pp = vector_get(struct X3D_Node *,structptr->_parentVector, j);
 				switch(pp->_nodeType){
 					case NODE_Transform:
-						mfn = &X3D_TRANSFORM(structptr)->children;
+						mfn = &X3D_TRANSFORM(pp)->children;
 						break;
 					case NODE_Group:
-						mfn = &X3D_GROUP(structptr)->children;
+						mfn = &X3D_GROUP(pp)->children;
 						break;
 					default:
 						break;
