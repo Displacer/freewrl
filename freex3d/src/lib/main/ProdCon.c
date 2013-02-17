@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.115 2013/02/11 21:45:58 dug9 Exp $
+  $Id: ProdCon.c,v 1.116 2013/02/17 20:16:08 dug9 Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -688,6 +688,7 @@ static bool parser_process_res_VRML_X3D(resource_item_t *res)
 		offsetInNode = res->offsetFromWhere;
 
 		parsedOk = PARSE_STRING((const unsigned char *)res->request,(const int)strlen(res->request), nRn);
+		//printf("after parse_string in EAI/SAI parsing\n");
 	} else {
 		/* standard file parsing */
 		l = (s_list_t *) res->openned_files;
@@ -732,6 +733,7 @@ static bool parser_process_res_VRML_X3D(resource_item_t *res)
 	
 		/* ACTUALLY CALLS THE PARSER */
 		parsedOk = PARSE_STRING(of->fileData, of->fileDataSize, nRn);
+		//printf("after parse_string in standard file parsing\n");
 	
 		if ((res != tg->resources.root_res) && ((!tg->resources.root_res) ||(!tg->resources.root_res->complete))) {
 			tg->CParse.globalParser = t->savedParser;
