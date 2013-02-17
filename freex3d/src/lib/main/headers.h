@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: headers.h,v 1.183 2013/02/11 21:45:58 dug9 Exp $
+$Id: headers.h,v 1.184 2013/02/17 20:14:50 dug9 Exp $
 
 Global includes.
 
@@ -783,8 +783,8 @@ void do_TimeTrigger (void *node);
 
 
 #define ADD_PARENT(a,b) add_parent(a,b,__FILE__,__LINE__)
-#define NODE_ADD_PARENT(a) ADD_PARENT(a,X3D_NODE(ptr))
-#define NODE_REMOVE_PARENT(a) ADD_PARENT(a,X3D_NODE(ptr))
+//#define NODE_ADD_PARENT(a) ADD_PARENT(a,X3D_NODE(ptr))
+//#define NODE_REMOVE_PARENT(a) ADD_PARENT(a,X3D_NODE(ptr)) //dug9 looks wrong, but not used
 
 
 #ifdef GL_ES_VERSION_2_0
