@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CRoutes.c,v 1.93 2013/02/16 15:34:08 dug9 Exp $
+$Id: CRoutes.c,v 1.94 2013/02/17 20:19:04 dug9 Exp $
 
 ???
 
@@ -2111,7 +2111,7 @@ void propagate_events_B() {
 			fromOffset = p->CRoutes[counter].fnptr;
 			extra = p->CRoutes[counter].extra;
 			len = p->CRoutes[counter].len; //this has -ve sentinal values - we'll ignor it
-
+			len = returnElementLength(fromNode->_nodeType);
 			switch(fromNode->_nodeType)
 			{
 				case NODE_ShaderProgram:
