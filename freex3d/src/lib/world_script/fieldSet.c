@@ -1,5 +1,5 @@
 /*
-  $Id: fieldSet.c,v 1.73 2013/02/11 21:45:59 dug9 Exp $
+  $Id: fieldSet.c,v 1.74 2013/02/17 20:12:21 dug9 Exp $
 
   FreeWRL support library.
   VRML/X3D fields manipulation.
@@ -1120,6 +1120,9 @@ void setField_javascriptEventOut_B(union anyVrml* any,
 
 
 				//getMFNodetype (mynode,(struct Multi_Node *)memptr,X3D_NODE(tn),extraData); 
+				any->mfnode.n = 1;
+				any->mfnode.p = MALLOC(struct X3D_Node **, sizeof(struct X3D_Node *));
+				any->mfnode.p[0] = mynode;
 				//Q. can we do add/remove children outside?
 				break;
 		}
