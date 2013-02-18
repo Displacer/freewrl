@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: headers.h,v 1.185 2013/02/18 21:20:34 dug9 Exp $
+$Id: headers.h,v 1.186 2013/02/18 22:06:11 dug9 Exp $
 
 Global includes.
 
@@ -207,6 +207,7 @@ node for ANY node that takes something other than a Group */
 //			outNode = (type)(X3D_GROUP(inNode)->children.p[0]); \
 //		} else outNode = NULL; \
 //	} else outNode = (type)inNode; };
+struct X3D_Node* getTypeNode(struct X3D_Node *node);
 
 //with Proto for Brotos
 #define POSSIBLE_PROTO_EXPANSION(type,inNode,outNode) \
@@ -217,9 +218,7 @@ node for ANY node that takes something other than a Group */
 			outNode = (type)(X3D_GROUP(inNode)->children.p[0]); \
 		} else outNode = NULL; \
 	  } else if (X3D_NODE(inNode)->_nodeType == NODE_Proto) { \
-		if (X3D_PROTO(inNode)->children.n>0) { \
-			outNode = (type)(X3D_PROTO(inNode)->children.p[0]); \
-		} else outNode = NULL; \
+			outNode = getTypeNode(inNode); \
 	  } else outNode = (type)inNode; \
     }
 
