@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CRoutes.h,v 1.15 2013/02/18 21:20:34 dug9 Exp $
+$Id: CRoutes.h,v 1.16 2013/02/18 22:37:03 dug9 Exp $
 
 VRML-parsing routines in C.
 
@@ -44,7 +44,6 @@ struct CRStruct {
         CRnodeStruct *tonodes;
         int     isActive;
         int     len;
-		int     fieldType; //fieldType
         void    (*interpptr)(void *); /* pointer to an interpolator to run */
         int     direction_flag; /* if non-zero indicates script in/out,
                                                    proto in/out */
