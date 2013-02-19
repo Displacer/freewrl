@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: headers.h,v 1.186 2013/02/18 22:06:11 dug9 Exp $
+$Id: headers.h,v 1.187 2013/02/19 14:30:33 dug9 Exp $
 
 Global includes.
 
@@ -211,16 +211,17 @@ struct X3D_Node* getTypeNode(struct X3D_Node *node);
 
 //with Proto for Brotos
 #define POSSIBLE_PROTO_EXPANSION(type,inNode,outNode) \
-	if (inNode == NULL) outNode = NULL; \
-	else { \
-	  if (X3D_NODE(inNode)->_nodeType == NODE_Group) { \
-		if (X3D_GROUP(inNode)->children.n>0) { \
-			outNode = (type)(X3D_GROUP(inNode)->children.p[0]); \
-		} else outNode = NULL; \
-	  } else if (X3D_NODE(inNode)->_nodeType == NODE_Proto) { \
-			outNode = getTypeNode(inNode); \
-	  } else outNode = (type)inNode; \
-    }
+	outNode = (type)getTypeNode(inNode);
+	//if (inNode == NULL) outNode = NULL; \
+	//else { \
+	//  if (X3D_NODE(inNode)->_nodeType == NODE_Group) { \
+	//	if (X3D_GROUP(inNode)->children.n>0) { \
+	//		outNode = (type)(X3D_GROUP(inNode)->children.p[0]); \
+	//	} else outNode = NULL; \
+	//  } else if (X3D_NODE(inNode)->_nodeType == NODE_Proto) { \
+	//		outNode = (type)getTypeNode(inNode); \
+	//  } else outNode = (type)inNode; \
+ //   }
 
 
 
