@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CParse.c,v 1.35 2013/02/16 15:34:08 dug9 Exp $
+$Id: CParse.c,v 1.36 2013/02/23 19:45:24 dug9 Exp $
 
 ???
 
@@ -174,6 +174,7 @@ char* parser_getNameFromNode(struct X3D_Node *node)
 	struct Vector *curNodeStackTop;
 	struct VRMLParser *globalParser = (struct VRMLParser *)gglobal()->CParse.globalParser;
 	
+	if(globalParser == NULL) return NULL;
 	if(globalParser->lexer->userNodeNames == NULL) return NULL;
 	if(globalParser->lexer->userNodeNames->n == 0) return NULL; //or ->data == NULL
 	curNameStackTop = stack_top(struct Vector *, globalParser->lexer->userNodeNames);

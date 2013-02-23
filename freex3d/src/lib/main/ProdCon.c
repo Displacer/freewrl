@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.118 2013/02/18 23:51:39 dug9 Exp $
+  $Id: ProdCon.c,v 1.119 2013/02/23 19:45:24 dug9 Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -300,7 +300,8 @@ static bool parser_do_parse_string(const unsigned char *input, const int len, st
 					dump_scene2(stdout, 0, (struct X3D_Node*) nRn,1,DEFedNodes);
 					deleteVector(struct X3D_Node*,DEFedNodes);
 				}
-
+				if(0) print_DEFed_node_names_and_pointers(stdout);
+				if(0) print_routes(stdout);
 				ConsoleMessage("...finished scene Instancing\n");
 			}
 		}else{
