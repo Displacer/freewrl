@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.321 2013/02/23 19:45:24 dug9 Exp $
+  $Id: OpenGL_Utils.c,v 1.322 2013/02/24 20:19:48 dug9 Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -2753,8 +2753,8 @@ struct X3D_Node* getTypeNode(struct X3D_Node *node)
 				if(1) //some flag to say it's not the scene, but a protoInstance where only the first node is rendered
 				{
 					//the first node in a protobody determines its type
-					if(pn->children.n > 0)
-						dnode = getTypeNode(pn->children.p[0]);
+					if(pn->_children.n > 0)
+						dnode = getTypeNode(pn->_children.p[0]);
 					else
 						dnode = NULL;
 				}
