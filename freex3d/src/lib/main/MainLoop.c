@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.281 2013/02/23 19:45:24 dug9 Exp $
+  $Id: MainLoop.c,v 1.282 2013/02/28 15:03:36 dug9 Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -2048,6 +2048,11 @@ char *findFIELDNAMESfromNodeOffset0(struct X3D_Node *node, int offset)
   #endif
 
 }
+char *findFIELDNAMES0(struct X3D_Node *node, int offset)
+{
+	return findFIELDNAMESfromNodeOffset0(node,offset);
+}
+
 void print_routes_ready_to_register(FILE* fp);
 void print_routes(FILE* fp)
 {
