@@ -1,7 +1,7 @@
 /* 
 =INSERT_TEMPLATE_HERE=
 
-$Id: CParseParser.h,v 1.21 2011/06/28 18:38:55 crc_canada Exp $
+$Id: CParseParser.h,v 1.22 2013/03/02 19:38:05 dug9 Exp $
 
 Parser (input of non-terminal symbols) for CParse
 
@@ -87,6 +87,7 @@ struct VRMLParser
 
 	/* which format some field strings will be in - XML and "classic" VRML are different */
 	int parsingX3DfromXML;
+ Stack* brotoDEFedNodes;
 };
 
 /* Functions parsing a type by its index */
