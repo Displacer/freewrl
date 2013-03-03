@@ -1,7 +1,7 @@
 /*
   =INSERT_TEMPLATE_HERE=
 
-  $Id: CParseParser.c,v 1.91 2013/03/03 15:22:38 dug9 Exp $
+  $Id: CParseParser.c,v 1.92 2013/03/03 17:04:40 dug9 Exp $
 
   ???
 
@@ -81,7 +81,7 @@ void CParseParser_init(struct tCParseParser *t){
 	{
 		ppCParseParser p = (ppCParseParser)t->prv;
 		p->foundInputErrors = 0;
-		p->useBrotos = 1;
+		p->useBrotos = 0;
 	}
 }
 	//ppCParseParser p = (ppCParseParser)gglobal()->CParseParser.prv;
