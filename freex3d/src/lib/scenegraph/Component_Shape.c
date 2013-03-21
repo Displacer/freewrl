@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Shape.c,v 1.126 2012/09/19 13:41:01 crc_canada Exp $
+$Id: Component_Shape.c,v 1.127 2013/03/21 15:57:05 crc_canada Exp $
 
 X3D Shape Component
 
@@ -426,7 +426,6 @@ void render_FillProperties (struct X3D_FillProperties *node) {
 	GLint algor;
 	GLint hatched;
 	GLint filled;
-	int success;
 
     struct matpropstruct *me= getAppearanceProperties();
     
@@ -451,13 +450,13 @@ void render_FillProperties (struct X3D_FillProperties *node) {
     me->hatchPercent[1] = hatchY;
     me->algorithm = algor;
     me->hatchColour[0]=node->hatchColor.c[0]; me->hatchColour[1]=node->hatchColor.c[1]; me->hatchColour[2] = node->hatchColor.c[2];
+    me->hatchColour[3] = 1.0;
 }
 
 
 void render_LineProperties (struct X3D_LineProperties *node) {
 	GLint	factor;
 	GLushort pat;
-	struct matpropstruct *me= getAppearanceProperties();
 
 	if (node->applied) {
 		//ppComponent_Shape p = (ppComponent_Shape)gglobal()->Component_Shape.prv;
@@ -465,6 +464,7 @@ void render_LineProperties (struct X3D_LineProperties *node) {
 		if (node->linewidthScaleFactor > 1.0) {
 			FW_GL_LINEWIDTH(node->linewidthScaleFactor);
 			#ifdef GL_ES_VERSION_2_0
+			struct matpropstruct *me= getAppearanceProperties();
 			me->pointSize = node->linewidthScaleFactor;
 			#else
 			FW_GL_POINTSIZE(node->linewidthScaleFactor);
