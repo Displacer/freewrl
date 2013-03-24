@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Shape.c,v 1.127 2013/03/21 15:57:05 crc_canada Exp $
+$Id: Component_Shape.c,v 1.128 2013/03/24 01:06:08 crc_canada Exp $
 
 X3D Shape Component
 
@@ -432,6 +432,7 @@ void render_FillProperties (struct X3D_FillProperties *node) {
 	hatchX = 0.80f; hatchY = 0.80f;
 	algor = node->hatchStyle; filled = node->filled; hatched = node->hatched;
 	switch (node->hatchStyle) {
+		case 0: break; /* bricking - not standard X3D */
 		case 1: hatchX = 1.0f; break; /* horizontal lines */
 		case 2: hatchY = 1.0f; break; /* vertical lines */
 		case 3: hatchY=1.0f; break; /* positive sloped lines */
@@ -440,7 +441,7 @@ void render_FillProperties (struct X3D_FillProperties *node) {
 		case 6: hatchY = 1.0f; break; /* diamond pattern */
 
 		default :{
-			node->hatched = FALSE;
+			node->hatched = FALSE; /* woops - something wrong here disable */
 		}
 	}
 
