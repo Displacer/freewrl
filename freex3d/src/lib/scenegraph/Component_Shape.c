@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Shape.c,v 1.128 2013/03/24 01:06:08 crc_canada Exp $
+$Id: Component_Shape.c,v 1.129 2013/03/29 19:58:07 crc_canada Exp $
 
 X3D Shape Component
 
@@ -366,7 +366,9 @@ static int getAppearanceShader (struct X3D_Node *myApp) {
 		if (fp->_nodeType != NODE_FillProperties) {
 			ConsoleMessage("getAppearanceShader, fillProperties has a node type of %s",stringNodeType(fp->_nodeType));
 		} else {
-			retval |= FILL_PROPERTIES_SHADER;
+			// is this a FillProperties node, but is it enabled?
+			if (X3D_FILLPROPERTIES(fp)->_enabled)
+				retval |= FILL_PROPERTIES_SHADER;
 		}
 	}
 
@@ -449,6 +451,8 @@ void render_FillProperties (struct X3D_FillProperties *node) {
     me->hatchedBool = hatched;
     me->hatchPercent[0] = hatchX;
     me->hatchPercent[1] = hatchY;
+    me->hatchScale[0] = node->_hatchScale.c[0];
+    me->hatchScale[1] = node->_hatchScale.c[1];
     me->algorithm = algor;
     me->hatchColour[0]=node->hatchColor.c[0]; me->hatchColour[1]=node->hatchColor.c[1]; me->hatchColour[2] = node->hatchColor.c[2];
     me->hatchColour[3] = 1.0;
