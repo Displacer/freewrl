@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: StreamPoly.c,v 1.47 2012/09/19 13:41:01 crc_canada Exp $
+$Id: StreamPoly.c,v 1.48 2013/04/01 16:30:17 crc_canada Exp $
 
 ???
 
@@ -689,10 +689,6 @@ static void defaultTextureMap(struct X3D_Node *p, struct X3D_PolyRep * r) { //, 
 	#endif
 
 	if ((p->_nodeType == NODE_IndexedFaceSet) ||(p->_nodeType == NODE_ElevationGrid) 
-        
-#if defined (DO_VRML1)        
-        || (p->_nodeType == NODE_VRML1_IndexedFaceSet)
-#endif //DO_VRML1
         
         ) {
 

@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.168 2013/01/04 13:56:37 crc_canada Exp $
+  $Id: display.h,v 1.169 2013/04/01 16:30:16 crc_canada Exp $
 
   FreeWRL support library.
 
@@ -395,6 +395,7 @@ typedef struct s_shader_capabilities{
 	/* fill properties */
 	GLint hatchColour;
 	GLint hatchPercent;
+	GLint hatchScale;
 	GLint filledBool;
 	GLint hatchedBool;
 	GLint algorithm;

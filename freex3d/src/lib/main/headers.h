@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: headers.h,v 1.189 2013/03/24 01:06:08 crc_canada Exp $
+$Id: headers.h,v 1.190 2013/04/01 16:30:17 crc_canada Exp $
 
 Global includes.
 
@@ -753,9 +753,6 @@ void EAI_readNewWorld(char *inputstring);
 
 void make_genericfaceset(struct X3D_IndexedFaceSet *this_);
 #define rendray_Text render_ray_polyrep
-#define rendray_VRML1_IndexedFaceSet render_ray_polyrep
-#define make_VRML1_IndexedFaceSet make_genericfaceset
-#define collide_VRML1_IndexedFaceSet collide_genericfaceset
 #define rendray_ElevationGrid  render_ray_polyrep
 #define collide_ElevationGrid collide_genericfaceset
 #define rendray_Extrusion render_ray_polyrep
@@ -889,11 +886,6 @@ void replaceWorldNeeded(char* str);
 int X3DParse(struct X3D_Group *parent, const char *inputstring);
 void *createNewX3DNode (int nt);
 void *createNewX3DNode0 (int nt);
-
-#if defined (DO_VRML1)
-char* convert1To2(const char *inp);
-#endif //DO_VRML1
-
 
 
 //updateStatusBar(void);

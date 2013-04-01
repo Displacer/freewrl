@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.121 2013/03/29 19:58:07 crc_canada Exp $
+  $Id: ProdCon.c,v 1.122 2013/04/01 16:30:16 crc_canada Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -340,9 +340,6 @@ static bool parser_do_parse_string(const unsigned char *input, const int len, st
 		}
 		break;
 	case IS_TYPE_VRML1: {
-#if defined (DO_VRML1)        
-		char *newData = convert1To2((const char*)input);
-#else
         char *newData = strdup("#VRML V2.0 utf8\n\
         Shape {appearance Appearance {material Material {diffuseColor 0.0 1.0 1.0}}\
         geometry Text {\
@@ -353,7 +350,6 @@ static bool parser_do_parse_string(const unsigned char *input, const int len, st
             }\
         }}\
         ");
-#endif //DO_VRML1
 		if(usingBrotos()){
 			struct X3D_Proto *sceneProto = createNewX3DNode0(NODE_Proto);
 			sceneProto->__prototype = X3D_NODE(sceneProto); 
