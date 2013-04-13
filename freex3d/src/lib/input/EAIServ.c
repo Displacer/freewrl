@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIServ.c,v 1.30 2012/09/17 18:27:42 crc_canada Exp $
+$Id: EAIServ.c,v 1.31 2013/04/13 20:26:07 dug9 Exp $
 
 Implement Socket server functionality for FreeWRL.
 This is currently (Jun 2012) used by the EAI and the MIDI routines
@@ -154,7 +154,10 @@ int fwlio_RxTx_control(int channel, int action) {
 		}
 
 		if (service_connected[channel] && channel == CHANNEL_EAI) {
-			fwlio_RxTx_sendbuffer(__FILE__,__LINE__,channel, "QUIT\n\n\n");
+			char *tmpstr = malloc(10);
+			strcpy(tmpstr,"QUIT\n\n\n");
+			fwlio_RxTx_sendbuffer(__FILE__,__LINE__,channel, tmpstr); //"QUIT\n\n\n");
+			free(tmpstr);
 		}
 		service_status[channel]=RxTx_STOP;
 	}
