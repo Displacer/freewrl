@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIHelpers.c,v 1.56 2013/02/11 21:45:58 dug9 Exp $
+$Id: EAIHelpers.c,v 1.57 2013/04/14 14:57:34 dug9 Exp $
 
 Small routines to help with interfacing EAI to Daniel Kraft's parser.
 
@@ -357,7 +357,7 @@ int registerEAINodeForAccess(struct X3D_Node* myn) {
 
 /* this is like EAI_GetNode, but is just for the rootNode of the scene graph */
 int EAI_GetRootNode(void) {
-	return registerEAINodeForAccess(X3D_NODE(rootNode));
+	return registerEAINodeForAccess(X3D_NODE(rootNode()));
 }
 
 
@@ -369,7 +369,7 @@ int EAI_GetNode(const char *str) {
 	if (eaiverbose) {
 		printf ("EAI_GetNode - getting %s\n",str);
 	}	
-	
+
 	/* Try to get X3D node name */
 	myNode = X3DParser_getNodeFromName(str);
 

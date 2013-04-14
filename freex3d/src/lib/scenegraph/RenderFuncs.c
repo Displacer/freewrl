@@ -1,5 +1,5 @@
 /*
-  $Id: RenderFuncs.c,v 1.149 2013/03/21 15:57:05 crc_canada Exp $
+  $Id: RenderFuncs.c,v 1.150 2013/04/14 14:57:35 dug9 Exp $
 
   FreeWRL support library.
   Scenegraph rendering.
@@ -775,12 +775,10 @@ struct X3D_Group *rootNode()
 {
 	// ConsoleMessage ("rootNode called");
 	ppRenderFuncs p = (ppRenderFuncs)gglobal()->RenderFuncs.prv;	
-if (p==NULL) {
-	ConsoleMessage ("rootNode, p null");
-	return NULL;
-}
-
-
+	if (p==NULL) {
+		ConsoleMessage ("rootNode, p null");
+		return NULL;
+	}
 	return p->rootNode;
 }
 void setRootNode(struct X3D_Group *rn)
