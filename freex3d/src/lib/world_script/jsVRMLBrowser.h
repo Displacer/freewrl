@@ -1,7 +1,7 @@
 /*
   =INSERT_TEMPLATE_HERE=
 
-  $Id: jsVRMLBrowser.h,v 1.9 2011/07/07 20:51:27 istakenv Exp $
+  $Id: jsVRMLBrowser.h,v 1.10 2013/04/27 22:31:11 dug9 Exp $
 
 */
 
@@ -148,6 +148,7 @@ JSBool VrmlBrowserLoadURL(JSContext *cx, uintN argc, jsval *vp);
 JSBool VrmlBrowserSetDescription(JSContext *cx, uintN argc, jsval *vp); 
 JSBool VrmlBrowserCreateVrmlFromString(JSContext *cx, uintN argc, jsval *vp); 
 JSBool VrmlBrowserCreateVrmlFromURL(JSContext *cx, uintN argc, jsval *vp); 
+JSBool VrmlBrowserCreateX3DFromString(JSContext *cx, uintN argc, jsval *vp); 
 JSBool VrmlBrowserAddRoute(JSContext *cx, uintN argc, jsval *vp); 
 JSBool VrmlBrowserPrint(JSContext *cx, uintN argc, jsval *vp); 
 JSBool VrmlBrowserPrintln(JSContext *cx, uintN argc, jsval *vp); 

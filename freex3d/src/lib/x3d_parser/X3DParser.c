@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: X3DParser.c,v 1.104 2013/02/11 21:46:08 dug9 Exp $
+$Id: X3DParser.c,v 1.105 2013/04/27 22:31:11 dug9 Exp $
 
 ???
 
@@ -2041,7 +2041,6 @@ int X3DParse (struct X3D_Group* myParent, const char *inputstring) {
 	tg->X3DParser.parentStack[tg->X3DParser.parentIndex] = X3D_NODE(myParent);
 
 	DEBUG_X3DPARSER ("X3DPARSE on :\n%s:\n",inputstring);
-	
 	if (XML_ParseFile(p->currentX3DParser, inputstring, (int) strlen(inputstring), TRUE) == XML_STATUS_ERROR) {
 		// http://xmlsoft.org/html/libxml-xmlerror.html
 		xmlErrorPtr xe = xmlGetLastError();

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIEventsIn.c,v 1.91 2013/04/22 12:54:30 dug9 Exp $
+$Id: EAIEventsIn.c,v 1.92 2013/04/27 22:31:11 dug9 Exp $
 
 Handle incoming EAI (and java class) events with panache.
 
@@ -653,16 +653,18 @@ However, nowadays we do not read any sockets directly....
 				break;
 				}
 			case CREATEVU:
+			case CREATEXS:
 			case CREATEVS: {
 				/*format int seq# COMMAND vrml text     string EOT*/
 
 				retGroup = createNewX3DNode(NODE_Group);
-				if (command == CREATEVS) {
+				if (command == CREATEVS || command == CREATEXS) {
 					int topWaitLimit=16;
 					int currentWaitCount=0;
 
 					if (eaiverbose) {	
-						printf ("CREATEVS %s\n",&EAI_BUFFER_CUR);
+						if(command==CREATEVS) printf ("CREATEVS %s\n",&EAI_BUFFER_CUR);
+						if(command==CREATEXS) printf ("CREATEXS %s\n",&EAI_BUFFER_CUR);
 					}	
 
 					EOT = strstr(&EAI_BUFFER_CUR,"\nEOT\n");
@@ -699,8 +701,10 @@ However, nowadays we do not read any sockets directly....
 					} else {
 
 						*EOT = 0; /* take off the EOT marker*/
-
-						ra = EAI_CreateVrml("String",(&EAI_BUFFER_CUR),retGroup);
+						if(command==CREATEVS)
+							ra = EAI_CreateVrml("String",(&EAI_BUFFER_CUR),retGroup);
+						else //CREATEXS
+							ra = EAI_CreateX3d("String",(&EAI_BUFFER_CUR),retGroup);
 						/* finish this, note the pointer maths */
 						bufPtr = (int) (EOT+3-tg->EAICore.EAIbuffer);
 					}
