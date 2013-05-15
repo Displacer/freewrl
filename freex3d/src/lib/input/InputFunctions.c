@@ -1,5 +1,5 @@
 /*
-  $Id: InputFunctions.c,v 1.20 2012/05/17 02:38:56 crc_canada Exp $
+  $Id: InputFunctions.c,v 1.21 2013/05/15 14:43:47 crc_canada Exp $
 
   FreeWRL support library.
   Input functions (EAI, mouse, keyboard, ...).
@@ -56,8 +56,12 @@ char * stripLocalFileName (char * origName)
 
 	/* remove whitespace, etc */
 	while ((*origName != '\0') && (*origName <= ' ')) origName++;
+
+	#if defined (_MSC_VER)
         if ((strncmp(origName,"file:///", strlen("file:///"))== 0)) // MS windows: file:///C:/source2/freewrl/freex3d/projectfiles_vc9/testAx/1.x3d
 			origName += strlen ("file:///");
+	#endif //_MSC_VER
+
 
         if ((strncmp(origName,"file://", strlen("file://"))== 0) || 
 			(strncmp(origName,"FILE://", strlen("FILE://"))== 0)) {
