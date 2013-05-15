@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIHelpers.c,v 1.57 2013/04/14 14:57:34 dug9 Exp $
+$Id: EAIHelpers.c,v 1.58 2013/05/15 16:19:38 cerbert Exp $
 
 Small routines to help with interfacing EAI to Daniel Kraft's parser.
 
@@ -381,6 +381,49 @@ int EAI_GetNode(const char *str) {
 	if (myNode != NULL) 
 		return registerEAINodeForAccess(myNode);
 	return FALSE;
+}
+
+//saves a vector of registered node addresses in the output parameter parentNodesAdr. The output parameter must be freed by the caller
+//returns the number of registered nodes or -1 if an error occurred
+int EAI_GetNodeParents(int cNode, int **parentNodesAdr)
+{
+	int parentAdr;
+	int i;
+	int parentVectorSize;
+	struct X3D_Node * myNode;
+	struct X3D_Node * parentNode;
+	int* tmp;
+	
+	//get the node
+	myNode = getEAINodeFromTable(cNode, -1);
+
+	if(!myNode)
+		return -1;
+
+	parentVectorSize = myNode->_parentVector->n;
+
+	tmp =(int*) calloc(parentVectorSize,sizeof(int));
+
+	//cycle along the parent vector
+	for(i=0; i < parentVectorSize; i++)
+	{
+		//get the "i" parent
+		parentNode = vector_get(struct X3D_Node *,myNode->_parentVector,i);
+
+		//register the "i" parent and get the address registration
+		parentAdr = registerEAINodeForAccess(parentNode);
+
+		//save the address registration in the int array we passed as output parameter
+		tmp[i] = parentAdr;
+		
+		//if the address registration is "0" an error occurred, we exit returning an error code (-1)
+		if(!parentAdr)
+			return -1;
+	}
+
+	*parentNodesAdr = tmp;
+	//all done, we return the count of found parents
+	return i;
 }
 
 
