@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIHeaders.h,v 1.24 2013/05/15 16:19:38 cerbert Exp $
+$Id: EAIHeaders.h,v 1.25 2013/05/23 18:29:40 dug9 Exp $
 
 EAI and java CLASS invocation
 
@@ -196,8 +196,8 @@ char *eaiPrintCommand (char command);
 extern int E_SOCK_bufsize;
 //	extern char *E_SOCK_buffer;
 extern int E_SOCK_bufcount;
-int EAIbufsize;
-char *EAIbuffer;
+//int EAIbufsize;
+//char *EAIbuffer;
 //	int EAIbufcount;
 #define EAIREADSIZE 8192
 //	extern char EAIListenerData[EAIREADSIZE];

@@ -1,5 +1,5 @@
 /*
-  $Id: libFreeWRL.h,v 1.58 2012/10/10 13:36:26 crc_canada Exp $
+  $Id: libFreeWRL.h,v 1.59 2013/05/23 18:29:40 dug9 Exp $
 
   FreeWRL library API (public)
 
@@ -241,6 +241,9 @@ void fwl_do_keyPress(char kp, int type);
 void fwl_doQuit();
 void fwl_doQuitInstance();
 void fwl_set_viewer_type(const int type);
+void fwl_set_modeRecord();
+void fwl_set_modeFixture();
+void fwl_set_modePlayback();
 
 #define CHANNEL_EAI 0
 #define CHANNEL_MIDI 1

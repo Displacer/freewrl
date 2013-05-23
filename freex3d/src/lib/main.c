@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.85 2012/09/18 17:24:51 crc_canada Exp $
+  $Id: main.c,v 1.86 2013/05/23 18:29:40 dug9 Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -314,6 +314,32 @@ void fwl_startFreeWRL(const char *url)
 
 	/* Give the main argument to the resource handler */
 	if (url != NULL) {
+		int i,len;
+		const char *localname;
+		len = strlen(url);
+		localname = NULL;
+		for(i=len-1;i>=0;i--){
+			if(url[i] == '/') break;
+			localname = &url[i];
+		}
+		if(localname){
+			char* suff;
+			char* local_name = STRDUP(localname);
+			len = strlen(local_name);
+			suff = NULL;
+			for(i=len-1;i>=0;i--){
+				if(local_name[i] == '.') {
+					local_name[i] = '\0';
+					suff = &local_name[i+1];
+					break;
+				}
+			}
+			gglobal()->Mainloop.scene_name = local_name;
+			gglobal()->Mainloop.scene_suff = suff;
+		}
+		//file = stripLocalFileName ((char *)file);
+		//FREE_IF_NZ (BrowserFullPath);
+		//BrowserFullPath = STRDUP((char *) file);
 
 		fwl_resource_push_single_request(url);
 		DEBUG_MSG("request sent to parser thread, main thread joining display thread...\n");

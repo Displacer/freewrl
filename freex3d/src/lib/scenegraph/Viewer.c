@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Viewer.c,v 1.95 2012/12/20 19:14:19 crc_canada Exp $
+$Id: Viewer.c,v 1.96 2013/05/23 18:29:40 dug9 Exp $
 
 CProto ???
 
@@ -1097,7 +1097,7 @@ void handle_rplane(const int mev, const unsigned int button, float x, float y) {
 /************************************************************************************/
 
 
-void handle(const int mev, const unsigned int button, const float x, const float y)
+void handle0(const int mev, const unsigned int button, const float x, const float y)
 {
 	ppViewer p = (ppViewer)gglobal()->Viewer.prv;
 	/* printf("Viewer handle: viewer_type %s, mouse event %d, button %u, x %f, y %f\n", 
