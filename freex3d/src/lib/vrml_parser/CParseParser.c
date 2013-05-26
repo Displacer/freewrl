@@ -1,7 +1,7 @@
 /*
   =INSERT_TEMPLATE_HERE=
 
-  $Id: CParseParser.c,v 1.93 2013/03/11 18:55:16 crc_canada Exp $
+  $Id: CParseParser.c,v 1.94 2013/05/26 13:45:31 dug9 Exp $
 
   ???
 
@@ -3332,6 +3332,7 @@ void cParseErrorFieldString(struct VRMLParser *me, char *str, const char *str2) 
 */
 struct X3D_Proto *brotoInstance(struct X3D_Proto* proto, BOOL ideep);
 static BOOL parser_field_user(struct VRMLParser* me, struct X3D_Node *node);
+static BOOL parser_interfaceDeclarationB(struct VRMLParser* me, struct ProtoDefinition* proto, struct Shader_Script* script);
 
 static BOOL parser_node_B(struct VRMLParser* me, vrmlNodeT* ret, int ind) {
     int nodeTypeB, nodeTypeU, isBroto;
