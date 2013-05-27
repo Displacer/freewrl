@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CRoutes.c,v 1.102 2013/03/24 01:06:08 crc_canada Exp $
+$Id: CRoutes.c,v 1.103 2013/05/27 17:45:01 istakenv Exp $
 
 ???
 
@@ -2778,7 +2778,7 @@ void propagate_events_B() {
 	printf ("done propagate_events\n\n");
 	#endif
 }
-BOOL usingBrotos();
+/* BOOL usingBrotos(); - moved to CParseParser.h */
 void propagate_events()
 {
 	if( usingBrotos() )

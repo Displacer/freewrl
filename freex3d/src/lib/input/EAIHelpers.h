@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIHelpers.h,v 1.20 2011/06/02 19:50:43 dug9 Exp $
+$Id: EAIHelpers.h,v 1.21 2013/05/27 17:45:01 istakenv Exp $
 
 EAI Helpers functions
 
@@ -51,6 +51,8 @@ void EAI_GetType(int cNode, char *ctmp, char *dtmp, int *cNodePtr, int *fieldOff
 
 int mapToKEYWORDindex(indexT pkwIndex);
 void outBufferCat (char *str);
+
+int EAI_GetNodeParents(int cNode, int **parentNodesAdr);
 
 #endif /* __FREEWRL_EAI_HELPERS_H__ */
 

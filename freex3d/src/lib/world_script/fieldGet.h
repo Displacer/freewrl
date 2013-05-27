@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: fieldGet.h,v 1.7 2010/05/13 17:17:11 davejoubert Exp $
+$Id: fieldGet.h,v 1.8 2013/05/27 17:45:01 istakenv Exp $
 
 Javascript C language binding.
 
@@ -32,6 +32,7 @@ Javascript C language binding.
 #define __FREEWRL_FIELDGET_H__ 1
 
 void getField_ToJavascript (int num, int fromoffset);
+void getField_ToJavascript_B(int shader_num, int fieldOffset, int type, union anyVrml *any, int len);
 void set_one_ECMAtype (int tonode, int toname, int dataType, void *Data, int datalen);
 void setScriptECMAtype (int num);
 int setMFElementtype (int num);

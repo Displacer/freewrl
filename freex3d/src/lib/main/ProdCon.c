@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.123 2013/04/27 22:31:11 dug9 Exp $
+  $Id: ProdCon.c,v 1.124 2013/05/27 17:45:01 istakenv Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -280,7 +280,7 @@ int fwl_isinputThreadParsing() {
 	return(p->inputThreadParsing);
 }
 void sceneInstance(struct X3D_Proto* proto, struct X3D_Group *scene);
-BOOL usingBrotos();
+/* BOOL usingBrotos(); -- moved to CParseParser.h */
 void dump_scene2(FILE *fp, int level, struct X3D_Node* node, int recurse, Stack *DEFedNodes) ;
 
 /**

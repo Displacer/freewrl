@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: ProdCon.h,v 1.8 2011/04/21 16:40:41 crc_canada Exp $
+$Id: ProdCon.h,v 1.9 2013/05/27 17:45:01 istakenv Exp $
 
 General functions declarations.
 
@@ -33,5 +33,7 @@ General functions declarations.
 
 void registerBindable(struct X3D_Node *);
 
+/* note , this should probably move to a different header and not be implemented in ProdCon */
+int EAI_CreateX3d(const char *tp, const char *inputstring, struct X3D_Group *where);
 
 #endif /* __FREEWRL_PRODCON_MAIN_H__ */

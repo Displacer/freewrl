@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.h,v 1.15 2011/06/02 19:50:43 dug9 Exp $
+  $Id: MainLoop.h,v 1.16 2013/05/27 17:45:01 istakenv Exp $
 
   FreeWRL support library.
   UI declarations.
@@ -50,5 +50,11 @@ void setglClearColor(float *val); /* rather start using fwl_set_ClearColor(f,f,f
 const char* freewrl_get_browser_program();
 
 void resetSensorEvents(void);
+
+void print_routes(FILE* fp);
+void print_DEFed_node_names_and_pointers(FILE* fp);
+
+/* should be somewhere else */
+char *findFIELDNAMESfromNodeOffset0(struct X3D_Node *node, int offset);
 
 #endif /* __FREEWRL_MAINLOOP_MAIN_H__ */
