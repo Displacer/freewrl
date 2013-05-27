@@ -1,7 +1,7 @@
 /*
   =INSERT_TEMPLATE_HERE=
 
-  $Id: CParseParser.c,v 1.94 2013/05/26 13:45:31 dug9 Exp $
+  $Id: CParseParser.c,v 1.95 2013/05/27 18:45:05 istakenv Exp $
 
   ???
 
@@ -50,6 +50,7 @@
 #include "CParseLexer.h"
 #include "CProto.h"
 #include "CParse.h"
+#include "CRoutes.h"			/* for upper_power_of_two */
 
 #define PARSE_ERROR(msg) \
  { \

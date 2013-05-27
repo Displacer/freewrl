@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: X3DProtoScript.c,v 1.83 2013/02/11 21:46:08 dug9 Exp $
+$Id: X3DProtoScript.c,v 1.84 2013/05/27 18:45:05 istakenv Exp $
 
 ???
 
@@ -50,6 +50,7 @@ $Id: X3DProtoScript.c,v 1.83 2013/02/11 21:46:08 dug9 Exp $
 #include "../vrml_parser/CParseLexer.h"
 #include "../vrml_parser/CProto.h"
 #include "../vrml_parser/CParse.h"
+#include "../vrml_parser/CRoutes.h"	/* for upper_power_of_two */
 #include "../input/InputFunctions.h"	/* resolving implicit declarations */
 #include "../input/EAIHeaders.h"	/* resolving implicit declarations */
 #include "../input/EAIHelpers.h"	/* resolving implicit declarations */

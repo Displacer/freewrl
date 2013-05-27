@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.124 2013/05/27 17:45:01 istakenv Exp $
+  $Id: ProdCon.c,v 1.125 2013/05/27 18:45:05 istakenv Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -76,6 +76,7 @@
 #include "../opengl/Textures.h"
 #include "../opengl/LoadTextures.h"
 
+#include "MainLoop.h"
 #include "ProdCon.h"
 
 /* used by the paser to call back the lexer for EXTERNPROTO */

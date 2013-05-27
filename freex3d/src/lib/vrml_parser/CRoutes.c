@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CRoutes.c,v 1.103 2013/05/27 17:45:01 istakenv Exp $
+$Id: CRoutes.c,v 1.104 2013/05/27 18:45:05 istakenv Exp $
 
 ???
 
@@ -43,6 +43,7 @@ $Id: CRoutes.c,v 1.103 2013/05/27 17:45:01 istakenv Exp $
 #include "../vrml_parser/CFieldDecls.h"
 #include "../world_script/JScript.h"
 #include "../world_script/CScripts.h"
+#include "../world_script/fieldGet.h"
 #include "../world_script/fieldSet.h"
 #include "CParseParser.h"
 #include "CParseLexer.h"
