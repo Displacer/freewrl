@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.289 2013/05/28 22:41:01 dug9 Exp $
+  $Id: MainLoop.c,v 1.290 2013/05/28 22:59:46 dug9 Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -572,6 +572,8 @@ void handle0(const int mev, const unsigned int button, const float x, const floa
 void fwl_handle_aqua_multi(const int mev, const unsigned int button, int x, int y, int ID);
 void fwl_handle_aqua_multi0(const int mev, const unsigned int button, int x, int y, int ID);
 void set_snapshotModeTesting(int value);
+int isSnapshotModeTesting();
+
 
 int fw_mkdir(char* path){
 #ifdef _MSC_VER
@@ -817,6 +819,11 @@ void fwl_RenderSceneUpdateScene() {
 								char snappath[100];
 								char *sep = "_"; // "." or "_" or "/"
 								int j, k;
+								set_snapshotModeTesting(TRUE);
+								//if(isSnapshotModeTesting())
+								//	printf("testing\n");
+								//else
+								//	printf("not testing\n");
 								strcpy(snappath,folder);
 								fw_mkdir(snappath); // /fixture
 								fwl_set_SnapTmp(snappath);
@@ -831,7 +838,6 @@ void fwl_RenderSceneUpdateScene() {
 									}
 								}
 								fwl_set_SnapFile(snappath);  //  /fixture/1_wrl.001.bmp
-								set_snapshotModeTesting(TRUE);
 
 							}
 						}
