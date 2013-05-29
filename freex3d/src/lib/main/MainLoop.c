@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.292 2013/05/29 20:27:24 dug9 Exp $
+  $Id: MainLoop.c,v 1.293 2013/05/29 22:05:48 dug9 Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -695,6 +695,10 @@ void fwl_RenderSceneUpdateScene() {
 			}
 			strcat(mouseStr,"\"");
 			fprintf(p->recordingFile,"%d %.6lf %s %s\n",p->frameNum,dtime,keystrokes,mouseStr); 
+			//in case we are -R -F together, 
+			//we need to round dtime for -F like it will be coming out of .fwplay for -P
+			sprintf(temp,"%.6lf",dtime); 
+			sscanf(temp,"%lf",&dtime);
 			//folder = "fixture";
 			folder = NULL;
 		}
