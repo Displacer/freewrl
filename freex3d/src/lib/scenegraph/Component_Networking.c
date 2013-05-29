@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Networking.c,v 1.48 2012/12/20 19:14:19 crc_canada Exp $
+$Id: Component_Networking.c,v 1.49 2013/05/29 16:40:00 istakenv Exp $
 
 X3D Networking Component
 
@@ -146,7 +146,7 @@ void activate_OSCsensors() {
 
 	while (active_OSC_Nodes && curr_OSC_Node < num_OSC_Nodes) {
 		realnode = (struct X3D_OSC_Sensor *) OSC_Nodes[curr_OSC_Node] ;
-        if (checkNode(realnode,__FILE__,__LINE__) {
+        if (checkNode(realnode,__FILE__,__LINE__)) {
 		#if TRACK_OSC_MSG
 		printf("activate_OSCsensors : %s,%d node=%p name=%s\n", __FILE__,__LINE__,realnode,realnode->description->strptr) ;
 		#endif
