@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Snapshot.c,v 1.28 2013/05/28 22:59:46 dug9 Exp $
+$Id: Snapshot.c,v 1.29 2013/05/29 14:15:05 dug9 Exp $
 
 CProto ???
 
@@ -674,7 +674,7 @@ void Snapshot () {
 		/* now, if we are doing only 1, convert the raw into the good.... */
 		if (!p->snapsequence) {
 #endif
-			if(!p->modeTesting){
+			//if(!p->modeTesting){
 				t->snapGoodCount++;
 				snprintf (thisGoodFile, sizeof(thisGoodFile),"%s/%s.%04d.png",mytmp,mysnapb,t->snapGoodCount);
 				snprintf(sysline,sizeof(sysline),"%s -size %dx%d -depth 8 -flip %s %s",
@@ -685,7 +685,7 @@ void Snapshot () {
 				}
 				printf ("[2] snapshot is:  %s\n",thisGoodFile);
 				UNLINK (thisRawFile);
-			}
+			//}
 #ifdef DOSNAPSEQUENCE
 /* need to re-implement this for OSX generating QTVR */
 
