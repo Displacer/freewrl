@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.294 2013/05/29 23:23:13 dug9 Exp $
+  $Id: MainLoop.c,v 1.295 2013/05/29 23:55:52 dug9 Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -1388,11 +1388,12 @@ void handle(const int mev, const unsigned int button, const float x, const float
 }
 
 #if !defined( AQUA ) && !defined( _MSC_VER ) && !defined(GLES2)
+void fwl_do_keyPressX(int rawkeycode, const char ks, int type);
 void handle_Xevents(XEvent event) {
 
         XEvent nextevent;
         char buf[10];
-        KeySym ks;
+        KeySym ks, rawks;
         int count;
 		ppMainloop p;
 		ttglobal tg = gglobal();
@@ -1473,7 +1474,7 @@ void handle_Xevents(XEvent event) {
 
 			DEBUG_XEV("Key type = %s\n", (event.type == KeyPress ? "KEY PRESS" : "KEY  RELEASE"));
                         //fwl_do_keyPress((char)ks,event.type);
-						fwl_do_keyPressX(event.xkey.keycode,(char)ks,event.type);
+						fwl_do_keyPressX((char)buf[0],(char)ks,event.type);
                         break;
 
                 case ButtonPress:
