@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.297 2013/05/30 17:23:33 dug9 Exp $
+  $Id: MainLoop.c,v 1.298 2013/05/30 17:54:23 dug9 Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -1475,8 +1475,8 @@ void handle_Xevents(XEvent event) {
                         //fwl_do_keyPress((char)ks,event.type);
                         //ksraw = (char)buf[0];
                         ksraw = XKeycodeToKeysym(event.xkey.display, event.xkey.keycode, 0);
-                        //XConvertCase(ks,&kslower,&ksupper);
-                        //ksraw = ksupper;
+                        XConvertCase(ksraw,&kslower,&ksupper);
+                        ksraw = ksupper;
                         if(event.type == KeyRelease && !IsModifierKey(ks) 
                         	&& !IsFunctionKey(ks) && !IsMiscFunctionKey(ks) && !IsCursorKey(ks))
                              fwl_do_keyPress(ks,1);
