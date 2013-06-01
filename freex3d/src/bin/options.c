@@ -1,5 +1,5 @@
 /*
-  $Id: options.c,v 1.41 2013/05/23 18:29:39 dug9 Exp $
+  $Id: options.c,v 1.42 2013/06/01 14:23:34 dug9 Exp $
 
   FreeWRL command line arguments.
 
@@ -85,9 +85,9 @@ void fv_usage()
 	    "  -A|--anaglyph <string>  Set anaglyph color pair ie: RB for left red, right blue. any of RGBCAM.\n"
 	    "  -B|--sidebyside         Set side-by-side stereo.\n"
 	    "  -K|--keypress <string>  Set immediate key pressed when ready.\n"
-		"  -R|--record             Record to <scene.play>.\n"
-		"  -F|--fixture            Playback from <scene.play> to /fixture.\n"
-		"  -P|--playback           Playback from <scene.play> to /playback\n"
+		"  -R|--record             Record to /recording/<scene>.fwplay.\n"
+		"  -F|--fixture            Playback from /recording/<scene>.fwplay to /fixture.\n"
+		"  -P|--playback           Playback from /recording/<scene>.fwplay to /playback\n"
 	    "\nInternal options:\n"
 	    "  -i|--plugin <string>    Called from plugin.\n"
 	    "  -j|--fd <number>        Pipe to command the program.\n"
