@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.86 2013/05/23 18:29:40 dug9 Exp $
+  $Id: main.c,v 1.87 2013/06/01 20:57:36 dug9 Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -334,6 +334,7 @@ void fwl_startFreeWRL(const char *url)
 					break;
 				}
 			}
+			gglobal()->Mainloop.url = strdup(url);
 			gglobal()->Mainloop.scene_name = local_name;
 			gglobal()->Mainloop.scene_suff = suff;
 		}

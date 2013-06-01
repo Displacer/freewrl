@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.306 2013/06/01 19:56:32 dug9 Exp $
+  $Id: MainLoop.c,v 1.307 2013/06/01 20:57:36 dug9 Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -675,7 +675,7 @@ void fwl_RenderSceneUpdateScene() {
 				}
 				//put in a header record, passively showing window widthxheight
 				fprintf(p->recordingFile,"window_wxh = %d, %d \n",tg->display.screenWidth,tg->display.screenHeight);
-				fprintf(p->recordingFile,"scenefile = %s \n",sceneName);
+				fprintf(p->recordingFile,"scenefile = %s \n",tg->Mainloop.url); //sceneName);
 			}
 			strcpy(keystrokes,"\"");
 			while(dequeueKeyPress(p,&key,&type)){
