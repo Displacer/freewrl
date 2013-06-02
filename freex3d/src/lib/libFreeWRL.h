@@ -1,5 +1,5 @@
 /*
-  $Id: libFreeWRL.h,v 1.59 2013/05/23 18:29:40 dug9 Exp $
+  $Id: libFreeWRL.h,v 1.60 2013/06/02 15:53:49 dug9 Exp $
 
   FreeWRL library API (public)
 
@@ -178,6 +178,7 @@ void fwl_set_glClearColor (float red , float green , float blue , float alpha);
 void fwl_thread_dump(void);
 int fwg_get_unread_message_count(void);
 char *fwg_get_last_message(int whichOne);
+void fwl_set_logFile(char *);
 
 #if defined(_ANDROID)
 void DROIDDEBUG( const char*pFmtStr, ...);
