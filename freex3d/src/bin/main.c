@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.54 2012/07/09 00:59:56 dug9 Exp $
+  $Id: main.c,v 1.55 2013/06/06 22:20:02 dug9 Exp $
 
   FreeWRL main program.
 
@@ -164,7 +164,8 @@ int main (int argc, char **argv)
 		if(argc > 1){
 			start_url = argv[optind];
 #ifdef _MSC_VER
-			start_url = strBackslash2fore(start_url);
+			if(start_url)
+				start_url = strBackslash2fore(start_url);
 #endif
 		}else{
 			start_url = NULL;
