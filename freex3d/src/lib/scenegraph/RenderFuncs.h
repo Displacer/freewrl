@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: RenderFuncs.h,v 1.34 2012/12/20 19:14:19 crc_canada Exp $
+$Id: RenderFuncs.h,v 1.35 2013/06/16 23:32:14 dug9 Exp $
 
 Proximity sensor macro.
 
@@ -89,6 +89,7 @@ struct X3D_Anchor *AnchorsAnchor();
 void setAnchorsAnchor(struct X3D_Anchor* anchor);
 
 void lightState(GLint light, int status);
+void lightType(GLint light, int type);
 void saveLightState(int *ls);
 void restoreLightState(int *ls);
 void fwglLightfv (int light, int pname, GLfloat *params);
