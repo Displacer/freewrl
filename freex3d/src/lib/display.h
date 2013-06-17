@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.170 2013/06/16 23:32:14 dug9 Exp $
+  $Id: display.h,v 1.171 2013/06/17 19:16:43 dug9 Exp $
 
   FreeWRL support library.
 
@@ -363,7 +363,6 @@ typedef struct s_shader_capabilities{
 	GLint myMaterialBackSpecular;
 	GLint myMaterialBackShininess;
 	GLint myMaterialBackEmission;
-	GLint mySolid;
 
 	GLint pointSize;
 	GLint lightState;
