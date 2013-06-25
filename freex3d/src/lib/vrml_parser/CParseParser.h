@@ -1,7 +1,7 @@
 /* 
 =INSERT_TEMPLATE_HERE=
 
-$Id: CParseParser.h,v 1.23 2013/05/27 17:45:01 istakenv Exp $
+$Id: CParseParser.h,v 1.24 2013/06/25 21:18:45 crc_canada Exp $
 
 Parser (input of non-terminal symbols) for CParse
 
@@ -32,11 +32,6 @@ Parser (input of non-terminal symbols) for CParse
 
 void resetParseSuccessfullyFlag(void);
 int parsedSuccessfully(void);
-
-// JAS - OLDCODE #ifdef REWIRE
-// JAS - OLDCODE #define BOOL int
-// JAS - OLDCODE #include "../../libeai/EAI_C.h"
-// JAS - OLDCODE #endif
 
 struct ProtoDefinition;
 struct ProtoFieldDecl;
