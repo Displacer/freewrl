@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.73 2013/04/01 13:36:55 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.74 2013/07/09 23:17:49 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -2224,6 +2224,129 @@ package VRML::NodeType;
 		_parentResource =>[FreeWRLPTR,0,initializeOnly, 0],
 					   },"X3DScriptNode"
 					  ),
+
+	###################################################################################
+
+	#		CAD Component
+
+	###################################################################################
+
+	CADAssembly =>
+	new VRML::NodeType("CADAssembly", {
+
+					}, "X3DGroupingNode"
+			),
+
+#CADAssembly : X3DGroupingNode, X3DProductStructureChildNode {
+#  MFNode   [in]     addChildren
+#  MFNode   [in]     removeChildren
+#  MFNode   [in,out] children       []       [X3DProductStructureChildNode, X3DGroupingNode]
+#  SFNode   [in,out] metadata       NULL     [X3DMetadataObject]
+#  SFString [in,out] name           ""
+#  SFVec3f  []       bboxCenter     0 0 0    (-∞,∞)
+#  SFVec3f  []       bboxSize       -1 -1 -1 [0,∞) or −1 −1 −1
+#}
+
+
+	CADFace =>
+	new VRML::NodeType("CADAssembly", {
+
+					}, "X3DProductStructureChildNode"
+			),
+
+#CADFace : X3DProductStructureChildNode, X3DBoundedObject {
+#  SFNode   [in,out] metadata   NULL     [X3DMetadataObject]
+#  SFString [in,out] name       ""
+#  SFNode   [in,out] shape      NULL     [X3DShapeNode, LOD]
+#  SFVec3f  []       bboxCenter 0 0 0    (-∞, ∞)
+#  SFVec3f  []       bboxSize   -1 -1 -1 [0, ∞) or -1 -1 -1
+#}
+
+
+	CADLayer =>
+	new VRML::NodeType("CADLayer", {
+					}, "X3DGroupingNode"
+			),
+
+
+#CADLayer : X3DGroupingNode {
+#  MFNode   [in]     addChildren
+#  MFNode   [in]     removeChildren
+#  MFNode   [in,out] children       []       [X3DChildNode]
+#  SFNode   [in,out] metadata       NULL     [X3DMetadataObject]
+#  SFString [in,out] name           ""
+#  MFBool   [in,out] visible        []
+#  SFVec3f  []       bboxCenter     0 0 0    (-∞,∞)
+#  SFVec3f  []       bboxSize       -1 -1 -1 [0,∞) or −1 −1 −1
+#}
+
+
+	IndexedQuadSet => new VRML::NodeType("IndexedQuadSet", {
+		set_index => [MFInt32, undef, inputOnly, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		attrib  => [MFNode, [], inputOutput, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		color => [SFNode, NULL, inputOutput, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		coord => [SFNode, NULL, inputOutput, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		fogCoord => [SFNode, NULL, inputOutput, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		metadata => [SFNode, NULL, inputOutput, "(SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		normal => [SFNode, NULL, inputOutput, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		texCoord => [SFNode, NULL, inputOutput, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		ccw => [SFBool, TRUE, initializeOnly, "(SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		Index => [MFInt32, [], initializeOnly, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		colorPerVertex => [SFBool, TRUE, initializeOnly, "(SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		normalPerVertex => [SFBool, TRUE, initializeOnly, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		solid => [SFBool, TRUE, initializeOnly, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		}, "X3DComposedGeometryNode"
+	),
+
+
+#IndexedQuadSet : X3DComposedGeometryNode {
+##  MFInt32 [in]     set_index       []   [0,∞)
+#  MFNode  [in,out] attrib          []   [X3DVertexAttributeNode]
+#  SFNode  [in,out] color           NULL [X3DColorNode]
+#  SFNode  [in,out] coord           NULL [X3DCoordinateNode]
+#  SFNode  [in,out] fogCoord        []   [FogCoordinate]
+#  SFNode  [in,out] metadata        NULL [X3DMetadataObject]
+#  SFNode  [in,out] normal          NULL [X3DNormalNode]
+#  SFNode  [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+#  SFBool  []       ccw             TRUE
+#  SFBool  []       colorPerVertex  TRUE
+#  SFBool  []       normalPerVertex TRUE
+#  SFBool  []       solid           TRUE
+#  MFInt32 []       index           []   [0,∞)
+#}
+
+	QuadSet =>
+	new VRML::NodeType("QuadSet", {
+		attrib  => [MFNode, [], inputOutput, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		color => [SFNode, NULL, inputOutput, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		coord => [SFNode, NULL, inputOutput, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		fogCoord => [SFNode, NULL, inputOutput, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		metadata => [SFNode, NULL, inputOutput, "(SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		normal => [SFNode, NULL, inputOutput, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		texCoord => [SFNode, NULL, inputOutput, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		ccw => [SFBool, TRUE, initializeOnly, "(SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		colorPerVertex => [SFBool, TRUE, initializeOnly, "(SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		normalPerVertex => [SFBool, TRUE, initializeOnly, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		solid => [SFBool, TRUE, initializeOnly, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+					}, "X3DComposedGeometryNode"
+			),
+
+
+#QuadSet : X3DComposedGeometryNode {
+#  MFNode  [in,out] attrib          []   [X3DVertexAttributeNode]
+#  SFNode  [in,out] color           NULL [X3DColorNode]
+#  SFNode  [in,out] coord           NULL [X3DCoordinateNode]
+#  SFNode  [in,out] fogCoord        []   [FogCoordinate]
+#  SFNode  [in,out] metadata        NULL [X3DMetadataObject]
+#  SFNode  [in,out] normal          NULL [X3DNormalNode]
+#  SFNode  [in,out] texCoord        NULL [X3DTextureCoordinateNode]
+#  SFBool  []       ccw             TRUE
+#  SFBool  []       colorPerVertex  TRUE
+#  SFBool  []       normalPerVertex TRUE
+#  SFBool  []       solid           TRUE
+#}
+
+
 
 	###################################################################################
 
