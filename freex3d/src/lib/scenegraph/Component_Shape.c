@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Shape.c,v 1.130 2013/04/01 16:30:17 crc_canada Exp $
+$Id: Component_Shape.c,v 1.131 2013/07/10 18:38:22 crc_canada Exp $
 
 X3D Shape Component
 
@@ -308,7 +308,8 @@ static int getShapeColourShader (struct X3D_Node *myGeom) {
 		CHECK_COLOUR_FIELD(TriangleSet);
 		CHECK_COLOUR_FIELD(ElevationGrid);
 		CHECK_COLOUR_FIELD(GeoElevationGrid);
-            
+		CHECK_COLOUR_FIELD(QuadSet);
+		CHECK_COLOUR_FIELD(IndexedQuadSet);
 	}
 
 	/* if we are down here, we KNOW we do not have a color field */

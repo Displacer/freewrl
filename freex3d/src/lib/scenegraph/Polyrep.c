@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Polyrep.c,v 1.69 2012/09/07 19:50:44 crc_canada Exp $
+$Id: Polyrep.c,v 1.70 2013/07/10 18:38:22 crc_canada Exp $
 
 ???
 
@@ -72,7 +72,6 @@ static void recalculateColorField(struct X3D_PolyRep *r) {
 	r->color = (float *)newcolors;
 
 	/* VBOs need this re-bound */
-
 
 	if (r->VBO_buffers[COLOR_VBO] == 0) glGenBuffers(1,&r->VBO_buffers[COLOR_VBO]);
 	FW_GL_BINDBUFFER(GL_ARRAY_BUFFER,r->VBO_buffers[COLOR_VBO]);
@@ -787,7 +786,7 @@ void render_polyrep(void *node) {
 	renderedNodePtr = X3D_NODE(node);
 	virt = virtTable[renderedNodePtr->_nodeType];
 	pr = renderedNodePtr->_intern;
-
+    
 	#ifdef TEXVERBOSE
 	printf ("\nrender_polyrep, _nodeType %s\n",stringNodeType(renderedNodePtr->_nodeType)); 
 	printf ("ntri %d\n",pr->ntri);

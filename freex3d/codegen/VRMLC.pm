@@ -1,4 +1,4 @@
-# $Id: VRMLC.pm,v 1.76 2013/07/10 13:48:55 crc_canada Exp $
+# $Id: VRMLC.pm,v 1.77 2013/07/10 18:38:22 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # Portions Copyright (C) 1998 Bernhard Reiter
@@ -8,8 +8,8 @@
 
 #
 # $Log: VRMLC.pm,v $
-# Revision 1.76  2013/07/10 13:48:55  crc_canada
-# more Component_CAD work.
+# Revision 1.77  2013/07/10 18:38:22  crc_canada
+# QuadSet work
 #
 # Revision 1.75  2013/04/28 12:27:57  crc_canada
 # changes for adding ability to directly manipulate Material parameters from a dedicated UI.
@@ -1527,6 +1527,8 @@ sub gen {
 	"#define X3D_TRIANGLEFANSET(node) ((struct X3D_TriangleFanSet*)node)\n". 
 	"#define X3D_TRIANGLESET(node) ((struct X3D_TriangleSet*)node)\n". 
 	"#define X3D_TRIANGLESTRIPSET(node) ((struct X3D_TriangleStripSet*)node)\n". 
+	"#define X3D_QUADSET(node) ((struct X3D_QuadSet*)node)\n". 
+	"#define X3D_INDEXEDQUADSET(node) ((struct X3D_IndexedQuadSet*)node)\n". 
 
 
 	"#define X3D_GEOORIGIN(node) ((struct X3D_GeoOrigin*)node)\n".

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_CAD.c,v 1.1 2013/07/10 13:48:56 crc_canada Exp $
+$Id: Component_CAD.c,v 1.2 2013/07/10 18:38:22 crc_canada Exp $
 
 X3D Rendering Component
 
@@ -46,7 +46,7 @@ X3D Rendering Component
 #include "../scenegraph/Polyrep.h"
 
 void render_IndexedQuadSet (struct X3D_IndexedQuadSet *node) {
-                COMPILE_POLY_IF_REQUIRED( node->coord, node->color, node->normal, NULL)
+                COMPILE_POLY_IF_REQUIRED( node->coord, node->color, node->normal, node->texCoord)
 		CULL_FACE(node->solid)
 		render_polyrep(node);
 }

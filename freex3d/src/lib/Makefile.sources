@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-# $Id: Makefile.sources,v 1.43 2013/07/10 13:48:56 crc_canada Exp $
+# $Id: Makefile.sources,v 1.44 2013/07/10 18:38:22 crc_canada Exp $
 #
 # List all source files
 #
@@ -112,7 +112,6 @@ scenegraph/Component_Rendering.c \
 scenegraph/Component_Interpolation.c \
 scenegraph/Component_Core.h \
 scenegraph/Component_Core.c \
-scenegraph/Component_CAD.c \
 scenegraph/Component_EnvironEffects.c \
 scenegraph/Component_Grouping.c \
 scenegraph/Collision.c \
