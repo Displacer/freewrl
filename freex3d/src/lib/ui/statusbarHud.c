@@ -1,5 +1,5 @@
 /*
-  $Id: statusbarHud.c,v 1.55 2013/06/20 21:12:24 dug9 Exp $
+  $Id: statusbarHud.c,v 1.56 2013/07/11 10:43:14 crc_canada Exp $
 
 */
 
@@ -2176,10 +2176,10 @@ M       void toggle_collision()                             //"
 //			/* clear the status bar because there's nothing to show */
 //			if(tg->Mainloop.clipPlane == 0) tg->Mainloop.clipPlane = 16;
 //			FW_GL_SCISSOR(0,0,tg->display.screenWidth,tg->Mainloop.clipPlane);
-//			FW_GL_ENABLE(GL_SCISSOR_TEST);
+//			glEnable(GL_SCISSOR_TEST);
 //			FW_GL_CLEAR_COLOR(.922f,.91f,.844f,1.0f); //windowing gray
 //			FW_GL_CLEAR(GL_COLOR_BUFFER_BIT);
-//			FW_GL_DISABLE(GL_SCISSOR_TEST);
+//			glDisable(GL_SCISSOR_TEST);
 //			p->hadString = 0;
 //			p->initDone = TRUE;
 //		}

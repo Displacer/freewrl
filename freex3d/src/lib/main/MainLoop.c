@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.312 2013/07/06 15:32:50 crc_canada Exp $
+  $Id: MainLoop.c,v 1.313 2013/07/11 10:43:12 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -1963,7 +1963,7 @@ void setup_projection(int pick, int x, int y)
 		 which is updated only every 10-25 loops */
 		//FW_GL_SCISSOR(0,tg->Mainloop.clipPlane,tg->display.screenWidth,tg->display.screenHeight);
 		FW_GL_SCISSOR(scissorxl,tg->Mainloop.clipPlane,scissorxr-scissorxl,tg->display.screenHeight-tg->Mainloop.clipPlane);
-		FW_GL_ENABLE(GL_SCISSOR_TEST);
+		glEnable(GL_SCISSOR_TEST);
 	}
 	/* <<< statusbar hud */
 	p->viewpointScreenX[viewer->iside] = xvp + screenwidth2/2;
