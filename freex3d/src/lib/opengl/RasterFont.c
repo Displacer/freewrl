@@ -1,5 +1,5 @@
 /*
-  $Id: RasterFont.c,v 1.24 2013/07/11 10:43:14 crc_canada Exp $
+  $Id: RasterFont.c,v 1.25 2013/07/12 16:26:39 crc_canada Exp $
 
 */
 
@@ -152,7 +152,6 @@ void rf_layer2D()
 //printf ("skipping the push attrib\n");
 #else
     FW_GL_PUSH_ATTRIB(GL_ENABLE_BIT);
-    glDisable(GL_LIGHTING);
 #endif
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);

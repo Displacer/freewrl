@@ -1,5 +1,5 @@
 /*
-  $Id: statusbarHud.c,v 1.57 2013/07/11 13:48:50 dug9 Exp $
+  $Id: statusbarHud.c,v 1.58 2013/07/12 16:26:40 crc_canada Exp $
 
 */
 
@@ -2147,7 +2147,6 @@ M       void toggle_collision()                             //"
 		//glOrtho(-100.0,100.0,-100.0,100.0,Viewer()->nearPlane,Viewer()->farPlane);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		//glDisable(GL_LIGHTING); // http://www.opengl.org/wiki/Coloring_a_bitmap 
 		glDisable(GL_DEPTH_TEST);
 		p->posType = 1; // use RasterPos2i instead of WindowPos2i
 	}
@@ -2166,7 +2165,6 @@ M       void toggle_collision()                             //"
 #ifndef KIOSK
 		glDepthMask(GL_TRUE);
 		if(p->posType==1) { 
-			//glEnable(GL_LIGHTING); 
 			glEnable(GL_DEPTH_TEST); 
 		}
 #ifndef GLES2
@@ -2194,7 +2192,6 @@ M       void toggle_collision()                             //"
 //		FW_GL_CLEAR_COLOR(0.0f,0.0f,0.0f,1.0f);
 //		FW_GL_DEPTHMASK(GL_TRUE);
 //		if(p->posType==1) {
-//			//glEnable(GL_LIGHTING);
 //			glEnable(GL_DEPTH_TEST);
 //		}
 //		return;
@@ -2210,7 +2207,6 @@ M       void toggle_collision()                             //"
 //	{
 //		FW_GL_DEPTHMASK(GL_TRUE);
 //		if(p->posType==1) {
-//			//glEnable(GL_LIGHTING);
 //			glEnable(GL_DEPTH_TEST);
 //		}
 //		return;
@@ -2284,7 +2280,6 @@ M       void toggle_collision()                             //"
 	glShadeModel(GL_SMOOTH);
 #endif
 	//if(p->posType==1) { 
-	//	//glEnable(GL_LIGHTING); 
 	//	glEnable(GL_DEPTH_TEST); 
 	//}
 }
