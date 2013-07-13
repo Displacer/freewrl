@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Shape.c,v 1.132 2013/07/12 16:26:40 crc_canada Exp $
+$Id: Component_Shape.c,v 1.133 2013/07/13 13:13:01 dug9 Exp $
 
 X3D Shape Component
 
@@ -445,8 +445,9 @@ void render_LineProperties (struct X3D_LineProperties *node) {
 		//ppComponent_Shape p = (ppComponent_Shape)gglobal()->Component_Shape.prv;
 
 		if (node->linewidthScaleFactor > 1.0) {
+			struct matpropstruct *me;
 			glLineWidth(node->linewidthScaleFactor);
-			struct matpropstruct *me= getAppearanceProperties();
+			me= getAppearanceProperties();
 			me->pointSize = node->linewidthScaleFactor;
 		}
 
