@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: headers.h,v 1.194 2013/07/12 16:26:39 crc_canada Exp $
+$Id: headers.h,v 1.195 2013/07/15 21:07:47 crc_canada Exp $
 
 Global includes.
 
@@ -557,6 +557,8 @@ void *returnInterpolatorPointer (const char *x);
 #define X3DSFNode				53 /* this is an "X3DNode" in the spec, but it conflicts with an internal def. */
 #define X3DProductStructureChildNode		54
 #define X3DComposedGeometryNode			55
+#define X3DNurbsControlCurveNode		56
+#define X3DNurbsSurfaceGeometryNode		57
 
 int isManagedField(int mode, int type, int isPublic);
 

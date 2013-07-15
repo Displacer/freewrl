@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Children.c,v 1.22 2012/08/31 16:24:22 crc_canada Exp $
+$Id: Children.c,v 1.23 2013/07/15 21:07:47 crc_canada Exp $
 
 Render the children of nodes.
 
@@ -152,6 +152,12 @@ void  UPDATE_RENDERFLAG (struct X3D_Node *p, int flag, char *fi, int li) {
 					update_renderFlag(me,flag);
 				}
 				break;
+
+			case NODE_CADLayer:
+                if (is_CADLayerchild_inrange(X3D_CADLAYER(me),p)) {
+                    update_renderFlag(me,flag);
+				}
+                break;
 
 			default:
 
