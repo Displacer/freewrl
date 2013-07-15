@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_CAD.c,v 1.3 2013/07/15 02:37:11 crc_canada Exp $
+$Id: Component_CAD.c,v 1.4 2013/07/15 10:43:56 crc_canada Exp $
 
 X3D Rendering Component
 
@@ -61,6 +61,18 @@ void child_CADLayer (struct X3D_CADLayer *node) {
 }
 
 void compile_CADLayer (struct X3D_CADLayer *node) {
+}
+
+void prep_CADPart (struct X3D_CADPart *node) {
+}
+
+void child_CADPart (struct X3D_CADPart *node) {
+}
+
+void compile_CADPart (struct X3D_CADPart *node) {
+}
+
+void fin_CADPart (struct X3D_CADPart *node) {
 }
 
 

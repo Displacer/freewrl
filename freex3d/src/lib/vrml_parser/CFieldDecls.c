@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CFieldDecls.c,v 1.10 2010/12/07 18:27:50 crc_canada Exp $
+$Id: CFieldDecls.c,v 1.11 2013/07/15 10:43:56 crc_canada Exp $
 
 ???
 
@@ -12,7 +12,7 @@ $Id: CFieldDecls.c,v 1.10 2010/12/07 18:27:50 crc_canada Exp $
 
     Copyright 2009 CRC Canada. (http://www.crc.gc.ca)
 
-    FreeWRL/FreeX3D is free software: you can redistribute it and/or modify
+    FreeWRL is free software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
