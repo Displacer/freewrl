@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_CAD.c,v 1.2 2013/07/10 18:38:22 crc_canada Exp $
+$Id: Component_CAD.c,v 1.3 2013/07/15 02:37:11 crc_canada Exp $
 
 X3D Rendering Component
 
@@ -44,6 +44,26 @@ X3D Rendering Component
 #include "Component_Shape.h"
 #include "../scenegraph/RenderFuncs.h"
 #include "../scenegraph/Polyrep.h"
+
+void prep_CADAssembly (struct X3D_CADAssembly *node) {
+}
+
+void child_CADAssembly (struct X3D_CADAssembly *node) {
+}
+
+void compile_CADAssembly (struct X3D_CADAssembly *node) {
+}
+
+void prep_CADLayer (struct X3D_CADLayer *node) {
+}
+
+void child_CADLayer (struct X3D_CADLayer *node) {
+}
+
+void compile_CADLayer (struct X3D_CADLayer *node) {
+}
+
+
 
 void render_IndexedQuadSet (struct X3D_IndexedQuadSet *node) {
                 COMPILE_POLY_IF_REQUIRED( node->coord, node->color, node->normal, node->texCoord)
