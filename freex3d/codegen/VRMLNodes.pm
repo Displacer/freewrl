@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.78 2013/07/15 21:07:47 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.79 2013/07/16 20:20:10 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -2299,7 +2299,7 @@ package VRML::NodeType;
 	),
 
 	CADFace =>
-	new VRML::NodeType("CADAssembly", {
+	new VRML::NodeType("CADFace", {
 		metadata => [SFNode, NULL, inputOutput, "(SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
 		name => [SFString, "", inputOutput, "(SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
 		shape => [SFNode, NULL, inputOutput, "(SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
