@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.313 2013/07/11 10:43:12 crc_canada Exp $
+  $Id: MainLoop.c,v 1.314 2013/07/23 04:02:43 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -1081,7 +1081,9 @@ to have the Identity matrix loaded, which caused near/far plane calculations to 
                 tg->Mainloop.BrowserFPS = 25.0 / (TickTime()-p->BrowserStartTime);
                 setMenuFps((float)tg->Mainloop.BrowserFPS); /*  tell status bar to refresh, if it is displayed*/
                 /* printf ("fps %f tris %d, rootnode children %d \n",p->BrowserFPS,p->trisThisLoop, X3D_GROUP(rootNode)->children.n);  */
-                /* ConsoleMessage("fps %f tris %d\n",p->BrowserFPS,p->trisThisLoop);   */
+
+                //ConsoleMessage("fps %f tris %d\n",tg->Mainloop.BrowserFPS,tg->Mainloop.trisThisLoop); 
+
 
 		/* printf ("MainLoop, nearPlane %lf farPlane %lf\n",Viewer.nearPlane, Viewer.farPlane);  */
 
