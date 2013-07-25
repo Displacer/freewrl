@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: OpenGL_Utils.h,v 1.60 2012/12/19 20:47:05 crc_canada Exp $
+$Id: OpenGL_Utils.h,v 1.61 2013/07/25 21:03:17 crc_canada Exp $
 
 Screen snapshot.
 
@@ -30,7 +30,15 @@ Screen snapshot.
 #ifndef __FREEWRL_OPENGL_UTILS_H__
 #define __FREEWRL_OPENGL_UTILS_H__
 
+// number of Shader nodes available per invocation
+#define MAX_USER_DEFINED_SHADERS 4
+
+int getNextFreeUserDefinedShaderSlot();
+void sendShaderTextToEngine(int ste, int partsN, char ** vertSource, char ** fragSource);
+
 typedef enum vertexShaderResources {
+	vertexGLSLVersion,
+
     vertexPrecisionDeclare,
 	vertMaxLightsDeclare,
     
@@ -65,11 +73,14 @@ typedef enum vertexShaderResources {
 	vertexSimpleColourCalculation,
     vertexHatchPositionCalculation,
     
+    vertexUserDefinedInput,
+    
 	vertexMainEnd,
 	vertexEndMarker
 } vertexShaderResources_t;
 
 typedef enum fragmenShaderResources {
+	fragmentGLSLVersion,
 	fragmentPrecisionDeclare,
 	fragMaxLightsDeclare,
     
@@ -93,6 +104,8 @@ typedef enum fragmenShaderResources {
     fragmentFillPropModel,
     
 	fragmentMainStart,
+    
+    fragmentUserDefinedInput,
     
 	fragmentSimpleColourAssign,
     fragmentOneColourAssign,
