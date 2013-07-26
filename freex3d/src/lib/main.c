@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.88 2013/06/06 22:20:02 dug9 Exp $
+  $Id: main.c,v 1.89 2013/07/26 14:25:34 crc_canada Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -316,7 +316,7 @@ void splitpath_local_suffix(const char *url, char **local_name, char **suff)
 	if(url){
 		int i,len;
 		char *localname;
-		len = strlen(url);
+		len = (int) strlen(url);
 		localname = NULL;
 		for(i=len-1;i>=0;i--){
 			if(url[i] == '/') break;
@@ -325,7 +325,7 @@ void splitpath_local_suffix(const char *url, char **local_name, char **suff)
 		if(localname){
 			*local_name = STRDUP(localname);
 			localname = *local_name;
-			len = strlen(localname);
+			len = (int) strlen(localname);
 			*suff = NULL;
 			for(i=len-1;i>=0;i--){
 				if(localname[i] == '.') {

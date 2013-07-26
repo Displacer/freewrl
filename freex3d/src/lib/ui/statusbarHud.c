@@ -1,5 +1,5 @@
 /*
-  $Id: statusbarHud.c,v 1.58 2013/07/12 16:26:40 crc_canada Exp $
+  $Id: statusbarHud.c,v 1.59 2013/07/26 14:25:35 crc_canada Exp $
 
 */
 
@@ -1515,7 +1515,6 @@ void initButtons()
 			{
 				for(k=0;k<2;k++) //column
 				{
-					float xx,yy,zz;
 					//vertex coords
 					p->pmenu.items[i].vert[kv +0] = p->pmenu.vert[mv+kv +0] = xyxy[j].x + (GLfloat)(i*dx);
 					p->pmenu.items[i].vert[kv +1] = p->pmenu.vert[mv+kv +1] = xyxy[k].y;
