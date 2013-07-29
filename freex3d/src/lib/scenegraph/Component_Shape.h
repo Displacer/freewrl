@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Shape.h,v 1.24 2013/07/25 21:03:18 crc_canada Exp $
+$Id: Component_Shape.h,v 1.25 2013/07/29 02:41:18 crc_canada Exp $
 
 Proximity sensor macro.
 
@@ -67,9 +67,10 @@ Proximity sensor macro.
 /* note we start at 0x1000 */
 
 #define USER_DEFINED_SHADER_1	0x001000
-#define USER_DEFINED_SHADER_2	0x001001
-#define USER_DEFINED_SHADER_3	0x001002
-#define USER_DEFINED_SHADER_4	0x001004
+#define USER_DEFINED_SHADER_2	0x002000
+#define USER_DEFINED_SHADER_3	0x003000
+#define USER_DEFINED_SHADER_4	0x004000
+#define USER_DEFINED_SHADER_MASK 0x00F000
 
 
 /*******************************************************/

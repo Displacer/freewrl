@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.341 2013/07/27 15:12:09 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.342 2013/07/29 02:41:17 crc_canada Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -1607,11 +1607,11 @@ if (backFacing) { \n \
             powerFactor *= myMat.shininess;\n\
           }\n\
         }\n\
-        attenuation = 1.0/(light_constAtten[i] + fw_LightSource[i].linearAttenuation[i] * d * fw_LightSource[i].quadraticAttenuation *d *d);\n\
+        attenuation = 1.0/(fw_LightSource[i].constantAttenuation + fw_LightSource[i].linearAttenuation * d * fw_LightSource[i].quadraticAttenuation *d *d);\n\
         spotDot = dot (-L,myLightDir);\n\
         /* check against spotCosCutoff */\n\
-		if (spotDot > fw_LightSource[i].spotCut) {\n\
-          spotAttenuation = pow(spotDot,lightSpotBeamWidth[i]);\n\
+		if (spotDot > fw_LightSource[i].spotCutoff) {\n\
+          spotAttenuation = pow(spotDot,fw_LightSource[i].spotExponent);\n\
         }\n\
         attenuation *= spotAttenuation;\n\
         /* diffuse light computation */\n\
@@ -1649,7 +1649,7 @@ if (backFacing) { \n \
             attenuation = (myMat.shininess-128.0);\n\
           }\n\
           /* this is actually the SFVec3f attenuation field */\n\
-          attenuation = 1.0/(light_constAtten[i] + fw_LightSource[i].linearAttenuation * d* fw_LightSource[i].quadraticAttenuation *d *d);\n\
+          attenuation = 1.0/(fw_LightSource[i].constantAttenuation + fw_LightSource[i].linearAttenuation * d* fw_LightSource[i].quadraticAttenuation *d *d);\n\
           /* diffuse light computation */\n\
           diffuse += nDotL* myMat.diffuse*myLightDiffuse * attenuation;\n\
           /* ambient light computation */\n\
