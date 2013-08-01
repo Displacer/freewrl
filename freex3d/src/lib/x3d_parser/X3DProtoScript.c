@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: X3DProtoScript.c,v 1.84 2013/05/27 18:45:05 istakenv Exp $
+$Id: X3DProtoScript.c,v 1.85 2013/08/01 12:55:36 crc_canada Exp $
 
 ???
 
@@ -1803,17 +1803,17 @@ void parseScriptProtoField(struct VRMLLexer* myLexer, char **atts) {
 			case NODE_ComposedShader: {
 				struct X3D_ComposedShader* myScr = NULL;
 				myScr = X3D_COMPOSEDSHADER(tg->X3DParser.parentStack[tg->X3DParser.parentIndex]);
-				myObj = (struct Shader_Script *) myScr->__shaderObj;
+				myObj = (struct Shader_Script *) myScr->_shaderUserDefinedFields;
 				break; }
 			case NODE_ShaderProgram: {
 				struct X3D_ShaderProgram* myScr = NULL;
 				myScr = X3D_SHADERPROGRAM(tg->X3DParser.parentStack[tg->X3DParser.parentIndex]);
-				myObj = (struct Shader_Script *) myScr->__shaderObj;
+				myObj = (struct Shader_Script *) myScr->_shaderUserDefinedFields;
 				break; }
 			case NODE_PackagedShader: {
 				struct X3D_PackagedShader* myScr = NULL;
 				myScr = X3D_PACKAGEDSHADER(tg->X3DParser.parentStack[tg->X3DParser.parentIndex]);
-				myObj = (struct Shader_Script *) myScr->__shaderObj;
+				myObj = (struct Shader_Script *) myScr->_shaderUserDefinedFields;
 				break; }
 			default: {
 				ConsoleMessage("got an error on parseScriptProtoField, do not know how to handle field for parent type %s",

@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.174 2013/07/25 21:03:17 crc_canada Exp $
+  $Id: display.h,v 1.175 2013/08/01 12:55:35 crc_canada Exp $
 
   FreeWRL support library.
 
@@ -430,7 +430,6 @@ typedef struct {
 	bool have_GL_VERSION_3_0;
 
 	bool av_multitexture; /* Multi textures available ? */
-	bool av_glsl_shaders; /* GLSL shaders available ? */ 
 	bool av_npot_texture; /* Non power of 2 textures available ? */
 	bool av_texture_rect; /* Rectangle textures available ? */
 	bool av_occlusion_q;  /* Occlusion query available ? */

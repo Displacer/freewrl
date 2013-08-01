@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: RenderFuncs.h,v 1.36 2013/07/25 21:03:18 crc_canada Exp $
+$Id: RenderFuncs.h,v 1.37 2013/08/01 12:55:36 crc_canada Exp $
 
 Proximity sensor macro.
 
@@ -43,31 +43,6 @@ void turnGlobalShaderOff(void);
 	#define HEADLIGHT_LIGHT (MAX_LIGHTS-1)
 #endif
 */
-
-#ifdef GL_VERSION_2_0
-	#define TURN_GLOBAL_SHADER_OFF \
-		turnGlobalShaderOff()
-	#define TURN_FILLPROPERTIES_SHADER_OFF \
-		{if (p->fillpropCurrentShader!=0) { glUseProgram(0);}}
-#else
-	#ifdef GL_VERSION_1_5
-		#define TURN_GLOBAL_SHADER_OFF \
-		turnGlobalShaderOff()
-		#define TURN_FILLPROPERTIES_SHADER_OFF \
-			{if (fillpropCurrentShader!=0) { fillpropCurrentShader = 0; glUseProgramObjectARB(0);}}
-	#else
-		#if defined(IPHONE) || defined(GLES2)
-			#define TURN_GLOBAL_SHADER_OFF \
-				turnGlobalShaderOff()
-			#define TURN_FILLPROPERTIES_SHADER_OFF \
-				{if (fillpropCurrentShader!=0) { glUseProgram(0);}}
-
-		#else
-			#define TURN_GLOBAL_SHADER_OFF printf ("can not do TURN_SHADERS_OFF at %s:%d\n",__FILE__,__LINE__);
-			#define TURN_FILLPROPERTIES_SHADER_OFF printf ("can not do TURN_SHADERS_OFF at %s:%d\n",__FILE__,__LINE__);
-		#endif
-	#endif
-#endif
 
 /* trat: test if a ratio is reasonable */
 #define TRAT(a) ((a) > 0 && ((a) < gglobal()->RenderFuncs.hitPointDist || gglobal()->RenderFuncs.hitPointDist < 0))

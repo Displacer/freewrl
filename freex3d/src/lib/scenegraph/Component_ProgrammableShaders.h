@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_ProgrammableShaders.h,v 1.4 2009/10/05 15:07:23 crc_canada Exp $
+$Id: Component_ProgrammableShaders.h,v 1.5 2013/08/01 12:55:35 crc_canada Exp $
 
 Proximity sensor macro.
 
@@ -30,7 +30,7 @@ Proximity sensor macro.
 #ifndef __FREEWRL_SCENEGRAPH_PROGRAMMABLESHADERS_H__
 #define __FREEWRL_SCENEGRAPH_PROGRAMMABLESHADERS_H__
 
-extern GLuint globalCurrentShader;
-void getField_ToShader(int me);
+void getField_ToShader(struct X3D_Node *, int me);
+void sendInitialFieldsToShader(struct X3D_Node * node);
 
 #endif /* __FREEWRL_SCENEGRAPH_PROGRAMMABLESHADERS_H__ */
