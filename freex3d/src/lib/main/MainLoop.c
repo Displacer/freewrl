@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.315 2013/07/25 21:03:17 crc_canada Exp $
+  $Id: MainLoop.c,v 1.316 2013/08/03 16:37:28 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -4594,6 +4594,9 @@ void fwl_Android_replaceWorldNeeded() {
 
 	/* tell the statusbar that it needs to reinitialize */
 	kill_status();
+
+	/* any user defined Shader nodes - ComposedShader, PackagedShader, ProgramShader?? */
+	kill_userDefinedShaders();
 
 	/* free scripts */
 	#ifdef HAVE_JAVASCRIPT

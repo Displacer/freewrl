@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: OpenGL_Utils.h,v 1.61 2013/07/25 21:03:17 crc_canada Exp $
+$Id: OpenGL_Utils.h,v 1.62 2013/08/03 16:37:28 crc_canada Exp $
 
 Screen snapshot.
 
@@ -34,6 +34,7 @@ Screen snapshot.
 #define MAX_USER_DEFINED_SHADERS 4
 
 int getNextFreeUserDefinedShaderSlot();
+void kill_userDefinedShaders();
 void sendShaderTextToEngine(int ste, int partsN, char ** vertSource, char ** fragSource);
 
 typedef enum vertexShaderResources {
