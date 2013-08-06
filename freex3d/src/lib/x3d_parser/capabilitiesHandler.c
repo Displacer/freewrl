@@ -1,5 +1,5 @@
 /*
-  $Id: capabilitiesHandler.c,v 1.13 2013/08/06 17:20:34 dug9 Exp $
+  $Id: capabilitiesHandler.c,v 1.14 2013/08/06 21:27:29 dug9 Exp $
 
   FreeWRL support library.
   X3D capabilities.
@@ -240,13 +240,13 @@ struct proftablestruct {
 };
 
 static struct proftablestruct profTable[] = {
-	{PRO_Interchange,		InterchangeProfile,		2},
-	{PRO_CADInterchange, 	CADInterchangeProfile,	2},
-	{PRO_MPEG4,				MPEG4Profile,			2},
-	{PRO_Interactive, 		InteractiveProfile,		2},
-	{PRO_Full,				FullProfile,			2},
-	{PRO_Immersive,			ImmersiveProfile,		2},
-	{PRO_Core,				CoreProfile,			2},
+	{PRO_Interchange,		InterchangeProfile,		1},
+	{PRO_CADInterchange, 	CADInterchangeProfile,	1},
+	{PRO_MPEG4,				MPEG4Profile,			1},
+	{PRO_Interactive, 		InteractiveProfile,		1},
+	{PRO_Full,				FullProfile,			1},
+	{PRO_Immersive,			ImmersiveProfile,		1},
+	{PRO_Core,				CoreProfile,			1},
 	{INT_ID_UNDEFINED, 		(const int*) INT_ID_UNDEFINED, INT_ID_UNDEFINED}
 };
 
