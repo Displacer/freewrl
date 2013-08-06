@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CRoutes.c,v 1.106 2013/08/01 12:55:36 crc_canada Exp $
+$Id: CRoutes.c,v 1.107 2013/08/06 17:20:34 dug9 Exp $
 
 ???
 
@@ -429,6 +429,10 @@ struct CRStruct *getCRoutes()
 {
 	ppCRoutes p = (ppCRoutes)gglobal()->CRoutes.prv;
 	return p->CRoutes;
+}
+int getCRouteCount(){
+	ppCRoutes p = (ppCRoutes)gglobal()->CRoutes.prv;
+	return p->CRoutes_Count;
 }
 struct CRscriptStruct *getScriptControl()
 {

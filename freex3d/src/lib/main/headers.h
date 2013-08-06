@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: headers.h,v 1.195 2013/07/15 21:07:47 crc_canada Exp $
+$Id: headers.h,v 1.196 2013/08/06 17:20:34 dug9 Exp $
 
 Global includes.
 
@@ -615,6 +615,7 @@ void getEAI_MFStringtype (struct Multi_String *from, struct Multi_String *to);
 
 void update_status(char* msg);
 void kill_status();
+char *get_status();
 
 /* menubar stuff */
 void frontendUpdateButtons(void); /* used only if we are not able to multi-thread OpenGL */

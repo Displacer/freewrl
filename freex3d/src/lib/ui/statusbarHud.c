@@ -1,5 +1,5 @@
 /*
-  $Id: statusbarHud.c,v 1.59 2013/07/26 14:25:35 crc_canada Exp $
+  $Id: statusbarHud.c,v 1.60 2013/08/06 17:20:34 dug9 Exp $
 
 */
 
@@ -722,7 +722,10 @@ void update_status(char* msg) {
 		strcpy (p->buffer,msg);
 	}
 }
-
+char *get_status(){
+	ppstatusbar p = (ppstatusbar)gglobal()->statusbar.prv;
+	return p->buffer;
+}
 
 /* start cheapskate widgets >>>> */
 int lenOptions = 12;
