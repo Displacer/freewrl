@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_ProgrammableShaders.c,v 1.65 2013/08/08 16:33:06 crc_canada Exp $
+$Id: Component_ProgrammableShaders.c,v 1.66 2013/08/09 14:35:33 crc_canada Exp $
 
 X3D Programmable Shaders Component
 
@@ -106,6 +106,7 @@ FIELDTYPE_MFVec4d
 
 
 void sendInitialFieldsToShader(struct X3D_Node *);
+
 
 #define MAX_INFO_LOG_SIZE 512
 /* we do support older versions of shaders; but not all info logs are printed if we
@@ -429,7 +430,7 @@ void getField_ToShader(struct X3D_Node *node, int num) {
     // here. Thus myObj* has more than one pointer.
     
     // use the currently running shader
-    ConsoleMessage ("getFieldToShader, node %s, num %d",stringNodeType(node->_nodeType),num);
+    //ConsoleMessage ("getFieldToShader, node %s, num %d",stringNodeType(node->_nodeType),num);
     //ConsoleMessage ("nodes have %d parents",vectorSize(node->_parentVector));
     for (i=0; i<vectorSize(node->_parentVector); i++) {
         struct X3D_Appearance *ap = vector_get(struct X3D_Appearance *,node->_parentVector, i);
@@ -842,7 +843,9 @@ void compile_ComposedShader (struct X3D_ComposedShader *node) {
     haveVertShaderText = FALSE;
     haveFragShaderText = FALSE;
     
-    DEBUG_SHADER("called compile_ComposedShader(%p)\n",(void *)node);
+#ifdef SHADERVERBOSE
+    ConsoleMessage("called compile_ComposedShader(%p)\n",(void *)node);
+#endif
 
     // might be set in appearance already
     

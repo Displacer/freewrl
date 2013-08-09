@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.347 2013/08/08 16:33:06 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.348 2013/08/09 14:35:33 crc_canada Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -2414,7 +2414,7 @@ static void getShaderCommonInterfaces (s_shader_capabilities_t *me) {
         vec4 specular;             // Scli   
         vec4 position;             // Ppli   
         vec4 halfVector;           // Derived: Hi   
-        vec3 spotDirection;        // Sdli   
+        vec4 spotDirection;        // Sdli   
         float spotExponent;        // Srli   
         float spotCutoff;          // Crli                                
         float spotCosCutoff;       // Derived: cos(Crli)                   
