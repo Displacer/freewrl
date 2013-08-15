@@ -1,5 +1,5 @@
 /*
-  $Id: statusbar.c,v 1.38 2013/08/15 13:26:24 istakenv Exp $
+  $Id: statusbar.c,v 1.39 2013/08/15 13:37:17 istakenv Exp $
 
 */
 
@@ -67,6 +67,7 @@ void render_init(void);
 typedef struct pstatusbar{
 	int initDone;
 }* ppstatusbar;
+
 void *statusbar_constructor(){
 	void *v = malloc(sizeof(struct pstatusbar));
 	memset(v,0,sizeof(struct pstatusbar));
@@ -100,8 +101,7 @@ void update_status(char* msg)
 }
 
 char *get_status(){
-        ppstatusbar p = (ppstatusbar)gglobal()->statusbar.prv;
-        return p->buffer;
+        return buffer;
 }
 
 
