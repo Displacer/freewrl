@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-# $Id: Makefile.sources,v 1.44 2013/07/10 18:38:22 crc_canada Exp $
+# $Id: Makefile.sources,v 1.45 2013/08/15 13:15:53 istakenv Exp $
 #
 # List all source files
 #
@@ -101,6 +101,7 @@ scenegraph/quaternion.h \
 scenegraph/Component_EventUtils.c \
 scenegraph/Component_ProgrammableShaders.h \
 scenegraph/Component_ProgrammableShaders.c \
+scenegraph/Component_CAD.c \
 scenegraph/NormalCalcs.c \
 scenegraph/Component_Geospatial.h \
 scenegraph/MPEG_Utils.c \
