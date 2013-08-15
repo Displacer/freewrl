@@ -1,5 +1,5 @@
 /*
-  $Id: statusbar.c,v 1.37 2012/09/17 18:27:42 crc_canada Exp $
+  $Id: statusbar.c,v 1.38 2013/08/15 13:26:24 istakenv Exp $
 
 */
 
@@ -98,6 +98,13 @@ void update_status(char* msg)
 		strncpy(buffer, msg, MAX_BUFFER_SIZE);
 	}
 }
+
+char *get_status(){
+        ppstatusbar p = (ppstatusbar)gglobal()->statusbar.prv;
+        return p->buffer;
+}
+
+
 void hudSetConsoleMessage(char *buffer){}
 void handleButtonOver(){}
 void handleOptionPress(){}
