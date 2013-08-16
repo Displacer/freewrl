@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Shape.c,v 1.138 2013/08/01 12:55:35 crc_canada Exp $
+$Id: Component_Shape.c,v 1.139 2013/08/16 15:43:48 crc_canada Exp $
 
 X3D Shape Component
 
@@ -109,20 +109,28 @@ static int hasUserDefinedShader(struct X3D_Node *node) {
             //ConsoleMessage ("node type of shaders is :%s:",stringNodeType(cps->_nodeType));
             if (cps->_nodeType == NODE_ComposedShader) {
                 // might be set in compile_Shader already
+                //ConsoleMessage ("cps->_initialized %d",cps->_initialized);
+                //ConsoleMessage ("cps->_retrievedURLData %d",cps->_retrievedURLData);
                 
-                if (cps->_shaderUserNumber == -1) cps->_shaderUserNumber = getNextFreeUserDefinedShaderSlot();
-                rv = cps->_shaderUserNumber;
+                if (cps->_retrievedURLData) {
+                    if (cps->_shaderUserNumber == -1) cps->_shaderUserNumber = getNextFreeUserDefinedShaderSlot();
+                    rv = cps->_shaderUserNumber;
+                }
             } else if (cps->_nodeType == NODE_PackagedShader) {
                 // might be set in compile_Shader already
-                if (X3D_PACKAGEDSHADER(cps)->_shaderUserNumber == -1) 
-                    X3D_PACKAGEDSHADER(cps)->_shaderUserNumber = getNextFreeUserDefinedShaderSlot();
-                rv = X3D_PACKAGEDSHADER(cps)->_shaderUserNumber;
+                if (X3D_PACKAGEDSHADER(cps)->_retrievedURLData) {
+                    if (X3D_PACKAGEDSHADER(cps)->_shaderUserNumber == -1) 
+                        X3D_PACKAGEDSHADER(cps)->_shaderUserNumber = getNextFreeUserDefinedShaderSlot();
+                    rv = X3D_PACKAGEDSHADER(cps)->_shaderUserNumber;
+                }
             } else if (cps->_nodeType == NODE_ProgramShader) {
                 // might be set in compile_Shader already
+                if (X3D_PROGRAMSHADER(cps)->_retrievedURLData) {
                 if (X3D_PROGRAMSHADER(cps)->_shaderUserNumber == -1) 
                     X3D_PROGRAMSHADER(cps)->_shaderUserNumber = getNextFreeUserDefinedShaderSlot();
 
                 rv = X3D_PROGRAMSHADER(cps)->_shaderUserNumber;
+                }
             } else {
                 ConsoleMessage ("shader field of Appearance is a %s, ignoring",stringNodeType(cps->_nodeType));
             }
@@ -694,6 +702,8 @@ void compile_Shape (struct X3D_Shape *node) {
     int whichUnlitGeometry = 0;
     struct X3D_Node *tmpN = NULL;
     int userDefinedShader = 0;
+    
+   // ConsoleMessage ("**** Compile Shape ****");
     
     
     POSSIBLE_PROTO_EXPANSION(struct X3D_Node *, node->geometry,tmpN);

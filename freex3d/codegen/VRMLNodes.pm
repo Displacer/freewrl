@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.82 2013/08/01 12:55:35 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.83 2013/08/16 15:43:48 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -2467,10 +2467,13 @@ package VRML::NodeType;
 			isSelected => [SFBool, TRUE,outputOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
 			isValid => [SFBool, TRUE,outputOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
 			language => [SFString, "", initializeOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
-			_initialized => [SFBool, FALSE ,initializeOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
-			_shaderUserDefinedFields => [SFNode, NULL, initializeOnly, 0],
 			metadata => [SFNode, NULL, inputOutput, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+
+			_initialized => [SFBool, FALSE ,initializeOnly, 0],
+			_shaderUserDefinedFields => [SFNode, NULL, initializeOnly, 0],
 			_shaderUserNumber => [SFInt32,-1,initializeOnly,0],
+			_shaderLoadThread => [FreeWRLThread, 0, initializeOnly,0],
+			_retrievedURLData => [SFBool, FALSE ,initializeOnly, 0],
 	},"X3DShaderNode"),
 
 
@@ -2500,9 +2503,12 @@ package VRML::NodeType;
 			isSelected => [SFBool, TRUE,outputOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
 			isValid => [SFBool, TRUE,outputOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
 			language => [SFString,"",initializeOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+
+			_initialized => [SFBool, FALSE ,initializeOnly, 0],
 			_shaderUserNumber => [SFInt32,-1,initializeOnly,0],
 			_shaderUserDefinedFields => [SFNode, NULL, initializeOnly, 0],
-			_initialized => [SFBool, FALSE ,initializeOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+			_shaderLoadThread => [FreeWRLThread, 0, initializeOnly,0],
+			_retrievedURLData => [SFBool, FALSE ,initializeOnly, 0],
 	}, "X3DProgrammableShaderObject"),
 
 	ProgramShader => new VRML::NodeType("ProgramShader", {
@@ -2512,8 +2518,12 @@ package VRML::NodeType;
 			isSelected => [SFBool, TRUE,outputOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
 			isValid => [SFBool, TRUE,outputOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
 			language => [SFString,"",initializeOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
-			_initialized => [SFBool, FALSE ,initializeOnly, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+
+			_initialized => [SFBool, FALSE ,initializeOnly, 0],
 			_shaderUserNumber => [SFInt32,-1,initializeOnly,0],
+			_shaderUserDefinedFields => [SFNode, NULL, initializeOnly, 0],
+			_shaderLoadThread => [FreeWRLThread, 0, initializeOnly,0],
+			_retrievedURLData => [SFBool, FALSE ,initializeOnly, 0],
 	}, "X3DProgrammableShaderObject"),
 
 	ShaderPart => new VRML::NodeType("ShaderPart", {

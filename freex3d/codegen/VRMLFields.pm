@@ -1,5 +1,5 @@
 #
-# $Id: VRMLFields.pm,v 1.12 2013/07/15 21:07:47 crc_canada Exp $
+# $Id: VRMLFields.pm,v 1.13 2013/08/16 15:43:48 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -11,6 +11,10 @@
 # SFNode is in Parse.pm
 #
 # $Log: VRMLFields.pm,v $
+# Revision 1.13  2013/08/16 15:43:48  crc_canada
+# more user definable shader component work. It should be complete, or close
+# to.
+#
 # Revision 1.12  2013/07/15 21:07:47  crc_canada
 # Component_CAD, initial Component_NURBS rework.
 #
@@ -119,6 +123,7 @@
 	MFVec2f
 	SFImage
 	FreeWRLPTR
+	FreeWRLThread
 	SFVec3d
 	MFVec3d
 	SFDouble
@@ -1139,6 +1144,17 @@ sub cInitialize {
 	} else {
 		return "$field = $val";
 	}
+}
+
+###########################################################
+package VRML::Field::FreeWRLThread;
+@ISA=VRML::Field;
+VRML::Error->import;
+
+sub ctype {return "pthread_t $_[1]"}
+sub cInitialize {
+	my ($this,$field,$val) = @_;
+		return "$field = $val";
 }
 
 ###########################################################

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIHeaders.h,v 1.26 2013/05/27 17:45:01 istakenv Exp $
+$Id: EAIHeaders.h,v 1.27 2013/08/16 15:43:48 crc_canada Exp $
 
 EAI and java CLASS invocation
 
@@ -161,6 +161,7 @@ char *eaiPrintCommand (char command);
 #define EAI_SFColorRGBA		'w'
 #define EAI_MFBool		'x'
 #define EAI_FreeWRLPTR		'y'
+#define EAI_FreeWRLThread   'z'
 #define EAI_MFVec3d		'A'
 #define EAI_SFVec2d		'B'
 #define EAI_SFVec3d		'C'

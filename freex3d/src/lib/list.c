@@ -1,5 +1,5 @@
 /*
-  $Id: list.c,v 1.3 2013/02/16 21:44:13 dug9 Exp $
+  $Id: list.c,v 1.4 2013/08/16 15:43:48 crc_canada Exp $
 
   FreeWRL support library.
   Linked lists.
@@ -415,7 +415,7 @@ cd_list_t *cdl_delete(cd_list_t *head, cd_list_t *item)
 	}
 	if(head){
 		if(item == head) ret = head->next;
-		if(head->next = head) ret = NULL;
+		if(head->next == head) ret = NULL;
 	}
 	prev = cdl_prev(item);
 	next = cdl_next(item);
@@ -441,7 +441,7 @@ cd_list_t * cdl_delete2(cd_list_t *head, cd_list_t *item, f_free_t f)
 	}
 	if(head){
 		if(item == head) ret = head->next;
-		if(head->next = head) ret = NULL;
+		if(head->next == head) ret = NULL;
 	}
 	prev = cdl_prev(item);
 	next = cdl_next(item);
