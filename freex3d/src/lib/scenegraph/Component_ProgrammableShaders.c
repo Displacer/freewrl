@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_ProgrammableShaders.c,v 1.68 2013/08/17 16:23:29 dug9 Exp $
+$Id: Component_ProgrammableShaders.c,v 1.69 2013/08/17 22:35:02 crc_canada Exp $
 
 X3D Programmable Shaders Component
 
@@ -449,7 +449,7 @@ void getField_ToShader(struct X3D_Node *node, int num) {
     }
         
     // turning shader on...
-    ConsoleMessage ("calling getMyShader here wrwe");
+    //ConsoleMessage ("calling getMyShader here wrwe");
     enableGlobalShader(getMyShader(currentShader));
     
     myObj[0] = NULL;
