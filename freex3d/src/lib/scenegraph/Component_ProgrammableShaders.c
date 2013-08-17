@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_ProgrammableShaders.c,v 1.67 2013/08/16 15:43:48 crc_canada Exp $
+$Id: Component_ProgrammableShaders.c,v 1.68 2013/08/17 16:23:29 dug9 Exp $
 
 X3D Programmable Shaders Component
 
@@ -909,7 +909,7 @@ static void *thread_compile_ComposedShader(void * nod) {
 	}
 
 	MARK_NODE_COMPILED
-    	node->_shaderLoadThread = 0;
+    	ZERO_THREAD(node->_shaderLoadThread);
     node->_retrievedURLData = (haveFragShaderText && haveVertShaderText);
     // tell the parents that this node has updated its info
     tellShapeNodeToRecompile(X3D_NODE(node));
@@ -919,7 +919,7 @@ static void *thread_compile_ComposedShader(void * nod) {
 
 void compile_ComposedShader (struct X3D_ComposedShader *node) {
 	
-    if (node->_shaderLoadThread == 0) {
+    if (TEST_NULL_THREAD(node->_shaderLoadThread)) {
 	pthread_create (&(node->_shaderLoadThread), NULL,
 		&thread_compile_ComposedShader, (void *) node);
 	
@@ -976,7 +976,7 @@ static void *thread_compile_ProgramShader (void *nod) {
         }
 
     MARK_NODE_COMPILED
-    node->_shaderLoadThread = 0;
+    ZERO_THREAD(node->_shaderLoadThread);
     node->_retrievedURLData = (haveFragShaderText && haveVertShaderText);
     // tell the parents that this node has updated its info
     tellShapeNodeToRecompile(X3D_NODE(node));
@@ -985,7 +985,7 @@ static void *thread_compile_ProgramShader (void *nod) {
 
 void compile_ProgramShader (struct X3D_ProgramShader *node) {
 	
-    if (node->_shaderLoadThread == 0) {
+    if (TEST_NULL_THREAD(node->_shaderLoadThread)) {
         pthread_create (&(node->_shaderLoadThread), NULL,
                         &thread_compile_ProgramShader, (void *) node);
         

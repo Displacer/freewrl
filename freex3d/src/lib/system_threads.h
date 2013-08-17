@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: system_threads.h,v 1.7 2009/10/26 10:57:07 couannette Exp $
+$Id: system_threads.h,v 1.8 2013/08/17 16:23:29 dug9 Exp $
 
 FreeWRL support library.
 Internal header: threading library, and processor control (sched).
@@ -58,6 +58,6 @@ Internal header: threading library, and processor control (sched).
 #define ZERO_THREAD(_t) { _t.p = NULL; }
 
 #endif
-
+extern pthread_t _THREAD_NULL_;
 
 #endif /* __LIBFREEWRL_SYSTEM_THREADS_H__ */
