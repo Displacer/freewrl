@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: jsVRMLBrowser.c,v 1.59 2013/08/06 22:16:43 dug9 Exp $
+$Id: jsVRMLBrowser.c,v 1.60 2013/08/18 15:04:03 dug9 Exp $
 
 Javascript C language binding.
 
@@ -2213,8 +2213,9 @@ VrmlBrowserPrint(JSContext *context, uintN argc, jsval *vp) {
 	/*		printf ("unknown arg type %d\n",count); */
 		}
 	}
-	/* the \n should be done with println below, or in javascript print("\n"); */
-	#if defined(AQUA) 
+	/* the \n should be done with println below, or in javascript print("\n"); 
+	  except web3d V3 specs don't have Browser.println so print will do \n like the old days*/
+	#if defined(AQUA)  || defined(_MSC_VER)
 	BrowserPrintConsoleMessage("\n"); /* statusbar hud */
 	gglobal()->ConsoleMessage.consMsgCount = 0; /* reset the "Maximum" count */
 	#elif !defined(_MSC_VER)
