@@ -1,5 +1,5 @@
 /*
-  $Id: LoadTextures.c,v 1.94 2013/08/23 15:27:27 dug9 Exp $
+  $Id: LoadTextures.c,v 1.95 2013/08/23 19:44:23 crc_canada Exp $
 
   FreeWRL support library.
   New implementation of texture loading.
@@ -888,7 +888,7 @@ void _textureThread(void *globalcontext)
 {
 	ttglobal tg = (ttglobal)globalcontext;
 	tg->threads.loadThread = pthread_self();
-	fwl_setCurrentHandle(tg);
+	fwl_setCurrentHandle(tg,__FILE__,__LINE__);
 
 	//set_thread2global(tg, tg->threads.loadThread ,"texture loading thread");
 	//ENTER_THREAD("texture loading");

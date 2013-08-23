@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.91 2013/08/23 18:56:40 crc_canada Exp $
+  $Id: main.c,v 1.92 2013/08/23 19:44:23 crc_canada Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -220,12 +220,13 @@ void* fwl_init_instance()
 	ttglobal tg; 
 	//ConsoleMessage ("called fwl_init_instance");
 	tg = iglobal_constructor();
-	fwl_setCurrentHandle(tg);
+    
+    fwl_setCurrentHandle(tg,__FILE__,__LINE__);
 	return (void *)tg;
 }
 bool fwl_initFreeWRL(freewrl_params_t *params){
 	ttglobal tg;
-	tg = (ttglobal)fwl_getCurrentHandle();
+	tg = (ttglobal)fwl_getCurrentHandle(__FILE__,__LINE__);
 	//ConsoleMessage ("fwl_initFreeWRL, tg %p",tg);
 
 	if(tg == NULL) tg = fwl_init_instance();

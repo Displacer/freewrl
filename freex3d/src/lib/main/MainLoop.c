@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.317 2013/08/23 15:27:27 dug9 Exp $
+  $Id: MainLoop.c,v 1.318 2013/08/23 19:44:23 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -4060,7 +4060,7 @@ void _displayThread(void *globalcontext)
 	ttglobal tg = (ttglobal)globalcontext;
 	//tg->threads.DispThrd = pthread_self();
 	//set_thread2global(tg, tg->threads.DispThrd ,"display thread");
-	fwl_setCurrentHandle(tg);
+	fwl_setCurrentHandle(tg,__FILE__,__LINE__);
 	testg = gglobal();
 
 	ENTER_THREAD("display");

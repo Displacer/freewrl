@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.126 2013/08/23 15:27:27 dug9 Exp $
+  $Id: ProdCon.c,v 1.127 2013/08/23 19:44:23 crc_canada Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -1087,7 +1087,7 @@ void _inputParseThread(void *globalcontext)
         bool result;
 		tg->threads.PCthread = pthread_self();
 		//set_thread2global(tg, tg->threads.PCthread ,"parse thread");
-		fwl_setCurrentHandle(tg);
+		fwl_setCurrentHandle(tg,__FILE__,__LINE__);
 
 		p->inputParseInitialized = TRUE;
 		ENTER_THREAD("input parser");
