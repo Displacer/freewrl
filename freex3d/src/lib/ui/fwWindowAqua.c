@@ -1,5 +1,5 @@
 /*
-  $Id: fwWindowAqua.c,v 1.6 2011/06/18 13:17:10 crc_canada Exp $
+  $Id: fwWindowAqua.c,v 1.7 2013/08/23 18:56:40 crc_canada Exp $
 
   FreeWRL support library.
   Aqua specific functions.
@@ -47,7 +47,7 @@ int fv_open_display()
 	return TRUE;
 }
 
-int fv_create_main_window(int argc, char *argv[])
+int fv_create_main_window(freewrl_params_t *d)
 {
 
 	//printf ("OSX - create_main_window called\n");

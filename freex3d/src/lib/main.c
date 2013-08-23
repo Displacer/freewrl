@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.90 2013/08/23 15:27:27 dug9 Exp $
+  $Id: main.c,v 1.91 2013/08/23 18:56:40 crc_canada Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -92,7 +92,7 @@ void fwl_OSX_initializeParameters(const char* initialURL) {
     if ((tg->threads.loadThread == NULL) || (tg->threads.PCthread == NULL)) {
 	//ConsoleMessage("fwl_OSX_initializeParameters, qParamsInit is FALSE");
 
-	fwl_initParams(NULL);
+	//JAS fwl_initParams(NULL);
 
     	/* Default values */
     	fwl_setp_width(600);

@@ -1,5 +1,5 @@
 /*
-  $Id: Textures.c,v 1.142 2013/07/11 10:43:14 crc_canada Exp $
+  $Id: Textures.c,v 1.143 2013/08/23 18:56:40 crc_canada Exp $
 
   FreeWRL support library.
   Texture handling code.
@@ -130,7 +130,7 @@ GLXContext textureContext = NULL;
 
 /* function Prototypes */
 int findTextureFile(textureTableIndexStruct_s *entry);
-void _textureThread(void);
+//void _textureThread(void);
 
 static void move_texture_to_opengl(textureTableIndexStruct_s*);
 struct Uni_String *newASCIIString(char *str);
