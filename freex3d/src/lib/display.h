@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.175 2013/08/01 12:55:35 crc_canada Exp $
+  $Id: display.h,v 1.176 2013/08/23 15:27:26 dug9 Exp $
 
   FreeWRL support library.
 
@@ -95,7 +95,7 @@ Functions:
 #include <AGL/AGL.h> 
 #endif /* defined IPHONE */
 #endif /* defined TARGET_AQUA */
-
+#include <libFreeWRL.h>
 #if defined(_MSC_VER) && !defined(GLES2) /* TARGET_WIN32 */
 #include <GL/glew.h>
 #ifdef GLEW_MX
@@ -343,7 +343,7 @@ void fv_setScreenDim(int wi, int he);
 
 int fv_open_display();
 int fv_display_initialize(void);
-int fv_create_main_window(int argc, char *argv[]);
+int fv_create_main_window(freewrl_params_t *d); //int argc, char *argv[]);
 bool fv_create_GLcontext();
 bool fv_bind_GLcontext();
 /* end of "virtual" functions */

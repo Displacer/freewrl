@@ -1,5 +1,5 @@
 /*
-  $Id: threads.h,v 1.12 2011/05/25 19:26:34 davejoubert Exp $
+  $Id: threads.h,v 1.13 2013/08/23 15:27:27 dug9 Exp $
 
   FreeWRL support library.
   Threads & process (fork).
@@ -74,14 +74,14 @@ extern pthread_t loadThread; /* texture thread */
  */
 /* DISPLAY THREAD */
 #if !defined(FRONTEND_HANDLES_DISPLAY_THREAD)
-void _displayThread();
+void _displayThread(void *globalcontext);
 #endif /* FRONTEND_HANDLES_DISPLAY_THREAD */
 
 /* PARSER THREAD */
-void _inputParseThread ();
+void _inputParseThread (void *globalcontext);
 
 /* TEXTURE THREAD */
-void _textureThread();
+void _textureThread(void *globalcontext);
 
 int fw_thread_id();
 #ifdef FREEWRL_THREAD_COLORIZED

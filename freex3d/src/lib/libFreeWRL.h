@@ -1,5 +1,5 @@
 /*
-  $Id: libFreeWRL.h,v 1.61 2013/08/15 14:01:20 istakenv Exp $
+  $Id: libFreeWRL.h,v 1.62 2013/08/23 15:27:27 dug9 Exp $
 
   FreeWRL library API (public)
 
@@ -100,7 +100,7 @@ void fwl_initParams( freewrl_params_t *params) ;
 
 void fwl_setp_width		(int foo);
 void fwl_setp_height		(int foo);
-void fwl_setp_winToEmbedInto	(long int foo);
+void fwl_setp_winToEmbedInto	(long int);
 void fwl_setp_fullscreen	(bool foo);
 void fwl_setp_multithreading	(bool foo);
 void fwl_setp_eai		(bool foo);
@@ -313,6 +313,7 @@ void fwl_startFreeWRL(const char *url);
 /* distinguish instances from window event handler using the window handle */
 int fwl_setCurrentHandle(void *handle);
 void fwl_clearCurrentHandle();
+void *fwl_getCurrentHandle();
 
 void fwl_resource_push_single_request(const char *request);
 void fwl_OSX_initializeParameters(const char* initialURL);
