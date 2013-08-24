@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: X3DParser.c,v 1.110 2013/08/17 18:16:14 crc_canada Exp $
+$Id: X3DParser.c,v 1.111 2013/08/24 21:47:55 dug9 Exp $
 
 ???
 
@@ -1952,7 +1952,7 @@ static void XMLCALL X3DendElement(void *unused, const xmlChar *iname) {
 	if (myNodeIndex != INT_ID_UNDEFINED) {
 		/* printf ("endElement - normalNode :%s:\n",name); */
 
-		if (myNodeIndex = NODE_Script) {
+		if (myNodeIndex == NODE_Script) {
 			#ifdef HAVE_JAVASCRIPT
 			initScriptWithScript();
 			#endif
