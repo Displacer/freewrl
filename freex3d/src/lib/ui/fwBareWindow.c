@@ -1,5 +1,5 @@
 /*
-  $Id: fwBareWindow.c,v 1.19 2013/08/24 20:54:56 dug9 Exp $
+  $Id: fwBareWindow.c,v 1.20 2013/08/24 20:57:33 dug9 Exp $
 
   Create X11 window. Manage events.
 
@@ -89,7 +89,7 @@ int fv_create_main_window(freewrl_params_t * params) //int argc, char *argv[])
     /* FIXME: Caller / front-end should reparent FreeWRL window itself */
     /* Roberto Gerson */
     /* If -d is setted, so reparent the window */
-    if (fwl_params->winToEmbedInto > 0) {
+    if (params->winToEmbedInto > 0) {
 	    DEBUG_MSG("create_main_window: reparent %ld to %ld\n",
 		      Xwin,
 		      params->winToEmbedInto);
