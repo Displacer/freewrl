@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.349 2013/08/16 15:43:48 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.350 2013/08/24 19:52:55 dug9 Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -1340,7 +1340,7 @@ s_shader_capabilities_t *getMyShader(unsigned int rq_cap) {
           haveDoneThis = true;
           if (!b) {
 	      ConsoleMessage("NO SHADER COMPILER - have to sometime figure out binary shader distros");
-	      return;
+	      return NULL;
           }
       }
 #endif

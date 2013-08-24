@@ -1,5 +1,5 @@
 /*
-  $Id: RenderFuncs.c,v 1.159 2013/08/06 19:45:28 crc_canada Exp $
+  $Id: RenderFuncs.c,v 1.160 2013/08/24 19:52:55 dug9 Exp $
 
   FreeWRL support library.
   Scenegraph rendering.
@@ -609,8 +609,8 @@ void sendArraysToGPU (int mode, int first, int count) {
 //glDisableClientState(GL_FOG_COORDINATE_ARRAY);
 //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 //glDisableClientState(GL_EDGE_FLAG_ARRAY);
-    
-    if (setupShader())	
+
+	if (setupShader())	
 		glDrawArrays(mode,first,count);
     #ifdef RENDERVERBOSE
 	printf ("sendArraysToGPU end\n"); 

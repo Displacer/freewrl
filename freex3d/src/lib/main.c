@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.92 2013/08/23 19:44:23 crc_canada Exp $
+  $Id: main.c,v 1.93 2013/08/24 19:52:55 dug9 Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -302,6 +302,11 @@ bool fwl_initFreeWRL(freewrl_params_t *params){
 	//while (!fwl_isTextureinitialized()) {
 	//	usleep(50);
 	//}
+	/* Hmm. display_initialize is really a frontend function. The frontend should call it before calling _displayThread */
+	/* Initialize display */
+
+
+
 	return TRUE;
 }
 
