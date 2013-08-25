@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: jsVRMLBrowser.c,v 1.60 2013/08/18 15:04:03 dug9 Exp $
+$Id: jsVRMLBrowser.c,v 1.61 2013/08/25 21:39:45 dug9 Exp $
 
 Javascript C language binding.
 
@@ -2241,7 +2241,7 @@ VrmlBrowserPrintln(JSContext *context, uintN argc, jsval *vp) {
 	VrmlBrowserPrint(context,argc,vp); 
 #endif
 	#if defined(AQUA) || defined(_MSC_VER)
-		BrowserPrintConsoleMessage("\n"); /* statusbar hud */
+		//BrowserPrintConsoleMessage("\n"); /* statusbar hud */
 		gglobal()->ConsoleMessage.consMsgCount = 0; /* reset the "Maximum" count */
 	#else
 		#ifdef HAVE_NOTOOLKIT
