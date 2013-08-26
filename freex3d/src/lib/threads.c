@@ -1,5 +1,5 @@
 /*
-  $Id: threads.c,v 1.34 2013/08/23 15:27:27 dug9 Exp $
+  $Id: threads.c,v 1.35 2013/08/26 19:40:10 crc_canada Exp $
 
   FreeWRL support library.
   Threads & process (fork).
@@ -183,6 +183,7 @@ void fwl_initializeInputParseThread()
 
 	ASSERT(TEST_NULL_THREAD(tg->threads.PCthread));
 	ret = pthread_create(&tg->threads.PCthread, NULL, (void *(*)(void *))&_inputParseThread, tg);
+    //printf ("input parse thread, I am %p\n",tg->threads.PCthread);
 	switch (ret) {
 	case 0: 
 		break;
@@ -203,6 +204,7 @@ void fwl_initializeTextureThread()
 
 	ASSERT(TEST_NULL_THREAD(tg->threads.loadThread));
 	ret = pthread_create(&tg->threads.loadThread, NULL, (void *(*)(void *))&_textureThread, tg);
+    //printf ("input texture thread, I am %p\n",tg->threads.loadThread);
 	switch (ret) {
 	case 0: 
 		break;
