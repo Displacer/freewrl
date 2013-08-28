@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Polyrep.c,v 1.71 2013/07/11 10:43:14 crc_canada Exp $
+$Id: Polyrep.c,v 1.72 2013/08/28 15:27:28 crc_canada Exp $
 
 ???
 
@@ -1079,6 +1079,8 @@ void compile_polyrep(void *innode, void *coord, void *color, void *normal, struc
 	struct X3D_Node *node;
 	struct X3D_PolyRep *polyrep;
 
+    //printf ("compile_polyrep, innode %p coord %p color %p normal %p texCoord %p\n",innode,coord,color,normal,texCoord);
+    
 	node = X3D_NODE(innode);
 	virt = virtTable[node->_nodeType];
 

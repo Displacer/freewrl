@@ -1,5 +1,5 @@
 /*
-  $Id: Textures.c,v 1.143 2013/08/23 18:56:40 crc_canada Exp $
+  $Id: Textures.c,v 1.144 2013/08/28 15:27:26 crc_canada Exp $
 
   FreeWRL support library.
   Texture handling code.
@@ -1328,6 +1328,8 @@ void new_bind_image(struct X3D_Node *node, struct multiTexParams *param) {
 /* JAS still to implement
 	struct X3D_GeneratedCubeMapTexture *gct;
 */
+    
+
 
 	textureTableIndexStruct_s *myTableIndex;
 	//float dcol[] = {0.8f, 0.8f, 0.8f, 1.0f};

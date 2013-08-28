@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Frustum.h,v 1.17 2013/07/15 21:07:47 crc_canada Exp $
+$Id: Frustum.h,v 1.18 2013/08/28 15:27:26 crc_canada Exp $
 
 Global includes.
 
@@ -42,7 +42,7 @@ Global includes.
 
 /* no occlusion queries right now - need to work on the shader implementation 
     of occlusion culling */ 
-//JAS #if defined(IPHONE) || defined(_ANDROID) || defined(GLES2)
+//JAS #if defined(IPHONE) || defined(_ANDROID)
 	#undef OCCLUSION
 	#undef VISIBILITYOCCLUSION
 	#undef SHAPEOCCLUSION
