@@ -1,5 +1,5 @@
 /*
-  $Id: libFreeWRL.h,v 1.64 2013/08/28 15:27:26 crc_canada Exp $
+  $Id: libFreeWRL.h,v 1.65 2013/08/28 20:06:42 dug9 Exp $
 
   FreeWRL library API (public)
 
@@ -329,6 +329,7 @@ void fwl_setLastMouseEvent(int etype);
 void fwl_handle_aqua(const int mev, const unsigned int button, int x, int y);
 
 /* JAS - moving OSX front end into 2011 code workings - these may change. */
+void fwl_replaceWorldNeeded(char* str);
 int fwl_pollPromptForURL(); /* poll from front end / UI in loop */
 int fwl_pollPromptForFile();
 void fwl_setPromptForURL(int state);

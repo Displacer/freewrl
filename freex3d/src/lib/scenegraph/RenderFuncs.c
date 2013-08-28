@@ -1,5 +1,5 @@
 /*
-  $Id: RenderFuncs.c,v 1.161 2013/08/28 15:27:28 crc_canada Exp $
+  $Id: RenderFuncs.c,v 1.162 2013/08/28 20:06:43 dug9 Exp $
 
   FreeWRL support library.
   Scenegraph rendering.
@@ -173,7 +173,7 @@ void setLightState(GLint light, int status) {
 	if (p->lightOnOff[light] != status) {
 		if (status) {
 			/* printf ("light %d on\n",light); */
-
+            
 #ifdef OLDCODE
 OLDCODE#ifndef GL_ES_VERSION_2_0
 OLDCODE			glEnable(GL_LIGHT0+light);
@@ -183,7 +183,7 @@ OLDCODE#endif /* GL_ES_VERSION_2_0 */
 			p->lightStatusDirty = TRUE;
 		} else {
 			/* printf ("light %d off\n",light);  */
-
+            
 #ifdef OLDCODE
 OLDCODE #ifndef GL_ES_VERSION_2_0
 OLDCODE			glDisable(GL_LIGHT0+light);

@@ -1,5 +1,5 @@
 /*
-  $Id: resources.h,v 1.24 2013/08/28 15:27:26 crc_canada Exp $
+  $Id: resources.h,v 1.25 2013/08/28 20:06:42 dug9 Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -177,6 +177,7 @@ void destroy_root_res();
 void resource_remove_child(resource_item_t *parent, resource_item_t *child);
 
 void send_resource_to_parser(resource_item_t *res,char *,int);
+void send_resource_to_parser_async(resource_item_t *res, char*, int);
 
 bool send_resource_to_parser_if_available(resource_item_t *res, char*, int);
 

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: GenPolyRep.c,v 1.46 2013/08/28 15:27:28 crc_canada Exp $
+$Id: GenPolyRep.c,v 1.47 2013/08/28 20:06:43 dug9 Exp $
 
 ???
 
@@ -644,6 +644,7 @@ static void checkTriangleSetFields (struct X3D_TriangleSet *node) {
 		node->_coordIndex.p[IndexSize++] = -1;
 	}
 }
+
 
 
 void make_genericfaceset(struct X3D_IndexedFaceSet *node) {
