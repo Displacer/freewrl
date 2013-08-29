@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.321 2013/08/28 20:06:42 dug9 Exp $
+  $Id: MainLoop.c,v 1.322 2013/08/29 13:32:16 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -1510,7 +1510,7 @@ void handle(const int mev, const unsigned int button, const float x, const float
 	handle0(mev, button, x, y);
 }
 
-#if !defined( AQUA ) && !defined( _MSC_VER )
+#if !defined( AQUA ) && !defined( _MSC_VER ) &&!defined (_ANDROID)
 //XK_ constants from /usr/include/X11/keysymdef.h
 #define PHOME_KEY XK_Home //80
 #define PPGDN_KEY XK_Page_Down //86
