@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Polyrep.c,v 1.72 2013/08/28 15:27:28 crc_canada Exp $
+$Id: Polyrep.c,v 1.73 2013/08/29 20:52:15 crc_canada Exp $
 
 ???
 
@@ -858,7 +858,7 @@ void render_polyrep(void *node) {
 	FW_GL_ENABLECLIENTSTATE(GL_VERTEX_ARRAY); // should already be enabled
 	FW_GL_VERTEX_POINTER(3,GL_FLOAT,0,0);
 
-	FW_GL_DRAWARRAYS(GL_TRIANGLES,0,pr->ntri*3);
+	sendArraysToGPU(GL_TRIANGLES,0,pr->ntri*3);
 
 	/* turn VBOs off for now */
 	FW_GL_BINDBUFFER(GL_ARRAY_BUFFER, 0);

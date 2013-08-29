@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Bindable.c,v 1.81 2013/08/01 12:55:36 crc_canada Exp $
+$Id: Bindable.c,v 1.82 2013/08/29 20:52:15 crc_canada Exp $
 
 Bindable nodes - Background, TextureBackground, Fog, NavigationInfo, Viewpoint, GeoViewpoint.
 
@@ -869,7 +869,7 @@ void render_Background (struct X3D_Background *node) {
 		FW_GL_VERTEX_POINTER(3, GL_FLOAT, (GLfloat) sizeof(struct MyVertex), (GLfloat *)BUFFER_OFFSET(0));   //The starting point of the VBO, for the vertices
 		FW_GL_COLOR_POINTER(4, GL_FLOAT, (GLfloat) sizeof(struct MyVertex), (GLfloat *)BUFFER_OFFSET(sizeof(struct SFVec3f)));   //The starting point of Colours, 12 bytes away
 
-		FW_GL_DRAWARRAYS (GL_TRIANGLES, 0, node->__quadcount);
+		sendArraysToGPU (GL_TRIANGLES, 0, node->__quadcount);
 
 		FW_GL_BINDBUFFER(GL_ARRAY_BUFFER, 0);
 		FW_GL_BINDBUFFER(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -950,7 +950,7 @@ void render_TextureBackground (struct X3D_TextureBackground *node) {
 		FW_GL_VERTEX_POINTER(3, GL_FLOAT, (GLfloat) sizeof(struct MyVertex), (GLfloat *)BUFFER_OFFSET(0));   //The starting point of the VBO, for the vertices
 		FW_GL_COLOR_POINTER(4, GL_FLOAT, (GLfloat) sizeof(struct MyVertex), (GLfloat *)BUFFER_OFFSET(sizeof(struct SFVec3f)));   //The starting point of Colours, 12 bytes away
 
-		FW_GL_DRAWARRAYS (GL_TRIANGLES, 0, node->__quadcount);
+		sendArraysToGPU (GL_TRIANGLES, 0, node->__quadcount);
 
 		FW_GL_BINDBUFFER(GL_ARRAY_BUFFER, 0);
 		FW_GL_BINDBUFFER(GL_ELEMENT_ARRAY_BUFFER, 0);
