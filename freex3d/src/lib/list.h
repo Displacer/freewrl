@@ -1,5 +1,5 @@
 /*
-  $Id: list.h,v 1.5 2013/02/16 21:44:13 dug9 Exp $
+  $Id: list.h,v 1.6 2013/08/30 14:59:42 dug9 Exp $
 
   FreeWRL support library.
   Linked lists.
@@ -61,6 +61,8 @@ extern void      ml_delete2(s_list_t *list, s_list_t *item, f_free_t f);
 extern void      ml_delete_all(s_list_t *list);
 extern void      ml_delete_all2(s_list_t *list, f_free_t f);
 extern s_list_t* ml_get(s_list_t *list, int index);
+extern void ml_enqueue(s_list_t **list, s_list_t *item);
+extern s_list_t* ml_dequeue(s_list_t **list);
 
 #define ml_foreach(_list,_action) {\
 					s_list_t *__l;\

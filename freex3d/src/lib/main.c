@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.96 2013/08/28 20:06:42 dug9 Exp $
+  $Id: main.c,v 1.97 2013/08/30 14:59:42 dug9 Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -74,7 +74,7 @@ freewrl_params_t fwl_params;
  * Explicit initialization
  */
  
-
+void new_root();
 #if defined (TARGET_AQUA) || defined(_ANDROID)
 
 /* put some config stuff here, as that way the Objective-C Standalone OSX front end does not
@@ -127,7 +127,8 @@ void fwl_OSX_initializeParameters(const char* initialURL) {
     /* Give the main argument to the resource handler */
     res = resource_create_single(initialURL);
 
-    res->new_root = TRUE;
+    //res->new_root = TRUE;
+	new_root();
     send_resource_to_parser(res,__FILE__,__LINE__);
 
     while ((!res->complete) && (res->status != ress_failed) && (res->status != ress_not_loaded)) {
