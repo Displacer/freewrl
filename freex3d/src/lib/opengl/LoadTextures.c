@@ -1,5 +1,5 @@
 /*
-  $Id: LoadTextures.c,v 1.96 2013/08/28 15:27:26 crc_canada Exp $
+  $Id: LoadTextures.c,v 1.97 2013/08/30 17:04:17 dug9 Exp $
 
   FreeWRL support library.
   New implementation of texture loading.
@@ -457,7 +457,7 @@ ConsoleMessage(me);}
     if (!ret) {
 		ERROR_MSG("load_texture_from_file: failed to load image: %s\n", fname);
 	}else{
-
+#ifdef UNNECESSARY_EXPERIMENT
 			//swap red and blue
 			//search for GL_RGBA in textures.c
 			int x,y,i,j,k,m;
@@ -476,7 +476,7 @@ ConsoleMessage(me);}
 					data[m+2] = R;
 				}
 			}
-
+#endif
 	}
 	free(fname);
 	return (ret != 0);
