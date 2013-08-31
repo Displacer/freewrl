@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.97 2013/08/30 14:59:42 dug9 Exp $
+  $Id: main.c,v 1.98 2013/08/31 21:55:13 dug9 Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -408,6 +408,15 @@ void fwl_startFreeWRL(const char *url)
 		DEBUG_MSG("request sent to parser thread, main thread joining display thread...\n");
 	} else {
 		DEBUG_MSG("no request for parser thread, main thread joining display thread...\n");
+	}
+	//this is for simulating frontend_gets_files for testing. Do not set FRONTEND_GETS_FILES. 
+	//this tests an alternate method. You need to #define NEWQUEUE in prodcon.c L.82.
+	// you need to put an http:// file on the command line (this is hardwired for io_http gets only, not local
+	if(frontendGetsFiles()){
+		for(;;){
+			frontend_dequeue_get_enqueue();
+			sleep(200);
+		}
 	}
 #ifdef HAVE_GLEW_H
 	/* now wait around until something kills this thread. */
