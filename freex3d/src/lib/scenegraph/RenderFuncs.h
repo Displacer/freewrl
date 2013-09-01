@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: RenderFuncs.h,v 1.38 2013/08/29 20:52:15 crc_canada Exp $
+$Id: RenderFuncs.h,v 1.39 2013/09/01 02:06:03 crc_canada Exp $
 
 Proximity sensor macro.
 
@@ -32,7 +32,7 @@ Proximity sensor macro.
 
 void enableGlobalShader(s_shader_capabilities_t *);
 
-void turnGlobalShaderOff(void);
+void finishedWithGlobalShader(void);
 
 /* trat: test if a ratio is reasonable */
 #define TRAT(a) ((a) > 0 && ((a) < gglobal()->RenderFuncs.hitPointDist || gglobal()->RenderFuncs.hitPointDist < 0))

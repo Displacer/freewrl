@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_ProgrammableShaders.c,v 1.71 2013/08/23 19:44:23 crc_canada Exp $
+$Id: Component_ProgrammableShaders.c,v 1.72 2013/09/01 02:06:02 crc_canada Exp $
 
 X3D Programmable Shaders Component
 
@@ -652,7 +652,7 @@ void getField_ToShader(struct X3D_Node *node, int num) {
 			}
 		}
     }
-        turnGlobalShaderOff();
+        finishedWithGlobalShader();
 	
 	}
 }

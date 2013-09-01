@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Bindable.c,v 1.82 2013/08/29 20:52:15 crc_canada Exp $
+$Id: Bindable.c,v 1.83 2013/09/01 02:06:03 crc_canada Exp $
 
 Bindable nodes - Background, TextureBackground, Fog, NavigationInfo, Viewpoint, GeoViewpoint.
 
@@ -873,7 +873,7 @@ void render_Background (struct X3D_Background *node) {
 
 		FW_GL_BINDBUFFER(GL_ARRAY_BUFFER, 0);
 		FW_GL_BINDBUFFER(GL_ELEMENT_ARRAY_BUFFER, 0);
-		turnGlobalShaderOff();
+		finishedWithGlobalShader();
 
 	/* now, for the textures, if they exist */
 	if (((node->backUrl).n>0) ||
@@ -896,7 +896,7 @@ void render_Background (struct X3D_Background *node) {
 
         	FW_GL_DISABLECLIENTSTATE (GL_TEXTURE_COORD_ARRAY);
 
-		turnGlobalShaderOff();
+		finishedWithGlobalShader();
 	}
 	FW_GL_POP_MATRIX();
 
@@ -954,7 +954,7 @@ void render_TextureBackground (struct X3D_TextureBackground *node) {
 
 		FW_GL_BINDBUFFER(GL_ARRAY_BUFFER, 0);
 		FW_GL_BINDBUFFER(GL_ELEMENT_ARRAY_BUFFER, 0);
-		turnGlobalShaderOff();
+		finishedWithGlobalShader();
 
 	/* now, for the textures, if they exist */
 	if ((node->backTexture !=0) ||
@@ -973,7 +973,7 @@ void render_TextureBackground (struct X3D_TextureBackground *node) {
         	FW_GL_DISABLECLIENTSTATE (GL_TEXTURE_COORD_ARRAY);
 
 
-		turnGlobalShaderOff();
+		finishedWithGlobalShader();
 	}
 
 	/* pushes are done in moveBackgroundCentre */

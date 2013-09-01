@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Shape.c,v 1.139 2013/08/16 15:43:48 crc_canada Exp $
+$Id: Component_Shape.c,v 1.140 2013/09/01 02:06:02 crc_canada Exp $
 
 X3D Shape Component
 
@@ -665,7 +665,7 @@ void child_Shape (struct X3D_Shape *node) {
 
 	/* any shader turned on? if so, turn it off */
     //ConsoleMessage("turning shader off");
-	turnGlobalShaderOff();
+	finishedWithGlobalShader();
 	p->material_twoSided = NULL;
 	p->material_oneSided = NULL;
     p->userShaderNode = NULL;
