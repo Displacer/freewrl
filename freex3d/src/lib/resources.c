@@ -1,5 +1,5 @@
 /*
-  $Id: resources.c,v 1.60 2012/09/08 14:16:56 dug9 Exp $
+  $Id: resources.c,v 1.61 2013/09/01 18:08:24 dug9 Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -49,9 +49,8 @@
 #include <strings.h>
 #endif
 
-
 #include "zlib.h"
-
+//#define DEBUG_RES printf
 static void possiblyUnzip (openned_file_t *of);
 
 /* move Michel Briand's initialization code to one place to ensure consistency
@@ -291,6 +290,7 @@ void resource_identify(resource_item_t *baseResource, resource_item_t *res)
 					url = concat_path(cwd, cleanedURL);
 					FREE_IF_NZ(cwd);
 				}
+				res->network = TRUE; //dug9 sep1,2013 added this line, so geoLod 2nd level texture sees its parent 2nd level .x3d as a network file
 				res->type = rest_url;
 				res->status = ress_starts_good;
 			} else {
