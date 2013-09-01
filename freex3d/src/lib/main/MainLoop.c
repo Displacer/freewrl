@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.323 2013/08/30 14:59:43 dug9 Exp $
+  $Id: MainLoop.c,v 1.324 2013/09/01 18:12:17 dug9 Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -4090,8 +4090,9 @@ void _displayThread(void *globalcontext)
 #endif
 		checkFileLoadRequest();
 		/* status bar, if we have one */
+		finishedWithGlobalShader();
 		drawStatusBar();  // UI/View 
-
+		restoreGlobalShader();
 		/* swap the rendering area */
 		FW_GL_SWAPBUFFERS;
 			PRINT_GL_ERROR_IF_ANY("XEvents::render");

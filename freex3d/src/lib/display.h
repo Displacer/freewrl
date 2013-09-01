@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.179 2013/09/01 02:06:01 crc_canada Exp $
+  $Id: display.h,v 1.180 2013/09/01 18:12:17 dug9 Exp $
 
   FreeWRL support library.
 
@@ -283,7 +283,7 @@ GLEWContext * glewGetContext();
 	#define GLUNIFORMMATRIX3FV glUniformMatrix3fv
 #endif
 
-	#if defined(GL_ES_VERSION_2_0) 
+	#if defined(GL_ES_VERSION_2_0) || defined(GLEW_NO_GLU)
 		#include <libtess2.h>
 	#endif
 

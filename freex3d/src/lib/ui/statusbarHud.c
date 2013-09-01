@@ -1,5 +1,5 @@
 /*
-  $Id: statusbarHud.c,v 1.62 2013/09/01 02:06:03 crc_canada Exp $
+  $Id: statusbarHud.c,v 1.63 2013/09/01 18:12:17 dug9 Exp $
 
 */
 
@@ -2086,13 +2086,9 @@ M       void toggle_collision()                             //"
 		glDisable(GL_DEPTH_TEST);
 		p->posType = 1; // use RasterPos2i instead of WindowPos2i
 	}
-
-
    if(p->programObject == 0) initProgramObject();
    glUseProgram ( p->programObject );
    
-    // tell the geometry renderer that the shader status is dirty.
-    finishedWithGlobalShader();
 
 	if(p->showButtons)
 	{
