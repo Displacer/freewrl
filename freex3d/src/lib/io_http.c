@@ -1,5 +1,5 @@
 /*
-  $Id: io_http.c,v 1.23 2012/12/20 19:14:19 crc_canada Exp $
+  $Id: io_http.c,v 1.24 2013/09/02 13:59:04 dug9 Exp $
 
   FreeWRL support library.
   IO with HTTP protocol.
@@ -460,6 +460,10 @@ void download_url(resource_item_t *res)
 	if (res->actual_file) {
 		/* download succeeded */
 		res->status = ress_downloaded;
+		if(strcmp(res->actual_file,res->parsed_request)){
+			//it's a temp file 
+			res->cached_files = ml_append(res->cached_files,ml_new(res->actual_file));
+		}
 	} else {
 		/* download failed */
 		res->status = ress_failed;

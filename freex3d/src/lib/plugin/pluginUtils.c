@@ -1,5 +1,5 @@
 /*
-  $Id: pluginUtils.c,v 1.62 2013/08/30 14:59:43 dug9 Exp $
+  $Id: pluginUtils.c,v 1.63 2013/09/02 13:59:04 dug9 Exp $
 
   FreeWRL support library.
   Plugin interaction.
@@ -259,7 +259,7 @@ int doBrowserAction()
 		/* We have a url, lets go and get the first one of them */
                 parentPath = (resource_item_t *)AnchorsAnchor()->_parentResource;
 
-		p->plugin_res = resource_create_multi(&AnchorsAnchor()->url);
+		p->plugin_res = resource_create_multi0(&AnchorsAnchor()->url);
 
 #ifdef TEXVERBOSE
 		PRINTF("url: ");

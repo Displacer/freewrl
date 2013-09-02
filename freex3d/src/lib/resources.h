@@ -1,5 +1,5 @@
 /*
-  $Id: resources.h,v 1.25 2013/08/28 20:06:42 dug9 Exp $
+  $Id: resources.h,v 1.26 2013/09/02 13:59:04 dug9 Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -163,6 +163,7 @@ resource_item_t* resource_create_single(const char *request);
 /* Quick hack to not be forced to include Structs.h */
 typedef struct Multi_String s_Multi_String_t;
 resource_item_t* resource_create_multi(s_Multi_String_t *request);
+resource_item_t* resource_create_multi0(s_Multi_String_t *request);
 
 resource_item_t* resource_create_from_string(const char *string);
 
