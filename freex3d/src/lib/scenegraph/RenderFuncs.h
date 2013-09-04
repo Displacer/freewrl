@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: RenderFuncs.h,v 1.40 2013/09/03 20:07:01 crc_canada Exp $
+$Id: RenderFuncs.h,v 1.41 2013/09/04 19:56:38 crc_canada Exp $
 
 Proximity sensor macro.
 
@@ -62,7 +62,6 @@ void fwglLightfv (int light, int pname, GLfloat *params);
 void fwglLightf (int light, int pname, GLfloat param);
 void initializeLightTables(void);
 void sendAttribToGPU(int myType, int mySize, int  xtype, int normalized, int stride, float *pointer, char*, int);
-void sendClientStateToGPU(int enable, int cap);
 void sendArraysToGPU (int mode, int first, int count);
 void sendBindBufferToGPU (GLenum target, GLuint buffer,char *, int);
 void sendElementsToGPU (int mode, int count, ushort *indices);
