@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.134 2013/09/02 13:59:04 dug9 Exp $
+  $Id: ProdCon.c,v 1.135 2013/09/08 14:55:08 dug9 Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -79,7 +79,7 @@
 #include "MainLoop.h"
 #include "ProdCon.h"
 
-#define NEWQUEUE 1
+//#define NEWQUEUE 1
 
 /* used by the paser to call back the lexer for EXTERNPROTO */
 void embedEXTERNPROTO(struct VRMLLexer *me, char *myName, char *buffer, char *pound);
@@ -1174,6 +1174,9 @@ static bool parser_process_res(s_list_t *item)
 			   the node could be updated ... i.e. texture created */
 			res->complete = TRUE; /* small hack */
 			break;
+		case resm_x3z:
+			process_x3z(res);
+			printf("processed x3z\n");
 		}
 		/* Parse only once ! */
 		remove_it = TRUE;

@@ -1,5 +1,5 @@
 /*
-  $Id: resources.h,v 1.26 2013/09/02 13:59:04 dug9 Exp $
+  $Id: resources.h,v 1.27 2013/09/08 14:55:08 dug9 Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -67,7 +67,8 @@ typedef enum resource_media_type {
 	resm_image,
 	resm_movie,
 	resm_pshader,
-	resm_fshader
+	resm_fshader,
+	resm_x3z
 } resource_media_type_t;
 
 typedef struct resource_item {
