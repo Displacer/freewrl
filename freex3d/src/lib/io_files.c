@@ -1,6 +1,6 @@
 //[s release];
 /*
-  $Id: io_files.c,v 1.63 2013/09/08 14:55:08 dug9 Exp $
+  $Id: io_files.c,v 1.64 2013/09/09 15:21:56 crc_canada Exp $
 
   FreeWRL support library.
   IO with files.
@@ -42,6 +42,10 @@
 #include <sys/stat.h>
 
 #include <threads.h> /* for freewrlSystem */
+
+#if HAVE_DIRENT_H
+# include <dirent.h>
+#endif
 
 #ifndef _MSC_VER
 #include <sys/mman.h> /* mmap */
@@ -916,6 +920,7 @@ void remove_file_or_folder(const char * path){
 	struct stat statbuf;
 	if (!stat(path, &statbuf))
 	{
+        int r2;
 		if (S_ISDIR(statbuf.st_mode))
 		{
 			r2 = directory_remove_all(path);
