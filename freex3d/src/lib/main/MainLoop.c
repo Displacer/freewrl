@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.326 2013/09/03 20:07:01 crc_canada Exp $
+  $Id: MainLoop.c,v 1.327 2013/09/10 14:13:20 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -2037,9 +2037,12 @@ static void render()
 
 		Viewer()->buffer = (unsigned)p->bufferarray[count]; 
 		Viewer()->iside = count;
-#ifdef HAVE_GLEW_H //#ifndef GLES2
-		FW_GL_DRAWBUFFER((unsigned)p->bufferarray[count]);
-#endif
+#ifdef OLDCODE
+OLDCODE#ifdef HAVE_GLEW_H //#ifndef GLES2
+OLDCODE		FW_GL_DRAWBUFFER((unsigned)p->bufferarray[count]);
+OLDCODE#endif
+#endif //OLDCODE
+
         /*  turn lights off, and clear buffer bits*/
 
 		if(Viewer()->isStereo)
