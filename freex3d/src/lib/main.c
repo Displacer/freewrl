@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.98 2013/08/31 21:55:13 dug9 Exp $
+  $Id: main.c,v 1.99 2013/09/10 13:41:06 crc_canada Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -418,10 +418,8 @@ void fwl_startFreeWRL(const char *url)
 			sleep(200);
 		}
 	}
-#ifdef HAVE_GLEW_H
 	/* now wait around until something kills this thread. */
 	pthread_join(gglobal()->threads.DispThrd, NULL);
-#endif
 }
 
 /**
