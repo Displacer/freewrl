@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.182 2013/09/10 14:13:20 crc_canada Exp $
+  $Id: display.h,v 1.183 2013/09/10 19:27:27 crc_canada Exp $
 
   FreeWRL support library.
 
@@ -288,7 +288,7 @@ OLDCODE //JAS		#endif
 	#define GLUNIFORMMATRIX3FV glUniformMatrix3fv
 #endif
 
-#if !defined (_MSC_VER) && !defined (TARGET_AQUA) && !defined(IPHONE) && !defined(_ANDROID) && !defined(QNX)  /* not aqua and not win32, ie linux */
+#if defined (_MSC_VER) || defined (TARGET_AQUA) || defined(IPHONE) || defined(_ANDROID) || defined(QNX)  /* not aqua and not win32, ie linux */
 	#include <libtess2.h>
 #endif // linux spefcific for now
 
