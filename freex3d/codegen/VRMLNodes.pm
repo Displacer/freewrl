@@ -1,5 +1,5 @@
 #
-# $Id: VRMLNodes.pm,v 1.85 2013/09/09 17:24:05 crc_canada Exp $
+# $Id: VRMLNodes.pm,v 1.86 2013/09/12 14:41:23 crc_canada Exp $
 #
 # Copyright (C) 1998 Tuomas J. Lukka 1999 John Stewart CRC Canada.
 # DISTRIBUTED WITH NO WARRANTY, EXPRESS OR IMPLIED.
@@ -402,6 +402,10 @@ package VRML::NodeType;
 		coord => [SFNode, NULL, inputOutput, "(SPEC_VRML | SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
 		fogCoord => [SFNode, NULL, inputOutput, "(SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
 		metadata => [SFNode, NULL, inputOutput, "(SPEC_X3D30 | SPEC_X3D31 | SPEC_X3D32 | SPEC_X3D33)"],
+		_pointsVBO =>[SFInt32, 0, initializeOnly, 0], 
+		_coloursVBO =>[SFInt32, 0, initializeOnly, 0], 
+		_npoints =>[SFInt32, 0, initializeOnly, 0], 
+		_colourSize =>[SFInt32, 0, initializeOnly, 0], 
 	},"X3DGeometryNode"),
 
 	TriangleFanSet => new VRML::NodeType("TriangleFanSet", {
