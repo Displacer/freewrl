@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.99 2013/09/10 13:41:06 crc_canada Exp $
+  $Id: main.c,v 1.100 2013/09/16 16:30:25 dug9 Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -294,13 +294,15 @@ bool fwl_initFreeWRL(freewrl_params_t *params){
 	//myMenuStatus[0] = '\0';
 
 #ifndef FRONTEND_HANDLES_DISPLAY_THREAD
-	/* OK the display is now initialized,
-	   create the display thread and wait for it
-	   to complete initialization */
-	fwl_initializeDisplayThread();
+	if(!params->frontend_handles_display_thread){
+		/* OK the display is now initialized,
+		   create the display thread and wait for it
+		   to complete initialization */
+		fwl_initializeDisplayThread();
 
-	//usleep(50);
-	//set_thread2global(tg,tg->threads.DispThrd ,"display thread");
+		//usleep(50);
+		//set_thread2global(tg,tg->threads.DispThrd ,"display thread");
+	}
 
 #endif //FRONTEND_HANDLES_DISPLAY_THREAD
 

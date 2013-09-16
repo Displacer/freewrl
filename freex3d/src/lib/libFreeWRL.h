@@ -1,5 +1,5 @@
 /*
-  $Id: libFreeWRL.h,v 1.65 2013/08/28 20:06:42 dug9 Exp $
+  $Id: libFreeWRL.h,v 1.66 2013/09/16 16:30:25 dug9 Exp $
 
   FreeWRL library API (public)
 
@@ -82,7 +82,7 @@ typedef struct freewrl_params {
 	bool eai;
 	bool verbose;
 	//int collision;	/* do collision detection? moved to x3d_viewer struct july 7, 2012*/
-
+	bool frontend_handles_display_thread;
 } freewrl_params_t;
 
 extern freewrl_params_t fwl_params;

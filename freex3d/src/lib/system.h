@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: system.h,v 1.30 2013/05/27 18:24:26 istakenv Exp $
+$Id: system.h,v 1.31 2013/09/16 16:30:26 dug9 Exp $
 
 FreeWRL support library.
 Internal header: system dependencies.
@@ -258,6 +258,9 @@ int __fw_gettimeofday(struct timeval *tv, struct timezone *tz);
 #endif
 
 #define snprintf _snprintf
+
+#define fmin min
+#define fmax max
 
 #endif /* _MSC_VER */
 

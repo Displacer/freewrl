@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CRoutes.c,v 1.108 2013/08/08 16:33:07 crc_canada Exp $
+$Id: CRoutes.c,v 1.109 2013/09/16 16:30:26 dug9 Exp $
 
 ???
 
@@ -840,7 +840,8 @@ void AddRemoveChildren (
 			if (oldlen > 0) memcpy (newmal,tn->p,oldlen*sizeof(void *));
 
 			/* set up the C structures for this new MFNode addition */
-			FREE_IF_NZ (tn->p);
+			if(oldlen > 0)
+				FREE_IF_NZ (tn->p);
 			tn->n = oldlen;
 			tn->p = newmal;
 			//startcounter = 0;

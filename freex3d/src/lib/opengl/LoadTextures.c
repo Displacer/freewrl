@@ -1,5 +1,5 @@
 /*
-  $Id: LoadTextures.c,v 1.97 2013/08/30 17:04:17 dug9 Exp $
+  $Id: LoadTextures.c,v 1.98 2013/09/16 16:30:26 dug9 Exp $
 
   FreeWRL support library.
   New implementation of texture loading.
@@ -457,7 +457,7 @@ ConsoleMessage(me);}
     if (!ret) {
 		ERROR_MSG("load_texture_from_file: failed to load image: %s\n", fname);
 	}else{
-#ifdef UNNECESSARY_EXPERIMENT
+#ifdef GL_ES_VERSION_2_0
 			//swap red and blue
 			//search for GL_RGBA in textures.c
 			int x,y,i,j,k,m;
