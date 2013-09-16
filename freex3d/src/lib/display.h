@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.185 2013/09/16 16:30:25 dug9 Exp $
+  $Id: display.h,v 1.186 2013/09/16 19:11:47 dug9 Exp $
 
   FreeWRL support library.
 
@@ -660,7 +660,7 @@ void resetGeometry();
 	/****************************************************************/
 
 	#if defined(_MSC_VER) 
-		#define FW_GL_SWAPBUFFERS fwSwapBuffers((freewrl_params_t *)&gglobal()->display); //SwapBuffers(wglGetCurrentDC());
+		#define FW_GL_SWAPBUFFERS fwSwapBuffers(&gglobal()->display.params); //SwapBuffers(wglGetCurrentDC());
 	#endif
 
 #if KEEP_X11_INLIB
