@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Tess.c,v 1.27 2012/07/17 20:24:16 crc_canada Exp $
+$Id: Tess.c,v 1.28 2013/09/16 17:52:40 crc_canada Exp $
 
 ???
 
@@ -38,10 +38,6 @@ $Id: Tess.c,v 1.27 2012/07/17 20:24:16 crc_canada Exp $
 
 
 
-/* JAS */
-#ifdef AQUA
-typedef GLvoid (*_GLUfuncptr)(GLvoid);
-#endif
 #if defined(_MSC_VER)
 typedef  void (__stdcall *_GLUfuncptr)();
 #endif
