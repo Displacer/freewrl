@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.103 2013/09/17 20:06:25 crc_canada Exp $
+  $Id: main.c,v 1.104 2013/09/17 20:15:20 crc_canada Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -113,7 +113,7 @@ void fwl_OSX_initializeParameters(const char* initialURL) {
     	fwl_setp_fullscreen(FALSE);
 
         ConsoleMessage ("forcing EAI");
-        fwl_setp_eai(TRUE); myParams.eai = TRUE;
+        fwl_setp_eai(TRUE); myParams.enableEAI = TRUE;
 
     /* start threads, parse initial scene, etc */
 
