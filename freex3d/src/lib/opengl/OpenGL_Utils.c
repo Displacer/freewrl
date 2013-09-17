@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.357 2013/09/12 14:41:23 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.358 2013/09/17 20:06:25 crc_canada Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -2917,9 +2917,6 @@ bool fwl_initialize_GL()
 
 	PRINT_GL_ERROR_IF_ANY("fwl_initialize_GL start 1");
 	initialize_rdr_caps();
-
-	PRINT_GL_ERROR_IF_ANY("fwl_initialize_GL start 2");
-	initialize_rdr_functions();
 
 	PRINT_GL_ERROR_IF_ANY("fwl_initialize_GL start 3");
 

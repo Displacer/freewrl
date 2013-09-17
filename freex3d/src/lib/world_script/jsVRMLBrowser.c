@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: jsVRMLBrowser.c,v 1.61 2013/08/25 21:39:45 dug9 Exp $
+$Id: jsVRMLBrowser.c,v 1.62 2013/09/17 20:06:26 crc_canada Exp $
 
 Javascript C language binding.
 
@@ -2131,7 +2131,7 @@ VrmlBrowserCreateVrmlFromURL(JSContext *context, uintN argc, jsval *vp) {
 	/* printf ("type of field %s, accessType %s\n",stringFieldtypeType(type),stringKeywordType(accessType)); */
 	res->offsetFromWhere = offs;
 
-	send_resource_to_parser(res,__FILE__,__LINE__);
+	send_resource_to_parser(res);
 	resource_wait(res);
 	
 	if (res->status == ress_parsed) {

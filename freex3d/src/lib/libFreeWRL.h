@@ -1,5 +1,5 @@
 /*
-  $Id: libFreeWRL.h,v 1.67 2013/09/16 19:11:47 dug9 Exp $
+  $Id: libFreeWRL.h,v 1.68 2013/09/17 20:06:25 crc_canada Exp $
 
   FreeWRL library API (public)
 
@@ -79,7 +79,7 @@ typedef struct freewrl_params {
 	void* winToEmbedInto;
 	bool fullscreen;
 	bool multithreading;
-	bool eai;
+	bool enableEAI;
 	bool verbose;
 	//int collision;	/* do collision detection? moved to x3d_viewer struct july 7, 2012*/
 	bool frontend_handles_display_thread;

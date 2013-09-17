@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CParseLexer.c,v 1.52 2013/09/16 16:30:26 dug9 Exp $
+$Id: CParseLexer.c,v 1.53 2013/09/17 20:06:26 crc_canada Exp $
 
 ???
 
@@ -1425,7 +1425,7 @@ void lexer_handle_EXTERNPROTO(struct VRMLLexer *me) {
 
 	if (res->type != rest_invalid) {
 		if (resource_fetch(res)) {
- 			pound = strchr(res->request, '#'); 
+ 			pound = strchr(res->URLrequest, '#'); 
 			if (resource_load(res)) {
 				s_list_t *l;
 				openned_file_t *of;

@@ -1,7 +1,7 @@
 /*
   =INSERT_TEMPLATE_HERE=
 
-  $Id: CParseParser.c,v 1.98 2013/08/23 18:56:40 crc_canada Exp $
+  $Id: CParseParser.c,v 1.99 2013/09/17 20:06:26 crc_canada Exp $
 
   ???
 
@@ -3733,10 +3733,10 @@ static BOOL parser_interfaceDeclarationB(struct VRMLParser* me, struct ProtoDefi
 	DECLAREUP
     union anyVrml defaultVal;
     struct ProtoFieldDecl* pdecl=NULL;
-    struct ProtoFieldDecl* pField=NULL;
+    //struct ProtoFieldDecl* pField=NULL;
     struct ScriptFieldDecl* sdecl=NULL;
-    char *startOfField = NULL;
-    int startOfFieldLexerLevel = INT_ID_UNDEFINED;
+    //char *startOfField = NULL;
+    //int startOfFieldLexerLevel = INT_ID_UNDEFINED;
 
 
 #ifdef CPARSERVERBOSE

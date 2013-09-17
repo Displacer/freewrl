@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.329 2013/09/16 19:11:47 dug9 Exp $
+  $Id: MainLoop.c,v 1.330 2013/09/17 20:06:25 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -4654,7 +4654,7 @@ void fwl_replaceWorldNeeded(char* str)
 	resource_item_t* plugin_res;
 	kill_oldWorld(TRUE,TRUE,__FILE__,__LINE__);
 	plugin_res = resource_create_single(str);
-	send_resource_to_parser_async(plugin_res,__FILE__,__LINE__);
+	send_resource_to_parser_async(plugin_res);
 }
 
 
