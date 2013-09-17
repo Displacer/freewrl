@@ -1,5 +1,5 @@
 /*
-  $Id: pluginUtils.c,v 1.63 2013/09/02 13:59:04 dug9 Exp $
+  $Id: pluginUtils.c,v 1.64 2013/09/17 13:57:41 dug9 Exp $
 
   FreeWRL support library.
   Plugin interaction.
@@ -361,6 +361,7 @@ static int checkIfX3DVRMLFile(char *fn) {
 	if ((strstr(fn,".wrl") > 0) ||
 		(strstr(fn,".WRL") > 0) ||
 		(strstr(fn,".x3d") > 0) ||
+		(strstr(fn,".x3z") > 0) ||
 		(strstr(fn,".x3dv") > 0) ||
 		(strstr(fn,".x3db") > 0) ||
 		(strstr(fn,".X3DV") > 0) ||
