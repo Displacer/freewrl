@@ -1,5 +1,5 @@
 /*
-  $Id: common.c,v 1.15 2012/07/09 00:59:56 dug9 Exp $
+  $Id: common.c,v 1.16 2013/09/18 21:15:29 dug9 Exp $
 
   FreeWRL support library.
 
@@ -20,6 +20,8 @@
 */
 int ccurse = ACURSE;
 int ocurse = ACURSE;
+
+const char *libFreeWRL_get_version(void) {return "2.0";}
 
 /* typedef struct pcommon{
 	float myFps; // = (float) 0.0;
