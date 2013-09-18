@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.56 2013/09/16 19:14:37 dug9 Exp $
+  $Id: main.c,v 1.57 2013/09/18 16:06:15 dug9 Exp $
 
   FreeWRL main program.
 
@@ -151,7 +151,7 @@ int main (int argc, char **argv)
     /* Default values */
     fv_params->width = 600;
     fv_params->height = 400;
-    fv_params->eai = FALSE;
+    //fv_params->eai = FALSE;
     fv_params->fullscreen = FALSE;
     fv_params->winToEmbedInto = NULL; //-1
     fv_params->verbose = FALSE;

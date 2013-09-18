@@ -1,5 +1,5 @@
 /*
-  $Id: options.c,v 1.45 2013/09/16 19:14:37 dug9 Exp $
+  $Id: options.c,v 1.46 2013/09/18 16:06:15 dug9 Exp $
 
   FreeWRL command line arguments.
 
@@ -304,7 +304,7 @@ int fv_parseCommandLine (int argc, char **argv)
 
 	case 'e': /* --eai, no argument */
 	    fwl_setp_eai(TRUE);
-	    fv_params->eai = TRUE;
+	    //fv_params->eai = TRUE;
 	    break;
 
 	case 'f': /* --fast, no argument */
