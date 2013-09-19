@@ -1,5 +1,5 @@
 /*
-  $Id: common.c,v 1.16 2013/09/18 21:15:29 dug9 Exp $
+  $Id: common.c,v 1.17 2013/09/19 21:10:06 dug9 Exp $
 
   FreeWRL support library.
 
@@ -13,6 +13,9 @@
 #include <iglobal.h>
 #include "../ui/common.h"
 
+#include "../../buildversion.h"
+const char *libFreeWRL_get_version(void) {return FW_BUILD_VERSION_STR;}
+
 /* Status variables */
 /* cursors are a 'shared resource' meanng you only need one cursor for n windows,
   not per-instance cursors (except multi-touch multi-cursors)
@@ -21,7 +24,6 @@
 int ccurse = ACURSE;
 int ocurse = ACURSE;
 
-const char *libFreeWRL_get_version(void) {return "2.0";}
 
 /* typedef struct pcommon{
 	float myFps; // = (float) 0.0;
