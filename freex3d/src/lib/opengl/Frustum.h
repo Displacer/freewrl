@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Frustum.h,v 1.18 2013/08/28 15:27:26 crc_canada Exp $
+$Id: Frustum.h,v 1.19 2013/09/19 01:26:57 crc_canada Exp $
 
 Global includes.
 
@@ -46,21 +46,15 @@ Global includes.
 	#undef OCCLUSION
 	#undef VISIBILITYOCCLUSION
 	#undef SHAPEOCCLUSION
-//JAS#else
-//JAS	#define OCCLUSION
-//JAS	#define VISIBILITYOCCLUSION
-//JAS	#define SHAPEOCCLUSION
-//JAS#endif
+#if defined (AQUA)
+#define OCCLUSION
+#define VISIBILITYOCCLUSION
+#define SHAPEOCCLUSION
+#endif
 
-//extern GLuint OccQuerySize;
-//extern GLint OccResultsAvailable;
-//extern int OccFailed;
-//extern int *OccCheckCount;
-//extern GLuint *OccQueries;
-//extern void * *OccNodes;
+
 int newOcclude(void);
-//extern GLuint potentialOccluderCount;
-//extern void* *occluderNodePointer;
+
 
 #ifdef OCCLUSION
 #define OCCLUSIONTEST \
