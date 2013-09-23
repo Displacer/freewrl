@@ -1,5 +1,5 @@
 /*
-  $Id: main.h,v 1.11 2011/06/10 19:10:05 couannette Exp $
+  $Id: main.h,v 1.12 2013/09/23 17:49:36 crc_canada Exp $
 
   FreeWRL/X3D main program.
   Internal header: helper macros.
@@ -29,9 +29,6 @@
 #ifndef __FREEWRL_MAIN_H__
 #define __FREEWRL_MAIN_H__
 
-
-extern freewrl_params_t *fv_params;
 extern char *start_url;
-
 
 #endif /* __FREEWRL_MAIN_H__ */

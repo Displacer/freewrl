@@ -1,5 +1,5 @@
 /*
-  $Id: common.c,v 1.17 2013/09/19 21:10:06 dug9 Exp $
+  $Id: common.c,v 1.18 2013/09/23 17:49:36 crc_canada Exp $
 
   FreeWRL support library.
 
@@ -14,7 +14,7 @@
 #include "../ui/common.h"
 
 #include "../../buildversion.h"
-const char *libFreeWRL_get_version(void) {return FW_BUILD_VERSION_STR;}
+//JAS const char *libFreeWRL_get_version(void) {return FW_BUILD_VERSION_STR;}
 
 /* Status variables */
 /* cursors are a 'shared resource' meanng you only need one cursor for n windows,

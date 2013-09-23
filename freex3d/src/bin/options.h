@@ -1,5 +1,5 @@
 /*
-  $Id: options.h,v 1.6 2011/06/10 19:10:05 couannette Exp $
+  $Id: options.h,v 1.7 2013/09/23 17:49:36 crc_canada Exp $
 
   FreeWRL command line arguments.
 
@@ -30,7 +30,7 @@
 #define __FREEWRL_MAIN_OPTIONS_H__
 
 
-extern int fv_parseCommandLine (int argc, char **argv);
+extern int fv_parseCommandLine (int argc, char **argv, freewrl_params_t *);
 void fv_parseEnvVars(void);
 
 

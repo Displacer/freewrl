@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.57 2013/09/18 16:06:15 dug9 Exp $
+  $Id: main.c,v 1.58 2013/09/23 17:49:36 crc_canada Exp $
 
   FreeWRL main program.
 
@@ -44,8 +44,6 @@
  * FreeWRL parameters
  */
 
-/* library parameters */
-freewrl_params_t *fv_params = NULL;
 /* file/url to start FreeWRL with */
 char *start_url;
 
@@ -81,6 +79,8 @@ int main (int argc, char **argv)
 #else
     int tempIsAndroid = 0 ;
 #endif
+
+    freewrl_params_t *fv_params = NULL;
 
     char consoleBuffer[200];
 	fwl_init_instance(); //before setting any structs we need a struct allocated
@@ -151,7 +151,7 @@ int main (int argc, char **argv)
     /* Default values */
     fv_params->width = 600;
     fv_params->height = 400;
-    //fv_params->eai = FALSE;
+
     fv_params->fullscreen = FALSE;
     fv_params->winToEmbedInto = NULL; //-1
     fv_params->verbose = FALSE;
@@ -160,7 +160,7 @@ int main (int argc, char **argv)
 	//fwl_init_StereoDefaults();
 
     /* parse command line arguments */
-    if (fv_parseCommandLine(argc, argv)) {
+    if (fv_parseCommandLine(argc, argv,fv_params)) {
 		if(argc > 1){
 			start_url = argv[optind];
 #ifdef _MSC_VER
