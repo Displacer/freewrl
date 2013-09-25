@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.331 2013/09/23 17:49:36 crc_canada Exp $
+  $Id: MainLoop.c,v 1.332 2013/09/25 20:16:57 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -4124,8 +4124,6 @@ void fwl_setLastMouseEvent(int etype) {
 
 void fwl_initialize_parser()
 {
-ConsoleMessage ("fwl_initialze_parser\n");
-
 	/* JAS 
 		if (gglobal() == NULL) ConsoleMessage ("fwl_initialize_parser, gglobal() NULL");
 		if ((gglobal()->Mainloop.prv) == NULL) ConsoleMessage ("fwl_initialize_parser, gglobal()->Mainloop.prv NULL");
