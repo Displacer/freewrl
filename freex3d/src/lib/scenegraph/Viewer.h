@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Viewer.h,v 1.54 2013/05/31 21:26:24 dug9 Exp $
+$Id: Viewer.h,v 1.55 2013/09/26 16:17:26 crc_canada Exp $
 
 Viewer ???
 
@@ -274,8 +274,6 @@ typedef struct viewer {
 	double backgroundPlane ;
 	GLDOUBLE fieldofview;
 	GLDOUBLE fovZoom ;
-	double calculatedNearPlane ;
-	double calculatedFarPlane ;
 	int wasBound; /* 0 for default viewpoint, 1 thereafter (for no-slerp startup) */
 
 } X3D_Viewer;

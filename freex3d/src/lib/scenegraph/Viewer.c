@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Viewer.c,v 1.97 2013/05/31 21:26:24 dug9 Exp $
+$Id: Viewer.c,v 1.98 2013/09/26 16:17:26 crc_canada Exp $
 
 CProto ???
 
@@ -279,8 +279,7 @@ void viewer_init (X3D_Viewer *viewer, int type) {
 		viewer->backgroundPlane = DEFAULT_BACKGROUNDPLANE;       /* where Background and TextureBackground nodes go */
 		viewer->fieldofview=45.0;
 		viewer->fovZoom = 1.0;
-		viewer->calculatedNearPlane = 0.0;
-		viewer->calculatedFarPlane = 0.0;
+
 		viewer->wasBound = FALSE;
 	}
 
