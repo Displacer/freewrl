@@ -1,5 +1,5 @@
 /*
-  $Id: common.c,v 1.19 2013/09/26 16:17:26 crc_canada Exp $
+  $Id: common.c,v 1.20 2013/09/28 18:49:22 dug9 Exp $
 
   FreeWRL support library.
 
@@ -19,7 +19,7 @@
 // on other platforms, we have to have this defined, as we don't have Ian's
 // talents to help us out.
 
-#if defined (AQUA) 
+#if defined (AQUA) || defined (_MSC_VER) || defined(QNX)
 const char *libFreeWRL_get_version(void) {return FW_BUILD_VERSION_STR;}
 #endif //OSX
 
