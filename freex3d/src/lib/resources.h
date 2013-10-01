@@ -1,5 +1,5 @@
 /*
-  $Id: resources.h,v 1.29 2013/09/17 20:15:21 crc_canada Exp $
+  $Id: resources.h,v 1.30 2013/10/01 20:13:55 crc_canada Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -86,8 +86,8 @@ typedef struct resource_item {
 
 	/* Resource has passed all the steps */
 	bool complete;
-	void *where;
-	int offsetFromWhere;
+	void *whereToPlaceData;
+	int offsetFromWhereToPlaceData;
 
 	/* We can be feed with a Multi_String list of requests */
 	s_list_t *m_request;

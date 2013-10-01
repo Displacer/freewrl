@@ -1,5 +1,5 @@
 /*
-  $Id: resources.c,v 1.64 2013/09/17 20:06:25 crc_canada Exp $
+  $Id: resources.c,v 1.65 2013/10/01 20:13:55 crc_canada Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -989,8 +989,8 @@ void resource_tree_dump(int level, resource_item_t *root)
 	spacer printf("type:\t %u\n", root->type);
 	spacer printf("status:\t %u\n", root->status);
 	spacer printf("complete:\t %s\n", BOOL_STR(root->complete));
-	spacer printf("where:\t %p\n", root->where);
-	spacer printf("offsetFromWhere:\t %d\n", root->offsetFromWhere);
+	spacer printf("where:\t %p\n", root->whereToPlaceData);
+	spacer printf("offsetFromWhere:\t %d\n", root->offsetFromWhereToPlaceData);
 	spacer printf("m_request:\t %p\n", root->m_request);
 	spacer printf("base:\t %s\n", root->URLbase);
 	spacer printf("temp_dir:\t %s\n", root->temp_dir);

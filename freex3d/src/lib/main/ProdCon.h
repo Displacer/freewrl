@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: ProdCon.h,v 1.11 2013/09/17 20:06:25 crc_canada Exp $
+$Id: ProdCon.h,v 1.12 2013/10/01 20:13:55 crc_canada Exp $
 
 General functions declarations.
 
@@ -33,5 +33,8 @@ General functions declarations.
 
 void registerBindable(struct X3D_Node *);
 extern char *EAI_Flag;
+void frontend_dequeue_get_enqueue();
+int frontendGetsFiles();
+
 
 #endif /* __FREEWRL_PRODCON_MAIN_H__ */
