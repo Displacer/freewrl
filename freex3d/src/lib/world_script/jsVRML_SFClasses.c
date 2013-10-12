@@ -1,5 +1,5 @@
 /*
-  $Id: jsVRML_SFClasses.c,v 1.51 2013/09/17 20:06:26 crc_canada Exp $
+  $Id: jsVRML_SFClasses.c,v 1.52 2013/10/12 18:19:33 dug9 Exp $
 
   A substantial amount of code has been adapted from js/src/js.c,
   which is the sample application included with the javascript engine.
@@ -1321,10 +1321,10 @@ SFNodeConstr(JSContext *cx, uintN argc, jsval *vp) {
 				/* try compiling this X3D code... */
 				struct X3D_Group *myGroup = (struct X3D_Group *) createNewX3DNode(NODE_Group);
 				resource_item_t *res = resource_create_from_string(cString);
-				res->where = myGroup;
+				res->whereToPlaceData = myGroup;
 				res->media_type = resm_vrml;
 				res->parsed_request = "From the EAI bootcamp of life ";
-				res->offsetFromWhere = (int) offsetof (struct X3D_Group, children);
+				res->offsetFromWhereToPlaceData = (int) offsetof (struct X3D_Group, children);
 				#ifdef JSVRMLCLASSESVERBOSE
 				printf ("SFNodeConstr, sending resource to parser\n");
 				#endif

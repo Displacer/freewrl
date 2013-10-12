@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Networking.c,v 1.53 2013/10/01 20:13:56 crc_canada Exp $
+$Id: Component_Networking.c,v 1.54 2013/10/12 18:19:33 dug9 Exp $
 
 X3D Networking Component
 
@@ -660,8 +660,8 @@ void load_Inline (struct X3D_Inline *node) {
 			/* did we get this one? */
 			} else if (res->status == ress_downloaded) {
 				res->media_type = resm_unknown;
-				res->where = X3D_NODE(node);
-				res->offsetFromWhere = (float) offsetof (struct X3D_Inline, __children);
+				res->whereToPlaceData = X3D_NODE(node);
+				res->offsetFromWhereToPlaceData = (float) offsetof (struct X3D_Inline, __children);
 				send_resource_to_parser(res);
 				node->__loadstatus = INLINE_PARSING; /* a "do-nothing" approach */
 			} else {

@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.138 2013/10/01 20:13:55 crc_canada Exp $
+  $Id: ProdCon.c,v 1.139 2013/10/12 18:19:33 dug9 Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -1377,6 +1377,7 @@ void kill_bindables (void) {
     tg->Bindable.fog_stack->n=0;
     return;
     
+	/*
     printf ("before tvp %p ",t->viewpointNodes);
 	KILL_BINDABLE(t->viewpointNodes);
     printf ("after, tvp %p\n",t->viewpointNodes);
@@ -1392,7 +1393,7 @@ void kill_bindables (void) {
     KILL_BINDABLE(tg->Bindable.background_stack);
     KILL_BINDABLE(tg->Bindable.viewpoint_stack);
     KILL_BINDABLE(tg->Bindable.fog_stack);
-    
+    */
     /*
      struct Vector *background_stack;
      struct Vector *viewpoint_stack;
