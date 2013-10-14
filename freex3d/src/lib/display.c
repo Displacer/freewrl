@@ -1,5 +1,5 @@
 /*
-  $Id: display.c,v 1.114 2013/09/17 20:06:25 crc_canada Exp $
+  $Id: display.c,v 1.115 2013/10/14 18:44:12 dug9 Exp $
 
   FreeWRL support library.
   Display (X11/Motif or OSX/Aqua) initialization.
@@ -167,7 +167,8 @@ int fv_display_initialize()
 
 	//snprintf(window_title, sizeof(window_title), "FreeWRL");
 
-	if (!fv_create_main_window((freewrl_params_t *)d)){ //0 /*argc*/, NULL /*argv*/)) {
+	if (!fv_create_main_window(&d->params)){ //0 /*argc*/, NULL /*argv*/)) {
+	//if (!fv_create_main_window((freewrl_params_t *)d)){ //0 /*argc*/, NULL /*argv*/)) {
 		return FALSE;
 	}
 
