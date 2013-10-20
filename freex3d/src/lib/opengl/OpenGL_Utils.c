@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.360 2013/10/01 20:13:56 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.361 2013/10/20 17:10:29 dug9 Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -2362,7 +2362,7 @@ static void makeAndCompileShader(struct shaderTableEntry *me, bool phongShading)
 	if (!getSpecificShaderSource(vertexSource, fragmentSource, me->whichOne, phongShading)) {
 		return;
 	}
-    
+
     
 	myVertexShader = CREATE_SHADER (VERTEX_SHADER);
 	SHADER_SOURCE(myVertexShader, vertexEndMarker, ((const GLchar **)vertexSource), NULL);
@@ -2385,8 +2385,9 @@ static void makeAndCompileShader(struct shaderTableEntry *me, bool phongShading)
 	} else {
 		ATTACH_SHADER(myProg, myFragmentShader);
 	}
-    
+
 	LINK_SHADER(myProg);
+
 	glGetProgramiv(myProg,GL_LINK_STATUS, &success); 
 	(*myShader).compiledOK = (success == GL_TRUE);
     

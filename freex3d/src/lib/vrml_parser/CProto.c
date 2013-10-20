@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CProto.c,v 1.59 2013/02/24 20:19:49 dug9 Exp $
+$Id: CProto.c,v 1.60 2013/10/20 17:10:29 dug9 Exp $
 
 CProto ???
 
@@ -1521,7 +1521,6 @@ char *protoExpand (struct VRMLParser *me, indexT nodeTypeU, struct ProtoDefiniti
 
 	CLOSE_PROTO_EXPAND_FILE;
 	UNLINK_PROTO_EXPAND_FILE;
-
 
 	#ifdef CPROTOVERBOSE
 	printf ("so, newProtoText \n%s\n",newProtoText);
