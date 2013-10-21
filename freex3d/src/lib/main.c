@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.106 2013/09/25 20:16:57 crc_canada Exp $
+  $Id: main.c,v 1.107 2013/10/21 18:46:54 crc_canada Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -100,7 +100,7 @@ void fwl_OSX_initializeParameters(const char* initialURL) {
         myParams.height = 400;
         myParams.xpos = 0;
         myParams.ypos = 0;
-        myParams.winToEmbedInto = 0;
+        myParams.winToEmbedInto = NULL;
         myParams.fullscreen = FALSE;
         myParams.multithreading = TRUE;
         myParams.enableEAI = FALSE;

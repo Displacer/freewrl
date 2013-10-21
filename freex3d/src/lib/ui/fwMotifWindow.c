@@ -1,5 +1,5 @@
 /*
-  $Id: fwMotifWindow.c,v 1.40 2013/10/21 15:48:39 crc_canada Exp $
+  $Id: fwMotifWindow.c,v 1.41 2013/10/21 18:46:54 crc_canada Exp $
 
   FreeWRL support library.
   Create Motif window, widget, menu. Manage events.
@@ -250,7 +250,7 @@ int fv_create_main_window(freewrl_params_t * params) //int argc, char *argv[])
 	/* FIXME: see fwBareWindow.c */
 	/* Roberto Gerson */
 	/* If -d is setted, so reparent the window */
-	if (params->winToEmbedInto != -1){
+	if (params->winToEmbedInto != NULL){
 		printf("fwMotifWindow::Trying to reparent window: %ld, to new parent: %ld\n",
 			XtWindow(freewrlTopWidget),
 			params->winToEmbedInto);
