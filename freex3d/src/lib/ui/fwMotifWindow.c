@@ -1,5 +1,5 @@
 /*
-  $Id: fwMotifWindow.c,v 1.39 2013/09/09 19:27:34 crc_canada Exp $
+  $Id: fwMotifWindow.c,v 1.40 2013/10/21 15:48:39 crc_canada Exp $
 
   FreeWRL support library.
   Create Motif window, widget, menu. Manage events.
@@ -197,8 +197,8 @@ int fv_create_main_window(freewrl_params_t * params) //int argc, char *argv[])
 
 	/* XtVaAppInitialize ??? */
 	XtSetArg(initArgs[initArgc], XmNlabelString, XmStringCreate(getWindowTitle(), XmSTRING_DEFAULT_CHARSET)); initArgc++;
-	XtSetArg(initArgs[initArgc], XmNheight, fwl_params->height); initArgc++;
-	XtSetArg(initArgs[initArgc], XmNwidth, fwl_params->width); initArgc++;
+	XtSetArg(initArgs[initArgc], XmNheight, params->height); initArgc++;
+	XtSetArg(initArgs[initArgc], XmNwidth, params->width); initArgc++;
 	XtSetArg(initArgs[initArgc], XmNmappedWhenManaged, False); initArgc++;
 
 	/**
@@ -250,14 +250,14 @@ int fv_create_main_window(freewrl_params_t * params) //int argc, char *argv[])
 	/* FIXME: see fwBareWindow.c */
 	/* Roberto Gerson */
 	/* If -d is setted, so reparent the window */
-	if (fwl_params.winToEmbedInto != -1){
+	if (params->winToEmbedInto != -1){
 		printf("fwMotifWindow::Trying to reparent window: %ld, to new parent: %ld\n",
 			XtWindow(freewrlTopWidget),
-			fwl_params.winToEmbedInto);
+			params->winToEmbedInto);
 
 		XReparentWindow(XtDisplay(freewrlTopWidget),
 				XtWindow(freewrlTopWidget),
-				fwl_params.winToEmbedInto, 0, 0);
+				params->winToEmbedInto, 0, 0);
 
 		XMapWindow(XtDisplay(freewrlTopWidget), XtWindow(freewrlTopWidget));
 	}

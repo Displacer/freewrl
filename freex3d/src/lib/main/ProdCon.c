@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.139 2013/10/12 18:19:33 dug9 Exp $
+  $Id: ProdCon.c,v 1.140 2013/10/21 15:48:38 crc_canada Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -223,7 +223,7 @@ void ProdCon_init(struct tProdCon *t)
 		p->fogNodes = newVector(struct X3D_Node *, 2);
 		p->backgroundNodes = newVector(struct X3D_Node *, 2);
 		p->navigationNodes = newVector(struct X3D_Node *, 2);
-        printf ("created new navigationNodes of %p, at A\n",p->navigationNodes);
+        	//printf ("created new navigationNodes of %p, at A\n",p->navigationNodes);
         
 
 		/* thread synchronization issues */
