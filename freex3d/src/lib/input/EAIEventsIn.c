@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIEventsIn.c,v 1.94 2013/05/26 14:42:27 dug9 Exp $
+$Id: EAIEventsIn.c,v 1.95 2013/10/23 15:01:49 crc_canada Exp $
 
 Handle incoming EAI (and java class) events with panache.
 
@@ -358,7 +358,7 @@ char * fwl_EAI_handleBuffer(char *fromFront) {
 char * fwl_MIDI_handleBuffer(char *fromFront) {
 	/* memcp from fromFront to &EAI_BUFFER_CUR */
 	int eaiverbose;
-	int len = strlen(fromFront) ;
+	int len = (int) strlen(fromFront) ;
 	ttglobal tg = gglobal();
 	struct tEAIHelpers *th;
 	eaiverbose = tg->EAI_C_CommonFunctions.eaiverbose;

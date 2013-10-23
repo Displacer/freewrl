@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Frustum.c,v 1.58 2013/10/01 20:13:56 crc_canada Exp $
+$Id: Frustum.c,v 1.59 2013/10/23 15:01:49 crc_canada Exp $
 
 ???
 
@@ -1104,12 +1104,12 @@ void OcclusionCulling ()  {
 	
 					/* is this node visible? If so, tell the parents! */
 					if (samples > OCCSHAPESAMPLESIZE) {
-						//printf ("Shape %p is VISIBLE\n",shapePtr);
+						printf ("Shape %p is VISIBLE\n",shapePtr);
 						shapePtr->__visible = TRUE;
 						shapePtr->__occludeCheckCount= OCCWAIT; /* wait a little while before checking again */
 						shapePtr->__Samples = samples;
 					} else {
-						//printf ("Shape %p is NOT VISIBLE\n",shapePtr);
+						printf ("Shape %p is NOT VISIBLE\n",shapePtr);
 						shapePtr->__visible=FALSE;
 						shapePtr->__occludeCheckCount = OCCCHECKSOON; /* check again soon */
 						shapePtr->__Samples = 0; 

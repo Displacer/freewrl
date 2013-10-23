@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.361 2013/10/20 17:10:29 dug9 Exp $
+  $Id: OpenGL_Utils.c,v 1.362 2013/10/23 15:01:49 crc_canada Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -4603,7 +4603,7 @@ void markForDispose(struct X3D_Node *node, int recursive){
 		}
 
 		if (*fieldOffsetsPtr == FIELDNAMES__shaderUserDefinedFields) 
-			break; /* have to get rid of the fields of a shader here....
+			break; /* have to get rid of the fields of a shader here....*/
 	
 		/* nope, not a special field, lets just get rid of it as best we can */
 		switch(*(fieldOffsetsPtr+2)){
