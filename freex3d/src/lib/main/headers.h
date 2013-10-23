@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: headers.h,v 1.198 2013/08/15 14:01:20 istakenv Exp $
+$Id: headers.h,v 1.199 2013/10/23 15:56:38 crc_canada Exp $
 
 Global includes.
 
@@ -199,31 +199,21 @@ node for ANY node that takes something other than a Group */
 
 #define offsetPointer_deref(t, me, offs) ((t)(((char*)(me))+offs))
 
-//before Brotos/Proto
-//#define POSSIBLE_PROTO_EXPANSION(type,inNode,outNode) \
-//	if (inNode == NULL) outNode = NULL; \
-//	else {if (X3D_NODE(inNode)->_nodeType == NODE_Group) { \
-//		if (X3D_GROUP(inNode)->children.n>0) { \
-//			outNode = (type)(X3D_GROUP(inNode)->children.p[0]); \
-//		} else outNode = NULL; \
-//	} else outNode = (type)inNode; };
+/* before Brotos/Proto
+#define POSSIBLE_PROTO_EXPANSION(type,inNode,outNode) \
+	if (inNode == NULL) outNode = NULL; \
+	else {if (X3D_NODE(inNode)->_nodeType == NODE_Group) { \
+		if (X3D_GROUP(inNode)->children.n>0) { \
+			outNode = (type)(X3D_GROUP(inNode)->children.p[0]); \
+		} else outNode = NULL; \
+	} else outNode = (type)inNode; };
+*/
+
 struct X3D_Node* getTypeNode(struct X3D_Node *node);
 
 //with Proto for Brotos
 #define POSSIBLE_PROTO_EXPANSION(type,inNode,outNode) \
 	outNode = (type)getTypeNode(inNode);
-	//if (inNode == NULL) outNode = NULL; \
-	//else { \
-	//  if (X3D_NODE(inNode)->_nodeType == NODE_Group) { \
-	//	if (X3D_GROUP(inNode)->children.n>0) { \
-	//		outNode = (type)(X3D_GROUP(inNode)->children.p[0]); \
-	//	} else outNode = NULL; \
-	//  } else if (X3D_NODE(inNode)->_nodeType == NODE_Proto) { \
-	//		outNode = (type)getTypeNode(inNode); \
-	//  } else outNode = (type)inNode; \
- //   }
-
-
 
 #define MARK_NODE_COMPILED node->_ichange = node->_change;
 #define NODE_NEEDS_COMPILING (node->_ichange != node->_change)
