@@ -1,5 +1,5 @@
 /*
-  $Id: statusbar.c,v 1.39 2013/08/15 13:37:17 istakenv Exp $
+  $Id: statusbar.c,v 1.40 2013/10/23 21:19:05 crc_canada Exp $
 
 */
 
@@ -31,7 +31,6 @@
 #include <libFreeWRL.h>
 #include <list.h>
 #include <io_files.h>
-#include <resources.h>
 
 #include "../vrml_parser/Structs.h"
 #include "../opengl/OpenGL_Utils.h"

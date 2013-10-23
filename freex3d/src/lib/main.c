@@ -1,5 +1,5 @@
 /*
-  $Id: main.c,v 1.107 2013/10/21 18:46:54 crc_canada Exp $
+  $Id: main.c,v 1.108 2013/10/23 21:19:04 crc_canada Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -36,7 +36,6 @@
 #include <libFreeWRL.h>
 #include <list.h>
 #include <io_files.h>
-#include <resources.h>
 #include <threads.h>
 #include "vrml_parser/Structs.h"
 #include "main/ProdCon.h"

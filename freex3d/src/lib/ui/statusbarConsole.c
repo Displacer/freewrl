@@ -1,5 +1,5 @@
 /*
-  $Id: statusbarConsole.c,v 1.11 2013/07/11 10:43:14 crc_canada Exp $
+  $Id: statusbarConsole.c,v 1.12 2013/10/23 21:19:05 crc_canada Exp $
 
 */
 
@@ -33,7 +33,6 @@
 #include <libFreeWRL.h>
 #include <list.h>
 #include <io_files.h>
-#include <resources.h>
 
 #include "../vrml_parser/Structs.h"
 #include "../main/headers.h"

@@ -1,6 +1,6 @@
 //[s release];
 /*
-  $Id: io_files.c,v 1.65 2013/10/23 18:09:03 crc_canada Exp $
+  $Id: io_files.c,v 1.66 2013/10/23 21:19:04 crc_canada Exp $
 
   FreeWRL support library.
   IO with files.
@@ -35,7 +35,6 @@
 #include <errno.h>
 
 #include <list.h> /* internal use only */
-#include <resources.h>
 #include <io_files.h>
 #include <io_http.h>
 

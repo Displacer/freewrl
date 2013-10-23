@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: jsVRMLBrowser.c,v 1.63 2013/10/12 18:19:33 dug9 Exp $
+$Id: jsVRMLBrowser.c,v 1.64 2013/10/23 21:19:07 crc_canada Exp $
 
 Javascript C language binding.
 
@@ -34,7 +34,6 @@ Javascript C language binding.
 
 #include <libFreeWRL.h>
 #include <list.h>
-#include <resources.h>
 
 #include "../vrml_parser/Structs.h"
 #include "../vrml_parser/CRoutes.h"

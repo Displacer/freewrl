@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: PluginSocket.c,v 1.17 2011/06/03 20:39:00 dug9 Exp $
+$Id: PluginSocket.c,v 1.18 2013/10/23 21:19:04 crc_canada Exp $
 
 Common functions used by Mozilla and Netscape plugins...(maybe PluginGlue too?)
 
@@ -46,9 +46,11 @@ Common functions used by Mozilla and Netscape plugins...(maybe PluginGlue too?)
 #include "PluginSocket.h"
 
 
-#ifdef F_SETSIG
-#define FSIGOK
-#endif
+#ifdef OLDCODE
+OLDCODE #ifdef F_SETSIG
+OLDCODE #define FSIGOK
+OLDCODE #endif
+#endif //OLDCODE
 
 //pthread_mutex_t mylocker = PTHREAD_MUTEX_INITIALIZER;
 

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: SensInterps.c,v 1.42 2013/09/17 20:06:25 crc_canada Exp $
+$Id: SensInterps.c,v 1.43 2013/10/23 21:19:04 crc_canada Exp $
 
 Do Sensors and Interpolators in C, not in perl.
 
@@ -44,8 +44,6 @@ Interps are the "EventsProcessed" fields of interpolators.
 #include "../opengl/Textures.h"            /* for finding a texture url in a multi url */
 #include "../opengl/LoadTextures.h"        /* for finding a texture url in a multi url */
 
-
-#include <resources.h>
 
 #include "../main/headers.h"
 #include "../opengl/OpenGL_Utils.h"

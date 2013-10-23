@@ -1,5 +1,5 @@
 /*
-  $Id: io_http.c,v 1.25 2013/09/17 20:06:25 crc_canada Exp $
+  $Id: io_http.c,v 1.26 2013/10/23 21:19:04 crc_canada Exp $
 
   FreeWRL support library.
   IO with HTTP protocol.
@@ -34,7 +34,6 @@
 
 #include <libFreeWRL.h>
 #include <list.h>
-#include <resources.h>
 
 #include <io_files.h>
 #include <io_http.h>

@@ -1,5 +1,5 @@
 /*
-  $Id: LoadTextures.c,v 1.98 2013/09/16 16:30:26 dug9 Exp $
+  $Id: LoadTextures.c,v 1.99 2013/10/23 21:19:04 crc_canada Exp $
 
   FreeWRL support library.
   New implementation of texture loading.
@@ -41,7 +41,6 @@
 #include "../scenegraph/Component_CubeMapTexturing.h"
 
 #include <list.h>
-#include <resources.h>
 #include <io_files.h>
 #include <io_http.h>
 

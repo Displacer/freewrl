@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIHelpers.c,v 1.58 2013/05/15 16:19:38 cerbert Exp $
+$Id: EAIHelpers.c,v 1.59 2013/10/23 21:19:04 crc_canada Exp $
 
 Small routines to help with interfacing EAI to Daniel Kraft's parser.
 
@@ -132,8 +132,6 @@ void EAIHelpers_init(struct tEAIHelpers* t){
 /*			EAI NODE TABLE								*/
 /*												*/
 /************************************************************************************************/
-/* keep a list of node requests, so that we can keep info on each node */
-#define MAXFIELDSPERNODE 20
 
 /* store enough stuff in here so that each field can be read/written, no matter whether it is a 
    PROTO, SCRIPT, or regular node. */
@@ -154,7 +152,6 @@ struct EAINodeIndexStruct {
 	int 			nodeType; /* EAI_NODETYPE_STANDARD =regular node, 
 					     EAI_NODETYPE_PROTO = PROTO, 
 					     EAI_NODETYPE_SCRIPT = script */
-	//struct EAINodeParams 	params[MAXFIELDSPERNODE];
 	struct Vector*		nodeParams;
 };
 

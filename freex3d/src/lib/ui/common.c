@@ -1,5 +1,5 @@
 /*
-  $Id: common.c,v 1.20 2013/09/28 18:49:22 dug9 Exp $
+  $Id: common.c,v 1.21 2013/10/23 21:19:05 crc_canada Exp $
 
   FreeWRL support library.
 
@@ -9,6 +9,7 @@
 
 #include <config.h>
 #include <system.h>
+#include <internal.h>
 #include <libFreeWRL.h>
 #include <iglobal.h>
 #include "../ui/common.h"

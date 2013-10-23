@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: ringbuf.c,v 1.1 2010/12/10 17:17:20 davejoubert Exp $
+$Id: ringbuf.c,v 1.2 2013/10/23 21:19:05 crc_canada Exp $
 
 X3D Networking Component
 
@@ -48,9 +48,7 @@ X3D Networking Component
 
 #include <libFreeWRL.h>
 #include <list.h>
-#include <resources.h>
 #include <io_http.h>
-/* #include <stdlib.h> */
 #include "../scenegraph/ringbuf.h"
 
 RingBuffer * NewRingBuffer (int elCount) {

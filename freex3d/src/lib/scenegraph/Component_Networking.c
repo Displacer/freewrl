@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Networking.c,v 1.55 2013/10/23 18:09:03 crc_canada Exp $
+$Id: Component_Networking.c,v 1.56 2013/10/23 21:19:04 crc_canada Exp $
 
 X3D Networking Component
 
@@ -71,7 +71,7 @@ X3D Networking Component
 #include "../vrml_parser/CParse.h"
 #endif
 
-#define BUTTON_PRESS_STRING "use_for_buttonPresses"
+//OLDCODE #define BUTTON_PRESS_STRING "use_for_buttonPresses"
 
 #if USE_OSC
 /**************** START OF OSC node **************************/
