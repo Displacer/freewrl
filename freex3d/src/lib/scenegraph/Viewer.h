@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Viewer.h,v 1.55 2013/09/26 16:17:26 crc_canada Exp $
+$Id: Viewer.h,v 1.56 2013/10/23 18:09:04 crc_canada Exp $
 
 Viewer ???
 
@@ -365,5 +365,8 @@ void toggleOrSetStereo(int type);
 void setAnaglyphSideColor(char val, int iside);
 void updateEyehalf(void);
 void viewer_level_to_bound(void);
+
+int getAnaglyphPrimarySide(int primary, int iside);
+void setAnaglyphPrimarySide(int primary, int iside);
 
 #endif /* __FREEWRL_VIEWER_H__ */

@@ -1,6 +1,6 @@
 //[s release];
 /*
-  $Id: io_files.c,v 1.64 2013/09/09 15:21:56 crc_canada Exp $
+  $Id: io_files.c,v 1.65 2013/10/23 18:09:03 crc_canada Exp $
 
   FreeWRL support library.
   IO with files.
@@ -1129,6 +1129,6 @@ void process_x3z(resource_item_t *res){
 }
 
 #else
-void process_x3z(res){
+void process_x3z(resource_item_t *res){
 }
 #endif

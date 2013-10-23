@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: X3DProtoScript.c,v 1.85 2013/08/01 12:55:36 crc_canada Exp $
+$Id: X3DProtoScript.c,v 1.86 2013/10/23 18:09:05 crc_canada Exp $
 
 ???
 
@@ -35,8 +35,9 @@ $Id: X3DProtoScript.c,v 1.85 2013/08/01 12:55:36 crc_canada Exp $
 
 #include <libFreeWRL.h>
 #include <list.h>
-#include <io_files.h>
 #include <resources.h>
+#include <io_files.h>
+
 
 #include "../vrml_parser/Structs.h"
 #include "../main/headers.h"

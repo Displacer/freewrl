@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CParseLexer.c,v 1.53 2013/09/17 20:06:26 crc_canada Exp $
+$Id: CParseLexer.c,v 1.54 2013/10/23 18:09:05 crc_canada Exp $
 
 ???
 
@@ -36,7 +36,7 @@ $Id: CParseLexer.c,v 1.53 2013/09/17 20:06:26 crc_canada Exp $
 #include <libFreeWRL.h>
 #include <list.h>
 #include <io_files.h>
-#include <resources.h>
+
 
 #include "../vrml_parser/Structs.h"
 #include "../main/headers.h"

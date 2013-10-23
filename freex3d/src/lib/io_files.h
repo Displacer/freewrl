@@ -1,5 +1,5 @@
 /*
-  $Id: io_files.h,v 1.13 2012/07/20 14:56:09 crc_canada Exp $
+  $Id: io_files.h,v 1.14 2013/10/23 18:09:03 crc_canada Exp $
 
   FreeWRL support library.
   IO with files.
@@ -30,6 +30,7 @@
 
 void fwg_frontEndReturningData(unsigned char* fileData,int length,int width,int height,bool hasAlpha);
 void fwg_frontEndReturningLocalFile(char *localfile, int iret);
+void process_x3z(resource_item_t *res);
 
 /* Path manipulation */
 char* concat_path(const char *a, const char *b);

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: internal.h,v 1.57 2013/02/11 21:45:58 dug9 Exp $
+$Id: internal.h,v 1.58 2013/10/23 18:09:03 crc_canada Exp $
 
 ???
 
@@ -30,12 +30,12 @@ $Id: internal.h,v 1.57 2013/02/11 21:45:58 dug9 Exp $
 #include <config.h>
 #include <system.h>
 #include <display.h>
-//#include <internal.h>
 
 #include <libFreeWRL.h>
 #include <list.h>
-#include <io_files.h>
 #include <resources.h>
+#include <io_files.h>
+
 
 #include "vrml_parser/Structs.h"
 #include "main/headers.h"

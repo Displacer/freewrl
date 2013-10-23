@@ -1,5 +1,5 @@
 /*
-  $Id: InputFunctions.c,v 1.21 2013/05/15 14:43:47 crc_canada Exp $
+  $Id: InputFunctions.c,v 1.22 2013/10/23 18:09:03 crc_canada Exp $
 
   FreeWRL support library.
   Input functions (EAI, mouse, keyboard, ...).
@@ -35,6 +35,7 @@
 
 #include <libFreeWRL.h>
 
+#include <resources.h>
 #include <io_files.h>
 #include <threads.h>
 

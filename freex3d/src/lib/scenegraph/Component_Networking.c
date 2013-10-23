@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Networking.c,v 1.54 2013/10/12 18:19:33 dug9 Exp $
+$Id: Component_Networking.c,v 1.55 2013/10/23 18:09:03 crc_canada Exp $
 
 X3D Networking Component
 
@@ -48,7 +48,6 @@ X3D Networking Component
 
 #include <libFreeWRL.h>
 #include <list.h>
-#include <resources.h>
 #include <io_http.h>
 #ifdef WANT_OSC
 	#include <lo/lo.h>

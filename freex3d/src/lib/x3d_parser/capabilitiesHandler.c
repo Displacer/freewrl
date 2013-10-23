@@ -1,5 +1,5 @@
 /*
-  $Id: capabilitiesHandler.c,v 1.14 2013/08/06 21:27:29 dug9 Exp $
+  $Id: capabilitiesHandler.c,v 1.15 2013/10/23 18:09:05 crc_canada Exp $
 
   FreeWRL support library.
   X3D capabilities.
@@ -33,7 +33,6 @@
 #include <internal.h>
 
 #include <libFreeWRL.h>
-
 #include <io_files.h>
 
 #include "../vrml_parser/Structs.h"

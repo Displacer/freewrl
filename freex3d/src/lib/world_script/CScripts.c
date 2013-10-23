@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CScripts.c,v 1.57 2013/08/16 15:43:52 crc_canada Exp $
+$Id: CScripts.c,v 1.58 2013/10/23 18:09:05 crc_canada Exp $
 
 ???
 
@@ -58,7 +58,7 @@ $Id: CScripts.c,v 1.57 2013/08/16 15:43:52 crc_canada Exp $
 #include "jsNative.h"
 #include "jsVRMLClasses.h"
 
-#include <resources.h>
+
 #include <limits.h>
 
 

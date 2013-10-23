@@ -1,5 +1,5 @@
 /*
-  $Id: jsVRML_SFClasses.c,v 1.52 2013/10/12 18:19:33 dug9 Exp $
+  $Id: jsVRML_SFClasses.c,v 1.53 2013/10/23 18:09:05 crc_canada Exp $
 
   A substantial amount of code has been adapted from js/src/js.c,
   which is the sample application included with the javascript engine.
@@ -34,8 +34,9 @@
 
 #include <libFreeWRL.h>
 #include <list.h>
-#include <io_files.h>
+
 #include <resources.h>
+#include <io_files.h>
 
 #include "../vrml_parser/Structs.h"
 #include "../main/headers.h"
