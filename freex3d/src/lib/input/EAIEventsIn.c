@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIEventsIn.c,v 1.96 2013/10/23 21:19:04 crc_canada Exp $
+$Id: EAIEventsIn.c,v 1.97 2013/10/24 14:47:10 dug9 Exp $
 
 Handle incoming EAI (and java class) events with panache.
 
@@ -386,10 +386,11 @@ void EAI_core_commands () {
 	ppEAIEventsIn p;
 	//ppEAICore ps;
 	struct tEAIHelpers *th;
+	ttglobal tg;
 
 	UNUSED(retint); // for compiler warnings
 
-	ttglobal tg = gglobal();
+	tg = gglobal();
 	p = (ppEAIEventsIn)tg->EAIEventsIn.prv;
 	eaiverbose = tg->EAI_C_CommonFunctions.eaiverbose;
 	th = &tg->EAIHelpers;
@@ -1389,9 +1390,10 @@ void createLoadURL(char *bufptr) {
 	int count;
 	char *spbrk;
 	int retint;		/* used to get retval from sscanf */
+	ppEAIEventsIn p;
 	UNUSED(retint); // for compiler warnings 
 
-	ppEAIEventsIn p = (ppEAIEventsIn)gglobal()->EAIEventsIn.prv;
+	p = (ppEAIEventsIn)gglobal()->EAIEventsIn.prv;
 
 	/* fill in Anchor parameters */
 	p->EAI_AnchorNode.description = newASCIIString("From EAI");
