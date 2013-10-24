@@ -1,7 +1,7 @@
 /*
   =INSERT_TEMPLATE_HERE=
 
-  $Id: CParseParser.c,v 1.102 2013/10/23 21:19:05 crc_canada Exp $
+  $Id: CParseParser.c,v 1.103 2013/10/24 13:45:34 crc_canada Exp $
 
   ???
 
@@ -5294,7 +5294,7 @@ const char *rootFieldName(const char* fieldname, int* len, int *has_changed, int
 	*has_changed = ln > len_changed ? !strncmp(&fieldname[ln-len_changed],str_changed,len_changed) : FALSE;
 	*has_set     = ln > len_set ? !strncmp(fieldname,"set_",len_set) : FALSE;
 	s = *has_set ? &fieldname[len_set] : fieldname;
-	*len = *has_changed? &fieldname[ln - len_changed] - s : &fieldname[ln] - s;
+	*len = *has_changed? (int)(&fieldname[ln - len_changed] - s) : (int)(&fieldname[ln] - s);
 	return s;
 }
 BOOL fieldSynonymCompare(const char *routeFieldName, const char* nodeFieldName) //, int nodeFieldMode)
