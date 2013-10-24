@@ -1,5 +1,5 @@
 /*
-  $Id: resources.h,v 1.30 2013/10/01 20:13:55 crc_canada Exp $
+  $Id: resources.h,v 1.31 2013/10/24 13:43:00 crc_canada Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -194,6 +194,7 @@ void resource_get_valid_url_from_multi(resource_item_t *parentPath, resource_ite
 void resource_dump(resource_item_t *res);
 void resource_tree_dump(int level, resource_item_t *root);
 void resource_tree_list_files(int level, resource_item_t *root);
+void resource_tree_destroy();
 
 char *resourceStatusToString(int status);
 char *resourceTypeToString(int type);

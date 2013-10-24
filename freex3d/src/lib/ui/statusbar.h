@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: statusbar.h,v 1.2 2010/02/27 21:02:27 crc_canada Exp $
+$Id: statusbar.h,v 1.3 2013/10/24 13:43:00 crc_canada Exp $
 
 UI declarations.
 
@@ -37,7 +37,7 @@ extern "C" {
 
 void drawStatusBar();
 int handleStatusbarHud(int mev, int* clipplane);
-
+void statusbarHud_DrawCursor(GLint textureID,int x,int y);
 #ifdef __cplusplus
 }
 #endif

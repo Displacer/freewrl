@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: RenderFuncs.h,v 1.41 2013/09/04 19:56:38 crc_canada Exp $
+$Id: RenderFuncs.h,v 1.42 2013/10/24 13:43:00 crc_canada Exp $
 
 Proximity sensor macro.
 
@@ -67,5 +67,6 @@ void sendBindBufferToGPU (GLenum target, GLuint buffer,char *, int);
 void sendElementsToGPU (int mode, int count, ushort *indices);
 void render_hier(struct X3D_Group *p, int rwhat);
 void sendLightInfo (s_shader_capabilities_t *me);
+void restoreGlobalShader();
 
 #endif /* __FREEWRL_SCENEGRAPH_RENDERFUNCS_H__ */

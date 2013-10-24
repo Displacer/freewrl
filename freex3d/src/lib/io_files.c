@@ -1,6 +1,6 @@
 //[s release];
 /*
-  $Id: io_files.c,v 1.66 2013/10/23 21:19:04 crc_canada Exp $
+  $Id: io_files.c,v 1.67 2013/10/24 13:43:00 crc_canada Exp $
 
   FreeWRL support library.
   IO with files.
@@ -960,7 +960,7 @@ int unzip_archive_to_temp_folder(const char *zipfilename, const char* tempfolder
     printf("%s opened\n",zipfilename);
 	temppath[0] = '\0';
 	if(tempfolderpath){
-		mkdir(tempfolderpath);
+		fw_mkdir(tempfolderpath);
 	}
 
 	{
@@ -1018,8 +1018,8 @@ int unzip_archive_to_temp_folder(const char *zipfilename, const char* tempfolder
 					strcpy(temppath,tempfolderpath);
 					strcat(temppath,"/");
 					strcat(temppath,filename_inzip);
-					//mkdir(filename_inzip);
-					mkdir(temppath);
+					//fw_mkdir(filename_inzip);
+					fw_mkdir(temppath);
 				}
 				else
 				{

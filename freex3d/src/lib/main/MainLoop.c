@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.334 2013/10/23 21:19:04 crc_canada Exp $
+  $Id: MainLoop.c,v 1.335 2013/10/24 13:43:00 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -41,6 +41,9 @@
 #if HAVE_TIME_H
 # include <time.h>
 #endif
+
+#include <sys/stat.h>  // for mkdir
+
 
 #include "../vrml_parser/Structs.h"
 #include "../vrml_parser/CRoutes.h"
