@@ -1,7 +1,7 @@
 /*
   =INSERT_TEMPLATE_HERE=
 
-  $Id: CParseParser.c,v 1.103 2013/10/24 13:45:34 crc_canada Exp $
+  $Id: CParseParser.c,v 1.104 2013/10/25 13:29:37 crc_canada Exp $
 
   ???
 
@@ -5456,7 +5456,7 @@ BOOL found_IS_field(struct VRMLParser* me, struct X3D_Node *node)
     int type;
 	int source;
 	int ifield, iprotofield;
-    union anyVrml *defaultVal;
+    	//OLDCODE union anyVrml *defaultVal;
 	struct ProtoDefinition* pdef=NULL;
 	struct X3D_Proto* proto;
 	char *protoFieldName;
@@ -5468,7 +5468,7 @@ BOOL found_IS_field(struct VRMLParser* me, struct X3D_Node *node)
 	union anyVrml *fieldPtr;
 	void *fdecl;
 
-	defaultVal = NULL;
+	//OLDCODE defaultVal = NULL;
 
 
 

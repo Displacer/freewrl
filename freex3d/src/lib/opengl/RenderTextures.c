@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: RenderTextures.c,v 1.66 2013/09/04 19:56:37 crc_canada Exp $
+$Id: RenderTextures.c,v 1.67 2013/10/25 13:29:36 crc_canada Exp $
 
 Texturing during Runtime 
 texture enabling - works for single texture, for multitexture. 
@@ -76,9 +76,7 @@ void RenderTextures_init(struct tRenderTextures *t){
 
 
 /* function params */
-static void haveTexCoord(struct X3D_TextureCoordinate *myTCnode);
 static void passedInGenTex(struct textureVertexInfo *genTex);
-static void haveMultiTexCoord(struct X3D_MultiTextureCoordinate *myMTCnode);
 
 /* which texture unit are we going to use? is this texture not OFF?? Should we set the
    background coloUr??? Larry the Cucumber, help! */
@@ -154,30 +152,11 @@ void textureDraw_start(struct textureVertexInfo* genTex) {
 
 /* lets disable textures here */
 void textureDraw_end(void) {
-//OLDCODE	int c;
-//OLDCODE	ppRenderTextures p;
 	ttglobal tg = gglobal();
-//OLDCODE	p = (ppRenderTextures)tg->RenderTextures.prv;
     
 #ifdef TEXVERBOSE
 	printf ("start of textureDraw_end\n");
 #endif
-
-#ifdef OLDCODE
-OLDCODE	if (tg->display.rdr_caps.av_multitexture) { // test the availability at runtime of multi textures
-OLDCODE
-OLDCODE	    for (c=0; c<tg->RenderFuncs.textureStackTop; c++) {
-OLDCODE
-OLDCODE		FW_GL_DISABLECLIENTSTATE(GL_TEXTURE_COORD_ARRAY);
-OLDCODE
-OLDCODE	    }
-OLDCODE
-OLDCODE	} else {
-OLDCODE
-OLDCODE		FW_GL_DISABLECLIENTSTATE(GL_TEXTURE_COORD_ARRAY);
-OLDCODE
-OLDCODE	}
-#endif //OLDCODE
 
 	/* DISABLE_TEXTURES */
 	/* setting this ENSURES that items, like the HUD, that are not within the normal
