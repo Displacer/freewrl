@@ -1,5 +1,5 @@
 /*
-  $Id: io_http.c,v 1.26 2013/10/23 21:19:04 crc_canada Exp $
+  $Id: io_http.c,v 1.27 2013/10/25 21:07:05 crc_canada Exp $
 
   FreeWRL support library.
   IO with HTTP protocol.
@@ -79,10 +79,9 @@ void io_http_init(struct tio_http* t)
  *   checkNetworkFile:
  */
 bool checkNetworkFile(const char *fn)
-{int i; 
+{
+    //int i = 0; 
     //char *pt = fn; 
-    
-    i=0;
     
     if (fn == NULL) {
         ConsoleMessage ("checkNetworkFile, got a NULL here");
@@ -552,5 +551,5 @@ resource_item_t *getInputResource()
 
 	cwu = stack_top(resource_item_t *, p->resStack);
 	DEBUG_MSG("getInputResource current Resource is %lu %lx %s\n", (unsigned long int) cwu, (unsigned long int) cwu, cwu->parsed_request);
-	return stack_top(resource_item_t *, p->resStack);
+	return cwu;
 }

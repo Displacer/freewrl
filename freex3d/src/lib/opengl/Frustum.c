@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Frustum.c,v 1.61 2013/10/24 13:43:00 crc_canada Exp $
+$Id: Frustum.c,v 1.62 2013/10/25 21:07:05 crc_canada Exp $
 
 ???
 
@@ -151,6 +151,8 @@ void beginOcclusionQuery(struct X3D_VisibilitySensor* node, int render_geometry)
 			if (node->__occludeCheckCount < 0) { 
 				 //printf ("beginOcclusionQuery, query %u, node %s\n",p->potentialOccluderCount, stringNodeType(node->_nodeType)); 
 #if !defined(GL_ES_VERSION_2_0)
+void glBeginQuery(GLenum, GLuint);
+
 				FW_GL_BEGIN_QUERY(GL_SAMPLES_PASSED, p->OccQueries[p->potentialOccluderCount]); 
 #endif
 				p->occluderNodePointer[p->potentialOccluderCount] = (void *)node; 
@@ -498,6 +500,8 @@ void setExtent(float maxx, float minx, float maxy, float miny, float maxz, float
 	struct X3D_Node *shapeParent;
 	struct X3D_Node *geomParent;
 	int touched;
+
+	UNUSED(touched); //compiler warning mitigation
 
 	#ifdef FRUSTUMVERBOSE
 	printf ("setExtent maxx %f minx %f maxy %f miny %f maxz %f minz %f me %u nt %s\n",

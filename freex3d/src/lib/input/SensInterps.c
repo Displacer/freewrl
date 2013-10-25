@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: SensInterps.c,v 1.43 2013/10/23 21:19:04 crc_canada Exp $
+$Id: SensInterps.c,v 1.44 2013/10/25 21:07:05 crc_canada Exp $
 
 Do Sensors and Interpolators in C, not in perl.
 
@@ -900,7 +900,8 @@ void do_Oint4 (void *node) {
 	struct SFRotation *kVs;
 	int counter;
 	float interval;		/* where we are between 2 values */
-	int stzero, endzero;	/* starting and/or ending angles zero? */
+	// UNUSED?? int stzero;
+	// UNUSED?? int endzero;	/* starting and/or ending angles zero? */
 
 	Quaternion st, fin, final;
 	double x,y,z,a;
@@ -944,8 +945,8 @@ void do_Oint4 (void *node) {
 
 		
 		/* are either the starting or ending angles zero? */
-		stzero = APPROX(kVs[counter-1].c[3],0.0);
-		endzero = APPROX(kVs[counter].c[3],0.0);
+		// unused? stzero = APPROX(kVs[counter-1].c[3],0.0);
+		// unused? endzero = APPROX(kVs[counter].c[3],0.0);
 		#ifdef SEVERBOSE
 			printf ("counter %d interval %f\n",counter,interval);
 			printf ("angles %f %f %f %f, %f %f %f %f\n",

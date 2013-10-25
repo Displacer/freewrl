@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_CubeMapTexturing.c,v 1.38 2013/10/23 21:19:04 crc_canada Exp $
+$Id: Component_CubeMapTexturing.c,v 1.39 2013/10/25 21:07:05 crc_canada Exp $
 
 X3D Cubemap Texturing Component
 
@@ -41,7 +41,6 @@ X3D Cubemap Texturing Component
 #include "../scenegraph/Component_Shape.h"
 #include "../scenegraph/Component_CubeMapTexturing.h"
 #include "../input/EAIHelpers.h"
-/* #include <GL/glext.h> should be in display.h */
 #include "../vrml_parser/CParseGeneral.h" /* for union anyVrml */
 
 #ifndef HAVE_UINT32
@@ -176,13 +175,17 @@ bool textureIsDDS(textureTableIndexStruct_s* this_tex, char *filename) {
 	FILE *file;
 	char *buffer;
 	unsigned long fileLen;
-union DDS_header hdr;
-unsigned int x = 0;
-unsigned int y = 0;
-unsigned int mipMapCount = 0;
-unsigned int size,xSize, ySize;
+	union DDS_header hdr;
+	unsigned int x = 0;
+	unsigned int y = 0;
+	unsigned int mipMapCount = 0;
+	unsigned int size,xSize, ySize;
 
-struct DdsLoadInfo * li;
+	struct DdsLoadInfo * li;
+	size_t xx;
+
+	UNUSED(xx); // compiler warning mitigation
+	xSize=ySize=0;
 
 	printf ("textureIsDDS... node %s, file %s\n",
 		stringNodeType(this_tex->scenegraphNode->_nodeType), filename);
@@ -207,7 +210,7 @@ struct DdsLoadInfo * li;
 	}
 
 	/* read file */
-	fread(buffer, fileLen, 1, file);
+	xx=fread(buffer, fileLen, 1, file);
 	fclose(file);
 
 	/* check to see if this could be a valid DDS file */

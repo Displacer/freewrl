@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: fieldGet.h,v 1.8 2013/05/27 17:45:01 istakenv Exp $
+$Id: fieldGet.h,v 1.9 2013/10/25 21:07:05 crc_canada Exp $
 
 Javascript C language binding.
 
@@ -36,7 +36,7 @@ void getField_ToJavascript_B(int shader_num, int fieldOffset, int type, union an
 void set_one_ECMAtype (int tonode, int toname, int dataType, void *Data, int datalen);
 void setScriptECMAtype (int num);
 int setMFElementtype (int num);
-int set_one_MFElementType(int tonode, int toname, int dataType, void *Data, int datalen);
+void set_one_MFElementType(int tonode, int toname, int dataType, void *Data, int datalen);
 void set_EAI_MFElementtype (int num, int offset, char *pptr, int len);
 void set_one_MultiElementType (int tonode, int tnfield, void *Data, int dataLen);
 void setScriptMultiElementtype (int num);

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Networking.c,v 1.56 2013/10/23 21:19:04 crc_canada Exp $
+$Id: Component_Networking.c,v 1.57 2013/10/25 21:07:05 crc_canada Exp $
 
 X3D Networking Component
 
@@ -302,7 +302,7 @@ void render_LoadSensor (struct X3D_LoadSensor *node) {
 	struct X3D_MovieTexture *mnode;
 #endif /* HAVE_TO_REIMPLEMENT_MOVIETEXTURES */
 	struct X3D_AudioClip *anode;
-	struct X3D_Inline *inode;
+	//struct X3D_Inline *inode;
 	
 	/* if not enabled, do nothing */
 	if (!node) return;
@@ -368,7 +368,7 @@ void render_LoadSensor (struct X3D_LoadSensor *node) {
 			break;
 
 		case NODE_Inline:
-			inode = (struct X3D_Inline *) tnode; /* change type to Inline */
+			//inode = (struct X3D_Inline *) tnode; /* change type to Inline */
 			/* printf ("LoadSensor, Inline %d, type %d loadstatus %d at %d\n",inode,inode->_nodeType,inode->__loadstatus, &inode->__loadstatus); */
 			break;
 

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIHeaders.h,v 1.28 2013/10/23 21:19:04 crc_canada Exp $
+$Id: EAIHeaders.h,v 1.29 2013/10/25 21:07:05 crc_canada Exp $
 
 EAI and java CLASS invocation
 
@@ -61,7 +61,7 @@ void EAI_RW(char *bufptr);
 /* more function prototypes to avoid implicit declarations */
 void Parser_deleteParserForScanStringValueToMem(void);			/* from EAI_C_CommonFunctions.c */
 void Parser_scanStringValueToMem(struct X3D_Node *node, size_t coffset, int ctype, char *value, int isXML);
-void Parser_scanStringValueToMem_B(union anyVrml* any, indexT ctype, char *value, int isXML);
+//JAS void Parser_scanStringValueToMem_B(union anyVrml* any, indexT ctype, char *value, int isXML);
 void Parser_scanStringValueToMem_C(void *node, int ctype, char *value, int isXML);
 
 									/* from EAI_C_CommonFunctions.c */

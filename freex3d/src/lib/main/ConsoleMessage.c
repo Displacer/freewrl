@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: ConsoleMessage.c,v 1.36 2012/09/17 18:27:42 crc_canada Exp $
+$Id: ConsoleMessage.c,v 1.37 2013/10/25 21:07:05 crc_canada Exp $
 
 When running in a plugin, there is no way
 any longer to get the console messages to come up - eg, no
@@ -555,12 +555,12 @@ int ConsoleMessage0(const char *fmt, va_list args)
 		retval = vsprintf( buffer, fmt, args );
 		//retval = vsprintf_s( buffer, len, fmt, args ); /*allocates the len you pass in*/
 		doFree = 1;
-#elif HAVE_VASPRINTF
+#elif defined HAVE_VASPRINTF
 		/* http://linux.die.net/man/3/vasprintf a GNU extension, not tested */
 		retval = vasprintf(buffer,fmt,args); /*allocates correct length buffer and writes*/
 	`	//retval = vfprintf(FILE*, fmt, args); //michel says standard lib, writes to FILE*
 		doFree = 1;
-#elif HAVE_FWVSNPRINTF
+#elif defined HAVE_FWVSNPRINTF
 		/* reworked code from aqua - seems OK in msvc - if you don't have regular vsnprintf or _vscprintf we can use this */
 		retval = fwvsnprintf(FWbuffer,STRING_LENGTH-1,fmt,args); /*hope STRING_LENGTH is long enough, else -1 skip */
 		buffer = FWbuffer;

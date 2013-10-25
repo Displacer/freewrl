@@ -1,5 +1,5 @@
 /*
-  $Id: LoadTextures.c,v 1.99 2013/10/23 21:19:04 crc_canada Exp $
+  $Id: LoadTextures.c,v 1.100 2013/10/25 21:07:05 crc_canada Exp $
 
   FreeWRL support library.
   New implementation of texture loading.
@@ -241,6 +241,7 @@ static void texture_load_from_MovieTexture (textureTableIndexStruct_s* this_tex)
 {
 }
 
+#if defined(_ANDROID)
 // sometimes (usually?) we have to flip an image vertically. 
 static unsigned char *flipImageVertically(unsigned char *input, int height, int width) {
 	int i,ii,rowcount;
@@ -258,6 +259,7 @@ static unsigned char *flipImageVertically(unsigned char *input, int height, int 
 	//FREE_IF_NZ(input);
 	return blob;
 }
+#endif //ANDROID - for flipImageVertically
 
 
 

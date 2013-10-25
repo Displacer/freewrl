@@ -1,5 +1,5 @@
 /*
-  $Id: statusbar.c,v 1.40 2013/10/23 21:19:05 crc_canada Exp $
+  $Id: statusbar.c,v 1.41 2013/10/25 21:07:05 crc_canada Exp $
 
 */
 
@@ -121,12 +121,12 @@ void setup_projection(int pick, int x, int y)
 	ttglobal tg = gglobal();
 	GLsizei screenwidth2 = tg->display.screenWidth;
 	GLDOUBLE aspect2 = tg->display.screenRatio;
-	GLint xvp = 0;
+	//Unused? GLint xvp = 0;
 	if(Viewer()->sidebyside) 
 	{
 		screenwidth2 = (int)((screenwidth2 * .5)+.5);
 		aspect2 = aspect2 * .5;
-		if(Viewer()->iside == 1) xvp = (GLint)screenwidth2;
+		// Unused? if(Viewer()->iside == 1) xvp = (GLint)screenwidth2;
 	}
 
         FW_GL_MATRIX_MODE(GL_PROJECTION);
