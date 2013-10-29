@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIHelpers.c,v 1.60 2013/10/25 21:07:05 crc_canada Exp $
+$Id: EAIHelpers.c,v 1.61 2013/10/29 19:11:31 dug9 Exp $
 
 Small routines to help with interfacing EAI to Daniel Kraft's parser.
 
@@ -748,10 +748,10 @@ void handleEAIGetValue (char command, char *bufptr, int repno) {
 	struct EAINodeParams *myParam;
 	int eaiverbose;
 	ppEAIHelpers p;
-
+	ttglobal tg;
 	UNUSED(retint); // compiler warning mitigation
 
-	ttglobal tg = gglobal();
+	tg = gglobal();
 	eaiverbose = gglobal()->EAI_C_CommonFunctions.eaiverbose;
 	p = (ppEAIHelpers)gglobal()->EAIHelpers.prv;
 

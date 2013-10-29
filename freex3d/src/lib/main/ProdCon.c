@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.144 2013/10/29 16:59:41 crc_canada Exp $
+  $Id: ProdCon.c,v 1.145 2013/10/29 19:11:31 dug9 Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -1274,10 +1274,7 @@ void _inputParseThread(void *globalcontext)
 		/* now, loop here forever, waiting for instructions and obeying them */
 #ifdef NEWQUEUE
 		for (;;) {
-			#if defined (IPHONE) || defined (_ANDROID)
-        		bool result = TRUE;
-			#endif
-
+       		bool result = TRUE;
 			s_list_t* __l = resitem_dequeue();
 			p->inputThreadParsing = TRUE;
 			result = parser_process_res(__l); //,&p->resource_list_to_parse);
