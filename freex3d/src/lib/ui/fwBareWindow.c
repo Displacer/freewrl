@@ -1,5 +1,5 @@
 /*
-  $Id: fwBareWindow.c,v 1.21 2013/10/29 16:59:42 crc_canada Exp $
+  $Id: fwBareWindow.c,v 1.22 2013/10/29 17:32:50 crc_canada Exp $
 
   Create X11 window. Manage events.
 
@@ -38,7 +38,6 @@
 
 XTextProperty windowName;
 Window Pwin;
-static XSetWindowAttributes Swa;
 
 /* we have no buttons; just make these functions do nothing */
 void frontendUpdateButtons() {}

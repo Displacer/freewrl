@@ -1,5 +1,5 @@
 /*
-  $Id: Textures.c,v 1.148 2013/10/25 21:07:05 crc_canada Exp $
+  $Id: Textures.c,v 1.149 2013/10/29 17:32:50 crc_canada Exp $
 
   FreeWRL support library.
   Texture handling code.
@@ -770,7 +770,9 @@ static void compileMultiTexture (struct X3D_MultiTexture *node) {
             paramPtr->multitex_function = findFieldInMULTITEXTUREFUNCTION(param);
         }
 
+#ifdef TEXVERBOSE
 printf ("compile_MultiTexture, %d of %d, string %s mode %d function %d\n",count,max,param,paramPtr->multitex_mode,paramPtr->multitex_function);
+#endif //TEXVERBOSE
 
         paramPtr++;
     }
