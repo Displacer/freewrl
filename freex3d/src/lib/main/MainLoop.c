@@ -1,5 +1,5 @@
 /*
-  $Id: MainLoop.c,v 1.337 2013/10/29 16:59:41 crc_canada Exp $
+  $Id: MainLoop.c,v 1.338 2013/10/29 18:19:12 crc_canada Exp $
 
   FreeWRL support library.
   Main loop : handle events, ...
@@ -71,6 +71,11 @@
 #include "../scenegraph/RenderFuncs.h"
 
 #include "../ui/common.h"
+
+// for getting time of day
+#if !defined(_MSC_VER)
+#include <sys/time.h>
+#endif
 
 void (*newResetGeometry) (void) = NULL;
 
@@ -473,8 +478,6 @@ static void stopPCThread()
 //static double waitsec;
 
 #if !defined(_MSC_VER)
-
-//static struct timeval mytime;
 
 /* Doug Sandens windows function; lets make it static here for non-windows */
 static double Time1970sec(void) {

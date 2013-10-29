@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_EnvironSensor.c,v 1.24 2013/10/29 16:59:42 crc_canada Exp $
+$Id: Component_EnvironSensor.c,v 1.25 2013/10/29 18:19:12 crc_canada Exp $
 
 X3D Environmental Sensors Component
 
@@ -71,6 +71,11 @@ void Component_EnvironSensor_init(struct tComponent_EnvironSensor *t){
 
 	}
 }
+
+#ifdef VISIBILITYOCCLUSION
+
+static void rendVisibilityBox (struct X3D_VisibilitySensor *node);
+#endif
 
 PROXIMITYSENSOR(ProximitySensor,center,,);
 
