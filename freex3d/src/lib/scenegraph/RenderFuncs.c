@@ -1,5 +1,5 @@
 /*
-  $Id: RenderFuncs.c,v 1.169 2013/09/16 16:30:26 dug9 Exp $
+  $Id: RenderFuncs.c,v 1.170 2013/10/29 16:59:42 crc_canada Exp $
 
   FreeWRL support library.
   Scenegraph rendering.
@@ -909,7 +909,7 @@ void render_node(struct X3D_Node *node) {
 
 	if(renderstate()->render_other && virt->other )
 	{
-#if DJTRACK_PICKSENSORS
+#ifdef DJTRACK_PICKSENSORS
 		DEBUG_RENDER("rs 4a\n");
 		virt->other(node); //other() is responsible for push_renderingState(VF_inPickableGroup);
 		PRINT_GL_ERROR_IF_ANY("render_other"); PRINT_NODE(node,virt);
@@ -954,7 +954,7 @@ void render_node(struct X3D_Node *node) {
 
 	if(renderstate()->render_other && virt->other)
 	{
-#if DJTRACK_PICKSENSORS
+#ifdef DJTRACK_PICKSENSORS
 		//pop_renderingState(VF_inPickableGroup);
 #endif
 	}

@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: X3DParser.c,v 1.113 2013/10/23 21:19:07 crc_canada Exp $
+$Id: X3DParser.c,v 1.114 2013/10/29 16:59:43 crc_canada Exp $
 
 ???
 
@@ -478,11 +478,9 @@ struct X3D_Node *DEFNameIndex (const char *name, struct X3D_Node* node, int forc
 static int getFieldFromScript (struct VRMLLexer *myLexer, char *fieldName, struct Shader_Script *me, int *offs, int *type, int *accessType) {
 
 	struct ScriptFieldDecl* myField;
-	indexT retUO;
 
 	/* initialize */
 	myField = NULL;
-	retUO = ID_UNDEFINED;
 
 	#ifdef X3DPARSERVERBOSE
 	printf ("getFieldFromScript, looking for %s\n",fieldName);
@@ -1597,6 +1595,8 @@ static void parseAttributes() {
         			case NODE_PackagedShader: {
 					int rv, offs, type, accessType;
 					struct Shader_Script *myObj;
+
+					UNUSED(rv); // compiler warning mitigation
 
 					/* this is a Shader/Script, look through the parameters and see if there is a replacement for value */
 					rv = getRoutingInfo (p->myLexer, thisNode, &offs, &type, &accessType, &myObj, nvp->fieldName,0);

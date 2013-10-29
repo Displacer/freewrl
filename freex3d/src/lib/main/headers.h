@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: headers.h,v 1.199 2013/10/23 15:56:38 crc_canada Exp $
+$Id: headers.h,v 1.200 2013/10/29 16:59:42 crc_canada Exp $
 
 Global includes.
 
@@ -86,8 +86,6 @@ void Multi_String_print(struct Multi_String *url);
                 if ((node->_renderFlags & VF_globalLight) != VF_globalLight)  { \
                         return; \
                 } \
-
-#define INT_ID_UNDEFINED -1
 
 /* Size of static array */
 #define ARR_SIZE(arr) (int)(sizeof(arr)/sizeof((arr)[0]))

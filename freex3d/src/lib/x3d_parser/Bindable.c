@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Bindable.c,v 1.84 2013/09/04 19:56:38 crc_canada Exp $
+$Id: Bindable.c,v 1.85 2013/10/29 16:59:43 crc_canada Exp $
 
 Bindable nodes - Background, TextureBackground, Fog, NavigationInfo, Viewpoint, GeoViewpoint.
 
@@ -438,6 +438,8 @@ void render_Fog (struct X3D_Fog *node) {
 	int foglen;
 	GLDOUBLE unit[16] = {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
 	ttglobal tg = gglobal();
+
+	UNUSED(foglen); //mitigate compiler warnings - should eventually use this variable though!
 
 	/* printf ("render_Fog, node %d isBound %d color %f %f %f set_bind %d\n",
 	node, node->isBound, node->color.c[0],node->color.c[1],node->color.c[2],node->set_bind); */

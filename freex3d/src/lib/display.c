@@ -1,5 +1,5 @@
 /*
-  $Id: display.c,v 1.116 2013/10/25 21:07:04 crc_canada Exp $
+  $Id: display.c,v 1.117 2013/10/29 16:59:41 crc_canada Exp $
 
   FreeWRL support library.
   Display (X11/Motif or OSX/Aqua) initialization.
@@ -68,17 +68,17 @@ int PaneClipChanged = FALSE;
 void display_init(struct tdisplay* d) 
 {
 	//public
-	freewrl_params_t p = d->params;
+	//freewrl_params_t p = d->params;
 
 	d->display_initialized = FALSE;
-	p.height = 0; /* window */
-	p.width = 0;
-	p.winToEmbedInto = NULL;
-	p.fullscreen = FALSE;
-	p.xpos = 0;
-	p.ypos = 0;
+	d->params.height = 0; /* window */
+	d->params.width = 0;
+	d->params.winToEmbedInto = INT_ID_UNDEFINED;
+	d->params.fullscreen = FALSE;
+	d->params.xpos = 0;
+	d->params.ypos = 0;
 
-	p.frontend_handles_display_thread = FALSE;
+	d->params.frontend_handles_display_thread = FALSE;
 
 	d->view_height = 0; /* viewport */
 	d->view_width = 0;

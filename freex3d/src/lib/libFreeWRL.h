@@ -1,5 +1,5 @@
 /*
-  $Id: libFreeWRL.h,v 1.71 2013/10/23 21:19:04 crc_canada Exp $
+  $Id: libFreeWRL.h,v 1.72 2013/10/29 16:59:41 crc_canada Exp $
 
   FreeWRL library API (public)
 
@@ -76,7 +76,7 @@ typedef struct freewrl_params {
 	int height;
 	int xpos;
 	int ypos;
-	void* winToEmbedInto;
+	long int winToEmbedInto;
 	bool fullscreen;
 	bool multithreading;
 	bool enableEAI;
@@ -154,6 +154,9 @@ void setStereoBufferStyle(int);
 /**
  * General variables
  */
+
+#define INT_ID_UNDEFINED -1
+
 
 #define RUNNINGASPLUGIN (isBrowserPlugin)
 

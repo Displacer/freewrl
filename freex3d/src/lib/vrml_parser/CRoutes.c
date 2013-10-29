@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: CRoutes.c,v 1.112 2013/10/25 13:29:37 crc_canada Exp $
+$Id: CRoutes.c,v 1.113 2013/10/29 16:59:43 crc_canada Exp $
 
 ???
 
@@ -2712,7 +2712,8 @@ void propagate_events_B() {
 									/* mark that this script has been active SCRIPTS ARE INTEGER NUMBERS */
 									mark_script(shader->num);
 									if(isMF){ 
-										getField_ToJavascript_B(shader->num, JSparamNameIndex, type, toAny->mfnode.p, toAny->mfnode.n); //mfp->p, mfp->n);
+										// note the casting of parameter 4, the toAny type
+										getField_ToJavascript_B(shader->num, JSparamNameIndex, type, (union anyVrml* ) toAny->mfnode.p, toAny->mfnode.n); //mfp->p, mfp->n);
 									} else {
 										getField_ToJavascript_B(shader->num, JSparamNameIndex, type, toAny, len);
 									}
@@ -2853,7 +2854,7 @@ void process_eventsProcessed() {
 #if defined(_MSC_VER)
 			printf ("can not run eventsProcessed() for script %d thread %u\n",counter,(unsigned int)pthread_self().x);
 #else
-			printf ("can not run eventsProcessed() for script %d thread %p\n",counter,pthread_self());
+			printf ("can not run eventsProcessed() for script %d thread %p\n",counter,(void *)pthread_self());
 #endif
 		}
 #if defined(JS_THREADSAFE)

@@ -1,5 +1,5 @@
 /*
-  $Id: fieldSet.c,v 1.75 2013/10/23 18:09:05 crc_canada Exp $
+  $Id: fieldSet.c,v 1.76 2013/10/29 16:59:43 crc_canada Exp $
 
   FreeWRL support library.
   VRML/X3D fields manipulation.
@@ -55,6 +55,12 @@
 #include "jsVRMLClasses.h"
 #include "fieldSet.h"
 #include "fieldGet.h"
+
+/* although this is external, lets define it here because if it is 
+   defined in globally read includes, the definition for anyVrml
+   might not be found, and then will give us compiler warnings */
+void Parser_scanStringValueToMem_B(union anyVrml* any, indexT ctype, char *value, int isXML);
+
 
 /* Useful dump routines defined in world_script/field[GS]et.c */
 void dumpOneNode(int myptr);

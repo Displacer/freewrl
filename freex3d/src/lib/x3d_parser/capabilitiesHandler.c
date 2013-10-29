@@ -1,5 +1,5 @@
 /*
-  $Id: capabilitiesHandler.c,v 1.15 2013/10/23 18:09:05 crc_canada Exp $
+  $Id: capabilitiesHandler.c,v 1.16 2013/10/29 16:59:43 crc_canada Exp $
 
   FreeWRL support library.
   X3D capabilities.
@@ -255,6 +255,8 @@ void handleVersion(const char *versionString) {
 	int xb=0;
 	int xc=0;
 	int rt;
+
+	UNUSED(rt); // compiler warning mitigation
 	
 	/* printf ("handleVersion - x3d version :%s:\n", versionString); */
 	rt = sscanf (versionString,"%d.%d.%d",&xa, &xb,&xc);

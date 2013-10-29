@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: readpng.c,v 1.9 2011/05/17 13:58:29 crc_canada Exp $
+$Id: readpng.c,v 1.10 2013/10/29 16:59:42 crc_canada Exp $
 
 FreeWRL now only uses this on Linux machines.
 
@@ -102,6 +102,7 @@ int readpng_init(FILE *infile, ulg *pWidth, ulg *pHeight)
     uch sig[8];
 	size_t rv;
 
+	UNUSED(rv); // compiler warning mitigation
 
     /* first do a quick check that the file really is a PNG image; could
      * have used slightly more general png_sig_cmp() function instead */

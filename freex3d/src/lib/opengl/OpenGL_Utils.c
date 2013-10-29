@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.363 2013/10/23 21:19:04 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.364 2013/10/29 16:59:42 crc_canada Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -4725,7 +4725,7 @@ BOOL walk_fields(struct X3D_Node* node, int (*callbackFunc)(), void* callbackDat
 						int j, nameIndex;
 						struct Vector* usernames[4];
 						struct ScriptFieldDecl* sfield;
-						struct Shader_Script* shader;
+						struct Shader_Script* shader = NULL;
 
 						switch(node->_nodeType) 
 						{ 
@@ -4742,6 +4742,7 @@ BOOL walk_fields(struct X3D_Node* node, int (*callbackFunc)(), void* callbackDat
 						}else{
 							usernames[0] = usernames[1] = usernames[2] = usernames[3] = NULL;
 						}
+					
 						for(j=0; j!=vectorSize(shader->fields); ++j)
 						{
 							sfield= vector_get(struct ScriptFieldDecl*, shader->fields, j);

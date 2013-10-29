@@ -1,5 +1,5 @@
 /*
-  $Id: options.c,v 1.48 2013/10/25 21:07:04 crc_canada Exp $
+  $Id: options.c,v 1.49 2013/10/29 16:59:41 crc_canada Exp $
 
   FreeWRL command line arguments.
 
@@ -179,7 +179,7 @@ int fv_parseCommandLine (int argc, char **argv, freewrl_params_t *fv_params)
 {
     int c;
     float ftmp;
-    void* ldtmp;
+    long int ldtmp;
     int option_index = 0;
     int real_option_index;
     const char *real_option_name;

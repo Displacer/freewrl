@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Geometry2D.c,v 1.44 2013/09/04 19:56:37 crc_canada Exp $
+$Id: Component_Geometry2D.c,v 1.45 2013/10/29 16:59:42 crc_canada Exp $
 
 X3D Geometry2D  Component
 
@@ -134,7 +134,7 @@ void render_Arc2D (struct X3D_Arc2D *node) {
 /***********************************************************************************/
 
 void compile_ArcClose2D (struct X3D_ArcClose2D *node) {
-	int xx;
+	//int xx;
 	char *ct;
 	struct SFVec2f *tmpptr_a, *tmpptr_b;
 	int tmpint;
@@ -143,7 +143,7 @@ void compile_ArcClose2D (struct X3D_ArcClose2D *node) {
 	MARK_NODE_COMPILED
 		
 	ct = node->closureType->strptr;
-	xx = node->closureType->len;
+	//xx = node->closureType->len;
 	tmpint = 0;
 	tmpptr_a = NULL;
 

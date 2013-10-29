@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Viewer.h,v 1.56 2013/10/23 18:09:04 crc_canada Exp $
+$Id: Viewer.h,v 1.57 2013/10/29 16:59:42 crc_canada Exp $
 
 Viewer ???
 
@@ -67,6 +67,13 @@ void fwl_set_viewer_type(const int type);
 /* 	9 => sub {$radd[2] += $_[0]}, */
 /* ); */
 #define KEYMAP {{'a',0},{'z',0},{'j',0},{'l',0},{'p',0},{';',0},{'8',0},{'k',0},{'u',0},{'o',0 },{'7',0},{'9',0}}
+
+
+#define VIEWER_STEREO_OFF 0
+#define VIEWER_STEREO_SHUTTERGLASSES 1
+#define VIEWER_STEREO_SIDEBYSIDE 2
+#define VIEWER_STEREO_ANAGLYPH 3
+
 
 #define COORD_SYS 3
 #define X_AXIS 0

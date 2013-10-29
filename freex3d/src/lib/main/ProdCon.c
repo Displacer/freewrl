@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.143 2013/10/25 21:07:05 crc_canada Exp $
+  $Id: ProdCon.c,v 1.144 2013/10/29 16:59:41 crc_canada Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -751,7 +751,6 @@ void dump_resource_waiting(resource_item_t* res)
 }
 
 void send_resource_to_parser_async(resource_item_t *res){
-	ttglobal tg = gglobal();
 
 #ifdef NEWQUEUE
 	resitem_enqueue(ml_new(res));

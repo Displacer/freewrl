@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIEventsIn.c,v 1.98 2013/10/25 21:07:05 crc_canada Exp $
+$Id: EAIEventsIn.c,v 1.99 2013/10/29 16:59:41 crc_canada Exp $
 
 Handle incoming EAI (and java class) events with panache.
 
@@ -1074,13 +1074,13 @@ static void handleGETNODEPARENTS (char *bufptr, int repno)
 		for(index = 0; index < result; index++)
 		{			
 			snprintf(parentAdr,10,"%d ",parentArray[index]);
-			strncat(buffer,parentAdr,EAIREADSIZE);
+			strncat(buffer,parentAdr,strlen(parentAdr));
 		}
 	}
 	else
 	{
 		snprintf(parentAdr,10,"%d ",result);
-		strncat(buffer,parentAdr,EAIREADSIZE);
+		strncat(buffer,parentAdr,strlen(parentAdr));
 	}
 
 	outBufferCat(buffer);
