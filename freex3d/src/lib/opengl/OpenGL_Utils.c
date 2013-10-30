@@ -1,6 +1,6 @@
 
 /*
-  $Id: OpenGL_Utils.c,v 1.364 2013/10/29 16:59:42 crc_canada Exp $
+  $Id: OpenGL_Utils.c,v 1.365 2013/10/30 19:26:58 crc_canada Exp $
 
   FreeWRL support library.
   OpenGL initialization and functions. Rendering functions.
@@ -3992,6 +3992,8 @@ void startOfLoopNodeUpdates(void) {
 
 	LOCK_MEMORYTABLE
 
+    //printf ("\n******************************************\nstartOfLoopNodeUpdates\n");
+    
 	/* go through the node table, and zero any bits of interest */
 
 	for (i=0; i<vectorSize(p->linearNodeTable); i++){		
