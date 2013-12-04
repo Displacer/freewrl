@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.188 2013/10/25 21:07:04 crc_canada Exp $
+  $Id: display.h,v 1.189 2013/12/04 16:00:58 istakenv Exp $
 
   FreeWRL support library.
 
@@ -74,7 +74,8 @@ Functions:
 #endif /* defined TARGET_AQUA */
 #include <libFreeWRL.h>
 
-#if defined(HAVE_GLEW_H) && !defined(ANGLEPROJECT)
+/* Some Windows-specific stuff */
+#if defined(_MSC_VER) && defined(HAVE_GLEW_H) && !defined(ANGLEPROJECT)
 #define GLEW_NO_GLU 1
 #include <GL/glew.h>
 #ifdef GLEW_MX
