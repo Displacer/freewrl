@@ -1,5 +1,5 @@
 /*
-  $Id: display.h,v 1.189 2013/12/04 16:00:58 istakenv Exp $
+  $Id: display.h,v 1.190 2013/12/04 16:08:56 istakenv Exp $
 
   FreeWRL support library.
 
@@ -84,12 +84,13 @@ GLEWContext * glewGetContext();
 #define ERROR 0
 #endif /* TARGET_WIN32 */
 
-#ifdef __linux__
-	#define GL_GLEXT_PROTOTYPES 1
-	#include <GL/gl.h>
-	#include <GL/glext.h>
-	#include <GL/glx.h>
-#endif
+/* skip for now, this gets done later
+ ifdef __linux__
+	 define GL_GLEXT_PROTOTYPES 1
+	 include <GL/gl.h>
+	 include <GL/glext.h>
+	 include <GL/glx.h>
+ endif */
 
 #if defined (IPHONE) || defined (_ANDROID) || defined (QNX) || defined(ANGLEPROJECT)
 	#include <GLES2/gl2.h>
@@ -465,10 +466,10 @@ extern int PaneClipChanged;
 GLEWContext * glewGetContext();
 #endif
 # else
-
-# include <GL/gl.h>
-# include <GL/glu.h>
-# include <GL/glext.h>
+#  define GL_GLEXT_PROTOTYPES 1
+#  include <GL/gl.h>
+#  include <GL/glu.h>
+#  include <GL/glext.h>
 
 # endif
 
