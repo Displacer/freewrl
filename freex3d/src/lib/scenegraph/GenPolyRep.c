@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: GenPolyRep.c,v 1.48 2013/10/25 13:29:36 crc_canada Exp $
+$Id: GenPolyRep.c,v 1.49 2014/01/09 18:14:33 dug9 Exp $
 
 ???
 
@@ -1740,6 +1740,8 @@ void make_Extrusion(struct X3D_Extrusion *node) {
 	/* get some memory							*/
 	cindex  = rep_->cindex   = MALLOC(GLuint *, sizeof(*(rep_->cindex))*3*(rep_->ntri));
 	coord   = rep_->actualCoord    = MALLOC(float *, sizeof(*(rep_->actualCoord))*(nspi*nsec+max_ncoord_add)*3);
+	rep_->normal   = MALLOC(float *, sizeof(*(rep_->normal))*3*(rep_->ntri)*3);
+	rep_->norindex = MALLOC(GLuint *, sizeof(*(rep_->norindex))*3*(rep_->ntri));
 
 	/* face normals - one face per quad (ie, 2 triangles) 			*/
 	/* have to make sure that if nctri is odd, that we increment by one	*/

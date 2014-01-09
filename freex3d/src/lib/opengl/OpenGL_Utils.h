@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: OpenGL_Utils.h,v 1.62 2013/08/03 16:37:28 crc_canada Exp $
+$Id: OpenGL_Utils.h,v 1.63 2014/01/09 18:14:33 dug9 Exp $
 
 Screen snapshot.
 
@@ -99,7 +99,6 @@ typedef enum fragmenShaderResources {
     fragmentBackColourDeclare,
     fragmentNormPosDeclare,
     fragmentHatchPositionDeclare,
-    
     fragmentADSLLightModel,
     fragmentMultiTexModel,
     fragmentFillPropModel,
