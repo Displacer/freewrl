@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Frustum.h,v 1.20 2013/10/23 15:01:49 crc_canada Exp $
+$Id: Frustum.h,v 1.21 2014/01/16 15:47:49 dug9 Exp $
 
 Global includes.
 
@@ -38,7 +38,11 @@ Global includes.
 #define EXTENT_MAX_Z _extent[4]
 #define EXTENT_MIN_Z _extent[5]
 
-#define RECORD_DISTANCE if (renderstate()->render_geom && (!renderstate()->render_blend)) {record_ZBufferDistance (X3D_NODE(node)); }
+#define RECORD_DISTANCE \
+	{\
+	ttrenderstate rs = renderstate();\
+	if (rs->render_geom && (!rs->render_blend)) {record_ZBufferDistance (X3D_NODE(node)); }\
+	}
 
 /* no occlusion queries right now - need to work on the shader implementation 
     of occlusion culling */ 

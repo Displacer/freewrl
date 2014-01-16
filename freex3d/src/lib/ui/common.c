@@ -1,5 +1,5 @@
 /*
-  $Id: common.c,v 1.21 2013/10/23 21:19:05 crc_canada Exp $
+  $Id: common.c,v 1.22 2014/01/16 15:47:50 dug9 Exp $
 
   FreeWRL support library.
 
@@ -112,7 +112,7 @@ void setMessageBar()
 {
 	ppcommon p = (ppcommon)gglobal()->common.prv;
 
-	snprintf(&p->messagebar[0], 10, "%10.0f", p->myFps);
+	snprintf(&p->messagebar[0], 10, " %8.2f ", p->myFps);
 	snprintf(&p->messagebar[15], sizeof(p->myMenuStatus)-15, "%s", p->myMenuStatus);
 }
 char *getMessageBar()

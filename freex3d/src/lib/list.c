@@ -1,5 +1,5 @@
 /*
-  $Id: list.c,v 1.5 2013/08/30 14:59:42 dug9 Exp $
+  $Id: list.c,v 1.6 2014/01/16 15:47:49 dug9 Exp $
 
   FreeWRL support library.
   Linked lists.
@@ -162,10 +162,10 @@ void ml_delete(s_list_t *list, s_list_t *item)
     s_list_t *prev;
     prev = ml_prev(list, item);
     if (prev) {
-	ml_next(prev) = ml_next(item);
-	XFREE(item);
+		ml_next(prev) = ml_next(item);
+		XFREE(item);
     } else {
-	ERROR_MSG("ml_delete: trying to destroy first element in a list\n");
+		//ERROR_MSG("ml_delete: trying to destroy first element in a list\n");
     }
 }
 

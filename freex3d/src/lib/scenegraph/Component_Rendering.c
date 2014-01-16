@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Component_Rendering.c,v 1.39 2013/10/29 16:59:42 crc_canada Exp $
+$Id: Component_Rendering.c,v 1.40 2014/01/16 15:47:50 dug9 Exp $
 
 X3D Rendering Component
 
@@ -355,6 +355,7 @@ void render_IndexedLineSet (struct X3D_IndexedLineSet *node) {
     ushort **indxStartPtr;
 	ushort *count;
 	int i;
+	ttglobal tg = gglobal();
 
 	LIGHTING_OFF
 	DISABLE_CULL_FACE
@@ -449,6 +450,7 @@ void compile_PointSet (struct X3D_PointSet *node) {
 
 
 void render_PointSet (struct X3D_PointSet *node) {
+	ttglobal tg = gglobal();
         COMPILE_IF_REQUIRED
 
         setExtent( node->EXTENT_MAX_X, node->EXTENT_MIN_X, node->EXTENT_MAX_Y,
@@ -480,6 +482,7 @@ void render_LineSet (struct X3D_LineSet *node) {
 	GLsizei *count;
 	int i;
 	struct Multi_Vec3f* points;
+	ttglobal tg = gglobal();
 
 	LIGHTING_OFF
 	DISABLE_CULL_FACE

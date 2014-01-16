@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.146 2013/10/30 14:35:58 crc_canada Exp $
+  $Id: ProdCon.c,v 1.147 2014/01/16 15:47:49 dug9 Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -668,7 +668,8 @@ void send_resource_to_parser(resource_item_t *res)
 	}
 
 	/* wait for the parser thread to come up to speed */
-	while (!p->inputParseInitialized) usleep(50);
+	while (!p->inputParseInitialized) 
+		usleep(50);
 
 #ifdef NEWQUEUE
 	resitem_enqueue(ml_new(res));

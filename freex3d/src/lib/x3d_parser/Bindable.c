@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: Bindable.c,v 1.85 2013/10/29 16:59:43 crc_canada Exp $
+$Id: Bindable.c,v 1.86 2014/01/16 15:47:50 dug9 Exp $
 
 Bindable nodes - Background, TextureBackground, Fog, NavigationInfo, Viewpoint, GeoViewpoint.
 
@@ -533,6 +533,7 @@ static void moveBackgroundCentre () {
 	GLDOUBLE x,y,z;
 	GLDOUBLE x1,y1,z1;
 	GLDOUBLE sx, sy, sz;
+	ttglobal tg = gglobal();
 
 	FW_GL_PUSH_MATRIX();
 	FW_GL_GETDOUBLEV(GL_MODELVIEW_MATRIX, mod);
