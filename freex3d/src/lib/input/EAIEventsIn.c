@@ -1,7 +1,7 @@
 /*
 =INSERT_TEMPLATE_HERE=
 
-$Id: EAIEventsIn.c,v 1.99 2013/10/29 16:59:41 crc_canada Exp $
+$Id: EAIEventsIn.c,v 1.100 2014/01/17 00:03:42 dug9 Exp $
 
 Handle incoming EAI (and java class) events with panache.
 
@@ -1439,7 +1439,6 @@ void createLoadURL(char *bufptr) {
 	}
 	/* EAI_AnchorNode.__parenturl = newASCIIString("./"); */
 }
-
 
 
 /* if we have a LOADURL command (loadURL in java-speak) we call Anchor code to do this.

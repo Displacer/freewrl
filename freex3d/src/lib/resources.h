@@ -1,5 +1,5 @@
 /*
-  $Id: resources.h,v 1.31 2013/10/24 13:43:00 crc_canada Exp $
+  $Id: resources.h,v 1.32 2014/01/17 00:03:43 dug9 Exp $
 
   FreeWRL support library.
   Resources handling: URL, files, ...
@@ -152,6 +152,7 @@ typedef struct resource_item {
 	char four_first_bytes[4];
 
 	resource_media_type_t media_type;
+	int treat_as_root; //bandaid for .x3z doc.x3d to be seen as root res equivalent
 
 } resource_item_t;
 

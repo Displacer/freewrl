@@ -1,5 +1,5 @@
 /*
-  $Id: ProdCon.c,v 1.147 2014/01/16 15:47:49 dug9 Exp $
+  $Id: ProdCon.c,v 1.148 2014/01/17 00:03:43 dug9 Exp $
 
   Main functions II (how to define the purpose of this file?).
 */
@@ -857,7 +857,7 @@ static bool parser_process_res_VRML_X3D(resource_item_t *res)
 		*/
 
 		/* bind ONLY in main - do not bind for Inlines, etc */
-		if (res == gglobal()->resources.root_res) {
+		if (res->treat_as_root || res == gglobal()->resources.root_res) {
 			kill_bindables();
 			shouldBind = TRUE;
 			//ConsoleMessage ("pc - shouldBind");
